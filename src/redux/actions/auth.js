@@ -1,10 +1,12 @@
-import AuthService from "../services/authService";
+import AuthService from "../../api/authServices";
 
 const REGISTER_SUCCESS = "REGISTER_SUCCESS",
-    REGISTER_FAIL = "REGISTER_FAIL",
-    LOGIN_SUCCESS = "LOGIN_SUCCESS",
-    LOGIN_FAIL = "LOGIN_FAIL",
-    LOGOUT = "LOGOUT"
+  REGISTER_FAIL = "REGISTER_FAIL",
+  LOGIN_SUCCESS = "LOGIN_SUCCESS",
+  LOGIN_FAIL = "LOGIN_FAIL",
+  LOGOUT = "LOGOUT",
+  SET_MESSAGE = "SET_MESSAGE"
+
 
 export const register = (username, email, password) => (dispatch) => {
   return AuthService.register(username, email, password).then(
@@ -42,8 +44,9 @@ export const register = (username, email, password) => (dispatch) => {
   );
 };
 
-export const login = (username, password) => (dispatch) => {
-  return AuthService.login(username, password).then(
+export const login = (email, password) => (dispatch) => {
+ 
+  return AuthService.login(email, password).then(
     (data) => {
       data.forEach(el => {
         dispatch({

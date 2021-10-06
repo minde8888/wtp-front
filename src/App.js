@@ -1,10 +1,11 @@
 import Main from './componets/main.jsx'
 import './scss/App.scss';
 
-function App(props) {
+function App() {
+
   return (
     <div className="app-wraper">
-      <Main store={props.store} />
+      <Main />
     </div>
   );
 }
