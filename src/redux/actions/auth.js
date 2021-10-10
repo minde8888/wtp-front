@@ -8,9 +8,9 @@ const REGISTER_SUCCESS = "REGISTER_SUCCESS",
   SET_MESSAGE = "SET_MESSAGE"
 
 
-export const register = (username, email, password) => (dispatch) => {
-  return AuthService.register(username, email, password).then(
-    (response) => {
+export const register = (username, email, password, roles) => (dispatch) => {
+  return AuthService.register(username, email, password, roles).then(
+    async (response) => {
       dispatch({
         type: REGISTER_SUCCESS,
       });
@@ -20,7 +20,7 @@ export const register = (username, email, password) => (dispatch) => {
         payload: response.data.message,
       });
 
-      return Promise.resolve();
+      return await Promise.resolve();
     },
     (error) => {
       const message =
@@ -45,9 +45,9 @@ export const register = (username, email, password) => (dispatch) => {
 };
 
 export const login = (email, password) => (dispatch) => {
- 
+
   return AuthService.login(email, password).then(
-    (data) => {
+    async (data) => {
       data.forEach(el => {
         dispatch({
           type: LOGIN_SUCCESS,
@@ -55,7 +55,7 @@ export const login = (email, password) => (dispatch) => {
         });
       });
 
-      return Promise.resolve();
+      return await Promise.resolve();
     },
     (error) => {
       const message =

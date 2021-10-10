@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { Formik, Form } from 'formik';
-import { TextField } from './validation/textField';
+import { TextField } from '../validation/textField';
 import * as Yup from 'yup';
 import { Link, Redirect } from "react-router-dom";
-import { login } from "../../redux/actions/auth";
+import { login } from "../../../redux/actions/auth";
 import { connect } from "react-redux";
-
 
 class LoginContainer extends Component {
     constructor(props) {
@@ -19,12 +18,7 @@ class LoginContainer extends Component {
     }
 
     render = () => {
-
-        const { isLoggedIn, message} = this.props;
-
-        if (isLoggedIn) {
-           
-        }
+        const { isLoggedIn, message } = this.props;
 
         const validate = Yup.object({
             email: Yup.string()
@@ -35,7 +29,11 @@ class LoginContainer extends Component {
                 .required('Password is required')
         })
 
-        const { dispatch, history } = this.props;
+        const { dispatch } = this.props;
+
+        if (isLoggedIn) {
+            return <Redirect to="/profile" />;
+        }
 
         return (
             <Formik
@@ -46,22 +44,21 @@ class LoginContainer extends Component {
                 validationSchema={validate}
 
                 onSubmit={values => {
-                  
+
                     this.setState({
                         loading: true,
                         email: values.email,
-                        password: values.password                        
+                        password: values.password
                     })
 
                     dispatch(login(this.state.email, this.state.password))
                         .then(() => {
-                            history.push("/profile");
-                            window.location.reload();
+                           window.location.reload();
                         })
                         .catch(() => {
                             this.setState({
                                 loading: false
-                            });
+                            });                          
                         });
                 }}
             >
@@ -80,7 +77,10 @@ class LoginContainer extends Component {
                             )}
                             <div className="container-fluid">
                                 <div className="content row">
-                                    <button className="btn btn-dark mt-3 mb-3" type="submit">Login</button>
+                                    <button className="btn btn-dark mt-3 mb-3" type="submit" disabled={this.state.loading}>
+                                        {this.state.loading && (
+                                            <span className="spinner-border spinner-border-sm"></span>
+                                        )}Login</button>
                                     <Link className="text-info" to="/forgot-password">
                                         Forgot your password?
                                     </Link>

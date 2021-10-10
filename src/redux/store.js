@@ -9,5 +9,6 @@ const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(...middleware))
 );
-// console.log(store.getState())
+console.log(1111111111);
+console.log(store.getState())
 export default store;

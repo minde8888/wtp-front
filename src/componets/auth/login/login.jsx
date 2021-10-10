@@ -1,11 +1,11 @@
-import  SignupContainer  from './singupContainer';
+import LoginContainer from '../login/loginContainer'
 
-const Singup = () => {
+const Login = () => {
     return (
         <div className="container mt-3">
           <div className="row">
             <div className="col-md-6 offset-md-3">
-              <SignupContainer />
+              <LoginContainer />
             </div>
             <div className="col-md-7 my-auto">
               <img className="img-fluid w-100" alt=""/>
@@ -15,4 +15,4 @@ const Singup = () => {
       );
 };
 
-export default Singup;
+export default Login;

@@ -4,8 +4,8 @@ const AUTH_URL = "/api/auth";
 
 class AuthService {
 
-  login(email, password) {
-    return Instance
+  async login(email, password) {
+    return await Instance
       .post(AUTH_URL + "/login",
         {
           "email": email,
@@ -17,7 +17,6 @@ class AuthService {
           if (element.Token) {
             localStorage.setItem("user", JSON.stringify(element));
           }
-
         })
         return response.data;
       })
@@ -27,11 +26,12 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  register(username, email, password) {
-    return Instance.post(AUTH_URL + "register", {
-      username,
-      email,
-      password,
+  async register(username, email, password, roles) {
+    return await Instance.post(AUTH_URL + "/register", {
+      "username": username,
+      "email": email,
+      "password": password,
+      "roles": roles
     });
   }
 }
