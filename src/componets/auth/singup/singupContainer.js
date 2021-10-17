@@ -45,7 +45,6 @@ class SignupContainer extends Component {
       role: Yup.string().required("Please select a role").oneOf(role)
     })
 
-
     const roleOptions = role.map((r, key) => (
       <option value={r} key={key}>
         {r}
@@ -65,7 +64,7 @@ class SignupContainer extends Component {
         validationSchema={validate}
 
         onSubmit={values => {
-      
+
           this.setState({
             username: values.firstName,
             email: values.email,
@@ -120,7 +119,6 @@ class SignupContainer extends Component {
     )
   }
 }
-
 
 function mapStateToProps(state) {
   const { message } = state.message;

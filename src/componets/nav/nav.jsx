@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import Singup from "../auth/singup/singup";
 import Login from "../auth/login/login";
 import Profile from "../profile/profile";
+import AddUser from "../profile/addUser/addUser"
 
 class NavBar extends Component {
   constructor(props) {
@@ -73,6 +74,11 @@ class NavBar extends Component {
             {showManagerBoard ? (
               <div className="navbar-nav ml-auto">
                 <li className="nav-item">
+                  <NavLink to={"/adduser"} className="nav-link">
+                    Adduser
+                  </NavLink>
+                </li>
+                <li className="nav-item">
                   <NavLink to={"/profile"} className="nav-link">
                     {currentUser.Name}
                   </NavLink>
@@ -99,6 +105,7 @@ class NavBar extends Component {
           <Route path="/singup" render={() => <Singup />} />
           <Route path="/login" render={() => <Login />} />
           <Route path="/profile" render={() => <Profile />} />
+          <Route path="/adduser" render={() => <AddUser />} />
         </div>
       </Router>
     );
@@ -108,7 +115,7 @@ class NavBar extends Component {
 function mapStateToProps(state) {
   const { user } = state.auth;
   return {
-    user
+    user,
   };
 }
 

@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import userImage from "../../image/user.png";
+import Preloader from "../preloader/preloader";
+import AddUser from "../profile/addUser/addUser";
 
 class Profile extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     const { user } = this.props;
 
@@ -17,6 +23,10 @@ class Profile extends Component {
             <strong>{user.Name}</strong> Profile
           </h3>
         </header>
+        <img
+          src={user.ImageSrc != null ? user.ImageSrc : userImage}
+          alt={user.ImageName}
+        />
         <p>
           <strong>Token:</strong> {user.Token.substring(0, 20)} ...{" "}
           {user.Token.substr(user.Token.length - 20)}

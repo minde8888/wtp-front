@@ -53,12 +53,12 @@ class LoginContainer extends Component {
 
                     dispatch(login(this.state.email, this.state.password))
                         .then(() => {
-                           window.location.reload();
+                            window.location.reload();
                         })
                         .catch(() => {
                             this.setState({
                                 loading: false
-                            });                          
+                            });
                         });
                 }}
             >

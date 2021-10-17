@@ -1,4 +1,4 @@
-import AuthService from "../../api/authServices";
+import AuthService from "../../redux/services/api/authServices"
 
 const REGISTER_SUCCESS = "REGISTER_SUCCESS",
   REGISTER_FAIL = "REGISTER_FAIL",
