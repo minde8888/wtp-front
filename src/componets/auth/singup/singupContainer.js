@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Formik, Form } from 'formik';
 import { TextField } from '../validation/textField';
-import { MySelect } from '../validation/mySelect '
+import { MySelect } from '../validation/mySelect ';
 import * as Yup from 'yup';
 import { connect } from "react-redux";
 import { register } from "../../../redux/actions/auth";
