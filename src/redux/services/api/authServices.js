@@ -26,12 +26,17 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  async register(username, email, password, roles) {
+  async register(username, lastname, phoneNumber, email, password, roles, Id = null) {
+
+    // console.log(username, lastname, phoneNumber, email, password, roles, Id);
     return await Instance.post(AUTH_URL + "/register", {
       "username": username,
+      "surname": lastname,
+      "phoneNumber": phoneNumber,
       "email": email,
       "password": password,
-      "roles": roles
+      "roles": roles,
+      "ManagerId": Id
     });
   }
 }

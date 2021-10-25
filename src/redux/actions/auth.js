@@ -8,8 +8,9 @@ const REGISTER_SUCCESS = "REGISTER_SUCCESS",
   SET_MESSAGE = "SET_MESSAGE"
 
 
-export const register = (username, email, password, roles) => (dispatch) => {
-  return AuthService.register(username, email, password, roles).then(
+export const register = (username, lastname, phoneNumber, email, password, roles, Id) => (dispatch) => {
+  console.log(username, lastname, phoneNumber, email, password, roles, Id);
+  return AuthService.register(username, lastname, phoneNumber, email, password, roles, Id).then(
     async (response) => {
       dispatch({
         type: REGISTER_SUCCESS,
@@ -19,10 +20,17 @@ export const register = (username, email, password, roles) => (dispatch) => {
         type: SET_MESSAGE,
         payload: response.data.message,
       });
-
       return await Promise.resolve();
     },
     (error) => {
+
+      var str = JSON.stringify(error.response.data);
+
+      var mySubString = str.substring(
+        str.indexOf("[") + 2,
+        str.lastIndexOf("]") - 1
+      );
+
       const message =
         (error.response &&
           error.response.data &&
@@ -30,13 +38,14 @@ export const register = (username, email, password, roles) => (dispatch) => {
         error.message ||
         error.toString();
 
+      console.log(message);
       dispatch({
         type: REGISTER_FAIL,
       });
 
       dispatch({
         type: SET_MESSAGE,
-        payload: message,
+        payload: mySubString,
       });
 
       return Promise.reject();
@@ -58,6 +67,14 @@ export const login = (email, password) => (dispatch) => {
       return await Promise.resolve();
     },
     (error) => {
+
+      var str = JSON.stringify(error.response.data);
+
+      var mySubString = str.substring(
+        str.indexOf("[") + 2,
+        str.lastIndexOf("]") - 1
+      );
+
       const message =
         (error.response &&
           error.response.data &&
@@ -65,13 +82,15 @@ export const login = (email, password) => (dispatch) => {
         error.message ||
         error.toString();
 
+      console.log(message);
+
       dispatch({
         type: LOGIN_FAIL,
       });
 
       dispatch({
         type: SET_MESSAGE,
-        payload: message,
+        payload: mySubString,
       });
 
       return Promise.reject();

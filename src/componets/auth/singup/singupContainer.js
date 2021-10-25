@@ -11,13 +11,16 @@ class SignupContainer extends Component {
     super(props);
 
     this.state = {
-      username: "",
+      userName: "",
+      lastName: '',
+      phoneNumber:"",
       email: "",
       password: "",
       role: "",
       successful: false
     };
   }
+  
   render = () => {
 
     var role = ["Manager", "Admin"]
@@ -30,6 +33,10 @@ class SignupContainer extends Component {
       lastName: Yup.string()
         .max(20, 'Must be 20 characters or less')
         .required('Required'),
+      phoneNumber: Yup.string().
+        matches(/^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
+          'Phone number is not valid')
+          .max(11,'Must be 10 characters'),
       email: Yup.string()
         .email('Email is invalid')
         .required('Email is required'),
@@ -56,6 +63,7 @@ class SignupContainer extends Component {
         initialValues={{
           firstName: '',
           lastName: '',
+          phoneNumber:"",
           email: '',
           password: '',
           confirmPassword: '',
@@ -66,14 +74,22 @@ class SignupContainer extends Component {
         onSubmit={values => {
 
           this.setState({
-            username: values.firstName,
+            userName: values.firstName,
+            lastName: values.lastName,
+            phoneNumber : values.phoneNumber,
             email: values.email,
             password: values.password,
-            roles: values.role
+            role: values.role
           })
 
           dispatch(
-            register(this.state.username, this.state.email, this.state.password, this.state.roles)
+            register(
+              this.state.userName, 
+              this.state.lastName, 
+              this.state.phoneNumber, 
+              this.state.email, 
+              this.state.password, 
+              this.state.role)
           )
             .then(() => {
               this.setState({
@@ -93,6 +109,7 @@ class SignupContainer extends Component {
             <Form>
               <TextField label="First Name" name="firstName" type="text" />
               <TextField label="Last Name" name="lastName" type="text" />
+              <TextField label="+4712345678" name="phoneNumber" type="phoneNnumber"/>
               <TextField label="Email" name="email" type="email" />
               <TextField label="Password" name="password" type="password" />
               <TextField label="Confirm Password" name="confirmPassword" type="password" />
