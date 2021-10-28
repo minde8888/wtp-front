@@ -19,7 +19,7 @@ class AuthService {
           }
         })
         return response.data;
-      })
+      })  
   }
 
   logout() {
@@ -38,6 +38,12 @@ class AuthService {
       "roles": roles,
       "ManagerId": Id
     });
+  }
+
+  async getPassword(email){
+    return await Instance.post(AUTH_URL +"/ForgotPassword",{
+      "email":email
+    })
   }
 }
 

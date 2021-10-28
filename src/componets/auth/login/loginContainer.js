@@ -18,7 +18,7 @@ class LoginContainer extends Component {
     }
 
     render = () => {
-        const { isLoggedIn, message } = this.props;
+        const { isLoggedIn, message, dispatch } = this.props;
 
         const validate = Yup.object({
             email: Yup.string()
@@ -28,8 +28,6 @@ class LoginContainer extends Component {
                 .min(6, 'Password must be at least 6 charaters')
                 .required('Password is required')
         })
-
-        const { dispatch } = this.props;
 
         if (isLoggedIn) {
             return <Redirect to="/profile" />;

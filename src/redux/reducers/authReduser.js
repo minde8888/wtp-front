@@ -2,13 +2,14 @@ const REGISTER_SUCCESS = "REGISTER_SUCCESS",
     REGISTER_FAIL = "REGISTER_FAIL",
     LOGIN_SUCCESS = "LOGIN_SUCCESS",
     LOGIN_FAIL = "LOGIN_FAIL",
-    LOGOUT = "LOGOUT"
+    LOGOUT = "LOGOUT",
+    SET_MESSAGE = "SET_MESSAGE",
+    SEND_EMAIL = "SEND_EMAIL",
+    SEND_FEIL = "SEND_FEIL"
 
 const user = JSON.parse(localStorage.getItem("user"));
 
-const initialState = user
-    ? { isLoggedIn: true, user }
-    : { isLoggedIn: false, user: null };
+const initialState = user ? { isLoggedIn: true, user } : { isLoggedIn: false, user: null };
 
 export default function (state = initialState, action) {
     const { type, payload } = action;

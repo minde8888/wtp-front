@@ -9,7 +9,7 @@ import { register } from "../../../redux/actions/auth";
 class AddUserContainer extends Component {
   constructor(props) {
     super(props);
-
+console.log(this);
     this.state = {
       userName: "",
       lastName: '',

@@ -7,7 +7,8 @@ import { connect } from "react-redux";
 import Singup from "../auth/singup/singup";
 import Login from "../auth/login/login";
 import Profile from "../profile/profile";
-import AddUser from "../profile/addUser/addUser"
+import AddUser from "../profile/addUser/addUser";
+import ForgotPassword from "../auth/nwePassword/forgotPassword";
 
 class NavBar extends Component {
   constructor(props) {
@@ -106,6 +107,7 @@ class NavBar extends Component {
           <Route path="/login" render={() => <Login />} />
           <Route path="/profile" render={() => <Profile />} />
           <Route path="/adduser" render={() => <AddUser />} />
+          <Route path="/forgot-password" render={() => <ForgotPassword />} />
         </div>
       </Router>
     );
