@@ -10,16 +10,23 @@ import Profile from "../profile/profile";
 import AddUser from "../profile/addUser/addUser";
 import ForgotPassword from "../auth/nwePassword/forgotPassword";
 
+
 class NavBar extends Component {
   constructor(props) {
     super(props);
 
     this.logOut = this.logOut.bind(this);
+    // this.password = this.password.bind(this);
+
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
 
     this.state = {
       showManagerBoard: false,
       showAdminBoard: false,
       currentUser: undefined,
+      token: params.get("token"),
+      email: params.get("email"),
     };
 
     history.listen((location) => {
@@ -29,7 +36,7 @@ class NavBar extends Component {
 
   componentDidMount() {
     const user = this.props.user;
-    // console.log(this.props);
+
     if (user) {
       this.setState({
         currentUser: user,
@@ -44,7 +51,8 @@ class NavBar extends Component {
   }
 
   render() {
-    const { currentUser, showManagerBoard, showAdminBoard } = this.state;
+    const { currentUser, showManagerBoard, showAdminBoard, token, email } =
+      this.state;
 
     return (
       <Router history={history}>

@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
-    const { type, payload, message } = action;
+    const { type, payload} = action;
 
     switch (type) {
         case ADD_SUCCESS:
@@ -18,7 +18,7 @@ export default function (state = initialState, action) {
         case ADD_FAIL:
             return {
                 ...state,
-                payload: message,
+                payload: payload.message,
             };
         default:
             return state;

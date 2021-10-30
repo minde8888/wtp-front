@@ -19,7 +19,7 @@ class AuthService {
           }
         })
         return response.data;
-      })  
+      })
   }
 
   logout() {
@@ -40,11 +40,21 @@ class AuthService {
     });
   }
 
-  async getPassword(email){
-    return await Instance.post(AUTH_URL +"/ForgotPassword",{
-      "email":email
+  async getPassword(email) {
+    return await Instance.post(AUTH_URL + "/ForgotPassword", {
+      "email": email
     })
   }
+
+  async getNewPassword(token, email, password) {
+    console.log(token, email, password);
+    return await Instance.post(AUTH_URL + "/ResetPassword", {
+      "email": email,
+      "token": token,
+      "password":password
+    })
+  }
+
 }
 
 export default new AuthService();

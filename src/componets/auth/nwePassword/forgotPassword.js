@@ -9,10 +9,26 @@ class ForgotPassword extends Component {
     constructor(props) {
         super(props);
 
+        this.password = this.password.bind(this);
+
+        var search = window.location.search;
+        var params = new URLSearchParams(search);
+
         this.state = {
             email: "",
+            token: params.get("token"),
+            urlEmail: params.get("email")
         };
     };
+
+    password = () => {
+
+        // this.setState({
+        //     token: params.get("token"),
+        //     urlEmail: params.get("email")
+        // })
+        console.log(this);
+    }
 
     render = () => {
 
@@ -23,7 +39,7 @@ class ForgotPassword extends Component {
         })
 
         const { dispatch, message } = this.props;
-        console.log(this.props);
+        // console.log(this.props);
         return (<Formik
             initialValues={{
                 email: '',
@@ -40,6 +56,9 @@ class ForgotPassword extends Component {
                 dispatch(getPassword(this.state.email))
                     .then(() => {
                         // window.location.reload();
+                        this.setState({
+                            loading: false
+                        });
                     })
                     .catch(() => {
                         this.setState({
@@ -49,22 +68,28 @@ class ForgotPassword extends Component {
             }}
         >
             {formik => (
-                <div>
-                    <h1 className="my-4 font-weight-bold .display-4">Login</h1>
-                    <Form>
-                        <TextField label="Email" name="email" type="email" />
-                        {message && (
-                            <div className="form-group">
-                                <div className="alert alert-danger" role="alert">
-                                    {message}
-                                </div>
+                <div className="container mt-3">
+                    <div className="row">
+                        <div className="col-md-6 offset-md-3">
+                            <div>
+                                <h1 className="my-4 font-weight-bold .display-4">Forgot your password ?</h1>
+                                <Form>
+                                    <TextField label="Email" name="email" type="email" />
+                                    {message && (
+                                        <div className="form-group">
+                                            <div className="alert alert-danger" role="alert">
+                                                {message}
+                                            </div>
+                                        </div>
+                                    )}
+                                    <button className="btn btn-dark mt-3 mb-3" type="submit" disabled={this.state.loading}>
+                                        {this.state.loading && (
+                                            <span className="spinner-border spinner-border-sm"></span>
+                                        )}Login</button>
+                                </Form>
                             </div>
-                        )}
-                        <button className="btn btn-dark mt-3 mb-3" type="submit" disabled={this.state.loading}>
-                            {this.state.loading && (
-                                <span className="spinner-border spinner-border-sm"></span>
-                            )}Login</button>
-                    </Form>
+                        </div>
+                    </div>
                 </div>
             )}
         </Formik>)
