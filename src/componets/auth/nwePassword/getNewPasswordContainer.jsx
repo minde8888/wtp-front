@@ -35,11 +35,13 @@ class GetNewPasswordContainer extends Component {
     return (
       <Formik
         initialValues={{
-            password: "",
-            confirmPassword: ''
+          password: "",
+          confirmPassword: "",
         }}
         validationSchema={validate}
+
         onSubmit={(values) => {
+
           this.setState({
             loading: true,
             password: values.password,
@@ -51,8 +53,10 @@ class GetNewPasswordContainer extends Component {
               this.setState({
                 loading: false,
               });
+              console.log(88);
             })
             .catch(() => {
+              console.log(99);
               this.setState({
                 loading: false,
               });
@@ -74,6 +78,12 @@ class GetNewPasswordContainer extends Component {
                   <div className="alert alert-danger" role="alert">
                     {message}
                   </div>
+                </div>
+              )}
+              {this.state.loading && (
+                <div className="alert success-alert">
+                  <h3>Success Alert Message</h3>
+                  <a className="close">&times;</a>
                 </div>
               )}
               <button

@@ -47,14 +47,16 @@ class AuthService {
   }
 
   async getNewPassword(token, email, password) {
-    console.log(token, email, password);
     return await Instance.post(AUTH_URL + "/ResetPassword", {
       "email": email,
       "token": token,
-      "password":password
+      "password": password
+    }).then((response) => {
+      return response
+    }).catch((error) => {
+      return error
     })
   }
-
 }
 
 export default new AuthService();

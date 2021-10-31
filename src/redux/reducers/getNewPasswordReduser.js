@@ -1,16 +1,15 @@
 const URL_CHANGE = "URL_CHANGE",
-URL_ERROR = "URL_ERROR"
+    URL_ERROR = "URL_ERROR"
 
 const initialState = {
     email: "",
     token: "",
-    message:""
+    message: ""
 }
 
 export default function (state = initialState, action) {
     console.log(action);
     const { type, payload } = action;
-
     switch (type) {
         case URL_CHANGE:
             return {
@@ -18,8 +17,8 @@ export default function (state = initialState, action) {
                 email: payload.email,
                 token: payload.token
             }
-        case  URL_ERROR:
-            return{
+        case URL_ERROR:
+            return {
                 ...state,
                 message: playloade.message
             }
