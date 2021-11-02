@@ -1,26 +1,22 @@
-const URL_CHANGE = "URL_CHANGE",
-    URL_ERROR = "URL_ERROR"
+const PASSWORS_SEND = "PASSWORS_SEND",
+PASSWORS_SEND_ERROR = "PASSWORS_SEND_ERROR"
 
 const initialState = {
-    email: "",
-    token: "",
     message: ""
 }
 
 export default function (state = initialState, action) {
-    console.log(action);
     const { type, payload } = action;
     switch (type) {
-        case URL_CHANGE:
+        case PASSWORS_SEND:
             return {
                 ...state,
                 email: payload.email,
                 token: payload.token
             }
-        case URL_ERROR:
+        case PASSWORS_SEND_ERROR:
             return {
-                ...state,
-                message: playloade.message
+                message: payload
             }
         default:
             return state;

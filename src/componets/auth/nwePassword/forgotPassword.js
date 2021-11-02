@@ -3,13 +3,11 @@ import { Formik, Form } from 'formik';
 import { TextField } from '../validation/textField';
 import * as Yup from 'yup';
 import { connect } from "react-redux";
-import { getPassword } from "../../../redux/actions/auth";
+import { getPassword } from "../../../redux/actions/newPasword";
 
 class ForgotPassword extends Component {
     constructor(props) {
         super(props);
-
-        this.password = this.password.bind(this);
 
         var search = window.location.search;
         var params = new URLSearchParams(search);
@@ -21,15 +19,6 @@ class ForgotPassword extends Component {
         };
     };
 
-    password = () => {
-
-        // this.setState({
-        //     token: params.get("token"),
-        //     urlEmail: params.get("email")
-        // })
-        console.log(this);
-    }
-
     render = () => {
 
         const validate = Yup.object({
@@ -39,7 +28,7 @@ class ForgotPassword extends Component {
         })
 
         const { dispatch, message } = this.props;
-        // console.log(this.props);
+
         return (<Formik
             initialValues={{
                 email: '',

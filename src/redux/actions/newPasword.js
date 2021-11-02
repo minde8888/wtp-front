@@ -1,23 +1,20 @@
 import AuthService from "../services/api/authServices"
 
-const URL_CHANGE = "URL_CHANGE",
-    URL_ERROR = "URL_ERROR"
+const PASSWORS_SEND = "PASSWORS_SEND",
+    SET_MESSAGE = "SET_MESSAGE",
+    SEND_EMAIL = "SEND_EMAIL",
+    SEND_FEIL = "SEND_FEIL"
 
-export const getNewPassword = (email, token, password) => (dispatch) => {
-    return AuthService.getNewPassword(email, token, password)
-        .then(
-            async (response) => {
- 
-                dispatch({
-                    type: URL_CHANGE,
-                    payload: response.data,
-                });
-                return await Promise.resolve();
-            }),
+export const getPassword = (email) => (dispatch) => {
+    return AuthService.getPassword(email).then(
+        async (response) => {
+            dispatch({
+                type: SEND_EMAIL,
+            });
+        },
         (error) => {
-            console.log(error);
             var str = JSON.stringify(error.response.data);
-            console.log(error);
+
             var mySubString = str.substring(
                 str.indexOf("[") + 2,
                 str.lastIndexOf("]") - 1
@@ -32,9 +29,39 @@ export const getNewPassword = (email, token, password) => (dispatch) => {
 
             console.log(message);
             dispatch({
-                type: URL_ERROR,
+                type: SEND_FEIL,
                 payload: mySubString,
             });
-            return Promise.reject();
-        };
+        }
+    );
+}
+
+export const getNewPassword = (email, token, password) => (dispatch) => {
+
+    return AuthService.getNewPassword(email, token, password)
+        .then(
+            async (response) => {
+                
+                if (response.status === 200) {
+                    console.log(response);
+                    dispatch({
+                        type: PASSWORS_SEND,
+                        payload: response.data.message,
+                    });
+                    return await Promise.resolve();
+                }
+
+                const message =
+                    (response.response &&
+                        response.response.data &&
+                        response.response.data.message) ||
+                    response.message ||
+                    response.toString();
+
+                dispatch({
+                    type: SET_MESSAGE,
+                    payload: message,
+                });
+                return Promise.reject();
+            })
 }

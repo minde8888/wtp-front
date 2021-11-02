@@ -2,10 +2,7 @@ const REGISTER_SUCCESS = "REGISTER_SUCCESS",
     REGISTER_FAIL = "REGISTER_FAIL",
     LOGIN_SUCCESS = "LOGIN_SUCCESS",
     LOGIN_FAIL = "LOGIN_FAIL",
-    LOGOUT = "LOGOUT",
-    SET_MESSAGE = "SET_MESSAGE",
-    SEND_EMAIL = "SEND_EMAIL",
-    SEND_FEIL = "SEND_FEIL"
+    LOGOUT = "LOGOUT"
 
 const user = JSON.parse(localStorage.getItem("user"));
 

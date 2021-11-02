@@ -31,8 +31,8 @@ class GetNewPassword extends Component {
             var params = new URLSearchParams(search)
 
             const { token, email } = this.state;
-            if (token != params.get("token") &&
-                email != params.get("email")) {
+            if (token !== params.get("token") &&
+                email !== params.get("email")) {
                 ;
                 this.setState({
                     token: null,

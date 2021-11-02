@@ -11,7 +11,7 @@ const REGISTER_SUCCESS = "REGISTER_SUCCESS",
 
 
 export const register = (username, lastname, phoneNumber, email, password, roles, Id) => (dispatch) => {
-  // console.log(username, lastname, phoneNumber, email, password, roles, Id);
+ 
   return AuthService.register(username, lastname, phoneNumber, email, password, roles, Id).then(
     async (response) => {
       dispatch({
@@ -108,36 +108,33 @@ export const logout = () => (dispatch) => {
   });
 };
 
-export const getPassword = (email) => (dispatch) => {
-  return AuthService.getPassword(email).then( 
-    async (response) => {
-      dispatch({
-        type: SEND_EMAIL,
-      });
-    },
-    (error) => {
-      var str = JSON.stringify(error.response.data);
+// export const getPassword = (email) => (dispatch) => {
+//   return AuthService.getPassword(email).then( 
+//     async (response) => {
+//       dispatch({
+//         type: SEND_EMAIL,
+//       });
+//     },
+//     (error) => {
+//       var str = JSON.stringify(error.response.data);
 
-      var mySubString = str.substring(
-        str.indexOf("[") + 2,
-        str.lastIndexOf("]") - 1
-      );
+//       var mySubString = str.substring(
+//         str.indexOf("[") + 2,
+//         str.lastIndexOf("]") - 1
+//       );
 
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+//       const message =
+//         (error.response &&
+//           error.response.data &&
+//           error.response.data.message) ||
+//         error.message ||
+//         error.toString();
 
-      console.log(message);
-      dispatch({
-        type: SEND_FEIL,
-        payload: mySubString,
-      });
-    }
-
-  );
-
-
-}
+//       console.log(message);
+//       dispatch({
+//         type: SEND_FEIL,
+//         payload: mySubString,
+//       });
+//     }
+//   );
+// }

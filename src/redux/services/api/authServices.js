@@ -47,13 +47,14 @@ class AuthService {
   }
 
   async getNewPassword(token, email, password) {
-    return await Instance.post(AUTH_URL + "/ResetPassword", {
+    return await Instance
+    .post(AUTH_URL + "/ResetPassword", 
+    {
       "email": email,
       "token": token,
       "password": password
-    }).then((response) => {
-      return response
-    }).catch((error) => {
+    })   
+    .catch((error) => {
       return error
     })
   }

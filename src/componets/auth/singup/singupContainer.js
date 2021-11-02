@@ -33,8 +33,8 @@ class SignupContainer extends Component {
       lastName: Yup.string()
         .max(20, 'Must be 20 characters or less')
         .required('Required'),
-      phoneNumber: Yup.string().
-        matches(/^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
+      phoneNumber: Yup.string()
+        .matches(/^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
           'Phone number is not valid')
         .max(11, 'Must be 10 characters'),
       email: Yup.string()

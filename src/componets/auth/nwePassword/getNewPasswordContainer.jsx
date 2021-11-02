@@ -4,6 +4,8 @@ import { TextField } from "../validation/textField";
 import * as Yup from "yup";
 import { connect } from "react-redux";
 import { getNewPassword } from "../../../redux/actions/newPasword";
+import { Redirect } from "react-router-dom";
+import { clearMessage } from "../../../redux/actions/message";
 
 class GetNewPasswordContainer extends Component {
   constructor(props) {
@@ -14,6 +16,7 @@ class GetNewPasswordContainer extends Component {
       email: "",
       password: "",
     };
+    props.dispatch(clearMessage());
   }
 
   render = () => {
@@ -39,9 +42,7 @@ class GetNewPasswordContainer extends Component {
           confirmPassword: "",
         }}
         validationSchema={validate}
-
         onSubmit={(values) => {
-
           this.setState({
             loading: true,
             password: values.password,
@@ -49,19 +50,14 @@ class GetNewPasswordContainer extends Component {
 
           dispatch(getNewPassword(token, email, this.state.password))
             .then(() => {
-              // window.location.reload();
-              this.setState({
-                loading: false,
-              });
-              console.log(88);
+              return <Redirect to="/login" />;
             })
             .catch(() => {
-              console.log(99);
               this.setState({
                 loading: false,
               });
             });
-        }}
+        }}   
       >
         {(formik) => (
           <div>
@@ -78,12 +74,6 @@ class GetNewPasswordContainer extends Component {
                   <div className="alert alert-danger" role="alert">
                     {message}
                   </div>
-                </div>
-              )}
-              {this.state.loading && (
-                <div className="alert success-alert">
-                  <h3>Success Alert Message</h3>
-                  <a className="close">&times;</a>
                 </div>
               )}
               <button
