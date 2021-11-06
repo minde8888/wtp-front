@@ -1,36 +1,28 @@
 import AuthService from "../services/api/authServices"
 
 const PASSWORS_SEND = "PASSWORS_SEND",
-    SET_MESSAGE = "SET_MESSAGE",
-    SEND_EMAIL = "SEND_EMAIL",
-    SEND_FEIL = "SEND_FEIL"
+PASSWORS_SEND_ERROR = "PASSWORS_SEND_ERROR",
+CLEAR_PASSWORS_MESSAGE = "CLEAR_PASSWORS_MESSAGE"
+
 
 export const getPassword = (email) => (dispatch) => {
     return AuthService.getPassword(email).then(
         async (response) => {
+            console.log(response);
             dispatch({
-                type: SEND_EMAIL,
+                type: PASSWORS_SEND,
             });
         },
         (error) => {
-            var str = JSON.stringify(error.response.data);
-
-            var mySubString = str.substring(
-                str.indexOf("[") + 2,
-                str.lastIndexOf("]") - 1
-            );
-
             const message =
                 (error.response &&
                     error.response.data &&
                     error.response.data.message) ||
                 error.message ||
                 error.toString();
-
-            console.log(message);
             dispatch({
-                type: SEND_FEIL,
-                payload: mySubString,
+                type: PASSWORS_SEND_ERROR,
+                payload: message,
             });
         }
     );
@@ -41,12 +33,11 @@ export const getNewPassword = (email, token, password) => (dispatch) => {
     return AuthService.getNewPassword(email, token, password)
         .then(
             async (response) => {
-                
                 if (response.status === 200) {
-                    console.log(response);
                     dispatch({
                         type: PASSWORS_SEND,
                         payload: response.data.message,
+                        send: true
                     });
                     return await Promise.resolve();
                 }
@@ -59,9 +50,14 @@ export const getNewPassword = (email, token, password) => (dispatch) => {
                     response.toString();
 
                 dispatch({
-                    type: SET_MESSAGE,
+                    type: PASSWORS_SEND_ERROR,
                     payload: message,
+                    send: false
                 });
                 return Promise.reject();
             })
 }
+
+export const clearPasswordMessage = () => ({
+    type: CLEAR_PASSWORS_MESSAGE
+  });

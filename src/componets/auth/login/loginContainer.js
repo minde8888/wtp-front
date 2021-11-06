@@ -96,6 +96,7 @@ class LoginContainer extends Component {
 }
 
 function mapStateToProps(state) {
+
     const { isLoggedIn } = state.auth;
     const { message } = state.message;
     return {

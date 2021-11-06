@@ -26,9 +26,7 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  async register(username, lastname, phoneNumber, email, password, roles, Id = null) {
-
-    // console.log(username, lastname, phoneNumber, email, password, roles, Id);
+  async register(username, lastname, phoneNumber, email, password, occupation, roles, Id = null) {
     return await Instance.post(AUTH_URL + "/register", {
       "username": username,
       "surname": lastname,
@@ -36,6 +34,7 @@ class AuthService {
       "email": email,
       "password": password,
       "roles": roles,
+      "occupation": occupation,
       "ManagerId": Id
     });
   }
@@ -48,15 +47,15 @@ class AuthService {
 
   async getNewPassword(token, email, password) {
     return await Instance
-    .post(AUTH_URL + "/ResetPassword", 
-    {
-      "email": email,
-      "token": token,
-      "password": password
-    })   
-    .catch((error) => {
-      return error
-    })
+      .post(AUTH_URL + "/ResetPassword",
+        {
+          "email": email,
+          "token": token,
+          "password": password
+        })
+      .catch((error) => {
+        return error
+      })
   }
 }
 

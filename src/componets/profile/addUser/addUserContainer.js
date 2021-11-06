@@ -9,17 +9,28 @@ import { register } from "../../../redux/actions/auth";
 class AddUserContainer extends Component {
   constructor(props) {
     super(props);
-    console.log(this);
+
     this.state = {
       userName: "",
       lastName: '',
       phoneNumber: "",
       email: "",
       password: "",
+      occupation: '',
       role: "",
       successful: false
     };
   }
+
+  componentDidUpdate = () => {
+    var { successful } = this.state
+    console.log(successful);
+    if (successful) {
+      console.log(111111111);
+      this.removeValues()
+    }
+  }
+
   render = () => {
 
     var role = ["Employee"]
@@ -48,6 +59,8 @@ class AddUserContainer extends Component {
       confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Password must match')
         .required('Confirm password is required'),
+      occupation: Yup.string()
+        .required('Required'),
       role: Yup.string().required("Please select a role").oneOf(role)
     })
 
@@ -65,22 +78,23 @@ class AddUserContainer extends Component {
         initialValues={{
           firstName: '',
           lastName: '',
-          phoneNumber: "",
+          phoneNumber: '',
           email: '',
           password: '',
           confirmPassword: '',
+          occupation: '',
           role: ''
         }}
         validationSchema={validate}
 
         onSubmit={values => {
-
           this.setState({
             userName: values.firstName,
             lastName: values.lastName,
             phoneNumber: values.phoneNumber,
             email: values.email,
             password: values.password,
+            occupation: values.occupation,
             role: values.role
           })
 
@@ -91,6 +105,7 @@ class AddUserContainer extends Component {
               this.state.phoneNumber,
               this.state.email,
               this.state.password,
+              this.state.occupation,
               this.state.role,
               Id)
           )
@@ -104,11 +119,24 @@ class AddUserContainer extends Component {
                 successful: false,
               });
             });
+
+          this.removeValues = () => {
+      
+            values.firstName = ""
+            values.lastName = ""
+            values.phoneNumber = ""
+            values.email = ""
+            values.password = ""
+            values.confirmPassword = ""
+            values.occupation = ""
+            values.role = ""
+      
+          }
         }}
       >
         {formik => (
           <div>
-            <h1 className="my-4 font-weight-bold .display-4">Sign Up</h1>
+            <h1 className="my-4 font-weight-bold .display-4">Create a New User</h1>
             <Form>
               <TextField label="First Name" name="firstName" type="text" />
               <TextField label="Last Name" name="lastName" type="text" />
@@ -116,6 +144,7 @@ class AddUserContainer extends Component {
               <TextField label="Email" name="email" type="email" />
               <TextField label="Password" name="password" type="password" />
               <TextField label="Confirm Password" name="confirmPassword" type="password" />
+              <TextField label="Occupation" name="occupation" type="text" />
               <div id="my-radio-group">Role</div>
               <div role="group" aria-labelledby="my-radio-group">
                 <MySelect name="role" as="select" className="select is-fullwidth">
@@ -142,6 +171,7 @@ class AddUserContainer extends Component {
 
 function mapStateToProps(state) {
   const { message } = state.message;
+  console.log(message);
   return {
     message,
   };

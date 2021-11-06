@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import { Formik, Form } from "formik";
 import { TextField } from "../validation/textField";
 import * as Yup from "yup";
 import { connect } from "react-redux";
 import { getNewPassword } from "../../../redux/actions/newPasword";
-import { Redirect } from "react-router-dom";
-import { clearMessage } from "../../../redux/actions/message";
+import { clearPasswordMessage } from "../../../redux/actions/newPasword";
+import { history } from "../../../hjelpers/history";
 
 class GetNewPasswordContainer extends Component {
   constructor(props) {
@@ -15,12 +16,19 @@ class GetNewPasswordContainer extends Component {
       token: "",
       email: "",
       password: "",
+      loading: false,
     };
-    props.dispatch(clearMessage());
   }
 
+  componentDidUpdate() {
+    const { send } = this.props;
+    if (send) {
+      history.push("/login");
+      window.location.reload();
+    }
+  }
   render = () => {
-    const { message, dispatch, token, email } = this.props;
+    const { message, send, dispatch, token, email } = this.props;
 
     const validate = Yup.object({
       password: Yup.string()
@@ -44,20 +52,24 @@ class GetNewPasswordContainer extends Component {
         validationSchema={validate}
         onSubmit={(values) => {
           this.setState({
-            loading: true,
             password: values.password,
+            loading: true,
           });
 
           dispatch(getNewPassword(token, email, this.state.password))
             .then(() => {
-              return <Redirect to="/login" />;
+              this.setState({
+                loading: false,
+              });
             })
             .catch(() => {
               this.setState({
                 loading: false,
               });
             });
-        }}   
+          values.password = "";
+          values.confirmPassword = "";
+        }}
       >
         {(formik) => (
           <div>
@@ -81,9 +93,11 @@ class GetNewPasswordContainer extends Component {
                 type="submit"
                 disabled={this.state.loading}
               >
-                {this.state.loading && (
-                  <span className="spinner-border spinner-border-sm"></span>
-                )}
+                {send
+                  ? (this.state.loading = false)
+                  : this.state.loading && (
+                      <span className="spinner-border spinner-border-sm"></span>
+                    )}
                 Send
               </button>
             </Form>
@@ -95,9 +109,10 @@ class GetNewPasswordContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { message } = state.message;
+  const { message, send } = state.newPassword;
   return {
     message,
+    send,
   };
 }
 

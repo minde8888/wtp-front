@@ -4,6 +4,7 @@ import { TextField } from '../validation/textField';
 import * as Yup from 'yup';
 import { connect } from "react-redux";
 import { getPassword } from "../../../redux/actions/newPasword";
+import { clearPasswordMessage } from "../../../redux/actions/newPasword";
 
 class ForgotPassword extends Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class ForgotPassword extends Component {
             token: params.get("token"),
             urlEmail: params.get("email")
         };
+        this.props.dispatch(clearPasswordMessage())
     };
 
     render = () => {
@@ -36,7 +38,7 @@ class ForgotPassword extends Component {
             validationSchema={validate}
 
             onSubmit={values => {
-
+                console.log(values);
                 this.setState({
                     loading: true,
                     email: values.email,
@@ -44,16 +46,18 @@ class ForgotPassword extends Component {
 
                 dispatch(getPassword(this.state.email))
                     .then(() => {
-                        // window.location.reload();
                         this.setState({
-                            loading: false
+                            loading: false,
                         });
+                        values.email = ""
                     })
                     .catch(() => {
                         this.setState({
-                            loading: false
+                            loading: false,
                         });
                     });
+                values.email = ""
+
             }}
         >
             {formik => (
@@ -90,7 +94,8 @@ class ForgotPassword extends Component {
 
 
 function mapStateToProps(state) {
-    const { message } = state.message;
+    const { message } = state.newPassword;
+
     return {
         message,
     };
