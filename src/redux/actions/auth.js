@@ -1,22 +1,21 @@
 import AuthService from "../../redux/services/api/authServices"
 
-const   REGISTER_FAIL = "REGISTER_FAIL",
-  LOGIN_SUCCESS = "LOGIN_SUCCESS",
+const LOGIN_SUCCESS = "LOGIN_SUCCESS",
   LOGIN_FAIL = "LOGIN_FAIL",
   LOGOUT = "LOGOUT",
   SET_MESSAGE = "SET_MESSAGE"
 
 
-export const register = (username, lastname, phoneNumber, email, password, occupation, roles, Id) => (dispatch) => {
- 
-  return AuthService.register(username, lastname, phoneNumber, email, password, occupation, roles, Id).then(
+export const register = (obj) => (dispatch) => {
+
+  return AuthService.register(obj).then(
     async (response) => {
       console.log(response);
-
       dispatch({
         type: SET_MESSAGE,
         payload: "The user was successfully created."
       });
+
       return await Promise.resolve();
     },
     (error) => {
@@ -35,7 +34,7 @@ export const register = (username, lastname, phoneNumber, email, password, occup
         error.message ||
         error.toString();
 
-      console.log(error.response);
+      console.log(message);
 
       dispatch({
         type: SET_MESSAGE,

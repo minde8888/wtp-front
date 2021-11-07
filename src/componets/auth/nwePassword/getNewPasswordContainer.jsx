@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import { Formik, Form } from "formik";
 import { TextField } from "../validation/textField";
 import * as Yup from "yup";
 import { connect } from "react-redux";
 import { getNewPassword } from "../../../redux/actions/newPasword";
-import { clearPasswordMessage } from "../../../redux/actions/newPasword";
 import { history } from "../../../hjelpers/history";
 
 class GetNewPasswordContainer extends Component {
@@ -27,6 +25,7 @@ class GetNewPasswordContainer extends Component {
       window.location.reload();
     }
   }
+  
   render = () => {
     const { message, send, dispatch, token, email } = this.props;
 

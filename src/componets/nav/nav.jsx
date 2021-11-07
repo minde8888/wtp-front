@@ -16,7 +16,6 @@ class NavBar extends Component {
     super(props);
 
     this.logOut = this.logOut.bind(this);
-    // this.password = this.password.bind(this);
 
     const search = window.location.search;
     const params = new URLSearchParams(search);
@@ -51,7 +50,7 @@ class NavBar extends Component {
   }
 
   render() {
-    const { currentUser, showManagerBoard, showAdminBoard, token, email } =
+    const { currentUser, showManagerBoard, showAdminBoard} =
       this.state;
 
     return (

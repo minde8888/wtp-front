@@ -2,13 +2,10 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import userImage from "../../image/user.png";
-import Preloader from "../preloader/preloader";
-import AddUser from "../profile/addUser/addUser";
+
 
 class Profile extends Component {
-  constructor(props) {
-    super(props);
-  }
+
   render() {
     const { user } = this.props;
 

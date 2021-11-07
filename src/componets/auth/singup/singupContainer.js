@@ -5,10 +5,13 @@ import { MySelect } from '../validation/mySelect ';
 import * as Yup from 'yup';
 import { connect } from "react-redux";
 import { register } from "../../../redux/actions/auth";
+import { clearMessage } from "../../../redux/actions/message";
 
 class SignupContainer extends Component {
   constructor(props) {
     super(props);
+
+    this.handleClickOutside = this.handleClickOutside.bind(this);
 
     this.state = {
       userName: "",
@@ -19,6 +22,23 @@ class SignupContainer extends Component {
       role: "",
       successful: false
     };
+  }
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+  handleClickOutside() {
+    const { dispatch, message } = this.props;
+    if (message) {
+      dispatch(clearMessage());
+    }
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    var { successful } = this.state
+    if (successful && successful !== prevState.successful) {
+      this.removeValues()
+    }
   }
 
   render = () => {
@@ -71,7 +91,7 @@ class SignupContainer extends Component {
         }}
         validationSchema={validate}
 
-        onSubmit={values => {
+        onSubmit={(values, { resetForm }) => {
 
           this.setState({
             userName: values.firstName,
@@ -82,14 +102,16 @@ class SignupContainer extends Component {
             role: values.role
           })
 
-          dispatch(
-            register(
-              this.state.userName,
-              this.state.lastName,
-              this.state.phoneNumber,
-              this.state.email,
-              this.state.password,
-              this.state.role)
+          var obj = {
+            "username": this.state.userName,
+            "surname": this.state.lastName,
+            "phoneNumber": this.state.phoneNumber,
+            "email": this.state.email,
+            "password": this.state.password,
+            "roles": this.state.role
+          }
+
+          dispatch(register(obj)
           )
             .then(() => {
               this.setState({
@@ -101,6 +123,10 @@ class SignupContainer extends Component {
                 successful: false,
               });
             });
+
+          this.removeValues = () => {
+            resetForm()
+          }
         }}
       >
         {formik => (
