@@ -12,6 +12,7 @@ export const getPassword = (email) => (dispatch) => {
             dispatch({
                 type: PASSWORS_SEND,
             });
+            return await Promise.resolve();
         },
         (error) => {
             const message =
@@ -24,6 +25,7 @@ export const getPassword = (email) => (dispatch) => {
                 type: PASSWORS_SEND_ERROR,
                 payload: message,
             });
+            return Promise.reject();
         }
     );
 }

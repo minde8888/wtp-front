@@ -2,13 +2,12 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import userImage from "../../image/user.png";
-
+import Employees from "../profile/employees"
 
 class Profile extends Component {
-
   render() {
     const { user } = this.props;
-
+    
     if (!user) {
       return <Redirect to="/login" />;
     }
@@ -37,6 +36,9 @@ class Profile extends Component {
         <p>
           <strong>Role:</strong> {user.Role}
         </p>
+        <div>
+          <Employees {...user.Employees} />
+        </div>
       </div>
     );
   }

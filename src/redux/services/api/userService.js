@@ -1,24 +1,21 @@
 import axios from 'axios';
 import authHeader from './header';
-import url from './url'
+import Instance from './url'
 
-const USER_URL = url + "v1/api/";
+const USER_URL = "/v1/api/";
 
 class UserService {
-  // getPublicContent() {
-  //   return axios.get(USER_URL);
-  // }
 
-  getEmployeeBoard() {
-    return axios.get(USER_URL + 'employee', { headers: authHeader() });
+  getEmployee(id) {
+    return Instance.get(USER_URL + 'Employee/id?id=' + id, { headers: authHeader() });
   }
 
   getManagerBoard() {
-    return axios.get(USER_URL + 'manager', { headers: authHeader() });
+    return Instance.get(USER_URL + 'manager', { headers: authHeader() });
   }
 
   getAdminBoard() {
-    return axios.get(USER_URL + 'admin', { headers: authHeader() });
+    return Instance.get(USER_URL + 'admin', { headers: authHeader() });
   }
 }
 
