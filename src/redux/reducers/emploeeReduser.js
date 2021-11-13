@@ -3,22 +3,25 @@ const EMPLOYEE_DATA = "EMPLOYEE_DATA",
 
 const initialState = {
     message: "",
-    data: ""
+    data: "",
+    userIsLoadied:false
 };
 
 export default function (state = initialState, action) {
-console.log(action);
-    const { type, payload } = action;
+
+    const { type,  payload, userIsLoadied } = action;
 
     switch (type) {
         case EMPLOYEE_DATA:
             return {
-                data: payload
+                data: payload,
+                userIsLoadied:userIsLoadied
             };
         case EMPLOYEE_DATA_ERROR:
             return {
-                message: payload
-            };   
+                message: payload,
+                userIsLoadied:userIsLoadied
+            };
         default:
             return state;
     }

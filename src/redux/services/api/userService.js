@@ -1,4 +1,3 @@
-import axios from 'axios';
 import authHeader from './header';
 import Instance from './url'
 

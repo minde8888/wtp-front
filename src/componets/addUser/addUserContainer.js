@@ -28,6 +28,7 @@ class AddUserContainer extends Component {
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside);
   }
+  
   handleClickOutside() {
     const { dispatch, message } = this.props;
     if (message) {

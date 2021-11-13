@@ -19,6 +19,8 @@ class AuthService {
           }
         })
         return response.data;
+      }).catch((error) => {
+        return Promise.reject(error);
       })
   }
 

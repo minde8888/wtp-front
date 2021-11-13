@@ -10,7 +10,8 @@ export const getEmploeeProfile = (id) => (dispatch) => {
             response.data.$values.forEach(el => {
                 dispatch({
                     type: EMPLOYEE_DATA,
-                    data: el
+                    payload: el,
+                    userIsLoadied: true
                 });
             });
 
@@ -26,9 +27,10 @@ export const getEmploeeProfile = (id) => (dispatch) => {
                 error.toString();
             dispatch({
                 type: EMPLOYEE_DATA_ERROR,
-                payload: message,
+                payload: error.response.data,
+                userIsLoadied: false
             });
-            console.log(error);
+            console.log(error.response.data);
             return Promise.reject();
         }
     );

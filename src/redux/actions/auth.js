@@ -1,7 +1,6 @@
 import AuthService from "../../redux/services/api/authServices"
 
 const LOGIN_SUCCESS = "LOGIN_SUCCESS",
-  LOGIN_FAIL = "LOGIN_FAIL",
   LOGOUT = "LOGOUT",
   SET_MESSAGE = "SET_MESSAGE"
 
@@ -61,31 +60,35 @@ export const login = (email, password) => (dispatch) => {
     },
     (error) => {
 
-      var str = JSON.stringify(error.response.data);
+      if (error.response) {
+        var str = JSON.stringify(error.response.data);
 
-      var mySubString = str.substring(
-        str.indexOf("[") + 2,
-        str.lastIndexOf("]") - 1
-      );
+        var mySubString = str.substring(
+          str.indexOf("[") + 2,
+          str.lastIndexOf("]") - 1
+        );
 
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
 
-      console.log(message);
 
-      dispatch({
-        type: LOGIN_FAIL,
-      });
+        console.log(message);
+
+        dispatch({
+          type: SET_MESSAGE,
+          payload: mySubString,
+        });
+      }
 
       dispatch({
         type: SET_MESSAGE,
-        payload: mySubString,
+        payload: "Network Error",
       });
-
+      console.log(error);
       return Promise.reject();
     }
   );

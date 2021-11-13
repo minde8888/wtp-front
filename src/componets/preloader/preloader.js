@@ -3,7 +3,7 @@ import React from "react";
 
 let Preloader = (props) =>{
     return  <div>
-         <img src={loader} /> 
+         <img src={loader} alt=""/> 
     </div>
 }
 

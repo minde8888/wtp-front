@@ -10,7 +10,7 @@ const Employees = (props) => {
       {users.map((user, k) => {
         return (
           <div key={k}>
-            <NavLink to={"/profile" + "/" + user.Id}>
+            <NavLink to={"/employee-profile/" + user.Id}>
               <img
                 src={user.ImageSrc != null ? user.ImageSrc : userImage}
                 alt={user.ImageName}

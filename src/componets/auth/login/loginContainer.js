@@ -5,16 +5,30 @@ import * as Yup from 'yup';
 import { Link, Redirect } from "react-router-dom";
 import { login } from "../../../redux/actions/auth";
 import { connect } from "react-redux";
+import { clearMessage } from "../../../redux/actions/message";
 
 class LoginContainer extends Component {
     constructor(props) {
         super(props);
+
+        this.handleClickOutside = this.handleClickOutside.bind(this);
 
         this.state = {
             email: "",
             password: "",
             loading: false,
         };
+    }
+
+    componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutside);
+    }
+
+    handleClickOutside() {
+        const { dispatch, message } = this.props;
+        if (message) {
+            dispatch(clearMessage());
+        }
     }
 
     render = () => {
