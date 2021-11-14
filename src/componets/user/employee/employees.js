@@ -1,4 +1,4 @@
-import userImage from "../../image/user.png";
+import userImage from "../../../image/user.png";
 import { NavLink } from "react-router-dom";
 
 const Employees = (props) => {

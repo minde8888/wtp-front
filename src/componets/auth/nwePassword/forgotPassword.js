@@ -38,7 +38,6 @@ class ForgotPassword extends Component {
             validationSchema={validate}
 
             onSubmit={values => {
-                console.log(values);
                 this.setState({
                     loading: true,
                     email: values.email,

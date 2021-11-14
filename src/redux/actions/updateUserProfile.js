@@ -1,21 +1,23 @@
 import UserService from "../services/api/userService";
 
-const EMPLOYEE_DATA = "EMPLOYEE_DATA",
-    EMPLOYEE_DATA_ERROR = "EMPLOYEE_DATA_ERROR"
+const USER_DATA = "USER_DATA",
+    USER_DATA_ERROR = "USER_DATA_ERROR",
+    GET_FILE = "GET_FILE"
 
-export const getEmploeeProfile = (id) => (dispatch) => {
-    return UserService.getEmployee(id).then(
+export const updateprofile = (obj) => (dispatch) => {
+
+    return UserService.updateUserInfo(obj).then(
         async (response) => {
-
+            console.log(response);
             response.data.$values.forEach(el => {
                 dispatch({
-                    type: EMPLOYEE_DATA,
+                    type: USER_DATA,
                     payload: el,
                     userIsLoadied: true
                 });
             });
 
-            return await Promise.resolve();
+            return await response;
         },
         (error) => {
 
@@ -26,8 +28,8 @@ export const getEmploeeProfile = (id) => (dispatch) => {
                 error.message ||
                 error.toString();
             dispatch({
-                type: EMPLOYEE_DATA_ERROR,
-                payload: error.response.data,
+                type: USER_DATA_ERROR,
+                payload: message,
                 userIsLoadied: false
             });
             console.log(message);
@@ -36,3 +38,7 @@ export const getEmploeeProfile = (id) => (dispatch) => {
     );
 }
 
+export const newFile = (file) => ({
+    type: GET_FILE,
+    payload: file
+})

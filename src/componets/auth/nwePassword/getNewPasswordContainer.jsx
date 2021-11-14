@@ -27,7 +27,7 @@ class GetNewPasswordContainer extends Component {
   }
   
   render = () => {
-    const { message, send, dispatch, token, email } = this.props;
+    const { message, dispatch, token, email } = this.props;
 
     const validate = Yup.object({
       password: Yup.string()
@@ -91,13 +91,7 @@ class GetNewPasswordContainer extends Component {
                 className="btn btn-dark mt-3 mb-3"
                 type="submit"
                 disabled={this.state.loading}
-              >
-                {send
-                  ? (this.state.loading = false)
-                  : this.state.loading && (
-                      <span className="spinner-border spinner-border-sm"></span>
-                    )}
-                Send
+              >              
               </button>
             </Form>
           </div>

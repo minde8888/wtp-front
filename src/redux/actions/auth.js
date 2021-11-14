@@ -19,27 +19,36 @@ export const register = (obj) => (dispatch) => {
     },
     (error) => {
 
-      var str = JSON.stringify(error.response.data);
+      if (error.response) {
+        var str = JSON.stringify(error.response.data);
 
-      var mySubString = str.substring(
-        str.indexOf("[") + 2,
-        str.lastIndexOf("]") - 1
-      );
+        var mySubString = str.substring(
+          str.indexOf("[") + 2,
+          str.lastIndexOf("]") - 1
+        );
 
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
 
-      console.log(message);
+
+        console.log(message);
+
+        dispatch({
+          type: SET_MESSAGE,
+          payload: mySubString,
+        });
+        return Promise.reject();
+      }
 
       dispatch({
         type: SET_MESSAGE,
-        payload: mySubString,
+        payload: "Network Error",
       });
-
+      console.log(error);
       return Promise.reject();
     }
   );
@@ -82,6 +91,7 @@ export const login = (email, password) => (dispatch) => {
           type: SET_MESSAGE,
           payload: mySubString,
         });
+        return Promise.reject();
       }
 
       dispatch({

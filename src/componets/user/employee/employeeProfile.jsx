@@ -1,10 +1,10 @@
-import Preloader from "../preloader/preloader";
+import Preloader from "../../preloader/preloader";
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
-import { getEmploeeProfile } from "../../redux/actions/getEmploeeProfile";
-import { isEmpty } from "../../hjelpers/isEmpty";
-import userImage from "../../image/user.png";
+import { getEmploeeProfile } from "../../../redux/actions/getEmploeeProfile";
+import { isEmpty } from "../../../hjelpers/isEmpty";
+import userImage from "../../../image/user.png";
 
 const EmployeeProfile = (props) => {
   const [id] = useState(props.match.params.userId);
@@ -12,7 +12,7 @@ const EmployeeProfile = (props) => {
 
   useEffect(() => dispatch(getEmploeeProfile(id)), [id, dispatch]);
 
-  if (isEmpty(props.data) && !props.userIsLoadied) {
+  if (!isEmpty(props.data)) {  
     return (
       <div>
         <strong>{props.message}</strong>
@@ -20,6 +20,9 @@ const EmployeeProfile = (props) => {
     );
   }
 
+  if (!props.userIsLoadied) {
+    return <Preloader />;
+  }
 
   const {
     email,
@@ -73,7 +76,6 @@ const EmployeeProfile = (props) => {
 let profileContainerWithRaout = withRouter(EmployeeProfile);
 
 function mapStateToProps(state) {
-  // console.log(state);
   const { data, message, userIsLoadied } = state.employee;
   return {
     message,

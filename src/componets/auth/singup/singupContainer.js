@@ -20,7 +20,8 @@ class SignupContainer extends Component {
       email: "",
       password: "",
       role: "",
-      successful: false
+      successful: false,
+      loading: false
     };
   }
 
@@ -94,6 +95,10 @@ class SignupContainer extends Component {
         onSubmit={(values, { resetForm }) => {
 
           this.setState({
+            loading: true
+          });
+
+          this.setState({
             userName: values.firstName,
             lastName: values.lastName,
             phoneNumber: values.phoneNumber,
@@ -116,11 +121,13 @@ class SignupContainer extends Component {
             .then(() => {
               this.setState({
                 successful: true,
+                loading: false
               });
             })
             .catch(() => {
               this.setState({
                 successful: false,
+                loading: false
               });
             });
 
@@ -148,13 +155,15 @@ class SignupContainer extends Component {
               </div>
               {message && (
                 <div className="form-group">
-                  <div className={this.state.successful ? "alert alert-success" : "alert alert-danger"} role="alert">
+                  <div className="alert alert-danger" role="alert">
                     {message}
                   </div>
                 </div>
               )}
-              <button className="btn btn-dark mt-3" type="submit">Register</button>
-              <button className="btn btn-danger mt-3 ml-3 ms-3" type="reset">Reset</button>
+              <button className="btn btn-dark mt-3" type="submit" disabled={this.state.loading}>{this.state.loading && (
+                <span className="spinner-border spinner-border-sm"></span>
+              )}Register</button>
+              <button className="btn btn-danger mt-3 ml-3 ms-3" type="reset" disabled={this.state.loading}>Reset</button>
             </Form>
           </div>
         )}

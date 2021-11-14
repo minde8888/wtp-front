@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import userImage from "../../image/user.png";
-import Employees from "../profile/employees"
+import Employees from "./employee/employees"
 
 class Profile extends Component {
   render() {

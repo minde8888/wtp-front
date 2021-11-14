@@ -6,10 +6,15 @@ import { history } from "../../hjelpers/history";
 import { connect } from "react-redux";
 import Singup from "../auth/singup/singup";
 import Login from "../auth/login/login";
-import Profile from "../profile/profile";
+import Profile from "../user/profile";
+import UpdateProfile from "../user/updateProfile/updateProfile"
 import AddUser from "../addUser/addUser";
 import ForgotPassword from "../auth/nwePassword/forgotPassword";
-import EmployeeProfile from "../profile/employeeProfile";
+import EmployeeProfile from "../user/employee/employeeProfile"
+
+
+
+
 
 
 class NavBar extends Component {
@@ -88,7 +93,7 @@ class NavBar extends Component {
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to={"/profile"} className="nav-link">
+                  <NavLink to={"/update-profile"} className="nav-link">
                     {currentUser.Name}
                   </NavLink>
                 </li>
@@ -112,8 +117,9 @@ class NavBar extends Component {
         </div>
         <div>
           <Route path="/singup" render={() => <Singup />} />
-          <Route path="/login" render={() => <Login />} />
+          <Route path="/login" render={() => <Login />} />          
           <Route path="/profile" render={() => <Profile />} />
+          <Route path="/update-profile" render={() => <UpdateProfile />} />
           <Route path="/adduser" render={() => <AddUser />} />
           <Route path="/forgot-password" render={() => <ForgotPassword />} />
           <Route path="/employee-profile/:userId?" render={() => <EmployeeProfile />} />
