@@ -25,7 +25,7 @@ export default function updateUser(state = initialState, action) {
             };
         case GET_FILE:
             return {
-                file: payload,
+                ImageFile : payload,
                 fileSrc: URL.createObjectURL(payload)
             }
         default:

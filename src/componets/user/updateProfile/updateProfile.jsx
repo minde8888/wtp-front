@@ -23,16 +23,19 @@ const UpdateProfile = (props) => {
     Id,
   } = props.user;
 
-  const { fileSrc, message, file } = props;
+  const { fileSrc, message, ImageFile } = props;
   useEffect(() => fileSrc);
 
-  const onFileChanges = (file) => {
-    props.dispatch(newFile(file));
+  const onFileChanges = (e) => {
+    console.log(e.target.offsetWidth, e.target.offsetHeight, e);
+    var ImageFile = e.target.files[0];
+    props.dispatch(newFile(ImageFile));
   };
 
   const onSubmit = (data) => {
+    
     const { dispatch } = props;
-    data = { ...data, ...{ file }, ...{Id} };
+    data = { ...data, ...{ ImageFile }, ...{ Id }, ...{ImageName : ImageFile.name} };
     dispatch(updateprofile(data));
   };
 
@@ -55,7 +58,7 @@ const UpdateProfile = (props) => {
           }
           alt={ImageName}
         />
-        <input type="file" onChange={(e) => onFileChanges(e.target.files[0])} />
+        <input type="file" onChange={(e) => onFileChanges(e)} />
         <input {...register("Name")} defaultValue={Name} />
         <input {...register("Surname")} defaultValue={Surname} />
         <input {...register("Occupation")} defaultValue={Occupation} />
@@ -75,11 +78,11 @@ const UpdateProfile = (props) => {
 };
 
 function mapStateToProps(state) {
-  const { data, file, message, userIsLoadied, fileSrc } = state.updateUser;
+  const { data, ImageFile, message, userIsLoadied, fileSrc } = state.updateUser;
   const { user } = state.auth;
   return {
     data,
-    file,
+    ImageFile,
     message,
     userIsLoadied,
     fileSrc,

@@ -38,7 +38,7 @@ export const updateprofile = (obj) => (dispatch) => {
     );
 }
 
-export const newFile = (file) => ({
+export const newFile = (ImageFile) => ({
     type: GET_FILE,
-    payload: file
+    payload: ImageFile
 })

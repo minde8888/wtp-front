@@ -23,7 +23,7 @@ class UserService {
       formData.append(key, obj[key])
     }
     console.log(Object.fromEntries(formData))
-    return Instance.post(USER_URL + 'manager/update', formData, { headers: authHeader() });
+    return Instance.put(USER_URL + 'manager/update', formData, { headers: authHeader() });
   }
 
 }
