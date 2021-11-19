@@ -19,7 +19,7 @@ const UpdateProfile = (props) => {
     Occupation,
     ImageName,
     Email,
-    MobileNumber,
+    PhoneNumber,
     Id,
   } = props.user;
 
@@ -32,13 +32,12 @@ const UpdateProfile = (props) => {
     props.dispatch(newFile(ImageFile));
   };
 
-  const onSubmit = (data) => {
-    
+  const onSubmit = (managerUpdate) => {
     const { dispatch } = props;
-    data = { ...data, ...{ ImageFile }, ...{ Id }, ...{ImageName : ImageFile.name} };
-    dispatch(updateprofile(data));
+    managerUpdate = { ...managerUpdate, ...{ ImageFile }, ...{ImageName : ImageFile.name} };
+    dispatch(updateprofile(Id, managerUpdate));
   };
-
+console.log(props);
   return (
     <div className="form-group">
       <header className="jumbotron">
@@ -62,7 +61,7 @@ const UpdateProfile = (props) => {
         <input {...register("Name")} defaultValue={Name} />
         <input {...register("Surname")} defaultValue={Surname} />
         <input {...register("Occupation")} defaultValue={Occupation} />
-        <input {...register("MobileNumber")} defaultValue={MobileNumber} />
+        <input {...register("PhoneNumber")} defaultValue={PhoneNumber} />
         <input {...register("Email")} defaultValue={Email} />
         {message && (
           <div className="form-group">
@@ -78,10 +77,10 @@ const UpdateProfile = (props) => {
 };
 
 function mapStateToProps(state) {
-  const { data, ImageFile, message, userIsLoadied, fileSrc } = state.updateUser;
+  const { updateManager, ImageFile, message, userIsLoadied, fileSrc } = state.updateUser;
   const { user } = state.auth;
   return {
-    data,
+    updateManager,
     ImageFile,
     message,
     userIsLoadied,

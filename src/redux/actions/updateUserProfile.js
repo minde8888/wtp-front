@@ -4,18 +4,15 @@ const USER_DATA = "USER_DATA",
     USER_DATA_ERROR = "USER_DATA_ERROR",
     GET_FILE = "GET_FILE"
 
-export const updateprofile = (obj) => (dispatch) => {
+export const updateprofile = (Id, obj) => (dispatch) => {
 
-    return UserService.updateUserInfo(obj).then(
+    return UserService.updateUserInfo(Id, obj).then(
         async (response) => {
-            console.log(response);
-            response.data.$values.forEach(el => {
-                dispatch({
-                    type: USER_DATA,
-                    payload: el,
-                    userIsLoadied: true
-                });
-            });
+
+            dispatch({
+                type: USER_DATA,
+                payload: response.data,
+              });
 
             return await response;
         },
@@ -30,7 +27,6 @@ export const updateprofile = (obj) => (dispatch) => {
             dispatch({
                 type: USER_DATA_ERROR,
                 payload: message,
-                userIsLoadied: false
             });
             console.log(message);
             return Promise.reject();

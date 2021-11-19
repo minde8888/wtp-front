@@ -12,12 +12,13 @@ const initialState = {
 
 export default function updateUser(state = initialState, action) {
 
-    const { type, payload, userIsLoadied } = action;
+    const { type, payload} = action;
 
     switch (type) {
         case USER_DATA:
             return {
-                data: payload,
+                updateManager: payload,
+                fileSrc:payload.imageSrc
             };
         case USER_DATA_ERROR:
             return {
