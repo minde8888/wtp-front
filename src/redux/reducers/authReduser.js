@@ -4,12 +4,19 @@ const REGISTER_SUCCESS = "REGISTER_SUCCESS",
     LOGIN_FAIL = "LOGIN_FAIL",
     LOGOUT = "LOGOUT"
 
-const user = JSON.parse(localStorage.getItem("user"));
+// const user = JSON.parse(localStorage.getItem("user"));
 
-const initialState = user ? { isLoggedIn: true, user } : { isLoggedIn: false, user: null };
+//const initialState = user ? { isLoggedIn: true, user } : { isLoggedIn: false, user: null };
+const initialState = {
+    user: "",
+    isLoggedIn: false,
+    employees: "",
+    token: ""
+};
 
 export default function auth(state = initialState, action) {
-    const { type, payload } = action;
+
+    const { type, user, employees, token } = action;
 
     switch (type) {
         case REGISTER_SUCCESS:
@@ -26,7 +33,9 @@ export default function auth(state = initialState, action) {
             return {
                 ...state,
                 isLoggedIn: true,
-                user: payload.user,
+                user: user,
+                employees: employees,
+                token: token
             };
         case LOGIN_FAIL:
             return {

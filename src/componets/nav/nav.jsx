@@ -7,15 +7,10 @@ import { connect } from "react-redux";
 import Singup from "../auth/singup/singup";
 import Login from "../auth/login/login";
 import Profile from "../user/profile";
-import UpdateProfile from "../user/updateProfile/updateProfile"
+import UpdateProfile from "../user/updateProfile/updateProfile";
 import AddUser from "../addUser/addUser";
 import ForgotPassword from "../auth/nwePassword/forgotPassword";
-import EmployeeProfile from "../user/employee/employeeProfile"
-
-
-
-
-
+import EmployeeProfile from "../user/employee/employeeProfile";
 
 class NavBar extends Component {
   constructor(props) {
@@ -39,14 +34,13 @@ class NavBar extends Component {
     });
   }
 
-  componentDidMount() {
+  componentDidUpdate(prevProps, prevState) {
     const user = this.props.user;
-
-    if (user) {
+    if (prevProps !== user && !prevState.showManagerBoard) {
       this.setState({
         currentUser: user,
-        showManagerBoard: user.Role.includes("Manager"),
-        showAdminBoard: user.Role.includes("ROLE_ADMIN"),
+        showManagerBoard: user.role.includes("Manager"),
+        showAdminBoard: user.role.includes("ROLE_ADMIN"),
       });
     }
   }
@@ -56,9 +50,7 @@ class NavBar extends Component {
   }
 
   render() {
-    const { currentUser, showManagerBoard, showAdminBoard} =
-      this.state;
-
+    const { currentUser, showManagerBoard, showAdminBoard } = this.state;
     return (
       <Router history={history}>
         <div className="navbar navbar-expand-lg navbar-light bg-light">
@@ -94,7 +86,7 @@ class NavBar extends Component {
                 </li>
                 <li className="nav-item">
                   <NavLink to={"/update-profile"} className="nav-link">
-                    {currentUser.Name}
+                    {currentUser.name}
                   </NavLink>
                 </li>
                 <li className="nav-item">
@@ -117,12 +109,15 @@ class NavBar extends Component {
         </div>
         <div>
           <Route path="/singup" render={() => <Singup />} />
-          <Route path="/login" render={() => <Login />} />          
+          <Route path="/login" render={() => <Login />} />
           <Route path="/profile" render={() => <Profile />} />
           <Route path="/update-profile" render={() => <UpdateProfile />} />
           <Route path="/adduser" render={() => <AddUser />} />
           <Route path="/forgot-password" render={() => <ForgotPassword />} />
-          <Route path="/employee-profile/:userId?" render={() => <EmployeeProfile />} />
+          <Route
+            path="/employee-profile/:userId?"
+            render={() => <EmployeeProfile />}
+          />
         </div>
       </Router>
     );

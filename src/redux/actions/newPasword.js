@@ -8,7 +8,6 @@ CLEAR_PASSWORS_MESSAGE = "CLEAR_PASSWORS_MESSAGE"
 export const getPassword = (email) => (dispatch) => {
     return AuthService.getPassword(email).then(
         async (response) => {
-            console.log(response);
             dispatch({
                 type: PASSWORS_SEND,
             });

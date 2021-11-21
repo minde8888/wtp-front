@@ -9,8 +9,7 @@ export const register = (obj) => (dispatch) => {
 
   return AuthService.register(obj).then(
     async (response) => {
-      console.log(response);
-      dispatch({
+       dispatch({
         type: SET_MESSAGE,
         payload: "The user was successfully created."
       });
@@ -58,10 +57,27 @@ export const login = (email, password) => (dispatch) => {
 
   return AuthService.login(email, password).then(
     async (data) => {
+
       data.forEach(el => {
+        const user = {
+          id: el.Id,
+          name:el.Name,
+          surName:el.Surname,
+          email: el.Email,
+          imageName: el.ImageName,
+          imageSrc: el.ImageSrc,
+          isActine: el.IsActive,
+          mobileNumber: el.MobileNumber,
+          occupation: el.Occupation,
+          role: el.Role,
+          Address: el.Address
+        }
+
         dispatch({
           type: LOGIN_SUCCESS,
-          payload: { user: el },
+          user: user,
+          employees: el.Employees,
+          token:el.Token
         });
       });
 

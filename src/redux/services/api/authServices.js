@@ -12,12 +12,6 @@ class AuthService {
           "password": password
         })
       .then((response) => {
-        response.data.forEach(element => {
-
-          if (element.Token) {
-            localStorage.setItem("user", JSON.stringify(element));
-          }
-        })
         return response.data;
       }).catch((error) => {
         return Promise.reject(error);
