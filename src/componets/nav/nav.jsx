@@ -113,7 +113,7 @@ class NavBar extends Component {
           <Route path="/profile" render={() => <Profile />} />
           <Route path="/update-profile" render={() => <UpdateProfile />} />
           <Route path="/adduser" render={() => <AddUser />} />
-          <Route path="/forgot-password" render={() => <ForgotPassword />} />
+          {/* <Route path="/forgot-password" render={() => <ForgotPassword />} /> */}
           <Route
             path="/employee-profile/:userId?"
             render={() => <EmployeeProfile />}

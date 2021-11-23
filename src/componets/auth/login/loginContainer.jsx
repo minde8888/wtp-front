@@ -6,6 +6,7 @@ import { Link, Redirect } from "react-router-dom";
 import { login } from "../../../redux/actions/auth";
 import { connect } from "react-redux";
 import { clearMessage } from "../../../redux/actions/message";
+import Preloader from "../../preloader/preloader";
 
 class LoginContainer extends Component {
   constructor(props) {
@@ -32,7 +33,7 @@ class LoginContainer extends Component {
   }
 
   render = () => {
-    const { message, dispatch } = this.props;
+    const { message, dispatch, isLoggedIn } = this.props;
 
     const validate = Yup.object({
       email: Yup.string()
@@ -43,8 +44,12 @@ class LoginContainer extends Component {
         .required("Password is required"),
     });
 
+    // if (isLoggedIn) {
+    //   return <Redirect to="/profile" />;
+    // }
+
     if (this.state.loading) {
-      return <Redirect to="/profile" />;
+      return <Preloader />;
     }
 
     return (
@@ -63,6 +68,9 @@ class LoginContainer extends Component {
 
           dispatch(login(this.state.email, this.state.password))
             .then(() => {
+              this.setState({
+                loading: false,
+              });
               // window.location.reload();
             })
             .catch(() => {

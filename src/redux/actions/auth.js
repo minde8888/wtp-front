@@ -55,7 +55,7 @@ export const register = (obj) => (dispatch) => {
 
 export const login = (email, password) => (dispatch) => {
 
-  return AuthService.login(email, password).then(
+  return AuthService.login(email, password).then(    
     async (data) => {
 
       data.forEach(el => {
@@ -75,10 +75,11 @@ export const login = (email, password) => (dispatch) => {
 
         dispatch({
           type: LOGIN_SUCCESS,
-          user: user,
-          employees: el.Employees,
-          token:el.Token
         });
+
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('employees',JSON.stringify(el.Employees) );
+        localStorage.setItem('token', JSON.stringify(el.Token));
       });
 
       return await Promise.resolve();
@@ -99,7 +100,6 @@ export const login = (email, password) => (dispatch) => {
             error.response.data.message) ||
           error.message ||
           error.toString();
-
 
         console.log(message);
 
@@ -128,3 +128,9 @@ export const logout = () => (dispatch) => {
   });
 };
 
+export const isLogin = () => {
+  if (localStorage.getItem("token")) {
+      return true;
+  }
+  return false;
+}

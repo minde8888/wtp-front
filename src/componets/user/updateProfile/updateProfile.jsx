@@ -2,12 +2,13 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 // import uplod from "../../../svg/upload.svg";
-import userImage from "../../../image/user.png";
 import {
   newFile,
   updateprofile,
 } from "../../../redux/actions/updateUserProfile";
+import { getImageSize } from "../../../hjelpers/getImageSize";
 import "./updateProfile";
+import userImage from "../../../image/user.png";
 import Image from "react-bootstrap/Image";
 
 const UpdateProfile = (props) => {
@@ -27,9 +28,7 @@ const UpdateProfile = (props) => {
   const { fileSrc, message, ImageFile, token } = props;
   useEffect(() => fileSrc);
 
-  const onFileChange = (e) => {
-    console.log(e.target.offsetLeft);
-    console.log(e.target.offsetLeft);
+  const onFileChange = async (e)  => {
     var ImageFile = e.target.files[0];
     props.dispatch(newFile(ImageFile));
   };
@@ -55,7 +54,11 @@ const UpdateProfile = (props) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Image
           src={
-            !fileSrc.lenght ? fileSrc : !imageSrc.lenght ? imageSrc : userImage
+            (typeof  fileSrc) === "string"
+              ? fileSrc
+              :  (typeof  imageSrc) === "string" 
+              ? imageSrc
+              : userImage
           }
           alt={imageName}
           width="193"

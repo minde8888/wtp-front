@@ -6,7 +6,8 @@ import Employees from "./employee/employees";
 class Profile extends Component {
   render() {
     const { user, employees } = this.props;
-
+    console.log(111111);
+console.log(user, employees);
     return (
       <div className="container">
         <header className="jumbotron">
@@ -39,7 +40,7 @@ function mapStateToProps(state) {
   const { user, employees } = state.auth;
   return {
     user,
-    employees,
+    employees
   };
 }
 

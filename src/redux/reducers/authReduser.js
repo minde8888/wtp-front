@@ -4,15 +4,13 @@ const REGISTER_SUCCESS = "REGISTER_SUCCESS",
     LOGIN_FAIL = "LOGIN_FAIL",
     LOGOUT = "LOGOUT"
 
-// const user = JSON.parse(localStorage.getItem("user"));
+const user = JSON.parse(localStorage.getItem("user"));
+const employees = JSON.parse(localStorage.getItem('employees'));
+const token = JSON.parse(localStorage.getItem('token'));
 
-//const initialState = user ? { isLoggedIn: true, user } : { isLoggedIn: false, user: null };
-const initialState = {
-    user: "",
-    isLoggedIn: false,
-    employees: "",
-    token: ""
-};
+var initialState = token ? { isLoggedIn: true, token } : { isLoggedIn: false, token: null };
+initialState = { ...initialState, ...{employees}, ...{user}};
+
 
 export default function auth(state = initialState, action) {
 
