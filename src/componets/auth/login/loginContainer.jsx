@@ -44,9 +44,9 @@ class LoginContainer extends Component {
         .required("Password is required"),
     });
 
-    // if (isLoggedIn) {
-    //   return <Redirect to="/profile" />;
-    // }
+    if (isLoggedIn) {
+      // return <Redirect to="/" />;
+    }
 
     if (this.state.loading) {
       return <Preloader />;

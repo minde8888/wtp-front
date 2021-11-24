@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import { isLogin } from "../../redux/actions/auth";
 
 const PublicRoute = ({ component: Component, restricted, ...rest }) => {
-
+// console.log(rest);
   return (
     // restricted = false meaning public route
     // restricted = true meaning restricted route
@@ -11,7 +11,7 @@ const PublicRoute = ({ component: Component, restricted, ...rest }) => {
       {...rest}
       render={(props) =>
         isLogin() && restricted ? (
-          <Redirect to="/" />
+          <Redirect to="/login" />
         ) : (
           <Component {...props} />
         )

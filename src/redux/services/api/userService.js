@@ -23,7 +23,7 @@ class UserService {
       formData.append(key, obj[key])
     }
     console.log(Object.fromEntries(formData))
-    return Instance.put(USER_URL + 'Manager/Update/' + Id, formData,{ headers: authHeader(token) });
+    return Instance.put(USER_URL + 'Manager/Update/' + Id, formData, { headers: authHeader(token) });
   }
 
 }

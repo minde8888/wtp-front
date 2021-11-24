@@ -28,18 +28,22 @@ const UpdateProfile = (props) => {
   const { fileSrc, message, ImageFile, token } = props;
   useEffect(() => fileSrc);
 
-  const onFileChange = async (e)  => {
+  const onFileChange = async (e) => {
     var ImageFile = e.target.files[0];
     props.dispatch(newFile(ImageFile));
   };
 
   const onSubmit = (managerUpdate) => {
+    console.log(ImageFile);
+    // var imageSize = getImageSize(ImageFile);
     const { dispatch } = props;
     managerUpdate = {
       ...managerUpdate,
       ...{ ImageFile },
       ...{ ImageName: ImageFile.name },
+      // ...imageSize,
     };
+   
     dispatch(updateprofile(id, managerUpdate, token));
   };
 
@@ -54,9 +58,9 @@ const UpdateProfile = (props) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Image
           src={
-            (typeof  fileSrc) === "string"
+            typeof fileSrc === "string"
               ? fileSrc
-              :  (typeof  imageSrc) === "string" 
+              : typeof imageSrc === "string"
               ? imageSrc
               : userImage
           }
