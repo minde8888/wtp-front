@@ -32,10 +32,23 @@ class NavBar extends Component {
     history.listen((location) => {
       props.dispatch(clearMessage()); // clear message when changing location
     });
+    // this.showBoard();
   }
+
+  // showBoard() {
+  //   const { user, isLoggedIn } = this.props.user;
+  //   if (isLoggedIn) {
+  //     this.setState({
+  //       currentUser: user,
+  //       showManagerBoard: user.role.includes("Manager"),
+  //       showAdminBoard: user.role.includes("ROLE_ADMIN"),
+  //     });
+  //   }
+  // }
 
   componentDidUpdate(prevProps, prevState) {
     const user = this.props.user;
+console.log(user);
     if (prevProps !== user && !prevState.showManagerBoard) {
       this.setState({
         currentUser: user,
@@ -51,6 +64,7 @@ class NavBar extends Component {
 
   render() {
     const { currentUser, showManagerBoard, showAdminBoard } = this.state;
+    console.log(showManagerBoard);
     return (
       <Router history={history}>
         <div className="navbar navbar-expand-lg navbar-light bg-light">
@@ -125,9 +139,11 @@ class NavBar extends Component {
 }
 
 function mapStateToProps(state) {
-  const { user } = state.auth;
+  const { user, isLoggedIn } = state.auth;
+  console.log(user);
   return {
     user,
+    isLoggedIn,
   };
 }
 

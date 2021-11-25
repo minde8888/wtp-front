@@ -29,11 +29,11 @@ export default function auth(state = initialState, action) {
             };
         case LOGIN_SUCCESS:
             return {
-                ...state,
-                isLoggedIn: true,
+                ...state,                
                 user: user,
                 employees: employees,
-                token: token
+                token: token,
+                isLoggedIn: true
             };
         case LOGIN_FAIL:
             return {

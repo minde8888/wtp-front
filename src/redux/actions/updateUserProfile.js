@@ -12,7 +12,7 @@ export const updateprofile = (Id, obj, token) => (dispatch) => {
             dispatch({
                 type: USER_DATA,
                 payload: response.data,
-              });
+            });
 
             return await response;
         },

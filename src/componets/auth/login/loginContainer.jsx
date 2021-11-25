@@ -7,6 +7,7 @@ import { login } from "../../../redux/actions/auth";
 import { connect } from "react-redux";
 import { clearMessage } from "../../../redux/actions/message";
 import Preloader from "../../preloader/preloader";
+import { isLogin } from "../../../redux/actions/auth";
 
 class LoginContainer extends Component {
   constructor(props) {
@@ -44,8 +45,8 @@ class LoginContainer extends Component {
         .required("Password is required"),
     });
 
-    if (isLoggedIn) {
-      // return <Redirect to="/" />;
+    if (isLoggedIn && isLogin()) {
+      return <Redirect to="/" />;
     }
 
     if (this.state.loading) {
@@ -71,8 +72,7 @@ class LoginContainer extends Component {
               this.setState({
                 loading: false,
               });
-              // window.location.reload();
-            })
+             })
             .catch(() => {
               this.setState({
                 loading: false,

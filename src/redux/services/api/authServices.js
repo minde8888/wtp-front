@@ -19,7 +19,7 @@ class AuthService {
   }
 
   logout() {
-    localStorage.removeItem("user");
+    localStorage.clear();
   }
 
   async register(obj) {

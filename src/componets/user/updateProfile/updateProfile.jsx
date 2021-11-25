@@ -29,21 +29,23 @@ const UpdateProfile = (props) => {
   useEffect(() => fileSrc);
 
   const onFileChange = async (e) => {
-    var ImageFile = e.target.files[0];
-    props.dispatch(newFile(ImageFile));
+    var file = e.target.files[0];
+    props.dispatch(newFile(file));
   };
 
-  const onSubmit = (managerUpdate) => {
-    console.log(ImageFile);
-    // var imageSize = getImageSize(ImageFile);
+  const onSubmit = async (managerUpdate) => {
+    const profile = "Profile_image"
+    var imageSize = await getImageSize(ImageFile, profile);
+
     const { dispatch } = props;
+
     managerUpdate = {
       ...managerUpdate,
       ...{ ImageFile },
       ...{ ImageName: ImageFile.name },
-      // ...imageSize,
+      ...imageSize,
     };
-   
+
     dispatch(updateprofile(id, managerUpdate, token));
   };
 
@@ -88,12 +90,12 @@ const UpdateProfile = (props) => {
 };
 
 function mapStateToProps(state) {
-  const { updateManager, imageFile, message, userIsLoadied, fileSrc } =
+  const { updateManager, ImageFile, message, userIsLoadied, fileSrc } =
     state.updateUser;
   const { user, token } = state.auth;
   return {
     updateManager,
-    imageFile,
+    ImageFile,
     message,
     userIsLoadied,
     fileSrc,

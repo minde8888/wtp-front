@@ -9,7 +9,7 @@ export const register = (obj) => (dispatch) => {
 
   return AuthService.register(obj).then(
     async (response) => {
-       dispatch({
+      dispatch({
         type: SET_MESSAGE,
         payload: "The user was successfully created."
       });
@@ -55,14 +55,14 @@ export const register = (obj) => (dispatch) => {
 
 export const login = (email, password) => (dispatch) => {
 
-  return AuthService.login(email, password).then(    
+  return AuthService.login(email, password).then(
     async (data) => {
 
       data.forEach(el => {
         const user = {
           id: el.Id,
-          name:el.Name,
-          surName:el.Surname,
+          name: el.Name,
+          surName: el.Surname,
           email: el.Email,
           imageName: el.ImageName,
           imageSrc: el.ImageSrc,
@@ -78,7 +78,7 @@ export const login = (email, password) => (dispatch) => {
         });
 
         localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('employees',JSON.stringify(el.Employees) );
+        localStorage.setItem('employees', JSON.stringify(el.Employees));
         localStorage.setItem('token', JSON.stringify(el.Token));
       });
 
@@ -129,8 +129,9 @@ export const logout = () => (dispatch) => {
 };
 
 export const isLogin = () => {
-  if (localStorage.getItem("token")) {
-      return true;
+  if (localStorage.getItem("token") &&
+    localStorage.getItem("user")) {
+    return true;
   }
   return false;
 }
