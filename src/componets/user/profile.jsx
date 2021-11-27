@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import userImage from "../../image/user.png";
 import Employees from "./employee/employees";
+import Preloader from "../preloader/preloader";
 
 class Profile extends Component {
   render() {
     const { user, employees } = this.props;
+
     return (
       <div className="container">
         <header className="jumbotron">
@@ -35,7 +37,8 @@ class Profile extends Component {
 }
 
 function mapStateToProps(state) {
-  const { user, employees } = state.auth;
+
+  const { user, employees } = state.auth.data;
   return {
     user,
     employees,

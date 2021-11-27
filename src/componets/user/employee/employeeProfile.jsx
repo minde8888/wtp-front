@@ -9,9 +9,9 @@ import userImage from "../../../image/user.png";
 const EmployeeProfile = (props) => {  
 
   const [id] = useState(props.match.params.userId);
-  const { dispatch, token } = props;
+  const { dispatch } = props;
 
-  useEffect(() => dispatch(getEmploeeProfile(id, token)), [id,token, dispatch]);
+  useEffect(() => dispatch(getEmploeeProfile(id)), [id, dispatch]);
 
   if (!isEmpty(props.data)) {  
     return (

@@ -1,15 +1,15 @@
-const SET_MESSAGE = 'SET_MESSAGE',
-  CLEAR_MESSAGE = 'CLEAR_MESSAGE'
+import { messageConstants } from "../constants/messageConstants";
+
 
 const initialState = {};
 
 export default function message (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case SET_MESSAGE:
+    case messageConstants.SET_MESSAGE:
       return { message: payload };
 
-    case CLEAR_MESSAGE:
+    case messageConstants.CLEAR_MESSAGE:
       return { message: "" };
 
     default:

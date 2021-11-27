@@ -69,9 +69,10 @@ class LoginContainer extends Component {
 
           dispatch(login(this.state.email, this.state.password))
             .then(() => {
-              this.setState({
+                 this.setState({
                 loading: false,
               });
+              window.location.reload();
              })
             .catch(() => {
               this.setState({

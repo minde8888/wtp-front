@@ -1,10 +1,12 @@
-const SET_MESSAGE = 'SET_MESSAGE', CLEAR_MESSAGE = 'CLEAR_MESSAGE'
+import { messageConstants } from "../constants/messageConstants";
 
 export const setMessage = (message) => ({
-  type: SET_MESSAGE,
+  type: messageConstants.SET_MESSAGE,
   payload: message,
 });
 
 export const clearMessage = () => ({
-  type: CLEAR_MESSAGE,
+  type: messageConstants.CLEAR_MESSAGE
 });
+
+

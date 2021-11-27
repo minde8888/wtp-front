@@ -32,23 +32,21 @@ class NavBar extends Component {
     history.listen((location) => {
       props.dispatch(clearMessage()); // clear message when changing location
     });
-    // this.showBoard();
   }
 
-  // showBoard() {
-  //   const { user, isLoggedIn } = this.props.user;
-  //   if (isLoggedIn) {
-  //     this.setState({
-  //       currentUser: user,
-  //       showManagerBoard: user.role.includes("Manager"),
-  //       showAdminBoard: user.role.includes("ROLE_ADMIN"),
-  //     });
-  //   }
-  // }
+  componentDidMount() {
+    const user = this.props.user;
+    if (user) {
+      this.setState({
+        name: user.name,
+        showManagerBoard: user.role.includes("Manager"),
+        showAdminBoard: user.role.includes("Admin"),
+      });
+    }
+  }
 
   componentDidUpdate(prevProps, prevState) {
     const user = this.props.user;
-console.log(user);
     if (prevProps !== user && !prevState.showManagerBoard) {
       this.setState({
         currentUser: user,
@@ -63,8 +61,8 @@ console.log(user);
   }
 
   render() {
-    const { currentUser, showManagerBoard, showAdminBoard } = this.state;
-    console.log(showManagerBoard);
+    const { name, showManagerBoard } = this.state;
+
     return (
       <Router history={history}>
         <div className="navbar navbar-expand-lg navbar-light bg-light">
@@ -100,7 +98,7 @@ console.log(user);
                 </li>
                 <li className="nav-item">
                   <NavLink to={"/update-profile"} className="nav-link">
-                    {currentUser.name}
+                    {name}
                   </NavLink>
                 </li>
                 <li className="nav-item">
@@ -139,8 +137,10 @@ console.log(user);
 }
 
 function mapStateToProps(state) {
-  const { user, isLoggedIn } = state.auth;
-  console.log(user);
+
+  const { user } = state.auth.data;
+  const { isLoggedIn } = state.auth;
+
   return {
     user,
     isLoggedIn,

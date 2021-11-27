@@ -3,8 +3,8 @@ import UserService from "../services/api/userService";
 const EMPLOYEE_DATA = "EMPLOYEE_DATA",
     EMPLOYEE_DATA_ERROR = "EMPLOYEE_DATA_ERROR"
 
-export const getEmploeeProfile = (id, token) => (dispatch) => {
-    return UserService.getEmployee(id, token).then(
+export const getEmploeeProfile = (id) => (dispatch) => {
+    return UserService.getEmployee(id).then(
         async (response) => {
 
             response.data.$values.forEach(el => {

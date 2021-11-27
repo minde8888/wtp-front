@@ -4,9 +4,9 @@ const USER_DATA = "USER_DATA",
     USER_DATA_ERROR = "USER_DATA_ERROR",
     GET_FILE = "GET_FILE"
 
-export const updateprofile = (Id, obj, token) => (dispatch) => {
+export const updateprofile = (Id, obj) => (dispatch) => {
 
-    return UserService.updateUserInfo(Id, obj, token).then(
+    return UserService.updateUserInfo(Id, obj).then(
         async (response) => {
 
             dispatch({

@@ -5,10 +5,10 @@ import rootReducer from "./reducers";
 
 const middleware = [thunk];
 
-const store = createStore(
+const  store =  createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(...middleware))
 );
 console.log("store");
 console.log(store.getState())
-export default store;
+export default  store;

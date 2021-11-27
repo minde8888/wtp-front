@@ -1,8 +1,6 @@
 import AuthService from "../../redux/services/api/authServices"
-
-const LOGIN_SUCCESS = "LOGIN_SUCCESS",
-  LOGOUT = "LOGOUT",
-  SET_MESSAGE = "SET_MESSAGE"
+import { authConstants } from "../constants/authConstants";
+import { messageConstants } from "../constants/messageConstants";
 
 
 export const register = (obj) => (dispatch) => {
@@ -10,7 +8,7 @@ export const register = (obj) => (dispatch) => {
   return AuthService.register(obj).then(
     async (response) => {
       dispatch({
-        type: SET_MESSAGE,
+        type: messageConstants.SET_MESSAGE,
         payload: "The user was successfully created."
       });
 
@@ -33,18 +31,18 @@ export const register = (obj) => (dispatch) => {
           error.message ||
           error.toString();
 
-
         console.log(message);
 
         dispatch({
-          type: SET_MESSAGE,
+          type: messageConstants.SET_MESSAGE,
           payload: mySubString,
         });
+
         return Promise.reject();
       }
 
       dispatch({
-        type: SET_MESSAGE,
+        type: messageConstants.SET_MESSAGE,
         payload: "Network Error",
       });
       console.log(error);
@@ -67,19 +65,17 @@ export const login = (email, password) => (dispatch) => {
           imageName: el.ImageName,
           imageSrc: el.ImageSrc,
           isActine: el.IsActive,
-          mobileNumber: el.MobileNumber,
+          mobileNumber: el.PhoneNumber,
           occupation: el.Occupation,
           role: el.Role,
           Address: el.Address
         }
-
-        dispatch({
-          type: LOGIN_SUCCESS,
-        });
-
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('employees', JSON.stringify(el.Employees));
-        localStorage.setItem('token', JSON.stringify(el.Token));
+        const data = {
+          user: user,
+          employees: el.Employees,
+          token: el.Token
+        }
+        localStorage.setItem('user', JSON.stringify(data));
       });
 
       return await Promise.resolve();
@@ -104,14 +100,14 @@ export const login = (email, password) => (dispatch) => {
         console.log(message);
 
         dispatch({
-          type: SET_MESSAGE,
+          type: messageConstants.SET_MESSAGE,
           payload: mySubString,
         });
         return Promise.reject();
       }
 
       dispatch({
-        type: SET_MESSAGE,
+        type: messageConstants.SET_MESSAGE,
         payload: "Network Error",
       });
       console.log(error);
@@ -124,13 +120,12 @@ export const logout = () => (dispatch) => {
   AuthService.logout();
 
   dispatch({
-    type: LOGOUT,
+    type: authConstants.LOGOUT,
   });
 };
 
 export const isLogin = () => {
-  if (localStorage.getItem("token") &&
-    localStorage.getItem("user")) {
+  if (localStorage.getItem("user")) {
     return true;
   }
   return false;

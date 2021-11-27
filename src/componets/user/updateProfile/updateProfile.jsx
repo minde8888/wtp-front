@@ -16,7 +16,7 @@ const UpdateProfile = (props) => {
 
   const {
     name,
-    surname,
+    surName,
     imageSrc,
     occupation,
     imageName,
@@ -25,7 +25,7 @@ const UpdateProfile = (props) => {
     id,
   } = props.user;
 
-  const { fileSrc, message, ImageFile, token } = props;
+  const { fileSrc, message, ImageFile } = props;
   useEffect(() => fileSrc);
 
   const onFileChange = async (e) => {
@@ -46,7 +46,7 @@ const UpdateProfile = (props) => {
       ...imageSize,
     };
 
-    dispatch(updateprofile(id, managerUpdate, token));
+    dispatch(updateprofile(id, managerUpdate));
   };
 
   return (
@@ -72,7 +72,7 @@ const UpdateProfile = (props) => {
         />
         <input type="file" onChange={(e) => onFileChange(e)} />
         <input {...register("Name")} defaultValue={name} />
-        <input {...register("Surname")} defaultValue={surname} />
+        <input {...register("Surname")} defaultValue={surName} />
         <input {...register("Occupation")} defaultValue={occupation} />
         <input {...register("PhoneNumber")} defaultValue={mobileNumber} />
         <input {...register("Email")} defaultValue={email} />
@@ -92,15 +92,15 @@ const UpdateProfile = (props) => {
 function mapStateToProps(state) {
   const { updateManager, ImageFile, message, userIsLoadied, fileSrc } =
     state.updateUser;
-  const { user, token } = state.auth;
+  const { user } = state.auth.data;
+
   return {
     updateManager,
     ImageFile,
     message,
     userIsLoadied,
     fileSrc,
-    user,
-    token,
+    user
   };
 }
 
