@@ -8,7 +8,13 @@ export const updateprofile = (Id, obj) => (dispatch) => {
 
     return UserService.updateUserInfo(Id, obj).then(
         async (response) => {
-
+            var data = JSON.parse(localStorage.getItem('user'));
+            delete data.user
+            data = {
+                ...data,
+                user: response.data
+            }
+            localStorage.setItem('user', JSON.stringify(data));
             dispatch({
                 type: USER_DATA,
                 payload: response.data,

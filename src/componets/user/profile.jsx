@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import userImage from "../../image/user.png";
 import Employees from "./employee/employees";
-import Preloader from "../preloader/preloader";
 
 class Profile extends Component {
   render() {

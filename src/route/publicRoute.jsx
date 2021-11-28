@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { isLogin } from "../redux/actions/auth";
 import store from '../redux/store';
 
 const PublicRoute = ({ component: Component, restricted, ...rest }) => {

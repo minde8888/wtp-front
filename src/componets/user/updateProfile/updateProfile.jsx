@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
-// import uplod from "../../../svg/upload.svg";
 import {
   newFile,
   updateprofile,
@@ -16,12 +15,13 @@ const UpdateProfile = (props) => {
 
   const {
     name,
-    surName,
+    surname,
     imageSrc,
     occupation,
     imageName,
     email,
     mobileNumber,
+    role,
     id,
   } = props.user;
 
@@ -34,19 +34,36 @@ const UpdateProfile = (props) => {
   };
 
   const onSubmit = async (managerUpdate) => {
-    const profile = "Profile_image"
-    var imageSize = await getImageSize(ImageFile, profile);
-
     const { dispatch } = props;
 
-    managerUpdate = {
-      ...managerUpdate,
-      ...{ ImageFile },
-      ...{ ImageName: ImageFile.name },
-      ...imageSize,
+    let obj = {
+      phoneNumber: mobileNumber,
+      email: email,
+      role: role,
     };
 
-    dispatch(updateprofile(id, managerUpdate));
+    if (ImageFile) {
+      const profile = "Profile_image";
+      var imageSize = await getImageSize(ImageFile, profile);
+      managerUpdate = {
+        ...managerUpdate,
+        ...obj,
+        ...{ ImageFile },
+        ...{ ImageName: ImageFile.name },
+        ...imageSize,
+      };
+
+      dispatch(updateprofile(id, managerUpdate));
+    } else {
+      var imgName = document.querySelector("#getValue").getAttribute("alt");
+
+      managerUpdate = {
+        ...managerUpdate,
+        ...{ ImageName: imgName },
+        ...obj,
+      };
+      dispatch(updateprofile(id, managerUpdate));
+    }
   };
 
   return (
@@ -59,6 +76,7 @@ const UpdateProfile = (props) => {
       </header>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Image
+          id="getValue"
           src={
             typeof fileSrc === "string"
               ? fileSrc
@@ -72,10 +90,8 @@ const UpdateProfile = (props) => {
         />
         <input type="file" onChange={(e) => onFileChange(e)} />
         <input {...register("Name")} defaultValue={name} />
-        <input {...register("Surname")} defaultValue={surName} />
+        <input {...register("Surname")} defaultValue={surname} />
         <input {...register("Occupation")} defaultValue={occupation} />
-        <input {...register("PhoneNumber")} defaultValue={mobileNumber} />
-        <input {...register("Email")} defaultValue={email} />
         {message && (
           <div className="form-group">
             <div className="alert alert-danger" role="alert">
@@ -100,7 +116,7 @@ function mapStateToProps(state) {
     message,
     userIsLoadied,
     fileSrc,
-    user
+    user,
   };
 }
 

@@ -1,16 +1,9 @@
 import React, { Component } from "react";
-import { Router, NavLink, Route } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { logout } from "../../redux/actions/auth";
 import { clearMessage } from "../../redux/actions/message";
 import { history } from "../../hjelpers/history";
 import { connect } from "react-redux";
-import Singup from "../auth/singup/singup";
-import Login from "../auth/login/login";
-import Profile from "../user/profile";
-import UpdateProfile from "../user/updateProfile/updateProfile";
-import AddUser from "../addUser/addUser";
-import ForgotPassword from "../auth/nwePassword/forgotPassword";
-import EmployeeProfile from "../user/employee/employeeProfile";
 
 class NavBar extends Component {
   constructor(props) {
@@ -64,7 +57,7 @@ class NavBar extends Component {
     const { name, showManagerBoard } = this.state;
 
     return (
-      <Router history={history}>
+      <div>
         <div className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="navbar-nav me-auto mb-2 mb-lg-0">
             <div className="nav-item">
@@ -119,25 +112,13 @@ class NavBar extends Component {
             )}
           </div>
         </div>
-        <div>
-          <Route path="/singup" render={() => <Singup />} />
-          <Route path="/login" render={() => <Login />} />
-          <Route path="/profile" render={() => <Profile />} />
-          <Route path="/update-profile" render={() => <UpdateProfile />} />
-          <Route path="/adduser" render={() => <AddUser />} />
-          <Route path="/forgot-password" render={() => <ForgotPassword />} />
-          <Route
-            path="/employee-profile/:userId?"
-            render={() => <EmployeeProfile />}
-          />
-        </div>
-      </Router>
+        <div></div>
+      </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-
   const { user } = state.auth.data;
   const { isLoggedIn } = state.auth;
 

@@ -55,12 +55,12 @@ export const login = (email, password) => (dispatch) => {
 
   return AuthService.login(email, password).then(
     async (data) => {
-
+      console.log(data);
       data.forEach(el => {
         const user = {
           id: el.Id,
           name: el.Name,
-          surName: el.Surname,
+          surname: el.Surname,
           email: el.Email,
           imageName: el.ImageName,
           imageSrc: el.ImageSrc,
