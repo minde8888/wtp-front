@@ -55,7 +55,6 @@ export const login = (email, password) => (dispatch) => {
 
   return AuthService.login(email, password).then(
     async (data) => {
-      console.log(data);
       data.forEach(el => {
         const user = {
           id: el.Id,

@@ -1,11 +1,13 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import userImage from "../../image/user.png";
 import Employees from "./employee/employees";
 
-class Profile extends Component {
-  render() {
-    const { user, employees } = this.props;
+const Profile = (props) => {
+
+    const { user, employees } = props;
+
+    useEffect(() => user);
 
     return (
       <div className="container">
@@ -32,11 +34,11 @@ class Profile extends Component {
         </div>
       </div>
     );
-  }
+
 }
 
 function mapStateToProps(state) {
-
+console.log(state);
   const { user, employees } = state.auth.data;
   return {
     user,

@@ -108,12 +108,12 @@ class SignupContainer extends Component {
           })
 
           var obj = {
-            "username": this.state.userName,
+            "name": this.state.userName,
             "surname": this.state.lastName,
             "phoneNumber": this.state.phoneNumber,
             "email": this.state.email,
             "password": this.state.password,
-            "roles": this.state.role
+            "role": this.state.role
           }
 
           dispatch(register(obj)

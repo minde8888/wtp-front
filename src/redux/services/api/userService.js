@@ -19,10 +19,20 @@ class UserService {
   updateUserInfo(Id, obj) {
 
     let formData = new FormData();
+
     for (var key in obj) {
+
       formData.append(key, obj[key])
+      if (key === "address") {
+
+        for (var subKey in obj[key]) {
+          formData.append(`${key}[${subKey}]`, obj[key][subKey]);
+        }
+      }
+
     }
     console.log(Object.fromEntries(formData))
+
     return Instance.put(USER_URL + 'Manager/Update/' + Id, formData, { headers: authHeader() });
   }
 

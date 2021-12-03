@@ -1,7 +1,26 @@
+// import React from "react";
 import { isEmpty } from "../../hjelpers/isEmpty";
 import { authConstants } from "../constants/authConstants";
 
 const data = JSON.parse(localStorage.getItem('user'));
+
+// const {useEffect} = React
+
+// useEffect(() => {
+//     function checkUserData() {
+//       const item = localStorage.getItem('data')
+  
+//       if (item) {
+//         localStorage.setItem('user', JSON.stringify(item));
+//       }
+//     }
+  
+//     window.addEventListener('storage', checkUserData)
+  
+//     return () => {
+//       window.removeEventListener('storage', checkUserData)
+//     }
+//   }, [])
 
 var initialState =
     isEmpty(data) ?

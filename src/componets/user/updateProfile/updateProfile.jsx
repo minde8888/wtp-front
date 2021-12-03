@@ -24,6 +24,7 @@ const UpdateProfile = (props) => {
     role,
     id,
   } = props.user;
+  const { City, Country, Street, Zip } = props.user.Address;
 
   const { fileSrc, message, ImageFile } = props;
   useEffect(() => fileSrc);
@@ -35,18 +36,27 @@ const UpdateProfile = (props) => {
 
   const onSubmit = async (managerUpdate) => {
     const { dispatch } = props;
+    console.log(managerUpdate);
 
     let obj = {
       phoneNumber: mobileNumber,
       email: email,
       role: role,
+      Name: managerUpdate.Name,
+      Surname: managerUpdate.Surname,
+      Occupation: managerUpdate.Occupation,
+      address: {
+        City: managerUpdate.City,
+        Country: managerUpdate.Country,
+        Street: managerUpdate.Street,
+        Zip: managerUpdate.Zip,
+      },
     };
 
     if (ImageFile) {
       const profile = "Profile_image";
       var imageSize = await getImageSize(ImageFile, profile);
       managerUpdate = {
-        ...managerUpdate,
         ...obj,
         ...{ ImageFile },
         ...{ ImageName: ImageFile.name },
@@ -58,7 +68,6 @@ const UpdateProfile = (props) => {
       var imgName = document.querySelector("#getValue").getAttribute("alt");
 
       managerUpdate = {
-        ...managerUpdate,
         ...{ ImageName: imgName },
         ...obj,
       };
@@ -92,6 +101,10 @@ const UpdateProfile = (props) => {
         <input {...register("Name")} defaultValue={name} />
         <input {...register("Surname")} defaultValue={surname} />
         <input {...register("Occupation")} defaultValue={occupation} />
+        <input {...register("Street")} defaultValue={Street} />
+        <input {...register("City")} defaultValue={City} />
+        <input {...register("Country")} defaultValue={Country} />
+        <input {...register("Zip")} defaultValue={Zip} />
         {message && (
           <div className="form-group">
             <div className="alert alert-danger" role="alert">
