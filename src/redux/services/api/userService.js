@@ -9,8 +9,11 @@ class UserService {
     return Instance.get(USER_URL + 'Employee/id?id=' + id, { headers: authHeader() });
   }
 
-  getManagerBoard() {
-    return Instance.get(USER_URL + 'manager', { headers: authHeader() });
+  getManager(id) {
+
+    console.log(USER_URL + 'Manager/id?id=' + id);
+
+    return Instance.get(USER_URL + 'Manager/id?id=' + id, { headers: authHeader() });
   }
   getAdminBoard() {
     return Instance.get(USER_URL + 'admin', { headers: authHeader() });
@@ -21,10 +24,8 @@ class UserService {
     let formData = new FormData();
 
     for (var key in obj) {
-
       formData.append(key, obj[key])
       if (key === "address") {
-
         for (var subKey in obj[key]) {
           formData.append(`${key}[${subKey}]`, obj[key][subKey]);
         }

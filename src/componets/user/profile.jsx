@@ -38,7 +38,6 @@ const Profile = (props) => {
 }
 
 function mapStateToProps(state) {
-console.log(state);
   const { user, employees } = state.auth.data;
   return {
     user,

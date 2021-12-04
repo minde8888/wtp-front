@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { connect } from "react-redux";
 import { register } from "../../redux/actions/auth";
 import { clearMessage } from "../../redux/actions/message";
+import { getManagerProfile } from "../../redux/actions/getManagerProfile";
 
 class AddUserContainer extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class AddUserContainer extends Component {
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside);
   }
-  
+
   handleClickOutside() {
     const { dispatch, message } = this.props;
     if (message) {
@@ -82,9 +83,6 @@ class AddUserContainer extends Component {
       </option>
     ));
 
-    let user = JSON.parse(localStorage.user);
-    const { Id } = user;
-
     return (
       <Formik
         initialValues={{
@@ -111,18 +109,19 @@ class AddUserContainer extends Component {
             role: values.role
           })
           var obj = {
-            "username": this.state.userName,
+            "name": this.state.userName,
             "surname": this.state.lastName,
             "phoneNumber": this.state.phoneNumber,
             "email": this.state.email,
             "password": this.state.password,
             "occupation": this.state.occupation,
-            "roles": this.state.role,
-            "Id": Id
+            "role": this.state.role,
+            "ManagerId": this.props.id
           }
           dispatch(register(obj)
           )
             .then(() => {
+              dispatch(getManagerProfile(this.props.id))
               this.setState({
                 successful: true,
               });
@@ -175,8 +174,10 @@ class AddUserContainer extends Component {
 
 function mapStateToProps(state) {
   const { message } = state.message;
+  const { id } = state.auth.data.user;
   return {
     message,
+    id
   };
 }
 

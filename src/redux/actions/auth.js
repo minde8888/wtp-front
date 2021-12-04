@@ -67,7 +67,7 @@ export const login = (email, password) => (dispatch) => {
           mobileNumber: el.PhoneNumber,
           occupation: el.Occupation,
           role: el.Role,
-          Address: el.Address
+          address: el.Address
         }
         const data = {
           user: user,

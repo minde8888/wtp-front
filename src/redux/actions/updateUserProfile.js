@@ -9,6 +9,7 @@ export const updateprofile = (Id, obj) => (dispatch) => {
     return UserService.updateUserInfo(Id, obj).then(
         async (response) => {
             var data = JSON.parse(localStorage.getItem('user'));
+            console.log(data);
             delete data.user
             data = {
                 ...data,

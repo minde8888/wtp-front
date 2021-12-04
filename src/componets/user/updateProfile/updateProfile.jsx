@@ -24,7 +24,7 @@ const UpdateProfile = (props) => {
     role,
     id,
   } = props.user;
-  const { City, Country, Street, Zip } = props.user.Address;
+  const { City, Country, Street, Zip } = props.user.address;
 
   const { fileSrc, message, ImageFile } = props;
   useEffect(() => fileSrc);
@@ -36,7 +36,6 @@ const UpdateProfile = (props) => {
 
   const onSubmit = async (managerUpdate) => {
     const { dispatch } = props;
-    console.log(managerUpdate);
 
     let obj = {
       phoneNumber: mobileNumber,
