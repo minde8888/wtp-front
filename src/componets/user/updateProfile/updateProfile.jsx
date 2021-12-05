@@ -14,17 +14,17 @@ const UpdateProfile = (props) => {
   const { register, handleSubmit } = useForm();
 
   const {
+    phoneNumber,
     name,
     surname,
     imageSrc,
     occupation,
     imageName,
     email,
-    mobileNumber,
     role,
     id,
   } = props.user;
-  const { City, Country, Street, Zip } = props.user.address;
+  const { city, country, street, zip } = props.user.address;
 
   const { fileSrc, message, ImageFile } = props;
   useEffect(() => fileSrc);
@@ -38,20 +38,20 @@ const UpdateProfile = (props) => {
     const { dispatch } = props;
 
     let obj = {
-      phoneNumber: mobileNumber,
+      phoneNumber:phoneNumber,
       email: email,
       role: role,
-      Name: managerUpdate.Name,
-      Surname: managerUpdate.Surname,
-      Occupation: managerUpdate.Occupation,
+      name: managerUpdate.Name,
+      surname: managerUpdate.Surname,
+      occupation: managerUpdate.Occupation,
       address: {
-        City: managerUpdate.City,
-        Country: managerUpdate.Country,
-        Street: managerUpdate.Street,
-        Zip: managerUpdate.Zip,
-      },
+        city: managerUpdate.City,
+        country: managerUpdate.Country,
+        street: managerUpdate.Street,
+        zip: managerUpdate.Zip,
+      }      
     };
-
+    console.log(obj);
     if (ImageFile) {
       const profile = "Profile_image";
       var imageSize = await getImageSize(ImageFile, profile);
@@ -70,8 +70,8 @@ const UpdateProfile = (props) => {
         ...{ ImageName: imgName },
         ...obj,
       };
-      dispatch(updateprofile(id, managerUpdate));
-    }
+      dispatch(updateprofile(id, managerUpdate))
+      }
   };
 
   return (
@@ -88,7 +88,7 @@ const UpdateProfile = (props) => {
           src={
             typeof fileSrc === "string"
               ? fileSrc
-              : typeof imageSrc === "string"
+              : imageSrc !== "https://localhost:44395/Images/"
               ? imageSrc
               : userImage
           }
@@ -100,10 +100,10 @@ const UpdateProfile = (props) => {
         <input {...register("Name")} defaultValue={name} />
         <input {...register("Surname")} defaultValue={surname} />
         <input {...register("Occupation")} defaultValue={occupation} />
-        <input {...register("Street")} defaultValue={Street} />
-        <input {...register("City")} defaultValue={City} />
-        <input {...register("Country")} defaultValue={Country} />
-        <input {...register("Zip")} defaultValue={Zip} />
+        <input {...register("Street")} defaultValue={street} />
+        <input {...register("City")} defaultValue={city} />
+        <input {...register("Country")} defaultValue={country} />
+        <input {...register("Zip")} defaultValue={zip} />
         {message && (
           <div className="form-group">
             <div className="alert alert-danger" role="alert">

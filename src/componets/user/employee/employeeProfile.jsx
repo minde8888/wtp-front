@@ -6,14 +6,14 @@ import { getEmploeeProfile } from "../../../redux/actions/getEmploeeProfile";
 import { isEmpty } from "../../../hjelpers/isEmpty";
 import userImage from "../../../image/user.png";
 
-const EmployeeProfile = (props) => {  
+const EmployeeProfile = (props) => {
 
   const [id] = useState(props.match.params.userId);
   const { dispatch } = props;
 
   useEffect(() => dispatch(getEmploeeProfile(id)), [id, dispatch]);
 
-  if (!isEmpty(props.data)) {  
+  if (!isEmpty(props.data)) {
     return (
       <div>
         <strong>{props.message}</strong>
@@ -48,9 +48,12 @@ const EmployeeProfile = (props) => {
       </header>
       {isActive ? (
         <>
-          <img src={imageSrc != null ? imageSrc : userImage} alt={imageName} />
+          <img
+            src={imageName === null ? userImage : imageSrc}
+            alt={imageName}
+          />
           <p>
-            <strong>email:</strong> {email}
+            <strong>email:</strong> {email} 
           </p>
           <p>
             <strong>Occupation:</strong> {occupation}
@@ -78,12 +81,10 @@ let profileContainerWithRaout = withRouter(EmployeeProfile);
 
 function mapStateToProps(state) {
   const { data, message, userIsLoadied } = state.employee;
-  const { token } = state.auth;
   return {
     message,
     data,
     userIsLoadied,
-    token
   };
 }
 

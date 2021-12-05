@@ -23,7 +23,6 @@ class AuthService {
   }
 
   async register(obj) {
-    console.log(obj);
     return await Instance.post(AUTH_URL + "/register", obj);
   }
 

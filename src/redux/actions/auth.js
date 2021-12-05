@@ -55,24 +55,24 @@ export const login = (email, password) => (dispatch) => {
 
   return AuthService.login(email, password).then(
     async (data) => {
-      data.forEach(el => {
+      data.$values.forEach(el => {
         const user = {
-          id: el.Id,
-          name: el.Name,
-          surname: el.Surname,
-          email: el.Email,
-          imageName: el.ImageName,
-          imageSrc: el.ImageSrc,
-          isActine: el.IsActive,
-          mobileNumber: el.PhoneNumber,
-          occupation: el.Occupation,
-          role: el.Role,
-          address: el.Address
+          id: el.id,
+          name: el.name,
+          surname: el.surname,
+          email: el.email,
+          imageName: el.imageName,
+          imageSrc: el.imageSrc,
+          isActine: el.isActive,
+          mobileNumber: el.phoneNumber,
+          occupation: el.occupation,
+          role: el.role,
+          address: el.address
         }
         const data = {
           user: user,
-          employees: el.Employees,
-          token: el.Token
+          employees: el.employees.$values,
+          token: el.token
         }
         localStorage.setItem('user', JSON.stringify(data));
       });
@@ -129,3 +129,5 @@ export const isLogin = () => {
   }
   return false;
 }
+
+

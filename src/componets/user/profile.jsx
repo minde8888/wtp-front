@@ -17,11 +17,14 @@ const Profile = (props) => {
           </h3>
         </header>
         <img
-          src={user.imageSrc != null ? user.imageSrc : userImage}
+          src={user.imageName === null ? userImage  : user.imageSrc}
           alt={user.imageName}
         />
         <p>
           <strong>Id:</strong> {user.id}
+        </p>
+        <p>
+          <strong>Mobile Numbe:</strong> {user.mobileNumber}
         </p>
         <p>
           <strong>Email:</strong> {user.email}

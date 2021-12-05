@@ -111,7 +111,6 @@ class AddUserContainer extends Component {
           var obj = {
             "name": this.state.userName,
             "surname": this.state.lastName,
-            "phoneNumber": this.state.phoneNumber,
             "email": this.state.email,
             "password": this.state.password,
             "occupation": this.state.occupation,
@@ -122,6 +121,9 @@ class AddUserContainer extends Component {
           )
             .then(() => {
               dispatch(getManagerProfile(this.props.id))
+                .then(() => {
+                  window.location.reload();
+                })
               this.setState({
                 successful: true,
               });

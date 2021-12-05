@@ -10,9 +10,6 @@ class UserService {
   }
 
   getManager(id) {
-
-    console.log(USER_URL + 'Manager/id?id=' + id);
-
     return Instance.get(USER_URL + 'Manager/id?id=' + id, { headers: authHeader() });
   }
   getAdminBoard() {

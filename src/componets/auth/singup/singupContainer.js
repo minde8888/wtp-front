@@ -123,6 +123,7 @@ class SignupContainer extends Component {
                 successful: true,
                 loading: false
               });
+              window.location.reload();
             })
             .catch(() => {
               this.setState({
@@ -155,7 +156,7 @@ class SignupContainer extends Component {
               </div>
               {message && (
                 <div className="form-group">
-                  <div className="alert alert-danger" role="alert">
+                  <div className={this.state.successful ? "alert alert-success" : "alert alert-danger"} role="alert">
                     {message}
                   </div>
                 </div>
