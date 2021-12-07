@@ -1,26 +1,40 @@
 import UserService from "../services/api/userService";
+import { authConstants } from "../constants/authConstants";
+import { updateUserConstants } from "../constants/updateUserConstants";
 
-const USER_DATA = "USER_DATA",
-    USER_DATA_ERROR = "USER_DATA_ERROR",
-    GET_FILE = "GET_FILE"
 
 export const updateprofile = (Id, obj) => (dispatch) => {
 
     return UserService.updateUserInfo(Id, obj).then(
         async (response) => {
-            console.log(response);
-            var data = JSON.parse(localStorage.getItem('user'));
-            delete data.user
-            data = {
-                ...data,
-                user: response.data
+            const oldData = JSON.parse(localStorage.getItem('user'));
+            localStorage.removeItem('user');
+
+            const user = {
+                id: response.data.id,
+                name: response.data.name,
+                surname: response.data.surname,
+                email: response.data.email,
+                imageName: response.data.imageName,
+                imageSrc: response.data.imageSrc,
+                isActine: response.data.isActive,
+                mobileNumber: response.data.phoneNumber,
+                occupation: response.data.occupation,
+                role: response.data.role,
+                address: response.data.address
+            }
+
+            const data = {
+                user: user,
+                employees: oldData.employees,
+                token: oldData.token
             }
             localStorage.setItem('user', JSON.stringify(data));
-            dispatch({
-                type: USER_DATA,
-                payload: response.data,
-            });
 
+            dispatch({
+                type: authConstants.LOGIN_SUCCESS,
+                data: data,
+            });
             return await Promise.resolve();
         },
         (error) => {
@@ -32,7 +46,7 @@ export const updateprofile = (Id, obj) => (dispatch) => {
                 error.message ||
                 error.toString();
             dispatch({
-                type: USER_DATA_ERROR,
+                type: updateUserConstants.USER_DATA_ERROR,
                 payload: message,
             });
             console.log(message);
@@ -42,6 +56,6 @@ export const updateprofile = (Id, obj) => (dispatch) => {
 }
 
 export const newFile = (ImageFile) => ({
-    type: GET_FILE,
+    type: updateUserConstants.GET_FILE,
     payload: ImageFile
 })

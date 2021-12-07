@@ -1,47 +1,52 @@
-.btn-tertiary {
-    color      : #555;
-    padding    : 0;
-    line-height: 40px;
-    width      : 300px;
-    margin     : auto;
-    display    : block;
-    border     : 2px solid #555;
 
-    &:hover,
-    &:focus {
-        color       : lighten(#555, 20%);
-        border-color: lighten(#555, 20%);
-    }
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8
 }
 
-/* input file style */
+.profile-button {
+    background: rgb(99, 39, 120);
+    box-shadow: none;
+    border: none
+}
 
-.input-file {
-    width   : 0.1px;
-    height  : 0.1px;
-    opacity : 0;
-    overflow: hidden;
-    position: absolute;
-    z-index : -1;
+.profile-button:hover {
+    background: #682773
+}
 
-    +.js-labelFile {
-        overflow     : hidden;
-        text-overflow: ellipsis;
-        white-space  : nowrap;
-        padding      : 0 10px;
-        cursor       : pointer;
+.profile-button:focus {
+    background: #682773;
+    box-shadow: none
+}
 
-        .icon:before {
-            //font-awesome
-            content: "\f093";
-        }
+.profile-button:active {
+    background: #682773;
+    box-shadow: none
+}
 
-        &.has-file {
-            .icon:before {
-                //font-awesome
-                content: "\f00c";
-                color  : #5AAC7B;
-            }
-        }
-    }
+.back:hover {
+    color: #682773;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
+}
+
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
 }

@@ -3,7 +3,7 @@ import { messageConstants } from "../constants/messageConstants";
 
 const initialState = {};
 
-export default function message (state = initialState, action) {
+export default function message(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
     case messageConstants.SET_MESSAGE:

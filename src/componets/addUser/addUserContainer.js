@@ -111,11 +111,12 @@ class AddUserContainer extends Component {
           var obj = {
             "name": this.state.userName,
             "surname": this.state.lastName,
+            "phoneNumber": this.state.phoneNumber,
             "email": this.state.email,
             "password": this.state.password,
             "occupation": this.state.occupation,
             "role": this.state.role,
-            "ManagerId": this.props.id
+            "managerId": this.props.id
           }
           dispatch(register(obj)
           )

@@ -1,5 +1,6 @@
 import UserService from "../services/api/userService";
 import { managerConstants } from "../constants/managerConstatnts";
+import { authConstants } from "../constants/authConstants";
 
 export const getManagerProfile = (id) => (dispatch) => {
 
@@ -27,6 +28,11 @@ export const getManagerProfile = (id) => (dispatch) => {
                     token: oldData.token
                 }
                 localStorage.setItem('user', JSON.stringify(data));
+
+                dispatch({
+                    type: authConstants.LOGIN_SUCCESS,
+                    data: data
+                });
             });
 
             return await Promise.resolve();

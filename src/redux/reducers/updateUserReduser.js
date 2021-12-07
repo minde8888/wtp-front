@@ -1,6 +1,4 @@
-const USER_DATA = "USER_DATA",
-    USER_DATA_ERROR = "USER_DATA_ERROR",
-    GET_FILE = "GET_FILE"
+import { updateUserConstants } from "../constants/updateUserConstants";
 
 const initialState = {
     message: "",
@@ -12,21 +10,16 @@ const initialState = {
 
 export default function updateUser(state = initialState, action) {
 
-    const { type, payload} = action;
+    const { type, payload } = action;
 
     switch (type) {
-        case USER_DATA:
-            return {
-                updateManager: payload,
-                fileSrc:payload.imageSrc
-            };
-        case USER_DATA_ERROR:
+        case updateUserConstants.USER_DATA_ERROR:
             return {
                 message: payload,
             };
-        case GET_FILE:
+        case updateUserConstants.GET_FILE:
             return {
-                ImageFile : payload,
+                ImageFile: payload,
                 fileSrc: URL.createObjectURL(payload)
             }
         default:
