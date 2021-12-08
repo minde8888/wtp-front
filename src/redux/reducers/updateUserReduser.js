@@ -21,6 +21,7 @@ export default function updateUser(state = initialState, action) {
             return {
                 ImageFile: payload,
                 fileSrc: URL.createObjectURL(payload)
+            
             }
         default:
             return state;

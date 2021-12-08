@@ -7,7 +7,6 @@ import PublicRoute from "../route/publicRoute";
 import ForgotPassword from "./auth/nwePassword/forgotPassword";
 import Preloader from "./preloader/preloader";
 
-
 const Login = lazy(() => import('./auth/login/login'));
 const NavBar = lazy(() => import('./nav/nav'));
 const Profile = lazy(() => import('./user/profile'));

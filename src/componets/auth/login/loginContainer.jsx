@@ -6,7 +6,6 @@ import { Link, Redirect } from "react-router-dom";
 import { login } from "../../../redux/actions/auth";
 import { connect } from "react-redux";
 import { clearMessage } from "../../../redux/actions/message";
-import Preloader from "../../preloader/preloader";
 import { isLogin } from "../../../redux/actions/auth";
 
 class LoginContainer extends Component {
@@ -47,10 +46,6 @@ class LoginContainer extends Component {
 
     if (isLoggedIn && isLogin()) {
       return <Redirect to="/" />;
-    }
-
-    if (this.state.loading) {
-      return <Preloader />;
     }
 
     return (

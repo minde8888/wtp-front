@@ -1,5 +1,5 @@
 function getImage64(file) {
-    if (/\.(jpe?g|png|gif|webp)$/i.test(file.name)) {
+    if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
 
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -33,8 +33,8 @@ export async function getImageSize(imageFile, type) {
 
         switch (type) {
             case "Profile_image":
-                maxWidth = 190
-                maxHeight = 128
+                maxWidth = 290
+                maxHeight = 228
                 break;
             default:
                 console.log(`Couldn't find: ${type}.`);;

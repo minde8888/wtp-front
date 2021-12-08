@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 import {
@@ -12,6 +12,11 @@ import Image from "react-bootstrap/Image";
 import "./updateProfile.scss";
 
 const UpdateProfile = (props) => {
+  const [state, setState] = useState({
+    width: 0,
+    height: 0,
+  });
+
   const { register, handleSubmit } = useForm();
 
   const {
@@ -26,24 +31,28 @@ const UpdateProfile = (props) => {
     id,
   } = props.user;
 
-  const { 
-    city, 
-    country, 
-    street,
-     zip 
-    } = props.user.address;
+  const { city, country, street, zip } = props.user.address;
 
-  const { 
-    fileSrc, 
-    message, 
-    ImageFile 
-  } = props;
+  const { fileSrc, message, ImageFile } = props;
 
   useEffect(() => fileSrc);
 
   const onFileChange = async (e) => {
     var file = e.target.files[0];
     props.dispatch(newFile(file));
+
+    const profile = "Profile_image";
+    var imageSize = await getImageSize(file, profile);
+
+    const sizeChanger = () => {
+      setState({
+        ...state,
+        width: imageSize.Width,
+        height: imageSize.Height,
+      });
+    };
+
+    sizeChanger();
   };
 
   const onSubmit = async (managerUpdate) => {
@@ -65,18 +74,15 @@ const UpdateProfile = (props) => {
     };
 
     if (ImageFile) {
-      const profile = "Profile_image";
-      var imageSize = await getImageSize(ImageFile, profile);
       managerUpdate = {
         ...obj,
         ...{ ImageFile },
         ...{ ImageName: ImageFile.name },
-        ...imageSize,
+        ...{ width: state.width, height: state.height },
       };
 
       dispatch(updateprofile(id, managerUpdate)).then((result) => {
-        console.log(result);
-        // window.location.reload();
+        window.location.reload();
       });
     } else {
       var imgName = document.querySelector("#getValue").getAttribute("alt");
@@ -85,7 +91,9 @@ const UpdateProfile = (props) => {
         ...{ ImageName: imgName },
         ...obj,
       };
-      dispatch(updateprofile(id, managerUpdate));
+      dispatch(updateprofile(id, managerUpdate)).then((result) => {
+        window.location.reload();
+      });
     }
   };
 
@@ -97,7 +105,8 @@ const UpdateProfile = (props) => {
             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
               <Image
                 className="rounded-circle mt-5"
-                width="150px"
+                width={state.width !== 0 ? state.width : null}
+                height={state.height !== 0 ? state.height : null}
                 id="getValue"
                 src={
                   typeof fileSrc === "string"
@@ -209,10 +218,9 @@ const UpdateProfile = (props) => {
                 </div>
               )}
               <div className="mt-5 text-center">
-                <input
-                  type="submit"
-                  className="btn btn-primary profile-button"
-                />
+                <button type="submit" className="btn btn-success">
+                  Save
+                </button>
               </div>
             </div>
           </div>

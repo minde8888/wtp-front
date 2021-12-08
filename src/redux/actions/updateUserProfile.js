@@ -4,7 +4,7 @@ import { updateUserConstants } from "../constants/updateUserConstants";
 
 
 export const updateprofile = (Id, obj) => (dispatch) => {
-
+    
     return UserService.updateUserInfo(Id, obj).then(
         async (response) => {
             const oldData = JSON.parse(localStorage.getItem('user'));
