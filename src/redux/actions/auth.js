@@ -69,11 +69,20 @@ export const login = (email, password) => (dispatch) => {
           role: el.role,
           address: el.address
         }
-        const data = {
-          user: user,
-          employees: el.employees.$values,
-          token: el.token
+        var data = {}
+        if (el.role === "Manager") {
+          data = {
+            user: user,
+            employees: el.employees.$values,
+            token: el.token
+          }
+        } else if (el.role === "Employee") {
+          data = {
+            user: user,
+            token: el.token
+          }
         }
+
         localStorage.setItem('user', JSON.stringify(data));
       });
 

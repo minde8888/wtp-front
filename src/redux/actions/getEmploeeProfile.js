@@ -1,7 +1,5 @@
 import UserService from "../services/api/userService";
-
-const EMPLOYEE_DATA = "EMPLOYEE_DATA",
-    EMPLOYEE_DATA_ERROR = "EMPLOYEE_DATA_ERROR"
+import { employeeConstants } from "../constants/employeeConstants";
 
 export const getEmploeeProfile = (id) => (dispatch) => {
     return UserService.getEmployee(id).then(
@@ -9,7 +7,7 @@ export const getEmploeeProfile = (id) => (dispatch) => {
 
             response.data.$values.forEach(el => {
                 dispatch({
-                    type: EMPLOYEE_DATA,
+                    type: employeeConstants.EMPLOYEE_DATA,
                     payload: el,
                     userIsLoadied: true
                 });
@@ -26,7 +24,7 @@ export const getEmploeeProfile = (id) => (dispatch) => {
                 error.message ||
                 error.toString();
             dispatch({
-                type: EMPLOYEE_DATA_ERROR,
+                type: employeeConstants.EMPLOYEE_DATA_ERROR,
                 payload: error.response.data,
                 userIsLoadied: false
             });

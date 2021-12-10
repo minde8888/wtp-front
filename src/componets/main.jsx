@@ -13,6 +13,7 @@ const Profile = lazy(() => import('./user/profile'));
 const AddUser = lazy(() => import('./addUser/addUser'));
 const UpdateProfile = lazy(() => import('./user/updateProfile/updateProfile'));
 const EmployeeProfile = lazy(() => import('./user/employee/employeeProfile'));
+const MultipleDradList =lazy(()=> import('./home/multipleDragList'))
 
 
 const Main = () => {
@@ -26,6 +27,7 @@ const Main = () => {
             <PublicRoute restricted={false} component={Singup} path="/singup" exact />
             <PublicRoute restricted={false} component={ForgotPassword} path="/forgot-password" exact />
             <PrivateRoute component={NavBar} path="/" />
+            <PrivateRoute component={MultipleDradList} path="/" exact />
             <PrivateRoute component={Profile} path="/profile" exact />
             <PrivateRoute component={UpdateProfile} path="/update-profile" exact />
             <PrivateRoute component={AddUser} path="/adduser" exact />
