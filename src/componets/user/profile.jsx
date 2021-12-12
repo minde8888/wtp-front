@@ -7,7 +7,7 @@ const Profile = (props) => {
   const { user, employees } = props;
 
   useEffect(() => user);
-
+  var id = { id: user.id };
   return (
     <div className="container">
       {user.role === "Manager" && (
@@ -34,7 +34,7 @@ const Profile = (props) => {
             <strong>Role:</strong> {user.role}
           </p>
           <div>
-            <Employees {...employees} />
+            <Employees {...employees} {...id} />
           </div>
         </>
       )}

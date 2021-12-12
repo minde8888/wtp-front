@@ -24,7 +24,7 @@ class NavBar extends Component {
     };
 
     history.listen((location) => {
-      props.dispatch(clearMessage()); // clear message when changing location
+      props.dispatch(clearMessage()); 
     });
   }
 

@@ -1,29 +1,45 @@
 import userImage from "../../../image/user.png";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+import { deleteUser } from "../../../redux/actions/deleteUser"
+import { getManagerProfile } from "../../../redux/actions/getManagerProfile";
 
 const Employees = (props) => {
-
+  console.log(props);
   var users = Object.keys(props).map((key) => {
-    return props[key];
+    let employee = props[key].role != null ? props[key] : null;
+    return employee;
   });
+
+  Object.keys(users).forEach((k) => users[k] == null && delete users[k]);
+
+  var handleClick = (id, role) => {
+    props.dispatch(deleteUser(id, role)).then(() => {
+      props.dispatch(getManagerProfile(props.id))
+      .then(() => {
+        window.location.reload();
+      })
+    })
+  }
 
   return (
     <div>
-      {users.map((user, k) => {
+      {users.map((u, k) => {
         return (
           <div key={k}>
-            <NavLink to={"/employee-profile/" + user.id}>
+            <NavLink to={"/employee-profile/" + u.id}>
               <img
-                src={user.imageName === null ? userImage : user.imageSrc}
-                alt={user.imageName}
+                src={u.imageName === null ? userImage : u.imageSrc}
+                alt={u.imageName}
               />
             </NavLink>
             <div>
-              {user.name} {user.surname}
+              {u.name} {u.surname}
             </div>
-            <div>Occupation: {user.occupation}</div>
-            <div>Mobile Number: {user.phoneNumber}</div>
-            <div>Email: {user.email}</div>
+            <div>Occupation: {u.occupation}</div>
+            <div>Mobile Number: {u.phoneNumber}</div>
+            <div>Email: {u.email}</div>
+            <button type="button" className="btn btn-danger" onClick={() => handleClick(u.id, u.role)}>Delete</button>
           </div>
         );
       })}
@@ -31,4 +47,12 @@ const Employees = (props) => {
   );
 };
 
-export default Employees;
+function mapStateToProps(state) {
+  const { isFeleted } = state.deleted;
+  return {
+    isFeleted
+  };
+}
+
+export default connect(mapStateToProps, null)(Employees);
+

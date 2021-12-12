@@ -3,7 +3,6 @@ import { managerConstants } from "../constants/managerConstatnts";
 import { authConstants } from "../constants/authConstants";
 
 export const getManagerProfile = (id) => (dispatch) => {
-
     return UserService.getManager(id).then(
         async (response) => {
             const oldData = JSON.parse(localStorage.getItem('user'));

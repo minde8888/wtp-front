@@ -51,7 +51,6 @@ const UpdateProfile = (props) => {
         height: imageSize.Height,
       });
     };
-
     sizeChanger();
   };
 

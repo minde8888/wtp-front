@@ -27,11 +27,21 @@ class UserService {
           formData.append(`${key}[${subKey}]`, obj[key][subKey]);
         }
       }
-
     }
     console.log(Object.fromEntries(formData))
 
     return Instance.put(USER_URL + obj.role + '/Update/' + Id, formData, { headers: authHeader() });
+  }
+
+  deleted(id, role) {
+    var user = "";
+    if (role === "Manager") {
+      user = "Manager";
+    }
+    if (role === "Employee") {
+      user = "Employee";
+    }
+    return Instance.delete(USER_URL + user + '/Delete/' + id, { headers: authHeader() });
   }
 
 }
