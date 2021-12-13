@@ -5,20 +5,19 @@ import { deleteUser } from "../../../redux/actions/deleteUser"
 import { getManagerProfile } from "../../../redux/actions/getManagerProfile";
 
 const Employees = (props) => {
-  console.log(props);
+
   var users = Object.keys(props).map((key) => {
-    let employee = props[key].role != null ? props[key] : null;
-    return employee;
+    let employee = Number.isInteger(parseInt(key))? props[key]:null
+    return employee;    
   });
 
   Object.keys(users).forEach((k) => users[k] == null && delete users[k]);
-
   var handleClick = (id, role) => {
     props.dispatch(deleteUser(id, role)).then(() => {
-      props.dispatch(getManagerProfile(props.id))
-      .then(() => {
-        window.location.reload();
-      })
+      // props.dispatch(getManagerProfile(props.id))
+      // .then(() => {
+      //   window.location.reload();
+      // })
     })
   }
 
