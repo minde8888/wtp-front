@@ -4,7 +4,7 @@ import { updateUserConstants } from "../constants/updateUserConstants";
 
 
 export const updateprofile = (Id, obj) => (dispatch) => {
-    
+
     return UserService.updateUserInfo(Id, obj).then(
         async (response) => {
             const oldData = JSON.parse(localStorage.getItem('user'));
@@ -23,18 +23,16 @@ export const updateprofile = (Id, obj) => (dispatch) => {
                 role: response.data.role,
                 address: response.data.address
             }
-
             const data = {
                 user: user,
                 employees: oldData.employees,
                 token: oldData.token
             }
-            localStorage.setItem('user', JSON.stringify(data));
-
             dispatch({
                 type: authConstants.LOGIN_SUCCESS,
                 data: data,
             });
+            localStorage.setItem('user', JSON.stringify(data));
             return await Promise.resolve();
         },
         (error) => {

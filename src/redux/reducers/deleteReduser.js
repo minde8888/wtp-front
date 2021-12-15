@@ -1,18 +1,16 @@
 import { deleteConstants } from "../constants/deleteConstants";
 
 const initialState = {
-    isFeleted: false
+    isRemoved: false
 };
 
 export default function manager(state = initialState, action) {
-
-    const { type, isFeleted } = action;
+console.log(state);
+    const { type, payload } = action;
 
     switch (type) {
         case deleteConstants.DELETED_USER:
-            return {
-                deleted: isFeleted,
-            };
+            return { ...state, employees: state.auth.data.employees.filter(i => i.id !== payload )};
         default:
             return state;
     }

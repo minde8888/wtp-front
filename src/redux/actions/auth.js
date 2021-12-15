@@ -69,21 +69,12 @@ export const login = (email, password) => (dispatch) => {
           role: el.role,
           address: el.address
         }
-        var data = {}
-        if (el.role === "Manager") {
-          data = {
-            user: user,
-            employees: el.employees.$values,
-            token: el.token
-          }
-        } else if (el.role === "Employee") {
-          data = {
-            user: user,
-            token: el.token
-          }
-        }
 
-        localStorage.setItem('user', JSON.stringify(data));
+        localStorage.setItem('token', JSON.stringify(el.token));
+        localStorage.setItem('user', JSON.stringify(user));
+        if (el.role === "Manager") {
+          localStorage.setItem('employees', JSON.stringify(el.employees.$values));
+        }    
       });
 
       return await Promise.resolve();
@@ -133,7 +124,7 @@ export const logout = () => (dispatch) => {
 };
 
 export const isLogin = () => {
-  if (localStorage.getItem("user")) {
+  if (localStorage.getItem("token")) {
     return true;
   }
   return false;

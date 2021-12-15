@@ -4,34 +4,34 @@ import userImage from "../../image/user.png";
 import Employees from "./employee/employees";
 
 const Profile = (props) => {
-  const { user, employees } = props;
+  const { data, employees } = props;
 
-  useEffect(() => user);
-  var id = { id: user.id };
+  useEffect(() => data);
+  var id = { id: data.id };
   return (
     <div className="container">
-      {user.role === "Manager" && (
+      {data.role === "Manager" && (
         <>
           <header className="jumbotron">
             <h3>
-              <strong>{user.name}</strong> Profile
+              <strong>{data.name}</strong> Profile
             </h3>
           </header>
           <img
-            src={user.imageName === null ? userImage : user.imageSrc}
-            alt={user.imageName}
+            src={data.imageName === null ? userImage : data.imageSrc}
+            alt={data.imageName}
           />
           <p>
-            <strong>Id:</strong> {user.id}
+            <strong>Id:</strong> {data.id}
           </p>
           <p>
-            <strong>Mobile Numbe:</strong> {user.mobileNumber}
+            <strong>Mobile Numbe:</strong> {data.mobileNumber}
           </p>
           <p>
-            <strong>Email:</strong> {user.email}
+            <strong>Email:</strong> {data.email}
           </p>
           <p>
-            <strong>Role:</strong> {user.role}
+            <strong>Role:</strong> {data.role}
           </p>
           <div>
             <Employees {...employees} {...id} />
@@ -39,28 +39,28 @@ const Profile = (props) => {
         </>
       )}
 
-      {user.role === "Employee" && (
+      {data.role === "Employee" && (
         <>
           <header className="jumbotron">
             <h3>
-              <strong>{user.name}</strong> Profile
+              <strong>{data.name}</strong> Profile
             </h3>
           </header>
           <img
-            src={user.imageName === null ? userImage : user.imageSrc}
-            alt={user.imageName}
+            src={data.imageName === null ? userImage : data.imageSrc}
+            alt={data.imageName}
           />
           <p>
-            <strong>Id:</strong> {user.id}
+            <strong>Id:</strong> {data.id}
           </p>
           <p>
-            <strong>Mobile Numbe:</strong> {user.mobileNumber}
+            <strong>Mobile Numbe:</strong> {data.mobileNumber}
           </p>
           <p>
-            <strong>Email:</strong> {user.email}
+            <strong>Email:</strong> {data.email}
           </p>
           <p>
-            <strong>Role:</strong> {user.role}
+            <strong>Role:</strong> {data.role}
           </p>
         </>
       )}
@@ -69,9 +69,12 @@ const Profile = (props) => {
 };
 
 function mapStateToProps(state) {
-  const { user, employees } = state.auth.data;
+ 
+  const { data } = state.user;
+  const { employees } = state.user;
+
   return {
-    user,
+    data,
     employees,
   };
 }

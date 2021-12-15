@@ -8,7 +8,6 @@ import { connect } from "react-redux";
 class NavBar extends Component {
   constructor(props) {
     super(props);
-
     this.logOut = this.logOut.bind(this);
 
     const search = window.location.search;
@@ -29,14 +28,14 @@ class NavBar extends Component {
   }
 
   componentDidMount() {
-    const user = this.props.user;
-    if (user) {
+    const data = this.props.data;
+    if (data) {
       this.setState({
-        name: user.name,
-        currentUser: user,
-        showManagerBoard: user.role.includes("Manager"),
-        showEmployeeBoard: user.role.includes("Employee"),
-        showAdminBoard: user.role.includes("Admin"),
+        name: data.name,
+        currentUser: data,
+        showManagerBoard: data.role.includes("Manager"),
+        showEmployeeBoard: data.role.includes("Employee"),
+        showAdminBoard: data.role.includes("Admin"),
       });
     }
   }
@@ -139,11 +138,11 @@ class NavBar extends Component {
 }
 
 function mapStateToProps(state) {
-  const { user } = state.auth.data;
+  const { data } = state.user;
   const { isLoggedIn } = state.auth;
 
   return {
-    user,
+    data,
     isLoggedIn,
   };
 }

@@ -29,7 +29,7 @@ const EmployeeProfile = (props) => {
     email,
     imageName,
     imageSrc,
-    isActive,
+    isDeleted,
     name,
     occupation,
     phoneNumber,
@@ -46,7 +46,7 @@ const EmployeeProfile = (props) => {
           <div>Profile</div>
         </h3>
       </header>
-      {isActive ? (
+      {!isDeleted ? (
         <>
           <img
             src={imageName === null ? userImage : imageSrc}

@@ -1,31 +1,25 @@
 import UserService from "../services/api/userService";
 import { messageConstants } from "../constants/messageConstants";
-import { deleteConstants } from "../constants/deleteConstants";
-import { authConstants } from "../constants/authConstants";
+import { userConstants } from "../constants/userConstants";
 
 export const deleteUser = (id, role) => (dispatch) => {
     return UserService.deleted(id, role).then(
         async () => {
-
             dispatch({
-                type: deleteConstants.DELETED_USER,
-                isFeleted: true
+                type: userConstants.DELETED_EMPLOYEE,
+                payload:id
             })
-            var data = JSON.parse(localStorage.getItem('user'));
-            const employees = data.employees.filter(item => item.id !== id);
+            var data = JSON.parse(localStorage.getItem('employees'));
+            const employees = data.filter(item => item.id !== id);
 
             var emp = {
                 employees: employees
             }
-            delete data.employees
-            data = { ...data, ...emp }
+            delete emp.employees
+            data = { ...emp }
 
-            dispatch({
-                type: authConstants.LOGIN_SUCCESS,
-                data: data,
-            });
             localStorage.setItem('user', JSON.stringify(data));
-            
+
             return await Promise.resolve();
         },
         (error) => {

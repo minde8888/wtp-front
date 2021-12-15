@@ -1,12 +1,11 @@
-import { isEmpty } from "../../hjelpers/isEmpty";
 import { authConstants } from "../constants/authConstants";
 
-const data = JSON.parse(localStorage.getItem('user'));
+const token = JSON.parse(localStorage.getItem('token'));
 
 var initialState =
-    isEmpty(data) ?
-        { isLoggedIn: true, data } :
-        { isLoggedIn: false, data: null };
+    token ?
+        { isLoggedIn: true, token } :
+        { isLoggedIn: false, token: null };
 
 
 export default function auth(state = initialState, action) {
@@ -27,9 +26,7 @@ export default function auth(state = initialState, action) {
         case authConstants.LOGIN_SUCCESS:
             return {
                 ...state,
-                user: data.user,
-                employees: data.employees,
-                token: data.token,
+                token: data.user,
                 isLoggedIn: true
             };
         case authConstants.LOGIN_FAIL:

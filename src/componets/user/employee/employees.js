@@ -2,25 +2,20 @@ import userImage from "../../../image/user.png";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { deleteUser } from "../../../redux/actions/deleteUser"
-import { getManagerProfile } from "../../../redux/actions/getManagerProfile";
 
 const Employees = (props) => {
 
   var users = Object.keys(props).map((key) => {
-    let employee = Number.isInteger(parseInt(key))? props[key]:null
-    return employee;    
+    let employee = Number.isInteger(parseInt(key)) ? props[key] : null
+    return employee;
   });
-
+  console.log(props);
   Object.keys(users).forEach((k) => users[k] == null && delete users[k]);
   var handleClick = (id, role) => {
-    props.dispatch(deleteUser(id, role)).then(() => {
-      // props.dispatch(getManagerProfile(props.id))
-      // .then(() => {
-      //   window.location.reload();
-      // })
-    })
+    props.dispatch(deleteUser(id, role))
   }
 
+   
   return (
     <div>
       {users.map((u, k) => {
@@ -47,9 +42,11 @@ const Employees = (props) => {
 };
 
 function mapStateToProps(state) {
-  const { isFeleted } = state.deleted;
+
+  const { employees } = state.user;
+
   return {
-    isFeleted
+    employees
   };
 }
 
