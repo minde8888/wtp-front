@@ -33,16 +33,6 @@ class UserService {
     return Instance.put(USER_URL + obj.role + '/Update/' + Id, formData, { headers: authHeader() });
   }
 
-  // upload(obj) {
-  //   let formData = new FormData();
-
-  //   for (var key in obj) {
-  //     formData.append(key, obj[key])
-  //   }
-  //   // console.log(Object.fromEntries(formData))
-  //   return Instance.post("api/employee", formData, { headers: authHeader() });
-  // }
-
   deleted(id, role) {
     var user = "";
     if (role === "Manager") {

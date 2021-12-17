@@ -123,11 +123,10 @@ class AddUserContainer extends Component {
             .then(() => {
               dispatch(getManagerProfile(this.props.id))
                 .then(() => {
-                  window.location.reload();
+                  this.setState({
+                    successful: true,
+                  });
                 })
-              this.setState({
-                successful: true,
-              });
             })
             .catch(() => {
               this.setState({
@@ -177,7 +176,7 @@ class AddUserContainer extends Component {
 
 function mapStateToProps(state) {
   const { message } = state.message;
-  const { id } = state.auth.data.user;
+  const { id } = state.user.data;
   return {
     message,
     id

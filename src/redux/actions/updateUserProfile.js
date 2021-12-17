@@ -1,14 +1,11 @@
 import UserService from "../services/api/userService";
-import { authConstants } from "../constants/authConstants";
-import { updateUserConstants } from "../constants/updateUserConstants";
+import { userConstants } from "../constants/userConstants";
 
 
 export const updateprofile = (Id, obj) => (dispatch) => {
 
     return UserService.updateUserInfo(Id, obj).then(
-        async (response) => {
-            const oldData = JSON.parse(localStorage.getItem('user'));
-            localStorage.removeItem('user');
+        async (response) => {           
 
             const user = {
                 id: response.data.id,
@@ -23,16 +20,13 @@ export const updateprofile = (Id, obj) => (dispatch) => {
                 role: response.data.role,
                 address: response.data.address
             }
-            const data = {
-                user: user,
-                employees: oldData.employees,
-                token: oldData.token
-            }
+
             dispatch({
-                type: authConstants.LOGIN_SUCCESS,
-                data: data,
+                type: userConstants.UPDATE_USER,
+                data: user,
             });
-            localStorage.setItem('user', JSON.stringify(data));
+
+            localStorage.setItem('user', JSON.stringify(user));
             return await Promise.resolve();
         },
         (error) => {
@@ -44,7 +38,7 @@ export const updateprofile = (Id, obj) => (dispatch) => {
                 error.message ||
                 error.toString();
             dispatch({
-                type: updateUserConstants.USER_DATA_ERROR,
+                type: userConstants.UPDATE_USER_ERROR,
                 payload: message,
             });
             console.log(message);
@@ -53,7 +47,9 @@ export const updateprofile = (Id, obj) => (dispatch) => {
     );
 }
 
-export const newFile = (ImageFile) => ({
-    type: updateUserConstants.GET_FILE,
-    payload: ImageFile
+export const newFile = (ImageFile, width, height) => ({
+    type: userConstants.GET_FILE,
+    payload: ImageFile,
+    width:width,
+    height:height
 })

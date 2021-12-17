@@ -7,18 +7,11 @@ export const deleteUser = (id, role) => (dispatch) => {
         async () => {
             dispatch({
                 type: userConstants.DELETED_EMPLOYEE,
-                payload:id
-            })
+                payload: id
+            })            
             var data = JSON.parse(localStorage.getItem('employees'));
             const employees = data.filter(item => item.id !== id);
-
-            var emp = {
-                employees: employees
-            }
-            delete emp.employees
-            data = { ...emp }
-
-            localStorage.setItem('user', JSON.stringify(data));
+            localStorage.setItem('employees', JSON.stringify(employees));
 
             return await Promise.resolve();
         },

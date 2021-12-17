@@ -4,18 +4,16 @@ import { connect } from "react-redux";
 import { deleteUser } from "../../../redux/actions/deleteUser"
 
 const Employees = (props) => {
-
   var users = Object.keys(props).map((key) => {
     let employee = Number.isInteger(parseInt(key)) ? props[key] : null
     return employee;
   });
-  console.log(props);
+
   Object.keys(users).forEach((k) => users[k] == null && delete users[k]);
   var handleClick = (id, role) => {
     props.dispatch(deleteUser(id, role))
   }
 
-   
   return (
     <div>
       {users.map((u, k) => {

@@ -13,7 +13,7 @@ const EmployeeProfile = (props) => {
 
   useEffect(() => dispatch(getEmploeeProfile(id)), [id, dispatch]);
 
-  if (!isEmpty(props.data)) {
+  if (!isEmpty(props.profile)) {
     return (
       <div>
         <strong>{props.message}</strong>
@@ -34,7 +34,7 @@ const EmployeeProfile = (props) => {
     occupation,
     phoneNumber,
     surname,
-  } = props.data;
+  } = props.profile;
 
   return (
     <div className="container">
@@ -80,10 +80,9 @@ const EmployeeProfile = (props) => {
 let profileContainerWithRaout = withRouter(EmployeeProfile);
 
 function mapStateToProps(state) {
-  const { data, message, userIsLoadied } = state.employee;
+  const { profile, userIsLoadied } = state.employee;
   return {
-    message,
-    data,
+    profile,
     userIsLoadied,
   };
 }

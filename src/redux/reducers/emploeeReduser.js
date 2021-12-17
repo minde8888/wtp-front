@@ -8,18 +8,18 @@ const initialState = {
 
 export default function employee(state = initialState, action) {
 
-    const { type, payload, userIsLoadied } = action;
+    const { type, payload } = action;
 
     switch (type) {
-        case employeeConstants.EMPLOYEE_DATA:
+        case employeeConstants.EMPLOYEE_PROFILE:
             return {
-                data: payload,
-                userIsLoadied: userIsLoadied
+                profile: payload,
+                userIsLoadied: true
             };
-        case employeeConstants.EMPLOYEE_DATA_ERROR:
+        case employeeConstants.EMPLOYEE_PROFILE_ERROR:
             return {
                 message: payload,
-                userIsLoadied: userIsLoadied
+                userIsLoadied: false
             };
         default:
             return state;

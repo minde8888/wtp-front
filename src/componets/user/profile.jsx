@@ -2,12 +2,14 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import userImage from "../../image/user.png";
 import Employees from "./employee/employees";
+import Image from "react-bootstrap/Image";
 
 const Profile = (props) => {
-  const { data, employees } = props;
+  const { data, employees, width, height } = props;
 
-  useEffect(() => data);
+  useEffect(() => employees);
   var id = { id: data.id };
+  console.log(data.imageSrc);
   return (
     <div className="container">
       {data.role === "Manager" && (
@@ -17,7 +19,9 @@ const Profile = (props) => {
               <strong>{data.name}</strong> Profile
             </h3>
           </header>
-          <img
+          <Image
+            width={width !== 0 ? width : null}
+            height={height !== 0 ? height : null}
             src={data.imageName === null ? userImage : data.imageSrc}
             alt={data.imageName}
           />
@@ -46,7 +50,9 @@ const Profile = (props) => {
               <strong>{data.name}</strong> Profile
             </h3>
           </header>
-          <img
+          <Image
+            width={width !== 0 ? width : null}
+            height={height !== 0 ? height : null}
             src={data.imageName === null ? userImage : data.imageSrc}
             alt={data.imageName}
           />
@@ -69,13 +75,15 @@ const Profile = (props) => {
 };
 
 function mapStateToProps(state) {
- 
+  // console.log(state);
   const { data } = state.user;
-  const { employees } = state.user;
+  const { employees, width, height } = state.user;
 
   return {
     data,
     employees,
+    width,
+    height,
   };
 }
 

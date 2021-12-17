@@ -10,10 +10,10 @@ import Preloader from "./preloader/preloader";
 const Login = lazy(() => import('./auth/login/login'));
 const NavBar = lazy(() => import('./nav/nav'));
 const Profile = lazy(() => import('./user/profile'));
-// const AddUser = lazy(() => import('./addUser/addUser'));
-// const UpdateProfile = lazy(() => import('./user/updateProfile/updateProfile'));
-// const EmployeeProfile = lazy(() => import('./user/employee/employeeProfile'));
-// const MultipleDradList =lazy(()=> import('./home/multipleDragList'))
+const AddUser = lazy(() => import('./addUser/addUser'));
+const UpdateProfile = lazy(() => import('./user/updateProfile/updateProfile'));
+const EmployeeProfile = lazy(() => import('./user/employee/employeeProfile'));
+const MultipleDradList =lazy(()=> import('./home/multipleDragList'))
 
 
 const Main = () => {
@@ -28,10 +28,10 @@ const Main = () => {
             <PublicRoute restricted={false} component={ForgotPassword} path="/forgot-password" exact />
             <PrivateRoute component={NavBar} path="/" />
             <PrivateRoute component={Profile} path="/profile" exact />
-            {/* <PrivateRoute component={MultipleDradList} path="/" exact />           
+             <PrivateRoute component={MultipleDradList} path="/" exact />           
             <PrivateRoute component={UpdateProfile} path="/update-profile" exact />
             <PrivateRoute component={AddUser} path="/adduser" exact />
-            <PrivateRoute component={EmployeeProfile} path="/employee-profile/:userId?" /> */}
+            <PrivateRoute component={EmployeeProfile} path="/employee-profile/:userId?" /> 
           </Suspense>
         </Switch>
       </div>
