@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import MultipleDragList from "../../hjelpers/multipleDragList";
+
 
 
 const DeleteProject = (props) => {
