@@ -1,5 +1,4 @@
 import UserService from "../services/api/userService";
-import { managerConstants } from "../constants/managerConstatnts";
 import { userConstants } from "../constants/userConstants";
 
 export const getManagerProfile = (id) => (dispatch) => {
@@ -24,7 +23,7 @@ export const getManagerProfile = (id) => (dispatch) => {
                 error.message ||
                 error.toString();
             dispatch({
-                type: managerConstants.MANAGER_DATA_ERROR,
+                type: userConstants.MANAGER_DATA_ERROR,
                 payload: error.response.data,
                 userIsLoadied: false
             });

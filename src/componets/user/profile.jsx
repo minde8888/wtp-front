@@ -9,7 +9,7 @@ const Profile = (props) => {
 
   useEffect(() => employees);
   var id = { id: data.id };
-  console.log(data.imageSrc);
+
   return (
     <div className="container">
       {data.role === "Manager" && (
@@ -75,15 +75,14 @@ const Profile = (props) => {
 };
 
 function mapStateToProps(state) {
-  // console.log(state);
-  const { data } = state.user;
-  const { employees, width, height } = state.user;
+  
+  const {data, employees, width, height } = state.user;
 
   return {
     data,
     employees,
     width,
-    height,
+    height
   };
 }
 

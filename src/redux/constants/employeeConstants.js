@@ -1,4 +1,6 @@
 export const employeeConstants = {
+
     EMPLOYEE_PROFILE:"EMPLOYEE_PROFILE",
     EMPLOYEE_PROFILE_ERROR: "EMPLOYEE_PROFILE_ERROR"
+    
 };

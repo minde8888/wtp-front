@@ -31,6 +31,7 @@ const UpdateProfile = (props) => {
 
   const onFileChange = async (e) => {
     var file = e.target.files[0];
+    console.log(URL.createObjectURL(file));
     const profile = "Profile_image";
     var imageSize = await getImageSize(file, profile);
 
@@ -210,12 +211,11 @@ const UpdateProfile = (props) => {
 
 function mapStateToProps(state) {
 
-  const { imageFile, message, userIsLoadied, fileSrc, data, width, height } = state.user;
+  const { imageFile, message, userIsLoadied, data, width, height } = state.user;
 
   return {
     width,
     height,
-    fileSrc,
     imageFile,
     message,
     userIsLoadied,
