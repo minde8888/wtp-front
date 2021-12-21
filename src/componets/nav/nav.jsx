@@ -40,22 +40,6 @@ class NavBar extends Component {
     }
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { user } = this.state;
-  //   console.log(prevProps);
-  //   console.log(11111);
-  //   console.log(prevState);
-  //   if (user) {
-  //     if (prevProps !== user && !prevState.showManagerBoard) {
-  //       this.setState({
-  //         showManagerBoard: user.role.includes("Manager"),
-  //         showEmployeeBoard: user.role.includes("Employee"),
-  //         showAdminBoard: user.role.includes("Admin"),
-  //       });
-  //     }
-  //   }
-  // }
-
   logOut() {
     this.props.dispatch(logout());
   }

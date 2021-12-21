@@ -1,24 +1,23 @@
 import { connect } from "react-redux";
 
-
-
 const DeleteProject = (props) => {
-
-
-  return (    
+  return (
     <div>
-        DeleteProject
+      <button
+        type="button"
+        className="btn btn-danger"
+        // onClick={() => handleClick()}
+      >
+        Delete
+      </button>
     </div>
   );
 };
 
 function mapStateToProps(state) {
-  
-  const { } = state.user;
+  const {} = state.user;
 
-  return {
-
-  };
+  return {};
 }
 
 export default connect(mapStateToProps)(DeleteProject);

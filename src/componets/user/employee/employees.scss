@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
+.card {
+    color: #44476a;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: -3px -3px 7px #ffffff, 3px 3px 5px #ceced1;
+    margin-top: 15px;
+}
+
+.line {
+    color: #44476a;
+}
+
+.buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    cursor: pointer;    
+    margin-bottom: 10px;
+}
