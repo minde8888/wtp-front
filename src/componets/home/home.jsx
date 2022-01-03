@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import MultipleDragList from "../../hjelpers/multipleDragList";
+import MultipleDragList from "../../helpers/multipleDragList";
 
 
 const Home = (props) => {

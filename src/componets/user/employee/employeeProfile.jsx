@@ -2,8 +2,8 @@ import Preloader from "../../preloader/preloader";
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
-import { getEmploeeProfile } from "../../../redux/actions/getEmploeeProfile";
-import { isEmpty } from "../../../hjelpers/isEmpty";
+import {getEmployeeProfile  } from "../../../redux/actions/getEmployeeProfile";
+import { isEmpty } from "../../../helpers/isEmpty";
 import userImage from "../../../image/user.png";
 
 const EmployeeProfile = (props) => {
@@ -11,7 +11,7 @@ const EmployeeProfile = (props) => {
   const [id] = useState(props.match.params.userId);
   const { dispatch } = props;
 
-  useEffect(() => dispatch(getEmploeeProfile(id)), [id, dispatch]);
+  useEffect(() => dispatch(getEmployeeProfile(id)), [id, dispatch]);
 
   if (!isEmpty(props.profile)) {
     return (

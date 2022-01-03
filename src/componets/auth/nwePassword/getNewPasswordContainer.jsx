@@ -3,8 +3,8 @@ import { Formik, Form } from "formik";
 import { TextField } from "../validation/textField";
 import * as Yup from "yup";
 import { connect } from "react-redux";
-import { getNewPassword } from "../../../redux/actions/newPasword";
-import { history } from "../../../hjelpers/history";
+import { getNewPassword } from "../../../redux/actions/newPassword";
+import { history } from "../../../helpers/helpers";
 
 class GetNewPasswordContainer extends Component {
   constructor(props) {

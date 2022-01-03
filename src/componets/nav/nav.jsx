@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { logout } from "../../redux/actions/auth";
 import { clearMessage } from "../../redux/actions/message";
-import { history } from "../../hjelpers/history";
+import { history } from "../../helpers/helpers";
 import { connect } from "react-redux";
 
 class NavBar extends Component {

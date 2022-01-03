@@ -4,14 +4,13 @@ import {
   newFile,
   updateprofile,
 } from "../../../redux/actions/updateUserProfile";
-import { getImageSize } from "../../../hjelpers/getImageSize";
+import { getImageSize } from "../../../helpers/getImageSize";
 import "./updateProfile";
 import userImage from "../../../image/user.png";
 import Image from "react-bootstrap/Image";
 import "./updateProfile.scss";
 
 const UpdateProfile = (props) => {
-
   const { register, handleSubmit } = useForm();
 
   const {
@@ -60,11 +59,11 @@ const UpdateProfile = (props) => {
       managerUpdate = {
         ...obj,
         ...{ imageFile },
-        ...{ ImageName:imageFile.name },
+        ...{ ImageName: imageFile.name },
         ...{ width: width, height: height },
       };
 
-      dispatch(updateprofile(id, managerUpdate))
+      dispatch(updateprofile(id, managerUpdate));
     } else {
       var imgName = document.querySelector("#getValue").getAttribute("alt");
 
@@ -72,7 +71,7 @@ const UpdateProfile = (props) => {
         ...{ ImageName: imgName },
         ...obj,
       };
-      dispatch(updateprofile(id, managerUpdate))
+      dispatch(updateprofile(id, managerUpdate));
     }
   };
 
@@ -210,15 +209,14 @@ const UpdateProfile = (props) => {
 };
 
 function mapStateToProps(state) {
-
-  const { imageFile, message, userIsLoadied, data, width, height } = state.user;
+  const { imageFile, message, userIsLoaded, data, width, height } = state.user;
 
   return {
     width,
     height,
     imageFile,
     message,
-    userIsLoadied,
+    userIsLoaded: userIsLoaded,
     data,
   };
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import GetNewPasswordContainer from "./getNewPasswordContainer";
-import { history } from "../../../hjelpers/history";
+import { history } from "../../../helpers/helpers";
 
 class GetNewPassword extends Component {
     constructor(props) {

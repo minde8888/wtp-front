@@ -1,6 +1,6 @@
-import  SignupContainer  from '../singup/singupContainer';
+import  SignupContainer  from './singupContainer';
 
-const Singup = () => {
+const Signup = () => {
     return (
         <div className="container mt-3">
           <div className="row">
@@ -15,4 +15,4 @@ const Singup = () => {
       );
 };
 
-export default Singup;
+export default Signup;

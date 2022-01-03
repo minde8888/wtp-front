@@ -1,7 +1,7 @@
 import UserService from "../services/api/userService";
 import { employeeConstants } from "../constants/employeeConstants";
 
-export const getEmploeeProfile = (id) => (dispatch) => {
+export const getEmployeeProfile = (id) => (dispatch) => {
     return UserService.getEmployee(id).then(
         async (response) => {
 

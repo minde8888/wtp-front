@@ -28,6 +28,8 @@ const AddProject = (props) => {
     <div>
       <input type="text" ref={postTitle} onChange={onTitleChange} />
       <input type="text" ref={postText} onChange={onContentChange} />
+      <input type="text" ref={postTitle} onChange={onTitleChange} />
+      <input type="text" ref={postText} onChange={onContentChange} />
       <button
         type="button"
         className="btn btn-danger"

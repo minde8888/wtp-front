@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Switch } from "react-router-dom";
 import GetNewPassword from "./auth/nwePassword/getNewPassword";
-import Singup from "./auth/singup/singup";
+import Signup from "./auth/signup/signup";
 import PrivateRoute from "../route/privateRoute ";
 import PublicRoute from "../route/publicRoute";
 import ForgotPassword from "./auth/nwePassword/forgotPassword";
@@ -25,7 +25,7 @@ const Main = () => {
         <Switch>
           <Suspense fallback={<Preloader />}>
             <PublicRoute restricted={false} component={Login} path="/login" exact />
-            <PublicRoute restricted={false} component={Singup} path="/singup" exact />
+            <PublicRoute restricted={false} component={Signup} path="/singup" exact />
             <PublicRoute restricted={false} component={ForgotPassword} path="/forgot-password" exact />
             <PrivateRoute component={NavBar} path="/" />
             <PrivateRoute component={Profile} path="/profile" exact />
