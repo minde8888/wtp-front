@@ -1,8 +1,8 @@
 import UserService from "../services/api/userService";
 import { userConstants } from "../constants/userConstants";
 
-export const getManagerProfile = (id) => (dispatch) => {
-    return UserService.getManager(id).then(
+export const getAllProjects = () => (dispatch) => {
+    return UserService.getManager().then(
         async (data) => {
             data.data.$values.forEach(el => {
                   dispatch({

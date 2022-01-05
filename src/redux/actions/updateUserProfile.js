@@ -14,7 +14,7 @@ export const updateprofile = (Id, obj) => (dispatch) => {
                 email: response.data.email,
                 imageName: response.data.imageName,
                 imageSrc: response.data.imageSrc,
-                isActine: response.data.isActive,
+                isActive: response.data.isActive,
                 mobileNumber: response.data.phoneNumber,
                 occupation: response.data.occupation,
                 role: response.data.role,
