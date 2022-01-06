@@ -2,7 +2,7 @@ import { userConstants } from "../constants/userConstants";
 
 const initialState = {
     message: "",
-    userIsLoadied: false,
+    userIsLoaded: false,
     employees: JSON.parse(localStorage.getItem('employees')),
     data: JSON.parse(localStorage.getItem('user'))
 };
@@ -15,12 +15,12 @@ export default function user(state = initialState, action) {
         case userConstants.MANAGER_DATA:
             return {
                 data: payload,
-                userIsLoadied: true
+                userIsLoaded: true
             };
         case userConstants.MANAGER_DATA_ERROR:
             return {
                 message: payload,
-                userIsLoadied: false
+                userIsLoaded: false
             };
         case userConstants.USER_DATA_ERROR:
             return {

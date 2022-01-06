@@ -1,14 +1,14 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import AddProject from "./addProject";
 import DeleteProject from "./deleteProject";
 import uuid from "uuid";
 import { useState, useEffect, useRef } from "react";
+import ProjectTable from "./projectTable";
 
 const Project = (props) => {
   const [itemsList, setItemsList] = useState([]);
-  const ref = useRef(null);
+
 
   useEffect(() => {
     getButtonList();
@@ -44,96 +44,6 @@ const Project = (props) => {
 
     setItemsList(data);
   };
-  const EditItemModus = ({ item }) => {
-    const itemClick = (event) => {
-      const id = event.target.attributes[1].value;
-
-      setItemsList((e) =>
-        e.map((item) => ({
-          ...item,
-          isSelected: item.id === id,
-        }))
-      );
-    };
-
-    const onChange = (e) => {
-      console.log(e.target.value);
-    };
-
-    const onLeave = () => {
-      setItemsList((e) =>
-        e.map((item) => ({
-          ...item,
-          isSelected: false,
-        }))
-      );
-    };
-
-    return (
-      <tr onMouseLeave={onLeave}>
-        <td>
-          <NavLink className="detail-icon" to="#"></NavLink>
-        </td>
-        <td className="bs-checkbox">
-          <label>
-            <input
-              data-index="0"
-              name="btSelectItem"
-              type="checkbox"
-              value="0"
-            />
-          </label>
-        </td>
-        <td
-          ref={ref}
-          className={item.isSelected ? "d-none" : ""}
-          onDoubleClick={itemClick}
-          value={item.id}
-        >
-          {item.project}
-        </td>
-        <td onChange={onChange} className={item.isSelected ? "" : "d-none"}>
-          <input type="text" value={1} />
-        </td>
-
-        <td
-          ref={ref}
-          className={item.isSelected ? "d-none" : ""}
-          onDoubleClick={itemClick}
-          value={item.id}
-        >
-          {item.name}
-        </td>
-        <td onChange={onChange} className={item.isSelected ? "" : "d-none"}>
-          <input type="text" value={2} />
-        </td>
-
-        <td
-          ref={ref}
-          className={item.isSelected ? "d-none" : ""}
-          onDoubleClick={itemClick}
-          value={item.id}
-        >
-          {item.address}
-        </td>
-        <td onChange={onChange} className={item.isSelected ? "" : "d-none"}>
-          <input type="text" value={3} />
-        </td>
-
-        <td
-          ref={ref}
-          className={item.isSelected ? "d-none" : ""}
-          onDoubleClick={itemClick}
-          value={item.id}
-        >
-          {item.status}
-        </td>
-        <td onChange={onChange} className={item.isSelected ? "" : "d-none"}>
-          <input type="text" value={4} />
-        </td>
-      </tr>
-    );
-  };
 
   return (
     <div>
@@ -162,7 +72,7 @@ const Project = (props) => {
           </thead>
           <tbody>
             {itemsList.map((item) => (
-              <EditItemModus key={item.id} item={item} />
+              <ProjectTable item={item} />
             ))}
           </tbody>
         </table>

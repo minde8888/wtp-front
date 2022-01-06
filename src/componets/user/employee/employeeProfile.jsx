@@ -21,7 +21,7 @@ const EmployeeProfile = (props) => {
     );
   }
 
-  if (!props.userIsLoadied) {
+  if (!props.userIsLoaded) {
     return <Preloader />;
   }
 
@@ -80,10 +80,10 @@ const EmployeeProfile = (props) => {
 let profileContainerWithRaout = withRouter(EmployeeProfile);
 
 function mapStateToProps(state) {
-  const { profile, userIsLoadied } = state.employee;
+  const { profile, userIsLoaded } = state.employee;
   return {
     profile,
-    userIsLoadied,
+    userIsLoaded,
   };
 }
 

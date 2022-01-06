@@ -25,7 +25,7 @@ export const getManagerProfile = (id) => (dispatch) => {
             dispatch({
                 type: userConstants.MANAGER_DATA_ERROR,
                 payload: error.response.data,
-                userIsLoadied: false
+                userIsLoaded: false
             });
             console.log(message);
             return Promise.reject();
