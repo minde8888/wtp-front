@@ -38,7 +38,7 @@ export default function user(state = initialState, action) {
             return {
                 ...state, employees: state.employees.filter(i => i.id !== payload)
             };
-        case userConstants.MANAGER_EMPLOYEE_UPDTE:
+        case userConstants.MANAGER_EMPLOYEE_UPDATE:
             return {
                 ...state, employees: { ...payload }
             };

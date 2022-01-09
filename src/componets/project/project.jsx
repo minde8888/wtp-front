@@ -2,49 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import AddProject from "./addProject";
 import DeleteProject from "./deleteProject";
-import uuid from "uuid";
-import { useState, useEffect, useRef } from "react";
-import ProjectTable from "./projectTable";
+import EditItemModus from "./editItemModus";
 
 const Project = (props) => {
-  const [itemsList, setItemsList] = useState([]);
-
-
-  useEffect(() => {
-    getButtonList();
-  }, []);
-
-  const getButtonList = () => {
-    let data = [
-      {
-        id: uuid.v4(),
-        project: 35987,
-        name: "Mark",
-        place: "Oslo",
-        status: "in progress",
-        isSelected: false,
-      },
-      {
-        id: uuid.v4(),
-        project: 25987,
-        name: "Knack",
-        place: "Vilnius",
-        status: "in progress",
-        isSelected: false,
-      },
-      {
-        id: uuid.v4(),
-        project: 3,
-        name: "Shark",
-        place: "Moscow",
-        status: "finished",
-        isSelected: false,
-      },
-    ];
-
-    setItemsList(data);
-  };
-
   return (
     <div>
       <DeleteProject />
@@ -59,7 +19,11 @@ const Project = (props) => {
               <th className="bs-checkbox " data-field="state">
                 <div className="th-inner ">
                   <label>
-                    <input name="btSelectAll" type="checkbox" />
+                    <input
+                      className="tb-input"
+                      name="btSelectAll"
+                      type="checkbox"
+                    />
                   </label>
                 </div>
                 <div className="fht-cell"></div>
@@ -71,9 +35,7 @@ const Project = (props) => {
             </tr>
           </thead>
           <tbody>
-            {itemsList.map((item) => (
-              <ProjectTable item={item} />
-            ))}
+            <EditItemModus props={props.data} />
           </tbody>
         </table>
       </div>
@@ -83,9 +45,9 @@ const Project = (props) => {
 };
 
 function mapStateToProps(state) {
-  const {} = state.user;
+  const { data } = state.project;
 
-  return {};
+  return { data };
 }
 
 export default connect(mapStateToProps)(Project);

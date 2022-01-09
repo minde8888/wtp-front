@@ -13,7 +13,7 @@ const  ProjectTable = (props) => {
 
   useEffect(() => {
     console.log(111);
-    props.dispatch(getAllProjects())
+
     // window.addEventListener('click', handleOutsideClick);
     // return () => window.removeEventListener('click', handleOutsideClick);
   });

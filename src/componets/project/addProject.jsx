@@ -1,35 +1,75 @@
-import React, { createRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
+import { addNewProject } from "../../redux/actions/projectData";
 
 const AddProject = (props) => {
-  const [allValues, setVallue] = useState({
+  const [allValues, setValue] = useState({
+    number: null,
     title: "",
-    content: "",
+    place: "",
+    status: "",
   });
 
-  let postTitle = createRef();
-  let onTitleChange = () => {
-    let title = postTitle.current.value;
-    setVallue({...allValues, title});
+  let numberRef = useRef();
+  let titleRef = useRef();
+  let placeRef = useRef();
+  let statusRef = useRef();
+
+  const onChangeNumber = () => {
+    let number = numberRef.current.value;
+    setValue({ ...allValues, number });
   };
 
-  let postText = createRef();
-  let onContentChange = () => {
-    let content = postText.current.value;
-    setVallue({...allValues, content});
+  const onChangeTitle = () => {
+    let title = titleRef.current.value;
+    setValue({ ...allValues, title });
   };
 
-  var handleClick = () => {
-    console.log(allValues);
-    // props.dispatch(addNewProject(title))
+  const onChangePlace = () => {
+    let place = placeRef.current.value;
+    setValue({ ...allValues, place });
+  };
+
+  const onChangeStatus = () => {
+    let status = statusRef.current.value;
+    setValue({ ...allValues, status });
+  };
+
+  const handleClick = () => {
+    props.dispatch(addNewProject(allValues));
+    numberRef.current.value = null;
+    titleRef.current.value = "";
+    placeRef.current.value = "";
+    statusRef.current.value = "";
   };
 
   return (
     <div>
-      <input type="text" ref={postTitle} onChange={onTitleChange} />
-      <input type="text" ref={postText} onChange={onContentChange} />
-      <input type="text" ref={postTitle} onChange={onTitleChange} />
-      <input type="text" ref={postText} onChange={onContentChange} />
+      <input
+        type="number"
+        pattern="^-?[0-9]\d*\.?\d*$"
+        ref={numberRef}
+        placeholder="Project nr"
+        onChange={onChangeNumber}
+      />
+      <input
+        type="text"
+        ref={titleRef}
+        placeholder="Project Name"
+        onChange={onChangeTitle}
+      />
+      <input
+        type="text"
+        ref={placeRef}
+        placeholder="Address"
+        onChange={onChangePlace}
+      />
+      <input
+        type="text"
+        ref={statusRef}
+        placeholder="Status"
+        onChange={onChangeStatus}
+      />
       <button
         type="button"
         className="btn btn-danger"

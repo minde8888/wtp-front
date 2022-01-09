@@ -1,37 +1,68 @@
 import ProjectService from "../services/api/projectService";
-// import { userConstants } from "../constants/userConstants";
+import { projectConstants } from "../constants/projectConstants";
+import { messageConstants } from "../constants/messageConstants";
 
 export const getAllProjects = () => (dispatch) => {
-    console.log(333);
     return ProjectService.allProjects().then(
         async (data) => {
-            console.log(2222);
-            console.log(data);
-            // data.data.$values.forEach(el => {
-            //       dispatch({
-            //         type: userConstants.MANAGER_EMPLOYEE_UPDATE,
-            //         payload: el.employees.$values,
-            //     });
-            //     localStorage.setItem('employees', JSON.stringify(el.employees.$values));
-            // });
+            dispatch({
+                type: projectConstants.PROJECT_DATA,
+                payload: data.data.$values,
+            });
+            localStorage.setItem('projects', JSON.stringify(data.data.$values));
+            return await Promise.resolve();
+        },
+        (error) => {
+
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            dispatch({
+                type: messageConstants.ERROR,
+                payload: error.response.data,
+            });
+            console.log(message);
+            return Promise.reject();
+        }
+    );
+}
+
+export const addNewProject = (obj) => (dispatch) => {
+
+    return ProjectService.addProject(obj).then(
+
+        async () => {
+            dispatch({
+                type: messageConstants.SET_MESSAGE,
+                payload: "The project was successfully created."
+            });
 
             return await Promise.resolve();
         },
         (error) => {
 
-            // const message =
-            //     (error.response &&
-            //         error.response.data &&
-            //         error.response.data.message) ||
-            //     error.message ||
-            //     error.toString();
-            // dispatch({
-            //     type: userConstants.MANAGER_DATA_ERROR,
-            //     payload: error.response.data,
-            //     userIsLoaded: false
-            // });
-            // console.log(message);
-            // return Promise.reject();
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            dispatch({
+                type: messageConstants.ERROR,
+                payload: error.response.data,
+            });
+            console.log(message);
+            return Promise.reject();
         }
     );
 }
+
+export const edit = (id) =>({
+    type:projectConstants.EDIT_MODUS,
+    isSelected : id
+
+})
+

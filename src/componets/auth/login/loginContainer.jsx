@@ -104,8 +104,8 @@ class LoginContainer extends Component {
                   <Link className="text-info" to="/forgot-password">
                     Forgot your password?
                   </Link>
-                  <Link className="text-info col-md-2" to="/singup">
-                    Singup
+                  <Link className="text-info col-md-2" to="/signup">
+                    Signup
                   </Link>
                 </div>
               </div>

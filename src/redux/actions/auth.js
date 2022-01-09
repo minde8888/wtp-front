@@ -63,7 +63,7 @@ export const login = (email, password) => (dispatch) => {
           email: el.email,
           imageName: el.imageName,
           imageSrc: el.imageSrc,
-          isActine: el.isActive,
+          isActive: el.isActive,
           mobileNumber: el.phoneNumber,
           occupation: el.occupation,
           role: el.role,

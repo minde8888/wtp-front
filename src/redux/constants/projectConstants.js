@@ -1,0 +1,9 @@
+export const projectConstants = {
+
+    PROJECT_DATA: "PROJECT_DATA",
+    PROJECT_UPDATE:"PROJECT_UPDATE",
+    PROJECT_DATA_ERROR: "PROJECT_DATA_ERROR",
+
+    EDIT_MODUS :"EDIT_MODUS"
+    
+};
