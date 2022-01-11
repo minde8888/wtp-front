@@ -1,8 +1,28 @@
 .bs-checkbox {
-    text-align: center;
+    text-align    : center;
     vertical-align: middle;
-    width: 36px;
-} 
-.fht-cell{
-    width: 37px;
+    width         : 36px;
+
+}
+
+tbody {
+    tr {
+        .table-checkbox {
+            cursor: pointer;
+            width : 36px;
+        }
+
+        .check-box {
+            background-color: rgba(101, 117, 117, 0.253);
+        }
+
+        td {
+            align-items: center;
+
+        }
+    }
+
+    td:hover {
+        background: #e3e6e9;
+    }
 }

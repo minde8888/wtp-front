@@ -3,11 +3,12 @@ import { projectConstants } from "../constants/projectConstants";
 import { messageConstants } from "../constants/messageConstants";
 
 export const getAllProjects = () => (dispatch) => {
+
     return ProjectService.allProjects().then(
         async (data) => {
             dispatch({
                 type: projectConstants.PROJECT_DATA,
-                payload: data.data.$values,
+                data: data.data.$values,
             });
             localStorage.setItem('projects', JSON.stringify(data.data.$values));
             return await Promise.resolve();

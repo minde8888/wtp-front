@@ -1,0 +1,92 @@
+$ruler       : 16px;
+$color-red   : #AE1100;
+$color-green : #447925;
+$color-bg    : #eaebf1;
+$color-shadow: #a1a4af;
+$color-white : rgb(255, 255, 255);
+
+button,
+.input-box {
+    border          : 0;
+    outline         : 0;
+    font-size       : $ruler;
+    border-radius   : $ruler*20;
+    padding         : $ruler;
+    background-color: $color-bg;
+    text-shadow     : 1px 1px 0 $color-white;
+}
+
+.input-box {
+    box-shadow        : inset 2px 2px 5px $color-shadow, inset -5px -5px 10px $color-white;
+    width             : 100%;
+    box-sizing        : border-box;
+    transition        : all 0.2s ease-in-out;
+    appearance        : none;
+    -webkit-appearance: none;
+    cursor            : pointer;
+
+    &:hover {
+        box-shadow: inset 1px 1px 2px $color-shadow, inset -1px -1px 2px $color-white;
+    }
+}
+
+button {
+    color      : #61677C;
+    font-weight: bold;
+    box-shadow : -5px -5px 20px $color-white, 5px 5px 20px $color-shadow;
+    transition : all 0.2s ease-in-out;
+    cursor     : pointer;
+    font-weight: 600;
+
+    &:hover {
+        box-shadow: -2px -2px 5px $color-white, 2px 2px 5px $color-shadow;
+    }
+
+    &:active {
+        box-shadow: inset 1px 1px 2px $color-shadow, inset -1px -1px 2px $color-white;
+    }
+
+    .icon {
+        margin-right: $ruler/2;
+    }
+
+    &.unit {
+        border-radius  : $ruler/2;
+        line-height    : 0;
+        width          : $ruler*3;
+        height         : $ruler*3;
+        display        : inline-flex;
+        justify-content: center;
+        align-items    : center;
+        margin         : 0 $ruler/2;
+        font-size      : $ruler*1.2;
+
+        .icon {
+            margin-right: 0;
+        }
+    }
+}
+
+.tb-actions {
+    margin: 0;
+
+    .td-input {
+        margin: 25px 0 25px 0;
+    }
+
+    .row {
+        .d-button {
+            margin: 25px 60px 25px 50px;
+
+            .dl {
+                width: 100px;
+                color: $color-red;
+            }
+        }
+
+        .add {
+            width: 80px;
+            color: $color-green;
+        }
+    }
+}

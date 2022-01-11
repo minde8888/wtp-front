@@ -2,17 +2,19 @@ import { projectConstants } from "../constants/projectConstants";
 
 const initialState = {
     data: JSON.parse(localStorage.getItem('projects')),
-    userIsLoaded: false
+    userIsLoaded: false,
+    isSelected:""
 };
 
 export default function project(state = initialState, action) {
 
-    const { type, payload, isSelected } = action;
+    const { type, data, isSelected } = action;
+
     switch (type) {
         case projectConstants.PROJECT_DATA:
             return {
-                data: payload,
-                userIsLoaded: true
+                data: data,
+                projectIsLoaded: true,
             };
         case projectConstants.EDIT_MODUS:
             return {
