@@ -57,12 +57,19 @@ const AddProject = (props) => {
     else setErrors({ ...errors, [e.target.name]: false });
   };
 
+  const removeProjects = (e) => {
+    
+    console.log(props.removeProjects);
+    // array.filter((value, index, self) => self.indexOf(value) !== index))]
+    // console.log(uniq);
+  };
+
   return (
     <div className=" tb-actions">
       <div className="row ">
         <div className="col-2 row justify-content-start">
           <div className="d-button  col">
-            <button className=" dl" type="button">
+            <button className=" dl" type="button" onClick={removeProjects}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -138,9 +145,10 @@ const AddProject = (props) => {
 };
 
 function mapStateToProps(state) {
-  const {} = state.user;
 
-  return {};
+  const {removeProjects} = state.project;
+
+  return {removeProjects};
 }
 
 export default connect(mapStateToProps)(AddProject);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { edit } from "../../redux/actions/projectData";
+import { edit, projectToDelete } from "../../redux/actions/projectData";
 import { NavLink } from "react-router-dom";
 
 import uuid from "uuid";
@@ -12,11 +12,11 @@ class EditItemModus extends Component {
     this.state = {
       action: false,
       isChecked: null,
+      newId: [],
+      idToDelete: [],
     };
 
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
-
-    console.log(this);
   }
 
   handleOutsideClick = (event) => {
@@ -52,8 +52,14 @@ class EditItemModus extends Component {
   };
 
   handleOnChange = (e) => {
-   console.log(this.state.isChecked);
-    console.log(e);
+    const { checked, value } = e.target;
+
+    if (checked) {
+      this.state.newId.push(value);
+    } else {
+      this.state.newId.splice(value, 1);
+    }
+    this.props.dispatch(projectToDelete(this.state.newId))
   };
 
   render = () => {
@@ -66,11 +72,9 @@ class EditItemModus extends Component {
             <td className="bs-checkbox">
               <label>
                 <input
-                  className=" "
                   value={item.projectId}
                   name="btSelectItem"
                   type="checkbox"
-                  checked={this.state.isChecked}
                   onChange={this.handleOnChange}
                 />
               </label>

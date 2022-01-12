@@ -67,3 +67,7 @@ export const edit = (id) =>({
 
 })
 
+export const projectToDelete = (id) =>({
+    type:projectConstants.DELETE_PROJECT,
+    removeProjects : id
+})
