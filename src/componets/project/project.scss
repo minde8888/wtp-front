@@ -1,8 +1,16 @@
 .bs-checkbox {
     text-align    : center;
     vertical-align: middle;
-    width         : 36px;
+    width         : 60px;
+    cursor        : pointer;
 
+    img {
+        width: 22px;
+    }
+}
+
+.bs-checkbox:hover {
+    background: #e3e6e9;
 }
 
 tbody {
@@ -14,11 +22,11 @@ tbody {
 
         .check-box {
             background-color: rgba(101, 117, 117, 0.253);
+            height          : 30px;
         }
 
         td {
             align-items: center;
-
         }
     }
 

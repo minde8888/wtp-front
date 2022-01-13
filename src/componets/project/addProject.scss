@@ -14,10 +14,11 @@ button,
     padding         : $ruler;
     background-color: $color-bg;
     text-shadow     : 1px 1px 0 $color-white;
+    height          : 40px;
 }
 
 .input-box {
-    box-shadow        : inset 2px 2px 5px $color-shadow, inset -5px -5px 10px $color-white;
+    box-shadow        : inset 2px 2px 10px $color-shadow, inset -5px -5px 10px $color-white;
     width             : 100%;
     box-sizing        : border-box;
     transition        : all 0.2s ease-in-out;
@@ -75,18 +76,21 @@ button {
     }
 
     .row {
+        justify-content: flex-end;
+
         .d-button {
             margin: 25px 60px 25px 50px;
-
-            .dl {
-                width: 100px;
-                color: $color-red;
-            }
         }
 
         .add {
             width: 80px;
-            color: $color-green;
+            position: relative;
+            img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
         }
     }
 }
