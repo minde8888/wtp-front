@@ -40,7 +40,10 @@ export const addNewProject = (obj) => (dispatch) => {
                 type: messageConstants.SET_MESSAGE,
                 payload: "The project was successfully created."
             });
-
+            dispatch({
+                type: projectConstants.ADD_PROJECT,
+                payload: true
+            })
             return await Promise.resolve();
         },
         (error) => {
@@ -61,13 +64,44 @@ export const addNewProject = (obj) => (dispatch) => {
     );
 }
 
-export const edit = (id) =>({
-    type:projectConstants.EDIT_MODUS,
-    isSelected : id
+export const edit = (id) => ({
+    type: projectConstants.EDIT_MODUS,
+    isSelected: id
 
 })
 
-export const projectToDelete = (id) =>({
-    type:projectConstants.DELETE_PROJECT,
-    removeProjects : id
+export const projectId = (id) => ({
+    type: projectConstants.DELETE_PROJECT,
+    payload: id
 })
+
+export const projectToDelete = (id) => (dispatch) => {
+
+    return ProjectService.removeProject(id).then(
+        async () => {
+            dispatch({
+                type: projectConstants.DELETE_PROJECT,
+                payload: id
+            })
+            // var data = JSON.parse(localStorage.getItem('employees'));
+            // const employees = data.filter(item => item.id !== id);
+            // localStorage.setItem('employees', JSON.stringify(employees));
+
+            return await Promise.resolve();
+        },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            dispatch({
+                type: messageConstants.SET_MESSAGE,
+                payload: error.response.data,
+            });
+            console.log(message);
+            return Promise.reject();
+        }
+    )
+}

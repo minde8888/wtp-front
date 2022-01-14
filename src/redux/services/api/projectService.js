@@ -20,6 +20,10 @@ class ProjectService {
 
     return Instance.post(USER_URL, formData, { headers: authHeader() });
   }
+
+  removeProject(obj) {
+    return Instance.post(USER_URL + '/Delete', obj, { headers: authHeader() });
+  }
 }
 
 

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import AddProject from "./addProject";
 import EditItemModus from "./editItemModus";
 import { connect } from "react-redux";
-import { getAllProjects } from "../../redux/actions/projectData";
+import { getAllProjects, projectToDelete } from "../../redux/actions/projectData";
 import TablePreloader from "../preloader/tablePreloader";
 import trash from "../../svg/trash.svg";
 import "./project.scss";
@@ -12,10 +12,8 @@ class Project extends Component {
     this.props.dispatch(getAllProjects());
   }
 
-  removeProjects = (e) => {
-    
-    console.log(this.props.removeProjects);
-
+  removeProjects = () => {
+    this.props.dispatch(projectToDelete(this.props.removeProjects));
   };
 
   render = () => {

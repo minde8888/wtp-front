@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { edit, projectToDelete } from "../../redux/actions/projectData";
+import { edit, projectId } from "../../redux/actions/projectData";
 import { NavLink } from "react-router-dom";
 
 import uuid from "uuid";
@@ -59,7 +59,7 @@ class EditItemModus extends Component {
     } else {
       this.state.newId.splice(value, 1);
     }
-    this.props.dispatch(projectToDelete(this.state.newId))
+    this.props.dispatch(projectId(this.state.newId))
   };
 
   render = () => {

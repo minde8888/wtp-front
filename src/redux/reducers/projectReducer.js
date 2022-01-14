@@ -8,7 +8,7 @@ const initialState = {
 
 export default function project(state = initialState, action) {
 
-    const { type, data, isSelected, removeProjects } = action;
+    const { type, data, isSelected, payload } = action;
 
     switch (type) {
         case projectConstants.PROJECT_DATA:
@@ -20,9 +20,18 @@ export default function project(state = initialState, action) {
             return {
                 ...state, isSelected
             };
-        case projectConstants.DELETE_PROJECT:
+        case projectConstants.PROJECT_ID:
             return {
-                ...state, removeProjects
+                ...state, id:payload
+            }
+        case projectConstants.DELETE_PROJECT:
+            // state.project.filter(i => i.id !== payload)
+            return {
+                ...state, removeProjects: payload
+            }
+        case projectConstants.ADD_PROJECT:
+            return {
+                ...state, isLoaded: payload
             }
         default:
             return state;

@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect} from "react";
 import { addNewProject } from "../../redux/actions/projectData";
 import { connect } from "react-redux";
-import { setMessage } from "../../redux/actions/message";
+import { setMessage, clearMessage } from "../../redux/actions/message";
 import plus from "../../svg/plus.svg";
 import "./addProject.scss";
 
@@ -25,7 +25,9 @@ const AddProject = (props) => {
   let placeRef = useRef();
   let statusRef = useRef();
 
-  const onChangeNumber = (e) => {
+  const { isLoaded } = props;
+
+  const onChangeNumber = () => {
     let number = numberRef.current.value;
     setValue({ ...allValues, number });
   };
@@ -46,26 +48,24 @@ const AddProject = (props) => {
   };
 
   const handleClick = () => {
-    // if ( allValues.number === null) {
-    //   props.dispatch(setMessage("Project number can not by empty !"))
-    // }
-    allValues.number === null
-      ? props.dispatch(setMessage("Project number can not by empty !"))
-      : allValues.title === ""
-      ? props.dispatch(setMessage("Title can not by empty !"))
-      : allValues.place === ""
-      ? props.dispatch(setMessage("Place nr can not by empty !"))
-      : allValues.status === ""
-      ? props.dispatch(setMessage("Status nr can not by empty !"))
-      : props.dispatch(addNewProject(allValues));
+    props.dispatch(clearMessage());
+    if (allValues.number === null)
+      return props.dispatch(setMessage("Project number can not by empty !"));
+    if (allValues.title === "")
+      return props.dispatch(setMessage("Project name can not by empty !"));
+    if (allValues.place === "")
+      return props.dispatch(setMessage("Project place can not by empty !"));
+    if (allValues.status === "")
+      return props.dispatch(setMessage("Project status can not by empty !"));
 
-    // console.log(errors);
-    // console.log(a);
-    // props.dispatch(addNewProject(allValues));
-    // numberRef.current.value = null;
-    // titleRef.current.value = "";
-    // placeRef.current.value = "";
-    // statusRef.current.value = "";
+    props.dispatch(addNewProject(allValues));
+
+    if (isLoaded) {
+      numberRef.current.value = null;
+      titleRef.current.value = "";
+      placeRef.current.value = "";
+      statusRef.current.value = "";
+    }
   };
 
   const validateInputs = (e) => {
@@ -74,8 +74,16 @@ const AddProject = (props) => {
     else setErrors({ ...errors, [e.target.name]: false });
   };
 
-  const {message} = props.message;
-console.log(message);
+  const { message } = props.message;
+
+  const handleClickOutside = () =>{
+    if (message) {
+      props.dispatch(clearMessage());
+    }
+    document.removeEventListener('mousedown', handleClickOutside)
+  }
+  useEffect(()=>{ document.addEventListener('mousedown', handleClickOutside); })
+  
   return (
     <div className=" tb-actions">
       <div className="row ">
@@ -134,7 +142,10 @@ console.log(message);
       </div>
       {message && (
         <div className="form-group">
-          <div className="alert alert-danger" role="alert">
+          <div
+            className={isLoaded ? "alert alert-success" : "alert alert-danger"}
+            role="alert"
+          >
             {message}
           </div>
         </div>
@@ -146,8 +157,9 @@ console.log(message);
 function mapStateToProps(state) {
 
   const { message } = state;
+  const { isLoaded } = state.project;
 
-  return { message };
+  return { message, isLoaded };
 }
 
 export default connect(mapStateToProps)(AddProject);

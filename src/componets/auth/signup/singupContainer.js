@@ -33,6 +33,7 @@ class SignupContainer extends Component {
     if (message) {
       dispatch(clearMessage());
     }
+    document.removeEventListener('mousedown', this.handleClickOutside)
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -62,7 +63,7 @@ class SignupContainer extends Component {
         .email('Email is invalid')
         .required('Email is required'),
       password: Yup.string()
-        .min(6, 'Password must be at least 6 charaters')
+        .min(6, 'Password must be at least 6 charters')
         .required('Password is required').matches(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%&])(?=.{8,})/,
           "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
