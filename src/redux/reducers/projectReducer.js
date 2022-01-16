@@ -22,16 +22,19 @@ export default function project(state = initialState, action) {
             };
         case projectConstants.PROJECT_ID:
             return {
-                ...state, id:payload
+                ...state, id: payload
             }
         case projectConstants.DELETE_PROJECT:
-            // state.project.filter(i => i.id !== payload)
             return {
                 ...state, removeProjects: payload
             }
         case projectConstants.ADD_PROJECT:
             return {
                 ...state, isLoaded: payload
+            }
+        case projectConstants.UPDATE_PROJECT_TABLE:
+            return {
+                ...state, updateProject: payload
             }
         default:
             return state;

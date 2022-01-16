@@ -3,7 +3,7 @@ import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import {getEmployeeProfile  } from "../../../redux/actions/getEmployeeProfile";
-import { isEmpty } from "../../../helpers/isEmpty";
+import EmptyObject from "../../../helpers/isEmpty";
 import userImage from "../../../image/user.png";
 
 const EmployeeProfile = (props) => {
@@ -13,7 +13,7 @@ const EmployeeProfile = (props) => {
 
   useEffect(() => dispatch(getEmployeeProfile(id)), [id, dispatch]);
 
-  if (!isEmpty(props.profile)) {
+  if (!EmptyObject.isEmpty(props.profile)) {
     return (
       <div>
         <strong>{props.message}</strong>

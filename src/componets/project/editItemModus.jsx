@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { edit, projectId } from "../../redux/actions/projectData";
+import {
+  edit,
+  projectIdToDelete,
+  updateProject,
+} from "../../redux/actions/projectData";
 import { NavLink } from "react-router-dom";
-
+import EmptyObject from "../../helpers/isEmpty";
 import uuid from "uuid";
 
 class EditItemModus extends Component {
@@ -14,26 +18,48 @@ class EditItemModus extends Component {
       isChecked: null,
       newId: [],
       idToDelete: [],
+      number: "",
+      title: "",
+      place: "",
+      status: "",
+      projectId: "",
     };
 
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
-  handleOutsideClick = (event) => {
-    const id = event.target.attributes[1].value;
+  handleOutsideClick = (e) => {
+    const id = e.target.attributes[1].value;
     this.props.dispatch(edit(id));
-
     this.setState({
       action: true,
     });
   };
 
-  componentDidUpdate() {
-    if (this.state.action) {
+  componentDidUpdate(prevState, prevProps) {
+    if (this.state.action && prevProps.action !== true) {
       const listener = (e) => {
         if (e.target.className === "tb-input") {
           return;
         } else {
+          var { number, title, place, status, id } = this.state;
+          var obj = {
+            number: number,
+            title: title,
+            place: place,
+            status: status,
+          };
+          var isEmpty = EmptyObject.emptyValues(obj);  
+          if (!isEmpty) {
+            Object.keys(obj).forEach(key => {
+              if (obj[key] === '') {
+                delete obj[key];
+              }
+            });
+            obj = { ...obj, projectId: id };
+            console.log(obj);
+            this.props.dispatch(updateProject(obj));
+          }
           this.props.dispatch(edit(""));
           this.setState({
             action: false,
@@ -48,23 +74,34 @@ class EditItemModus extends Component {
   }
 
   onChange = (e) => {
-    // console.log(e.target.value);
+    e.preventDefault();
+    var item = e.target.name;
+    var id = e.target.id;
+    if (item === "number") {
+      this.setState({
+        [item]: parseInt(e.target.value),
+        id: id,
+      });
+    } else {
+      this.setState({
+        [item]: e.target.value,
+        id: id,
+      });
+    }
   };
 
   handleOnChange = (e) => {
     const { checked, value } = e.target;
-
     if (checked) {
       this.state.newId.push(value);
     } else {
       this.state.newId.splice(value, 1);
     }
-    this.props.dispatch(projectId(this.state.newId))
+    this.props.dispatch(projectIdToDelete(this.state.newId));
   };
 
   render = () => {
     const { data, isSelected } = this.props;
-
     return (
       <>
         {data.map((item, k) => (
@@ -98,72 +135,109 @@ class EditItemModus extends Component {
               {item.number}
             </td>
             <td
-              onChange={(e) => {
-                if (e.target.value !== item.number) {
-                  console.log(e.target.value);
-                }
-              }}
               className={`tb ${isSelected === item.projectId ? "" : "d-none"}`}
             >
               <input
+                id={item.projectId}
+                autoFocus="autoFocus"
                 className="tb-input"
                 type="number"
+                name="number"
                 pattern="^-?[0-9]\d*\.?\d*$"
                 placeholder={item.number}
+                value={this.state.number}
+                onChange={(e) => {
+                  if (e.target.value !== item.number) {
+                    this.onChange(e);
+                  }
+                }}
               />
             </td>
             <td
-              className={`tb ${isSelected === item.projectId ? "d-none" : ""}`}
+              className={`tb ${
+                isSelected === item.projectId + 1 ? "d-none" : ""
+              }`}
               onDoubleClick={this.handleOutsideClick}
-              value={item.projectId}
+              value={item.projectId + 1}
             >
               {item.title}
             </td>
             <td
-              onChange={this.onChange}
-              className={`tb ${isSelected === item.projectId ? "" : "d-none"}`}
+              className={`tb ${
+                isSelected === item.projectId + 1 ? "" : "d-none"
+              }`}
             >
               <input
+                id={item.projectId}
+                autoFocus="autoFocus"
                 className="tb-input"
                 type="text"
+                name="title"
                 placeholder={item.title}
+                value={this.state.title}
+                onChange={(e) => {
+                  if (e.target.value !== item.title) {
+                    this.onChange(e);
+                  }
+                }}
               />
             </td>
             <td
-              key={uuid.v4()}
-              className={`tb ${isSelected === item.projectId ? "d-none" : ""}`}
+              className={`tb ${
+                isSelected === item.projectId + 2 ? "d-none" : ""
+              }`}
               onDoubleClick={this.handleOutsideClick}
-              value={item.projectId}
+              value={item.projectId + 2}
             >
               {item.place}
             </td>
             <td
-              key={uuid.v4()}
-              onChange={this.onChange}
-              className={`tb ${isSelected === item.projectId ? "" : "d-none"}`}
+              className={`tb ${
+                isSelected === item.projectId + 2 ? "" : "d-none"
+              }`}
             >
               <input
+                id={item.projectId}
+                autoFocus="autoFocus"
                 className="tb-input"
                 type="text"
+                name="place"
                 placeholder={item.place}
+                value={this.state.place}
+                onChange={(e) => {
+                  if (e.target.value !== item.place) {
+                    this.onChange(e);
+                  }
+                }}
               />
             </td>
             <td
-              key={uuid.v4()}
-              className={`tb ${isSelected === item.projectId ? "d-none" : ""}`}
+              className={`tb ${
+                isSelected === item.projectId + 3 ? "d-none" : ""
+              }`}
               onDoubleClick={this.handleOutsideClick}
-              value={item.projectId}
+              value={item.projectId + 3}
             >
               {item.status}
             </td>
             <td
-              onChange={this.onChange}
-              className={`tb ${isSelected === item.projectId ? "" : "d-none"}`}
+              className={`tb ${
+                isSelected === item.projectId + 3 ? "" : "d-none"
+              }`}
             >
               <input
+                id={item.projectId}
+                autoFocus="autoFocus"
                 className="tb-input"
                 type="text"
+                name="status"
                 placeholder={item.status}
+                value={this.state.status}
+                onChange={(e) => {
+                  if (e.target.value !== item.status) {
+                    this.onChange(e);
+                  }
+                }}
               />
             </td>
           </tr>

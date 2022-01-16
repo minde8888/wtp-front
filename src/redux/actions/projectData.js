@@ -64,13 +64,45 @@ export const addNewProject = (obj) => (dispatch) => {
     );
 }
 
+export const updateProject = (obj) => (dispatch) => {
+
+    return ProjectService.updateProjectTable(obj).then(
+
+        async (data) => {
+            dispatch({
+                type: messageConstants.SET_MESSAGE,
+                payload: "The project was successfully updated."
+            });
+            dispatch({
+                type: projectConstants.UPDATE_PROJECT_TABLE,
+                payload:  data.data.$values
+            });
+            return await Promise.resolve();
+        },
+        (error) => {
+
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            dispatch({
+                type: messageConstants.ERROR,
+                payload: error.response.data,
+            });
+            console.log(message);
+            return Promise.reject();
+        }
+    );
+}
+
 export const edit = (id) => ({
     type: projectConstants.EDIT_MODUS,
     isSelected: id
-
 })
 
-export const projectId = (id) => ({
+export const projectIdToDelete = (id) => ({
     type: projectConstants.DELETE_PROJECT,
     payload: id
 })
