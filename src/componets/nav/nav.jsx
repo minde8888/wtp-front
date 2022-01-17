@@ -23,7 +23,7 @@ class NavBar extends Component {
     };
 
     history.listen((location) => {
-      props.dispatch(clearMessage()); 
+      props.dispatch(clearMessage());
     });
   }
 
@@ -36,6 +36,14 @@ class NavBar extends Component {
         showManagerBoard: data.role.includes("Manager"),
         showEmployeeBoard: data.role.includes("Employee"),
         showAdminBoard: data.role.includes("Admin"),
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.data !== this.props.data) {
+      this.setState({
+        name: this.props.data.name,
       });
     }
   }
@@ -122,6 +130,7 @@ class NavBar extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log(state);
   const { data } = state.user;
   const { isLoggedIn } = state.auth;
 

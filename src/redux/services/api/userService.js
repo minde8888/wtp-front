@@ -28,7 +28,7 @@ class UserService {
         }
       }
     }
-    console.log(Object.fromEntries(formData))
+    // console.log(Object.fromEntries(formData))
 
     return Instance.put(USER_URL + obj.role + '/Update/' + Id, formData, { headers: authHeader() });
   }

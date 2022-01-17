@@ -26,10 +26,10 @@ const Profile = (props) => {
             alt={data.imageName}
           />
           <p>
-            <strong>Id:</strong> {data.id}
+            <strong>Name:</strong> {data.name}
           </p>
           <p>
-            <strong>Mobile Numbe:</strong> {data.mobileNumber}
+            <strong>Mobile Number:</strong> {data.mobileNumber}
           </p>
           <p>
             <strong>Email:</strong> {data.email}
@@ -60,7 +60,7 @@ const Profile = (props) => {
             <strong>Id:</strong> {data.id}
           </p>
           <p>
-            <strong>Mobile Numbe:</strong> {data.mobileNumber}
+            <strong>Mobile Number:</strong> {data.mobileNumber}
           </p>
           <p>
             <strong>Email:</strong> {data.email}

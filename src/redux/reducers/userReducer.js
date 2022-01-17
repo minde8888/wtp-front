@@ -8,8 +8,9 @@ const initialState = {
 };
 
 export default function user(state = initialState, action) {
+  
 
-    const { type, payload, width, height } = action;
+    const { type, payload, width, height, data } = action;
 
     switch (type) {
         case userConstants.MANAGER_DATA:
@@ -42,6 +43,10 @@ export default function user(state = initialState, action) {
             return {
                 ...state, employees: { ...payload }
             };
+        case userConstants.UPDATE_USER:
+            return{
+                ...state.user, data
+            }
         default:
             return state;
     }

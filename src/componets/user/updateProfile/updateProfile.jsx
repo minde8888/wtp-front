@@ -1,8 +1,9 @@
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 import {
   newFile,
-  updateprofile,
+  updateProfile,
 } from "../../../redux/actions/updateUserProfile";
 import { getImageSize } from "../../../helpers/getImageSize";
 import "./updateProfile";
@@ -25,15 +26,15 @@ const UpdateProfile = (props) => {
     id,
   } = props.data;
 
+  useEffect(() => props.data, [props.data]);
+
   const { city, country, street, zip } = props.data.address;
   const { fileSrc, message, imageFile, width, height } = props;
 
   const onFileChange = async (e) => {
     var file = e.target.files[0];
-    console.log(URL.createObjectURL(file));
     const profile = "Profile_image";
     var imageSize = await getImageSize(file, profile);
-
     props.dispatch(newFile(file, imageSize.Width, imageSize.Height));
   };
 
@@ -63,15 +64,14 @@ const UpdateProfile = (props) => {
         ...{ width: width, height: height },
       };
 
-      dispatch(updateprofile(id, managerUpdate));
+      dispatch(updateProfile(id, managerUpdate));
     } else {
       var imgName = document.querySelector("#getValue").getAttribute("alt");
-
       managerUpdate = {
         ...{ ImageName: imgName },
         ...obj,
       };
-      dispatch(updateprofile(id, managerUpdate));
+      dispatch(updateProfile(id, managerUpdate));
     }
   };
 

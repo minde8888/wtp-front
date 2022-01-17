@@ -2,7 +2,7 @@ import UserService from "../services/api/userService";
 import { userConstants } from "../constants/userConstants";
 
 
-export const updateprofile = (Id, obj) => (dispatch) => {
+export const updateProfile = (Id, obj) => (dispatch) => {
 
     return UserService.updateUserInfo(Id, obj).then(
         async (response) => {           
@@ -18,7 +18,8 @@ export const updateprofile = (Id, obj) => (dispatch) => {
                 mobileNumber: response.data.phoneNumber,
                 occupation: response.data.occupation,
                 role: response.data.role,
-                address: response.data.address
+                address: response.data.address,
+                employees:response.$values
             }
 
             dispatch({
