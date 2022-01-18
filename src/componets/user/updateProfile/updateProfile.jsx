@@ -6,6 +6,7 @@ import {
   updateProfile,
 } from "../../../redux/actions/updateUserProfile";
 import { getImageSize } from "../../../helpers/getImageSize";
+import { clearMessage, setMessage } from "../../../redux/actions/message";
 import "./updateProfile";
 import userImage from "../../../image/user.png";
 import Image from "react-bootstrap/Image";
@@ -29,7 +30,8 @@ const UpdateProfile = (props) => {
   useEffect(() => props.data, [props.data]);
 
   const { city, country, street, zip } = props.data.address;
-  const { fileSrc, message, imageFile, width, height } = props;
+  const { fileSrc, imageFile, width, height, userIsLoaded } = props;
+  const { message } = props.message;
 
   const onFileChange = async (e) => {
     var file = e.target.files[0];
@@ -65,6 +67,7 @@ const UpdateProfile = (props) => {
       };
 
       dispatch(updateProfile(id, managerUpdate));
+      dispatch(setMessage("Profile updated successfully !"));
     } else {
       var imgName = document.querySelector("#getValue").getAttribute("alt");
       managerUpdate = {
@@ -72,7 +75,9 @@ const UpdateProfile = (props) => {
         ...obj,
       };
       dispatch(updateProfile(id, managerUpdate));
+      dispatch(setMessage("Profile updated successfully !"));
     }
+    setTimeout(() => dispatch(clearMessage()), 1000);
   };
 
   return (
@@ -190,14 +195,19 @@ const UpdateProfile = (props) => {
               </div>
               {message && (
                 <div className="form-group">
-                  <div className="alert alert-danger" role="alert">
+                  <div
+                    className={
+                      userIsLoaded ? "alert alert-success" : "alert alert-danger"
+                    }
+                    role="alert"
+                  >
                     {message}
                   </div>
                 </div>
               )}
               <div className="mt-5 text-center">
                 <button type="submit" className="btn btn-success">
-                  Save
+                  Update
                 </button>
               </div>
             </div>
@@ -209,14 +219,14 @@ const UpdateProfile = (props) => {
 };
 
 function mapStateToProps(state) {
-  const { imageFile, message, userIsLoaded, data, width, height } = state.user;
-
+  const { imageFile, userIsLoaded, data, width, height} = state.user;
+  const { message } = state;
   return {
     width,
     height,
     imageFile,
     message,
-    userIsLoaded: userIsLoaded,
+    userIsLoaded,
     data,
   };
 }

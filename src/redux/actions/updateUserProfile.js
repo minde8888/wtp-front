@@ -5,7 +5,7 @@ import { userConstants } from "../constants/userConstants";
 export const updateProfile = (Id, obj) => (dispatch) => {
 
     return UserService.updateUserInfo(Id, obj).then(
-        async (response) => {           
+        async (response) => {
 
             const user = {
                 id: response.data.id,
@@ -19,7 +19,6 @@ export const updateProfile = (Id, obj) => (dispatch) => {
                 occupation: response.data.occupation,
                 role: response.data.role,
                 address: response.data.address,
-                employees:response.$values
             }
 
             dispatch({
@@ -51,6 +50,6 @@ export const updateProfile = (Id, obj) => (dispatch) => {
 export const newFile = (ImageFile, width, height) => ({
     type: userConstants.GET_FILE,
     payload: ImageFile,
-    width:width,
-    height:height
+    width: width,
+    height: height
 })

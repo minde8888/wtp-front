@@ -1,11 +1,12 @@
 import React, { useRef, useState, useEffect} from "react";
-import { addNewProject } from "../../redux/actions/projectData";
+import { addNewProject, getAllProjects } from "../../redux/actions/projectData";
 import { connect } from "react-redux";
 import { setMessage, clearMessage } from "../../redux/actions/message";
 import plus from "../../svg/plus.svg";
 import "./addProject.scss";
 
 const AddProject = (props) => {
+
   const [allValues, setValue] = useState({
     number: null,
     title: "",
@@ -60,12 +61,11 @@ const AddProject = (props) => {
 
     props.dispatch(addNewProject(allValues));
 
-    if (isLoaded) {
-      numberRef.current.value = null;
-      titleRef.current.value = "";
-      placeRef.current.value = "";
-      statusRef.current.value = "";
-    }
+    numberRef.current.value = null;
+    titleRef.current.value = "";
+    placeRef.current.value = "";
+    statusRef.current.value = "";
+    props.dispatch(getAllProjects());
   };
 
   const validateInputs = (e) => {
@@ -75,15 +75,18 @@ const AddProject = (props) => {
   };
 
   const { message } = props.message;
-
-  const handleClickOutside = () =>{
-    if (message) {
-      props.dispatch(clearMessage());
-    }
-    document.removeEventListener('mousedown', handleClickOutside)
+  if (isLoaded) {
+    setTimeout(() => props.dispatch(clearMessage()), 1000);
   }
-  useEffect(()=>{ document.addEventListener('mousedown', handleClickOutside); })
   
+  // const handleClickOutside = () =>{
+  //   if (message) {
+  //     props.dispatch(clearMessage());
+  //   }
+  //   document.removeEventListener('mousedown', handleClickOutside)
+  // }
+  // useEffect(()=>{ document.addEventListener('mousedown', handleClickOutside); })
+  console.log(isLoaded);
   return (
     <div className=" tb-actions">
       <div className="row ">

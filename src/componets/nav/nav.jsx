@@ -130,7 +130,7 @@ class NavBar extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
+
   const { data } = state.user;
   const { isLoggedIn } = state.auth;
 

@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export default function user(state = initialState, action) {
-  
+
 
     const { type, payload, width, height, data } = action;
 
@@ -28,7 +28,7 @@ export default function user(state = initialState, action) {
                 message: payload,
             };
         case userConstants.GET_FILE:
-            state.data.imageSrc =  URL.createObjectURL(payload);
+            state.data.imageSrc = URL.createObjectURL(payload);
             return {
                 ...state,
                 imageFile: payload,
@@ -44,8 +44,10 @@ export default function user(state = initialState, action) {
                 ...state, employees: { ...payload }
             };
         case userConstants.UPDATE_USER:
-            return{
-                ...state.user, data
+            state.data = data  
+            return {
+                ...state,
+                userIsLoaded:true
             }
         default:
             return state;
