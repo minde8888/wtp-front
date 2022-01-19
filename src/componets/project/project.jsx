@@ -16,6 +16,10 @@ class Project extends Component {
     this.props.dispatch(projectToDelete(this.props.removeProjects));
   };
 
+  componentDidUpdate(){
+    
+  }
+
   render = () => {
     return (
       <div>

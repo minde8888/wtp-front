@@ -2,7 +2,7 @@ import { projectConstants } from "../constants/projectConstants";
 
 const initialState = {
     data: JSON.parse(localStorage.getItem('projects')),
-    userIsLoaded: false,
+    projectIsLoaded: false,
     isSelected: ""
 };
 
@@ -25,13 +25,16 @@ export default function project(state = initialState, action) {
                 ...state, id: payload
             }
         case projectConstants.DELETE_PROJECT:
+            var a = state.data.filter(i => console.log(i.projectId !== payload))//tvarkyti
+        
             return {
-                ...state, removeProjects: payload
+                ...state, removeProjects: payload,
+
             }
-        case projectConstants.ADD_PROJECT:
-            return {
-                ...state, isLoaded: payload
-            }
+        // case projectConstants.ADD_PROJECT:
+        //     return {
+        //         ...state, isLoaded: payload
+        //     }
         case projectConstants.UPDATE_PROJECT_TABLE:
             return {
                 ...state, updateProject: payload

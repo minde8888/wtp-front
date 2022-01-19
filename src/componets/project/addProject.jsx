@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect} from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { addNewProject, getAllProjects } from "../../redux/actions/projectData";
 import { connect } from "react-redux";
 import { setMessage, clearMessage } from "../../redux/actions/message";
@@ -6,7 +6,6 @@ import plus from "../../svg/plus.svg";
 import "./addProject.scss";
 
 const AddProject = (props) => {
-
   const [allValues, setValue] = useState({
     number: null,
     title: "",
@@ -26,7 +25,7 @@ const AddProject = (props) => {
   let placeRef = useRef();
   let statusRef = useRef();
 
-  const { isLoaded } = props;
+  const { projectIsLoaded } = props;
 
   const onChangeNumber = () => {
     let number = numberRef.current.value;
@@ -59,13 +58,13 @@ const AddProject = (props) => {
     if (allValues.status === "")
       return props.dispatch(setMessage("Project status can not by empty !"));
 
-    props.dispatch(addNewProject(allValues));
-
-    numberRef.current.value = null;
-    titleRef.current.value = "";
-    placeRef.current.value = "";
-    statusRef.current.value = "";
-    props.dispatch(getAllProjects());
+    props.dispatch(addNewProject(allValues)).then(() => {
+      numberRef.current.value = null;
+      titleRef.current.value = "";
+      placeRef.current.value = "";
+      statusRef.current.value = "";
+      props.dispatch(getAllProjects());
+    });
   };
 
   const validateInputs = (e) => {
@@ -75,18 +74,17 @@ const AddProject = (props) => {
   };
 
   const { message } = props.message;
-  if (isLoaded) {
-    setTimeout(() => props.dispatch(clearMessage()), 1000);
-  }
-  
-  // const handleClickOutside = () =>{
-  //   if (message) {
-  //     props.dispatch(clearMessage());
-  //   }
-  //   document.removeEventListener('mousedown', handleClickOutside)
-  // }
-  // useEffect(()=>{ document.addEventListener('mousedown', handleClickOutside); })
-  console.log(isLoaded);
+
+  const handleClickOutside = () => {
+    if (message) {
+      props.dispatch(clearMessage());
+    }
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+  });
+
   return (
     <div className=" tb-actions">
       <div className="row ">
@@ -102,7 +100,7 @@ const AddProject = (props) => {
               onBlur={validateInputs}
             />
           </div>
-          <div className="col">
+            <div className="col">
             <input
               className="input-box"
               type="text"
@@ -146,7 +144,7 @@ const AddProject = (props) => {
       {message && (
         <div className="form-group">
           <div
-            className={isLoaded ? "alert alert-success" : "alert alert-danger"}
+            className={projectIsLoaded ? "alert alert-success" : "alert alert-danger"}
             role="alert"
           >
             {message}
@@ -160,9 +158,9 @@ const AddProject = (props) => {
 function mapStateToProps(state) {
 
   const { message } = state;
-  const { isLoaded } = state.project;
+  const { projectIsLoaded } = state.project;
 
-  return { message, isLoaded };
+  return { message, projectIsLoaded };
 }
 
 export default connect(mapStateToProps)(AddProject);

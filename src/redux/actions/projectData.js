@@ -40,10 +40,10 @@ export const addNewProject = (obj) => (dispatch) => {
                 type: messageConstants.SET_MESSAGE,
                 payload: "The project was successfully created."
             });
-            dispatch({
-                type: projectConstants.ADD_PROJECT,
-                payload: true
-            })
+            // dispatch({
+            //     type: projectConstants.ADD_PROJECT,
+            //     payload: true
+            // })
             return await Promise.resolve();
         },
         (error) => {
