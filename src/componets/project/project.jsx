@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import AddProject from "./addProject";
-import EditItemModus from "./editItemModus";
+import AddProject from "./addProject/addProject";
+import EditItemModus from "./editProject/editItemModus";
 import { connect } from "react-redux";
 import { getAllProjects, projectToDelete } from "../../redux/actions/projectData";
 import TablePreloader from "../preloader/tablePreloader";

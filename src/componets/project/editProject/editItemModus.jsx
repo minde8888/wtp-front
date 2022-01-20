@@ -4,9 +4,9 @@ import {
   edit,
   projectIdToDelete,
   updateProject,
-} from "../../redux/actions/projectData";
+} from "../../../redux/actions/projectData";
 import { NavLink } from "react-router-dom";
-import EmptyObject from "../../helpers/isEmpty";
+import EmptyObject from "../../../helpers/isEmpty";
 import uuid from "uuid";
 
 class EditItemModus extends Component {

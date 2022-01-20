@@ -35,15 +35,17 @@ export const addNewProject = (obj) => (dispatch) => {
 
     return ProjectService.addProject(obj).then(
 
-        async () => {
+        async (response) => {
+            dispatch({
+                type: projectConstants.ADD_PROJECT,
+                payload: true,
+                data: response.data
+            })
             dispatch({
                 type: messageConstants.SET_MESSAGE,
                 payload: "The project was successfully created."
             });
-            // dispatch({
-            //     type: projectConstants.ADD_PROJECT,
-            //     payload: true
-            // })
+
             return await Promise.resolve();
         },
         (error) => {
@@ -75,7 +77,7 @@ export const updateProject = (obj) => (dispatch) => {
             });
             dispatch({
                 type: projectConstants.UPDATE_PROJECT_TABLE,
-                payload:  data.data.$values
+                payload: data.data.$values
             });
             return await Promise.resolve();
         },
