@@ -14,6 +14,7 @@ class EditItemModus extends Component {
     super(props);
 
     this.state = {
+      data: props.data,
       action: false,
       isChecked: null,
       newId: [],
@@ -36,7 +37,9 @@ class EditItemModus extends Component {
     });
   };
 
-  componentDidUpdate(prevState, prevProps) {
+  componentDidUpdate(prevProps, prevState) {
+    console.log(prevState);
+    console.log(prevProps);
     if (this.state.action && prevProps.action !== true) {
       const listener = (e) => {
         if (e.target.className === "tb-input") {
@@ -57,7 +60,6 @@ class EditItemModus extends Component {
               }
             });
             obj = { ...obj, projectId: id };
-            console.log(obj);
             this.props.dispatch(updateProject(obj));
           }
           this.props.dispatch(edit(""));
@@ -102,6 +104,7 @@ class EditItemModus extends Component {
 
   render = () => {
     const { data, isSelected } = this.props;
+    
     return (
       <>
         {data.map((item, k) => (
@@ -247,10 +250,8 @@ class EditItemModus extends Component {
   };
 }
 
-function mapStateToProps(state) {
-  const { data, isSelected } = state.project;
-
-  return { data, isSelected };
+function mapStateToProps(state) { 
+  const {  isSelected, data } = state.project;
+  return {  isSelected, data };
 }
-
 export default connect(mapStateToProps)(EditItemModus);

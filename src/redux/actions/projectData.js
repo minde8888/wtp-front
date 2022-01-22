@@ -44,7 +44,12 @@ export const addNewProject = (obj) => (dispatch) => {
             dispatch({
                 type: messageConstants.SET_MESSAGE,
                 payload: "The project was successfully created."
-            });
+            });            
+            
+            var data = JSON.parse(localStorage.getItem('projects'));
+            var key = data.length
+            data[key] = response.data
+            localStorage.setItem('projects', JSON.stringify(data));
 
             return await Promise.resolve();
         },

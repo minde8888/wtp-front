@@ -66,7 +66,7 @@ class NavBar extends Component {
               </NavLink>
             </div>
             <div className="nav-item">
-              <NavLink className="nav-link" to="/project">
+              <NavLink className="nav-link" to="/table">
                 Projects
               </NavLink>
             </div>

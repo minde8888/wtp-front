@@ -20,13 +20,14 @@ export default function project(state = initialState, action) {
             return {
                 ...state, isSelected
             };
-        case projectConstants.PROJECT_ID:
+        case projectConstants.PROJECT_ID_TO_DELETE:
+            console.log(payload);
             return {
                 ...state, id: payload
             }
         case projectConstants.DELETE_PROJECT:
-            var a = state.data.filter(i => console.log(i.projectId !== payload))//tvarkyti
-
+            // var a = state.data.filter(i => console.log(i.projectId !== payload))//tvarkyti
+            // console.log(state.data);
             return {
                 ...state, removeProjects: payload,
 
