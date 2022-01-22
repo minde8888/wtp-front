@@ -37,7 +37,7 @@ export async function getImageSize(imageFile, type) {
                 maxHeight = 228
                 break;
             default:
-                console.log(`Couldn't find: ${type}.`);;
+                console.log(`Couldn't find: ${type}.`);
         }
 
         const ratio = Math.min(maxWidth / image.width, maxHeight / image.height)

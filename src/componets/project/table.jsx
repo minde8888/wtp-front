@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import {
   getAllProjects,
   projectToDelete,
+  projectIdToDelete,
 } from "../../redux/actions/projectData";
 import TablePreloader from "../preloader/tablePreloader";
 import trash from "../../svg/trash.svg";
@@ -41,7 +42,7 @@ class Table extends Component {
           </thead>
           <tbody>
             {this.props.projectIsLoaded ? (
-              <EditItemModus/>
+              <EditItemModus />
             ) : (
               <TablePreloader />
             )}
@@ -53,6 +54,7 @@ class Table extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log(state);
   const { projectIsLoaded, removeProjects } = state.project;
   return { projectIsLoaded, removeProjects };
 }

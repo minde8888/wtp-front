@@ -71,8 +71,8 @@ class NavBar extends Component {
               </NavLink>
             </div>
             <div className="nav-item">
-              <NavLink className="nav-link" to="/users">
-                users
+              <NavLink className="nav-link" to="/calendar">
+                Progress plan
               </NavLink>
             </div>
             <div className="nav-item">
@@ -130,7 +130,6 @@ class NavBar extends Component {
 }
 
 function mapStateToProps(state) {
-
   const { data } = state.user;
   const { isLoggedIn } = state.auth;
 

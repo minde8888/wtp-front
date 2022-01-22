@@ -38,8 +38,8 @@ class EditItemModus extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(prevState);
-    console.log(prevProps);
+    // console.log(prevState);
+    // console.log(prevProps);
     if (this.state.action && prevProps.action !== true) {
       const listener = (e) => {
         if (e.target.className === "tb-input") {
@@ -100,6 +100,7 @@ class EditItemModus extends Component {
       this.state.newId.splice(value, 1);
     }
     this.props.dispatch(projectIdToDelete(this.state.newId));
+    console.log(this.state.newId );
   };
 
   render = () => {
