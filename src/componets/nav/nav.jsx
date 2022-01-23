@@ -66,13 +66,13 @@ class NavBar extends Component {
               </NavLink>
             </div>
             <div className="nav-item">
-              <NavLink className="nav-link" to="/project">
+              <NavLink className="nav-link" to="/table">
                 Projects
               </NavLink>
             </div>
             <div className="nav-item">
-              <NavLink className="nav-link" to="/users">
-                users
+              <NavLink className="nav-link" to="/calendar">
+                Progress plan
               </NavLink>
             </div>
             <div className="nav-item">
@@ -116,7 +116,7 @@ class NavBar extends Component {
                 </li>
 
                 <li className="nav-item">
-                  <NavLink to={"/register"} className="nav-link">
+                  <NavLink to={"/singup"} className="nav-link">
                     Sign Up
                   </NavLink>
                 </li>
@@ -130,7 +130,6 @@ class NavBar extends Component {
 }
 
 function mapStateToProps(state) {
-
   const { data } = state.user;
   const { isLoggedIn } = state.auth;
 

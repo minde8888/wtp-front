@@ -46,6 +46,11 @@ export const addNewProject = (obj) => (dispatch) => {
                 payload: "The project was successfully created."
             });
 
+            var data = JSON.parse(localStorage.getItem('projects'));
+            var key = data.length
+            data[key] = response.data
+            localStorage.setItem('projects', JSON.stringify(data));
+
             return await Promise.resolve();
         },
         (error) => {
@@ -104,22 +109,26 @@ export const edit = (id) => ({
     isSelected: id
 })
 
-export const projectIdToDelete = (id) => ({
-    type: projectConstants.DELETE_PROJECT,
-    payload: id
+export const projectIdToDelete = (obj) => ({
+    type: projectConstants.DELETE_PROJECT_ID,
+    payload: obj
 })
 
-export const projectToDelete = (id) => (dispatch) => {
+export const projectToDelete = (obj) => (dispatch) => {
 
-    return ProjectService.removeProject(id).then(
+    return ProjectService.removeProject(obj).then(
         async () => {
             dispatch({
-                type: projectConstants.DELETE_PROJECT,
-                payload: id
-            })
-            // var data = JSON.parse(localStorage.getItem('employees'));
-            // const employees = data.filter(item => item.id !== id);
-            // localStorage.setItem('employees', JSON.stringify(employees));
+                type: projectConstants.PROJECT_REMOVED,
+                payload: obj
+
+            });
+
+            var data = JSON.parse(localStorage.getItem('projects'));
+            for (const key in obj) {
+                data = data.filter(i => i.projectId !== obj[key])
+            }
+            localStorage.setItem('projects', JSON.stringify(data));
 
             return await Promise.resolve();
         },

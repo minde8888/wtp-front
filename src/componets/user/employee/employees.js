@@ -2,7 +2,6 @@ import userImage from "../../../image/user.png";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { deleteUser } from "../../../redux/actions/deleteUser"
-import Image from "react-bootstrap/Image";
 import "./employees.scss"
 
 const Employees = (props) => {
@@ -22,7 +21,7 @@ const Employees = (props) => {
         return (
           <div key={k}>
             <div className="card ">
-              <div className="text-center px-2 "> <Image src={u.imageName === null ? userImage : u.imageSrc}
+              <div className="text-center px-2 "> <img src={u.imageName === null ? userImage : u.imageSrc}
                 alt={u.imageName} />
                 <h3 className="mt-2"> {u.name} {u.surname}</h3> <span className="mt-1 clearfix">Occupation: {u.occupation}</span>
                 <div className="buttons px-2 mt-3">

@@ -14,6 +14,7 @@ class EditItemModus extends Component {
     super(props);
 
     this.state = {
+      data: props.data,
       action: false,
       isChecked: null,
       newId: [],
@@ -36,7 +37,7 @@ class EditItemModus extends Component {
     });
   };
 
-  componentDidUpdate(prevState, prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.state.action && prevProps.action !== true) {
       const listener = (e) => {
         if (e.target.className === "tb-input") {
@@ -49,27 +50,28 @@ class EditItemModus extends Component {
             place: place,
             status: status,
           };
-          var isEmpty = EmptyObject.emptyValues(obj);  
+          var isEmpty = EmptyObject.emptyValues(obj);
           if (!isEmpty) {
-            Object.keys(obj).forEach(key => {
-              if (obj[key] === '') {
+            Object.keys(obj).forEach((key) => {
+              if (obj[key] === "") {
                 delete obj[key];
               }
             });
             obj = { ...obj, projectId: id };
-            console.log(obj);
             this.props.dispatch(updateProject(obj));
           }
           this.props.dispatch(edit(""));
-          this.setState({
-            action: false,
-          });
+          this.setState({action: false});
           document.removeEventListener("mousedown", listener);
           document.removeEventListener("touchstart", listener);
         }
       };
       document.addEventListener("mousedown", listener);
       document.addEventListener("touchstart", listener);
+    }
+    if (prevProps.data.length !== this.props.data.length) {
+      this.setState({ newId: [] });
+
     }
   }
 
@@ -248,9 +250,7 @@ class EditItemModus extends Component {
 }
 
 function mapStateToProps(state) {
-  const { data, isSelected } = state.project;
-
-  return { data, isSelected };
+  const { isSelected, data } = state.project;
+  return { isSelected, data };
 }
-
 export default connect(mapStateToProps)(EditItemModus);

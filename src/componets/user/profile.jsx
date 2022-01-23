@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import userImage from "../../image/user.png";
 import Employees from "./employee/employees";
-import Image from "react-bootstrap/Image";
 
 const Profile = (props) => {
   const { data, employees, width, height } = props;
@@ -19,7 +18,7 @@ const Profile = (props) => {
               <strong>{data.name}</strong> Profile
             </h3>
           </header>
-          <Image
+          <img
             width={width !== 0 ? width : null}
             height={height !== 0 ? height : null}
             src={data.imageName === null ? userImage : data.imageSrc}
@@ -50,7 +49,7 @@ const Profile = (props) => {
               <strong>{data.name}</strong> Profile
             </h3>
           </header>
-          <Image
+          <img
             width={width !== 0 ? width : null}
             height={height !== 0 ? height : null}
             src={data.imageName === null ? userImage : data.imageSrc}
