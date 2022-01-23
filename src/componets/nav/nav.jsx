@@ -116,7 +116,7 @@ class NavBar extends Component {
                 </li>
 
                 <li className="nav-item">
-                  <NavLink to={"/register"} className="nav-link">
+                  <NavLink to={"/singup"} className="nav-link">
                     Sign Up
                   </NavLink>
                 </li>

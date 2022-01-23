@@ -9,7 +9,6 @@ import { getImageSize } from "../../../helpers/getImageSize";
 import { clearMessage, setMessage } from "../../../redux/actions/message";
 import "./updateProfile";
 import userImage from "../../../image/user.png";
-import Image from "react-bootstrap/Image";
 import "./updateProfile.scss";
 
 const UpdateProfile = (props) => {
@@ -86,7 +85,7 @@ const UpdateProfile = (props) => {
         <div className="row">
           <div className="col-md-3 border-right">
             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-              <Image
+              <img
                 className="rounded-circle mt-5"
                 width={width !== 0 ? width : null}
                 height={height !== 0 ? height : null}

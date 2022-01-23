@@ -21,12 +21,12 @@ const BigCalendar =lazy(()=> import('./calendar/calendar'))
 const Main = () => {
   return (
     <div className="main">
-      <div className="colom4">       
+      <div className="colom-4">       
         <GetNewPassword />
         <Switch>
           <Suspense fallback={<Preloader />}>
             <PublicRoute restricted={false} component={Login} path="/login" exact />
-            <PublicRoute restricted={false} component={Signup} path="/singup" exact />
+            <PublicRoute restricted={false} component={Signup} path="/signup" exact />
             <PublicRoute restricted={false} component={ForgotPassword} path="/forgot-password" exact />
             <PrivateRoute component={NavBar} path="/" />
             <PrivateRoute component={Profile} path="/profile" exact />

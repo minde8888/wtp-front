@@ -38,8 +38,6 @@ class EditItemModus extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log(prevState);
-    // console.log(prevProps);
     if (this.state.action && prevProps.action !== true) {
       const listener = (e) => {
         if (e.target.className === "tb-input") {
@@ -52,10 +50,10 @@ class EditItemModus extends Component {
             place: place,
             status: status,
           };
-          var isEmpty = EmptyObject.emptyValues(obj);  
+          var isEmpty = EmptyObject.emptyValues(obj);
           if (!isEmpty) {
-            Object.keys(obj).forEach(key => {
-              if (obj[key] === '') {
+            Object.keys(obj).forEach((key) => {
+              if (obj[key] === "") {
                 delete obj[key];
               }
             });
@@ -63,15 +61,17 @@ class EditItemModus extends Component {
             this.props.dispatch(updateProject(obj));
           }
           this.props.dispatch(edit(""));
-          this.setState({
-            action: false,
-          });
+          this.setState({action: false});
           document.removeEventListener("mousedown", listener);
           document.removeEventListener("touchstart", listener);
         }
       };
       document.addEventListener("mousedown", listener);
       document.addEventListener("touchstart", listener);
+    }
+    if (prevProps.data.length !== this.props.data.length) {
+      this.setState({ newId: [] });
+
     }
   }
 
@@ -100,12 +100,10 @@ class EditItemModus extends Component {
       this.state.newId.splice(value, 1);
     }
     this.props.dispatch(projectIdToDelete(this.state.newId));
-    console.log(this.state.newId );
   };
 
   render = () => {
     const { data, isSelected } = this.props;
-    
     return (
       <>
         {data.map((item, k) => (
@@ -251,8 +249,8 @@ class EditItemModus extends Component {
   };
 }
 
-function mapStateToProps(state) { 
-  const {  isSelected, data } = state.project;
-  return {  isSelected, data };
+function mapStateToProps(state) {
+  const { isSelected, data } = state.project;
+  return { isSelected, data };
 }
 export default connect(mapStateToProps)(EditItemModus);
