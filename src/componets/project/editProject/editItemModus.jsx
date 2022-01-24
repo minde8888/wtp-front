@@ -256,6 +256,7 @@ class EditItemModus extends Component {
 
 function mapStateToProps(state) {
   const { isSelected, data } = state.project;
+  // debugger
   return { isSelected, data };
 }
 export default connect(mapStateToProps)(EditItemModus);
