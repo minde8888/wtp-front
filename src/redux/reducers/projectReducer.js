@@ -34,8 +34,8 @@ export default function project(state = initialState, action) {
                 ...state, data: [...state.data, data]
             }
         case projectConstants.UPDATE_PROJECT_TABLE:
-            return {
-                ...state, updateProject: payload
+              return {
+                ...state, data:state.data.map(p => p.projectId !== payload.projectId  ? p : payload)
             }
         default:
             return state;
