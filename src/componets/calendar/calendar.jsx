@@ -30,6 +30,22 @@ class BigCalendar extends Component {
     console.log(data);
   };
 
+  setSelectedDate = (e) => {
+    console.log(e);
+  };
+  onNavigate = (e) => {
+    console.log(e);
+  };
+  currentDate = (e) => {
+    console.log(e);
+  };
+  onSelectEvent = (e) => {
+    console.log(e);
+  };
+  onSelectSlot = (e) => {
+    console.log(e);
+  };
+
   render() {
     return (
       <div className="App">
@@ -42,6 +58,17 @@ class BigCalendar extends Component {
           onEventResize={this.onEventResize}
           resizable
           style={{ height: "80vh" }}
+          culture="no-NO"
+          selectable={true}
+          onSelectEvent={this.onSelectEvent}
+          onSelectSlot={this.onSelectSlot}
+          onView={() => {}}
+          messages={{
+            today: "To day",
+            previous: "previous",
+            next: "next",
+          }}
+   
         />
       </div>
     );

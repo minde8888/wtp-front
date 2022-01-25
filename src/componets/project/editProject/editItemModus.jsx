@@ -6,7 +6,7 @@ import {
   updateProject,
 } from "../../../redux/actions/projectData";
 import { NavLink } from "react-router-dom";
-import EmptyObject from "../../../helpers/isEmpty";
+import EmptyObject from "../../../helpers/emptyObject";
 import uuid from "uuid";
 
 class EditItemModus extends Component {
@@ -38,30 +38,36 @@ class EditItemModus extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+  
     if (this.state.action && prevProps.action !== true) {
+      console.log(11111);
       const listener = (e) => {
         if (e.target.className === "tb-input") {
           return;
         } else {
-          var { number, title, place, status, id } = this.state;
-          var obj = {
-            number: number,
-            title: title,
-            place: place,
-            status: status,
-          };
-          var isEmpty = EmptyObject.emptyValues(obj);
-          if (!isEmpty) {
-            Object.keys(obj).forEach((key) => {
-              if (obj[key] === "") {
-                delete obj[key];
+          console.log(this.state);
+          console.log(prevState);
+          if (this.state !== prevState) {
+            var { number, title, place, status, id } = this.state;
+            var obj = {
+              number: number,
+              title: title,
+              place: place,
+              status: status,
+            };
+            var isEmpty = EmptyObject.emptyValues(obj);
+            if (!isEmpty) {
+              obj = EmptyObject.removeEmptyObjectValues(obj);
+              if (obj) {
+                obj = { ...obj, projectId: id };
+                console.log(3333);
+                this.props.dispatch(updateProject(obj));
               }
-            });
-            obj = { ...obj, projectId: id };
-            this.props.dispatch(updateProject(obj));
+            }
+            this.props.dispatch(edit(""));
+            this.setState({ action: false });
           }
-          this.props.dispatch(edit(""));
-          this.setState({action: false});
+
           document.removeEventListener("mousedown", listener);
           document.removeEventListener("touchstart", listener);
         }
@@ -71,7 +77,6 @@ class EditItemModus extends Component {
     }
     if (prevProps.data.length !== this.props.data.length) {
       this.setState({ newId: [] });
-
     }
   }
 
@@ -251,6 +256,7 @@ class EditItemModus extends Component {
 
 function mapStateToProps(state) {
   const { isSelected, data } = state.project;
+  // debugger
   return { isSelected, data };
 }
 export default connect(mapStateToProps)(EditItemModus);

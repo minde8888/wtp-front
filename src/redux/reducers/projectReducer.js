@@ -26,17 +26,12 @@ export default function project(state = initialState, action) {
 
             }
         case projectConstants.PROJECT_REMOVED:
-            for (const key in payload) {
-                state.data = state.data.filter(i => i.projectId !== payload[key])
-            }
             return {
-                ...state
+                ...state, data: state.data.filter(project => !payload.includes(project.projectId))
             }
         case projectConstants.ADD_PROJECT:
-            var key = state.data.length
-            state.data[key] = data
             return {
-                ...state, isLoaded: payload,
+                ...state, data: [...state.data, data]
             }
         case projectConstants.UPDATE_PROJECT_TABLE:
             return {

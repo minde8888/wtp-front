@@ -3,7 +3,7 @@ import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import {getEmployeeProfile  } from "../../../redux/actions/getEmployeeProfile";
-import EmptyObject from "../../../helpers/isEmpty";
+import EmptyObject from "../../../helpers/emptyObject";
 import userImage from "../../../image/user.png";
 
 const EmployeeProfile = (props) => {
