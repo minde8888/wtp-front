@@ -15,7 +15,6 @@ class EditItemModus extends Component {
 
     this.state = {
       data: props.data,
-      action: false,
       isChecked: null,
       newId: [],
       idToDelete: [],
@@ -36,49 +35,6 @@ class EditItemModus extends Component {
       action: true,
     });
   };
-
-  // componentDidUpdate(prevProps, prevState) {
-  
-  //   if (this.state.action && prevProps.action !== true) {
-  //     console.log(11111);
-  //     const listener = (e) => {
-  //       if (e.target.className === "tb-input") {
-  //         return;
-  //       } else {
-  //         console.log(this.state);
-  //         console.log(prevState);
-  //         if (this.state !== prevState) {
-  //           var { number, title, place, status, id } = this.state;
-  //           var obj = {
-  //             number: number,
-  //             title: title,
-  //             place: place,
-  //             status: status,
-  //           };
-  //           var isEmpty = EmptyObject.emptyValues(obj);
-  //           if (!isEmpty) {
-  //             obj = EmptyObject.removeEmptyObjectValues(obj);
-  //             if (obj) {
-  //               obj = { ...obj, projectId: id };
-  //               console.log(3333);
-  //               this.props.dispatch(updateProject(obj));
-  //             }
-  //           }
-  //           this.props.dispatch(edit(""));
-  //           this.setState({ action: false });
-  //         }
-
-  //         document.removeEventListener("mousedown", listener);
-  //         document.removeEventListener("touchstart", listener);
-  //       }
-  //     };
-  //     document.addEventListener("mousedown", listener);
-  //     document.addEventListener("touchstart", listener);
-  //   }
-  //   if (prevProps.data.length !== this.props.data.length) {
-  //     this.setState({ newId: [] });
-  //   }
-  // }
 
   onChange = (e) => {
     e.preventDefault();
@@ -107,7 +63,7 @@ class EditItemModus extends Component {
     this.props.dispatch(projectIdToDelete(this.state.newId));
   };
 
-  handleOnBlur = () =>{
+  handleOnBlur = () => {
     var { number, title, place, status, id } = this.state;
     var obj = {
       number: number,
@@ -124,8 +80,18 @@ class EditItemModus extends Component {
       }
     }
     this.props.dispatch(edit(""));
+    this.setState({
+      number: "",
+      title: "",
+      place: "",
+      status: "",
+      projectId: "",
+    })
   }
 
+  // componentDidUpdate(prevState) {
+
+  // }
 
   render = () => {
     const { data, isSelected } = this.props;
@@ -182,18 +148,16 @@ class EditItemModus extends Component {
               />
             </td>
             <td
-              className={`tb ${
-                isSelected === item.projectId + 1 ? "d-none" : ""
-              }`}
+              className={`tb ${isSelected === item.projectId + 1 ? "d-none" : ""
+                }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 1}
             >
               {item.title}
             </td>
             <td
-              className={`tb ${
-                isSelected === item.projectId + 1 ? "" : "d-none"
-              }`}
+              className={`tb ${isSelected === item.projectId + 1 ? "" : "d-none"
+                }`}
             >
               <input
                 id={item.projectId}
@@ -208,21 +172,20 @@ class EditItemModus extends Component {
                     this.onChange(e);
                   }
                 }}
+                onBlur={this.handleOnBlur}
               />
             </td>
             <td
-              className={`tb ${
-                isSelected === item.projectId + 2 ? "d-none" : ""
-              }`}
+              className={`tb ${isSelected === item.projectId + 2 ? "d-none" : ""
+                }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 2}
             >
               {item.place}
             </td>
             <td
-              className={`tb ${
-                isSelected === item.projectId + 2 ? "" : "d-none"
-              }`}
+              className={`tb ${isSelected === item.projectId + 2 ? "" : "d-none"
+                }`}
             >
               <input
                 id={item.projectId}
@@ -237,21 +200,20 @@ class EditItemModus extends Component {
                     this.onChange(e);
                   }
                 }}
+                onBlur={this.handleOnBlur}
               />
             </td>
             <td
-              className={`tb ${
-                isSelected === item.projectId + 3 ? "d-none" : ""
-              }`}
+              className={`tb ${isSelected === item.projectId + 3 ? "d-none" : ""
+                }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 3}
             >
               {item.status}
             </td>
             <td
-              className={`tb ${
-                isSelected === item.projectId + 3 ? "" : "d-none"
-              }`}
+              className={`tb ${isSelected === item.projectId + 3 ? "" : "d-none"
+                }`}
             >
               <input
                 id={item.projectId}
@@ -266,6 +228,7 @@ class EditItemModus extends Component {
                     this.onChange(e);
                   }
                 }}
+                onBlur={this.handleOnBlur}
               />
             </td>
           </tr>
