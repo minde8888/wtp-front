@@ -14,7 +14,6 @@ class TopTable extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    // console.log(prevProps);
     document.addEventListener("mousedown", this.handleClickOutside);
   }
 

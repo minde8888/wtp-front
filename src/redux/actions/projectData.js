@@ -108,7 +108,7 @@ export const updateProject = (obj) => (dispatch) => {
 
 export const edit = (id) => ({
     type: projectConstants.EDIT_MODUS,
-    isSelected: id
+    payload: id
 })
 
 export const projectIdToDelete = (obj) => ({

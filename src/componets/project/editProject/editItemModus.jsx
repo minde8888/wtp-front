@@ -37,48 +37,11 @@ class EditItemModus extends Component {
     });
   };
 
-  // componentDidUpdate(prevProps, prevState) {
-  
-  //   if (this.state.action && prevProps.action !== true) {
-  //     console.log(11111);
-  //     const listener = (e) => {
-  //       if (e.target.className === "tb-input") {
-  //         return;
-  //       } else {
-  //         console.log(this.state);
-  //         console.log(prevState);
-  //         if (this.state !== prevState) {
-  //           var { number, title, place, status, id } = this.state;
-  //           var obj = {
-  //             number: number,
-  //             title: title,
-  //             place: place,
-  //             status: status,
-  //           };
-  //           var isEmpty = EmptyObject.emptyValues(obj);
-  //           if (!isEmpty) {
-  //             obj = EmptyObject.removeEmptyObjectValues(obj);
-  //             if (obj) {
-  //               obj = { ...obj, projectId: id };
-  //               console.log(3333);
-  //               this.props.dispatch(updateProject(obj));
-  //             }
-  //           }
-  //           this.props.dispatch(edit(""));
-  //           this.setState({ action: false });
-  //         }
-
-  //         document.removeEventListener("mousedown", listener);
-  //         document.removeEventListener("touchstart", listener);
-  //       }
-  //     };
-  //     document.addEventListener("mousedown", listener);
-  //     document.addEventListener("touchstart", listener);
-  //   }
-  //   if (prevProps.data.length !== this.props.data.length) {
-  //     this.setState({ newId: [] });
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.data.length !== this.props.data.length) {
+      this.setState({ newId: [] });
+    }
+  }
 
   onChange = (e) => {
     e.preventDefault();
@@ -107,7 +70,7 @@ class EditItemModus extends Component {
     this.props.dispatch(projectIdToDelete(this.state.newId));
   };
 
-  handleOnBlur = () =>{
+  handleOnBlur = () => {
     var { number, title, place, status, id } = this.state;
     var obj = {
       number: number,
@@ -124,8 +87,7 @@ class EditItemModus extends Component {
       }
     }
     this.props.dispatch(edit(""));
-  }
-
+  };
 
   render = () => {
     const { data, isSelected } = this.props;

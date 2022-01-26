@@ -44,9 +44,10 @@ export default function user(state = initialState, action) {
                 ...state, employees: { ...payload }
             };
         case userConstants.UPDATE_USER:
-            state.data = data  
+            // state.data = data  
             return {
                 ...state,
+                data:data,
                 userIsLoaded:true
             }
         default:
