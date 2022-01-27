@@ -3,7 +3,7 @@ import { userConstants } from "../constants/userConstants";
 
 export const getManagerProfile = (id) => (dispatch) => {
     return UserService.getManager(id).then(
-        async (data) => {
+         (data) => {
             data.data.$values.forEach(el => {
                   dispatch({
                     type: userConstants.MANAGER_EMPLOYEE_UPDATE,
@@ -12,7 +12,7 @@ export const getManagerProfile = (id) => (dispatch) => {
                 localStorage.setItem('employees', JSON.stringify(el.employees.$values));
             });
 
-            return await Promise.resolve();
+            return Promise.resolve();
         },
         (error) => {
 

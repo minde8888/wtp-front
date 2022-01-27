@@ -15,7 +15,6 @@ const AddUser = lazy(() => import('./addUser/addUser'));
 const UpdateProfile = lazy(() => import('./user/updateProfile/updateProfile'));
 const EmployeeProfile = lazy(() => import('./user/employee/employeeProfile'));
 const Home =lazy(()=> import('./home/home'))
-const BigCalendar =lazy(()=> import('./calendar/calendar'))
 
 
 const Main = () => {
@@ -35,8 +34,7 @@ const Main = () => {
             <PrivateRoute component={AddUser} path="/adduser" exact />
             <PrivateRoute component={EmployeeProfile} path="/employee-profile/:userId?" /> 
             <PrivateRoute component={TopTable} path="/table" /> 
-            <PrivateRoute component={BigCalendar} path="/calendar" /> 
-          </Suspense>
+                  </Suspense>
         </Switch>
       </div>
     </div>

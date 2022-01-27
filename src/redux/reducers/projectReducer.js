@@ -8,7 +8,7 @@ const initialState = {
 
 export default function project(state = initialState, action) {
 
-    const { type, data, payload } = action;
+    const { type, data, payload, isSelectedId } = action;
 
     switch (type) {
         case projectConstants.PROJECT_DATA:
@@ -17,8 +17,8 @@ export default function project(state = initialState, action) {
                 projectIsLoaded: true,
             };
         case projectConstants.EDIT_MODUS:
-            return {
-                ...state, payload
+             return {
+                ...state, isSelectedId
             };
         case projectConstants.DELETE_PROJECT_ID:
             return {

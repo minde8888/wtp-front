@@ -5,7 +5,7 @@ import { userConstants } from "../constants/userConstants";
 export const updateProfile = (Id, obj) => (dispatch) => {
 
     return UserService.updateUserInfo(Id, obj).then(
-        async (response) => {
+        (response) => {
 
             const user = {
                 id: response.data.id,
@@ -27,7 +27,7 @@ export const updateProfile = (Id, obj) => (dispatch) => {
             });
 
             localStorage.setItem('user', JSON.stringify(user));
-            return await Promise.resolve();
+            return Promise.resolve();
         },
         (error) => {
 

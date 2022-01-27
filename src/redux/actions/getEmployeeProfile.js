@@ -3,7 +3,7 @@ import { employeeConstants } from "../constants/employeeConstants";
 
 export const getEmployeeProfile = (id) => (dispatch) => {
     return UserService.getEmployee(id).then(
-        async (response) => {
+        (response) => {
 
             response.data.$values.forEach(el => {
                 dispatch({
@@ -12,7 +12,7 @@ export const getEmployeeProfile = (id) => (dispatch) => {
                 });
             });
 
-            return await Promise.resolve();
+            return Promise.resolve();
         },
         (error) => {
 
