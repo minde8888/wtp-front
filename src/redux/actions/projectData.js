@@ -76,7 +76,6 @@ export const updateProject = (obj) => (dispatch) => {
     return ProjectService.updateProjectTable(obj).then(
 
         async (data) => {
-            console.log(data);
             dispatch({
                 type: messageConstants.SET_MESSAGE,
                 payload: "The project was successfully updated."
