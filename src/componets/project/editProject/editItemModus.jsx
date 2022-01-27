@@ -90,7 +90,7 @@ class EditItemModus extends Component {
   };
 
   render = () => {
-    const { data, isSelected } = this.props;
+    const { data, isSelectedId } = this.props;
     return (
       <>
         {data.map((item, k) => (
@@ -117,14 +117,14 @@ class EditItemModus extends Component {
               <NavLink className="detail-icon" to="#"></NavLink>
             </th>
             <td
-              className={`tb  ${isSelected === item.projectId ? "d-none" : ""}`}
+              className={`tb  ${isSelectedId === item.projectId ? "d-none" : ""}`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId}
             >
               {item.number}
             </td>
             <td
-              className={`tb ${isSelected === item.projectId ? "" : "d-none"}`}
+              className={`tb ${isSelectedId === item.projectId ? "" : "d-none"}`}
             >
               <input
                 id={item.projectId}
@@ -144,18 +144,16 @@ class EditItemModus extends Component {
               />
             </td>
             <td
-              className={`tb ${
-                isSelected === item.projectId + 1 ? "d-none" : ""
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 1 ? "d-none" : ""
+                }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 1}
             >
               {item.title}
             </td>
             <td
-              className={`tb ${
-                isSelected === item.projectId + 1 ? "" : "d-none"
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 1 ? "" : "d-none"
+                }`}
             >
               <input
                 id={item.projectId}
@@ -173,18 +171,16 @@ class EditItemModus extends Component {
               />
             </td>
             <td
-              className={`tb ${
-                isSelected === item.projectId + 2 ? "d-none" : ""
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 2 ? "d-none" : ""
+                }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 2}
             >
               {item.place}
             </td>
             <td
-              className={`tb ${
-                isSelected === item.projectId + 2 ? "" : "d-none"
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 2 ? "" : "d-none"
+                }`}
             >
               <input
                 id={item.projectId}
@@ -202,18 +198,16 @@ class EditItemModus extends Component {
               />
             </td>
             <td
-              className={`tb ${
-                isSelected === item.projectId + 3 ? "d-none" : ""
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 3 ? "d-none" : ""
+                }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 3}
             >
               {item.status}
             </td>
             <td
-              className={`tb ${
-                isSelected === item.projectId + 3 ? "" : "d-none"
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 3 ? "" : "d-none"
+                }`}
             >
               <input
                 id={item.projectId}
@@ -238,7 +232,7 @@ class EditItemModus extends Component {
 }
 
 function mapStateToProps(state) {
-  const { isSelected, data } = state.project;
-  return { isSelected, data };
+  const { isSelectedId, data } = state.project;
+  return { isSelectedId, data };
 }
 export default connect(mapStateToProps)(EditItemModus);

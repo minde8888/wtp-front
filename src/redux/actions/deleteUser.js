@@ -4,7 +4,7 @@ import { userConstants } from "../constants/userConstants";
 
 export const deleteUser = (id, role) => (dispatch) => {
     return UserService.deleted(id, role).then(
-        async () => {
+         () => {
             dispatch({
                 type: userConstants.DELETED_EMPLOYEE,
                 payload: id
@@ -13,7 +13,7 @@ export const deleteUser = (id, role) => (dispatch) => {
             const employees = data.filter(item => item.id !== id);
             localStorage.setItem('employees', JSON.stringify(employees));
 
-            return await Promise.resolve();
+            return Promise.resolve();
         },
         (error) => {
             const message =
