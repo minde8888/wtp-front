@@ -36,6 +36,13 @@ class EditItemModus extends Component {
     });
   };
 
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.data.length !== this.props.data.length) {
+      this.setState({ newId: [] });
+    }
+  }
+
   onChange = (e) => {
     e.preventDefault();
     var item = e.target.name;
@@ -80,6 +87,8 @@ class EditItemModus extends Component {
       }
     }
     this.props.dispatch(edit(""));
+  };
+
     this.setState({
       number: "",
       title: "",
@@ -89,9 +98,7 @@ class EditItemModus extends Component {
     })
   }
 
-  // componentDidUpdate(prevState) {
 
-  // }
 
   render = () => {
     const { data, isSelected } = this.props;
