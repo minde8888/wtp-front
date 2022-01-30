@@ -80,7 +80,7 @@ function MultipleDragList(props) {
   ];
 
   let columnsDays = {};
- // visus kurie true supushina i objekta
+ // visus kurie true supushina i 1 objekta
   for (let i = 0; i < totalDays; i++) {
     if (itemsFromBackend.some(item => item.day === i+1)) {
       columnsDays = {
