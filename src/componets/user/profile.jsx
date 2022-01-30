@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import userImage from "../../image/user.png";
 import Employees from "./employee/employees";
+import "./profile.scss"
 
 const Profile = (props) => {
   const { data, employees, width, height } = props;
@@ -36,6 +37,8 @@ const Profile = (props) => {
           <p>
             <strong>Role:</strong> {data.role}
           </p>
+
+          
           <div>
             <Employees {...employees} {...id} />
           </div>

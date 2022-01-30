@@ -57,63 +57,63 @@ export const login = (email, password) => (dispatch) => {
 
   return AuthService.login(email, password).then(
     (data) => {
-        data.$values.forEach(el => {
-          const user = {
-            id: el.id,
-            name: el.name,
-            surname: el.surname,
-            email: el.email,
-            imageName: el.imageName,
-            imageSrc: el.imageSrc,
-            isActive: el.isActive,
-            mobileNumber: el.phoneNumber,
-            occupation: el.occupation,
-            role: el.role,
-            address: el.address
-          }
-
-          localStorage.setItem('token', JSON.stringify(el.token));
-          localStorage.setItem('user', JSON.stringify(user));
-          if (el.role === "Manager") {
-            localStorage.setItem('employees', JSON.stringify(el.employees.$values));
-          }
-        });
-
-        return  Promise.resolve();
-      },
-      (error) => {
-
-        if (error.response) {
-          var str = JSON.stringify(error.response.data);
-
-          var mySubString = str.substring(
-            str.indexOf("[") + 2,
-            str.lastIndexOf("]") - 1
-          );
-
-          const message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-
-          console.log(message);
-
-          dispatch({
-            type: messageConstants.SET_MESSAGE,
-            payload: mySubString,
-          });
-          return Promise.reject();
+      data.$values.forEach(el => {
+        const user = {
+          id: el.id,
+          name: el.name,
+          surname: el.surname,
+          email: el.email,
+          imageName: el.imageName,
+          imageSrc: el.imageSrc,
+          isActive: el.isActive,
+          mobileNumber: el.phoneNumber,
+          occupation: el.occupation,
+          role: el.role,
+          address: el.address
         }
+
+        localStorage.setItem('token', JSON.stringify(el.token));
+        localStorage.setItem('user', JSON.stringify(user));
+        if (el.role === "Manager") {
+          localStorage.setItem('employees', JSON.stringify(el.employees.$values));
+        }
+      });
+
+      return Promise.resolve();
+    },
+    (error) => {
+
+      if (error.response) {
+        var str = JSON.stringify(error.response.data);
+
+        var mySubString = str.substring(
+          str.indexOf("[") + 2,
+          str.lastIndexOf("]") - 1
+        );
+
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        console.log(message);
 
         dispatch({
           type: messageConstants.SET_MESSAGE,
-          payload: "Network Error",
+          payload: mySubString,
         });
-        console.log(error);
         return Promise.reject();
       }
+
+      dispatch({
+        type: messageConstants.SET_MESSAGE,
+        payload: "Network Error",
+      });
+      console.log(error);
+      return Promise.reject();
+    }
   );
 };
 
