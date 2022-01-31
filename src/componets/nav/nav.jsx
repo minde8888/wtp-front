@@ -71,7 +71,7 @@ class NavBar extends Component {
               </NavLink>
             </div>
             <div className="nav-item">
-              <NavLink className="nav-link" to="/calendar">
+              <NavLink className="nav-link" to="/progress-plan">
                 Progress plan
               </NavLink>
             </div>
@@ -116,7 +116,7 @@ class NavBar extends Component {
                 </li>
 
                 <li className="nav-item">
-                  <NavLink to={"/singup"} className="nav-link">
+                  <NavLink to={"/signup"} className="nav-link">
                     Sign Up
                   </NavLink>
                 </li>

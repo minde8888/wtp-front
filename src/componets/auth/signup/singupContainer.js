@@ -117,8 +117,7 @@ class SignupContainer extends Component {
             "role": this.state.role
           }
 
-          dispatch(register(obj)
-          )
+          dispatch(register(obj))
             .then(() => {
               this.setState({
                 successful: true,

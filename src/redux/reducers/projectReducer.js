@@ -23,7 +23,6 @@ export default function project(state = initialState, action) {
         case projectConstants.DELETE_PROJECT_ID:
             return {
                 ...state, removeProjects: payload,
-
             }
         case projectConstants.PROJECT_REMOVED:
             return {

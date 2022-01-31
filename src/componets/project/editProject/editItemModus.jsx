@@ -72,6 +72,7 @@ class EditItemModus extends Component {
 
   handleOnBlur = () => {
     var { number, title, place, status, id } = this.state;
+    console.log(id);
     var obj = {
       number: number,
       title: title,
@@ -168,6 +169,7 @@ class EditItemModus extends Component {
                     this.onChange(e);
                   }
                 }}
+                onBlur={this.handleOnBlur}
               />
             </td>
             <td
@@ -195,6 +197,7 @@ class EditItemModus extends Component {
                     this.onChange(e);
                   }
                 }}
+                onBlur={this.handleOnBlur}
               />
             </td>
             <td
@@ -222,6 +225,7 @@ class EditItemModus extends Component {
                     this.onChange(e);
                   }
                 }}
+                onBlur={this.handleOnBlur}
               />
             </td>
           </tr>

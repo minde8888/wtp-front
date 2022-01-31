@@ -7,7 +7,7 @@ const Home = (props) => {
 
 
   return (    
-    <div>
+    <div className="">
         <MultipleDragList {...props}/>
     </div>
   );
