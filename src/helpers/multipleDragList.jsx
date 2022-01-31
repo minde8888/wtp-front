@@ -80,32 +80,23 @@ function MultipleDragList(props) {
   ];
 
   let columnsDays = {};
- // visus kurie true supushina i 1 objekta
   for (let i = 0; i < totalDays; i++) {
-    if (itemsFromBackend.some(item => item.day === i+1)) {
-      columnsDays = {
-        ...columnsDays,
-        [uuid()]: {
-          day: i + 1,
-          items: itemsFromBackend,
-        },
-      };
-    } else {
-      columnsDays = {
-        ...columnsDays,
-        [uuid()]: {
-          day: i + 1,
-          items: [],
-        },
-      };
-    }
+    columnsDays = {
+      ...columnsDays,
+      [uuid()]: {
+        day: i + 1,
+        items: itemsFromBackend.filter(item => item.day === i + 1),
+      },
+    };
   }
 
-  console.log(columnsDays);
+  const max = Math.max.apply(Math, itemsFromBackend.map(function(o) { return o.index; }));
+
   const [columns, setColumns] = useState(columnsDays);
+
   return (
     <>
-      {[...Array(3)].map((elementInArray, i) => (
+      {[...Array(max+1)].map((elementInArray, i) => (
         <div key={i} className="d-flex flex-row justify-content-center">
           <DragDropContext
             onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
