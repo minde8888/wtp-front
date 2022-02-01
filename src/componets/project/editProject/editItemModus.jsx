@@ -4,7 +4,7 @@ import {
   edit,
   projectIdToDelete,
   updateProject,
-  projectOnCahnges
+  projectOnChanges,
 } from "../../../redux/actions/projectData";
 import { NavLink } from "react-router-dom";
 import EmptyObject from "../../../helpers/emptyObject";
@@ -45,21 +45,12 @@ class EditItemModus extends Component {
   }
 
   onChange = (e) => {
-    this.props.dispatch(projectOnCahnges())
     e.preventDefault();
     var item = e.target.name;
     var id = e.target.id;
-    if (item === "number") {
-      this.setState({
-        [item]: parseInt(e.target.value),
-        id: id,
-      });
-    } else {
-      this.setState({
-        [item]: e.target.value,
-        id: id,
-      });
-    }
+
+    this.props.dispatch(projectOnChanges({ [item]: parseInt(e.target.value) }, id));
+    this.setState({ id: id });
   };
 
   handleOnChange = (e) => {
@@ -73,6 +64,7 @@ class EditItemModus extends Component {
   };
 
   handleOnBlur = () => {
+    console.log(this.props.data);
     var { number, title, place, status, id } = this.state;
     var obj = {
       number: number,
@@ -119,22 +111,25 @@ class EditItemModus extends Component {
               <NavLink className="detail-icon" to="#"></NavLink>
             </th>
             <td
-              className={`tb  ${isSelectedId === item.projectId ? "d-none" : ""}`}
+              className={`tb  ${
+                isSelectedId === item.projectId ? "d-none" : ""
+              }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId}
             >
               {item.number}
             </td>
             <td
-              className={`tb ${isSelectedId === item.projectId ? "" : "d-none"}`}
+              className={`tb ${
+                isSelectedId === item.projectId ? "" : "d-none"
+              }`}
             >
               <input
                 id={item.projectId}
                 autoFocus="autoFocus"
                 className="tb-input"
-                type="number"
+                type="text"
                 name="number"
-                pattern="^-?[0-9]\d*\.?\d*$"
                 placeholder={item.number}
                 value={this.state.number}
                 onChange={(e) => {
@@ -146,16 +141,18 @@ class EditItemModus extends Component {
               />
             </td>
             <td
-              className={`tb ${isSelectedId === item.projectId + 1 ? "d-none" : ""
-                }`}
+              className={`tb ${
+                isSelectedId === item.projectId + 1 ? "d-none" : ""
+              }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 1}
             >
               {item.title}
             </td>
             <td
-              className={`tb ${isSelectedId === item.projectId + 1 ? "" : "d-none"
-                }`}
+              className={`tb ${
+                isSelectedId === item.projectId + 1 ? "" : "d-none"
+              }`}
             >
               <input
                 id={item.projectId}
@@ -174,16 +171,18 @@ class EditItemModus extends Component {
               />
             </td>
             <td
-              className={`tb ${isSelectedId === item.projectId + 2 ? "d-none" : ""
-                }`}
+              className={`tb ${
+                isSelectedId === item.projectId + 2 ? "d-none" : ""
+              }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 2}
             >
               {item.place}
             </td>
             <td
-              className={`tb ${isSelectedId === item.projectId + 2 ? "" : "d-none"
-                }`}
+              className={`tb ${
+                isSelectedId === item.projectId + 2 ? "" : "d-none"
+              }`}
             >
               <input
                 id={item.projectId}
@@ -202,16 +201,18 @@ class EditItemModus extends Component {
               />
             </td>
             <td
-              className={`tb ${isSelectedId === item.projectId + 3 ? "d-none" : ""
-                }`}
+              className={`tb ${
+                isSelectedId === item.projectId + 3 ? "d-none" : ""
+              }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 3}
             >
               {item.status}
             </td>
             <td
-              className={`tb ${isSelectedId === item.projectId + 3 ? "" : "d-none"
-                }`}
+              className={`tb ${
+                isSelectedId === item.projectId + 3 ? "" : "d-none"
+              }`}
             >
               <input
                 id={item.projectId}

@@ -17,7 +17,7 @@ export default function project(state = initialState, action) {
                 projectIsLoaded: true,
             };
         case projectConstants.EDIT_MODUS:
-             return {
+            return {
                 ...state, isSelectedId
             };
         case projectConstants.DELETE_PROJECT_ID:
@@ -32,20 +32,16 @@ export default function project(state = initialState, action) {
             return {
                 ...state, data: [...state.data, data]
             }
-            case projectConstants.PROJECT_TABLE_ONCHANGES:
-                // console.log(Object.keys(payload).join());
-                // console.log();
-                // console.log(typeof Object.keys(payload).join())
-                // var a = Object.keys(payload).join()
-                state.data.map(p => console.log(payload) )
-                return {
-                    // ...state, data: state.data.map(p =>  p.Object.keys(payload).Object.values(payload))
-        
-                //  ...state, data:state.data.map(p => p.Object.keys(payload)  = Object.values(payload) )
-              }
+        case projectConstants.PROJECT_TABLE_ONCHANGE:
+            // state.data.map(p => p[Object.keys(payload).join()] = Object.values(payload).join()).join()   
+            console.log(payload);
+            console.log(state.data.find(p => p.projectId === isSelectedId ? p[Object.keys(payload).join()] += Object.values(payload).join() : p));
+            return {
+                ...state, data: state.data
+            }
         case projectConstants.UPDATE_PROJECT_TABLE:
-              return {
-                ...state, data:state.data.map(p => p.projectId !== payload.projectId  ? p : payload)
+            return {
+                ...state, data: state.data.map(p => p.projectId !== payload.projectId ? p : payload)
             }
         default:
             return state;
