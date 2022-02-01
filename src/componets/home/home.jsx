@@ -8,7 +8,7 @@ const Home = (props) => {
 
   return (    
     <div className="">
-        <MultipleDragList {...props}/>
+        {/* <MultipleDragList {...props}/> */}
     </div>
   );
 };
