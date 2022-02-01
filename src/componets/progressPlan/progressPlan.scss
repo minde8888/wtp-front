@@ -1,12 +1,12 @@
-.drag-element {
-    position   : relative;
-    height     : 30px;
-    width      : 50px;
-    user-select: none;
-    margin     : 0 0 1px 0;
-    padding    : 100px;
-
-    .event-name {
+.event{
+    margin: 0 0 1px 0;
+    width: 50px;
+    position: relative;
+    height: 30px;
+    user-Select: none;
+    span{
         position: absolute;
+        right: 150%;
+        color:black
     }
 }
