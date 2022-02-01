@@ -1,93 +1,203 @@
-// import React, { Component } from "react";
-// import { connect } from "react-redux";
-// import Draggable from "react-draggable";
-// import Moment from "react-moment";
-// import moment from "moment";
-// import "moment-timezone";
-// import { addDays, addMonth, eachDayOfInterval, formatRelative } from "date-fns";
-// import { nb } from "date-fns/locale";
-// import "./progressPlan.scss";
+import React, { useState } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import uuid from "uuid/v4";
+import "./progressPlan.scss";
 
-// class ProgressPlan extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       days: "",
-//     };
-//     console.log(
-//       formatRelative(addDays(new Date(), 0), new Date(), { locale: nb })
-//     );
-//   }
-//   render = () => {
-//     const start = Date.now();
-//     // var date = moment().toDate()
-//     const dateToFormat = new Date();
-//     // const start = moment().add(-23, "m");
-//     const calendarStrings = {
-//       lastDay: "[Yesterday at] LT",
-//       sameDay: "[Today at] LT",
-//       nextDay: "[Tomorrow at] LT",
-//       lastWeek: "[last] dddd [at] LT",
-//       nextWeek: "dddd [at] LT",
-//       sameElse: "L",
-//     };
-//     let now = new Date();
-//     const daysName = ["Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"];
+const onDragEnd = (result, columns, setColumns) => {
+    console.log(result);
+    if (!result.destination) return;
+    const { source, destination } = result;
 
-//     var months = [
-//       "January",
-//       "February",
-//       "March",
-//       "April",
-//       "May",
-//       "June",
-//       "July",
-//       "August",
-//       "September",
-//       "October",
-//       "November",
-//       "December",
-//     ];
-//     var monthName = months[now.getMonth()];
-//     console.log(monthName);
+    if (source.droppableId !== destination.droppableId) {
+        const sourceColumn = columns[source.droppableId];
+        const destColumn = columns[destination.droppableId];
+        const sourceItems = [...sourceColumn.items];
+        const destItems = [...destColumn.items];
+        const [removed] = sourceItems.splice(source.index, 1);
+        destItems.splice(destination.index, 0, removed);
+        setColumns({
+            ...columns,
+            [source.droppableId]: {
+                ...sourceColumn,
+                items: sourceItems,
+            },
+            [destination.droppableId]: {
+                ...destColumn,
+                items: destItems,
+            },
+        });
+    } else {
+        const column = columns[source.droppableId];
+        const copiedItems = [...column.items];
+        const [removed] = copiedItems.splice(source.index, 1);
+        copiedItems.splice(destination.index, 0, removed);
+        setColumns({
+            ...columns,
+            [source.droppableId]: {
+                ...column,
+                items: copiedItems,
+            },
+        });
+    }
+};
 
-//     const totalDays = new Date(
-//       now.getFullYear(),
-//       now.getMonth() + 1,
-//       0
-//     ).getDate();
-//     const today = now.getDate();
+function ProgrssPlan(props) {
+    let now = new Date();
+    const totalDays = new Date(
+        now.getFullYear(),
+        now.getMonth() + 1,
+        0
+    ).getDate();
 
-//     let days = [totalDays];
-//     var loopData = "";
-//     for (let i = 0; i < totalDays; i++) {
-//       loopData += `<div>${i + 1}</div>`;
-//     }
-//     // this.setState({days: loopData})
-    
-//     var startDate = moment('02-01-2020', 'DD-MM-YYYY');
-//     var endDate = moment('02-05-2021', 'DD-MM-YYYY');
-   
-//     var dayDiff = endDate.diff(startDate, 'days');
-//     console.log('Days:' + dayDiff);
-  
-//     var monthDiff = endDate.diff(startDate, 'months');
-//     console.log('Month:' + monthDiff);
-  
-//     var yearDiff = endDate.diff(startDate, 'years');
-//     console.log('Year:' + yearDiff);
-    
+    const itemsFromBackend = [
+        {
+            id: uuid(),
+            content: "event1ssssssssssssssssssssssss",
+            color: "bg-success text-white",
+            day: 1,
+            index: 0,
+        },
+        {
+            id: uuid(),
+            content: "event2",
+            color: "bg-danger text-white",
+            day: 1,
+            index: 1,
+        },
+        {
+            id: uuid(),
+            content: "event4",
+            color: "bg-danger text-white",
+            day: 3,
+            index: 2,
+        },
+        {
+            id: uuid(),
+            content: "event",
+            color: "bg-primary text-white",
+            day: 5,
+            index: 0,
+        },
+    ];
 
-//     return (
-//       <div>
-//         <div dangerouslySetInnerHTML={{ __html: loopData }}></div>
-//       </div>
-//     );
-//   };
-// }
+    let columnsDays = {};
+    for (let i = 0; i < totalDays; i++) {
+        columnsDays = {
+            ...columnsDays,
+            [uuid()]: {
+                day: i + 1,
+                items: itemsFromBackend.filter(item => item.day === i + 1),
+            },
+        };
+    }
 
-// function mapStateToProps(state) {
-//   return {};
-// }
+    const max = Math.max.apply(Math, itemsFromBackend.map(function (o) { return o.index; }));
 
-// export default connect(mapStateToProps)(ProgressPlan);
+    const [columns, setColumns] = useState(columnsDays);
+
+    return (
+        <>
+            {[...Array(max + 1)].map((elementInArray, i) => (
+                <div key={i} className="d-flex flex-row justify-content-center">
+                    <DragDropContext
+                        onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+                    >
+                        {Object.entries(columns).map(([columnId, column], index) => {
+                            return (
+                                <div className="text-center" key={columnId}>
+                                    <div style={{ margin: 0 }}>
+                                        {column.day}
+                                        <Droppable droppableId={columnId} key={columnId}>
+                                            {(provided, snapshot) => {
+                                                return (
+                                                    <div
+                                                        className="border"
+                                                        {...provided.droppableProps}
+                                                        ref={provided.innerRef}
+                                                        style={{
+                                                            background: snapshot.isDraggingOver
+                                                                ? "lightblue"
+                                                                : "",
+                                                            padding: 4,
+                                                            minWidth: 50,
+                                                            minHeight: 30,
+                                                        }}
+                                                    >
+                                                        {column.items.map((item, index) => {
+                                                            return (
+                                                                <div
+                                                                    key={item.id}
+                                                                    style={{
+                                                                        padding: "0 1rem",
+                                                                        backgroundColor: "brown",
+                                                                    }}
+                                                                    onMouseDown={
+                                                                        (e) =>
+                                                                            console.log(
+                                                                                "pagriebem desra",
+                                                                                e.target.getBoundingClientRect()
+                                                                            )
+                                                                        /*
+                                                                        kažkur išsaugoti kurią dešrą pagriebėm (this.setState)
+                                                                        iškarto keičiam dešros dydį (per inline style su position absolute)
+                                    
+                                                                       */
+                                                                    }
+                                                                    onMouseMove={(e) => {
+                                                                        console.log("judinam desra");
+                                                                    }}
+                                                                    onMouseUp={() => {
+                                                                        console.log("paleidom desra");
+                                                                        /*
+                                                                          kažkur pažymim kurią dešrą paleidom (this.setState)
+                                                                          suskaičiuojam pagal pixelius kiek padidinom dešrą
+                                                                        */
+                                                                    }}
+                                                                >
+                                                                    {i === item.index ? (
+                                                                        <Draggable
+                                                                            key={item.id}
+                                                                            draggableId={item.id}
+                                                                            index={index}
+                                                                        >
+                                                                            {(provided, snapshot) => (
+                                                                                <div
+                                                                                    className={`event ${item.color}`}
+                                                                                    ref={provided.innerRef}
+                                                                                    {...provided.draggableProps}
+                                                                                    {...provided.dragHandleProps}
+                                                                                    style={{
+                                                                                        backgroundColor: snapshot.isDragging
+                                                                                            ? "#263B4A"
+                                                                                            : "",
+                                                                                        color: "white",
+                                                                                        ...provided.draggableProps.style,
+                                                                                    }}
+                                                                                >
+                                                                                    <span>
+                                                                                        {item.content}
+                                                                                    </span>
+                                                                                </div>
+                                                                            )}
+                                                                        </Draggable>
+                                                                    ) : null}
+                                                                </div>
+                                                            );
+                                                        })}
+                                                        {provided.placeholder}
+                                                    </div>
+                                                );
+                                            }}
+                                        </Droppable>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </DragDropContext>
+                </div>
+            ))}
+        </>
+    );
+}
+
+export default ProgrssPlan;

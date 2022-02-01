@@ -4,6 +4,7 @@ import {
   edit,
   projectIdToDelete,
   updateProject,
+  projectOnCahnges
 } from "../../../redux/actions/projectData";
 import { NavLink } from "react-router-dom";
 import EmptyObject from "../../../helpers/emptyObject";
@@ -44,6 +45,7 @@ class EditItemModus extends Component {
   }
 
   onChange = (e) => {
+    this.props.dispatch(projectOnCahnges())
     e.preventDefault();
     var item = e.target.name;
     var id = e.target.id;
@@ -72,7 +74,6 @@ class EditItemModus extends Component {
 
   handleOnBlur = () => {
     var { number, title, place, status, id } = this.state;
-    console.log(id);
     var obj = {
       number: number,
       title: title,
