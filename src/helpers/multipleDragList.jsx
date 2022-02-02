@@ -161,7 +161,7 @@ function MultipleDragList(props) {
                                     >
                                       {(provided, snapshot) => (
                                         <div
-                                          className={item.color}
+                                          className={`draggable-element ${item.color}`}
                                           ref={provided.innerRef}
                                           {...provided.draggableProps}
                                           {...provided.dragHandleProps}
