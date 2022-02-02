@@ -1,20 +1,30 @@
-import { projectConstants } from "../constants/projectConstants";
+import {
+    projectConstants
+} from "../constants/projectConstants";
 
 const initialState = {
     data: JSON.parse(localStorage.getItem('projects')),
     projectIsLoaded: false,
-    isSelected: ""
+    isSelected: "",
+    isSelectedId: "",
+    id: ""
 };
 
 export default function project(state = initialState, action) {
 
-    const { type, data, payload, isSelectedId } = action;
+    const {
+        type,
+        data,
+        payload,
+        isSelectedId,
+        id
+    } = action;
 
     switch (type) {
         case projectConstants.PROJECT_DATA:
             return {
                 data: data,
-                projectIsLoaded: true,
+                    projectIsLoaded: true,
             };
         case projectConstants.EDIT_MODUS:
             return {
@@ -32,18 +42,18 @@ export default function project(state = initialState, action) {
             return {
                 ...state, data: [...state.data, data]
             }
-        case projectConstants.PROJECT_TABLE_ONCHANGE:
-            // state.data.map(p => p[Object.keys(payload).join()] = Object.values(payload).join()).join()   
-            console.log(payload);
-            console.log(state.data.find(p => p.projectId === isSelectedId ? p[Object.keys(payload).join()] += Object.values(payload).join() : p));
-            return {
-                ...state, data: state.data
+        case projectConstants.PROJECT_TABLE_ONCHANGES:
+            // console.log(state.data.filter(p =>  p[Object.keys(payload).join()] = Object.values(payload).join()))
+               return {
+                ...state, data: state.data.filter(p => p.projectId === id ?
+                    p[Object.keys(payload).join()] = Object.values(payload).join() :
+                    p)
             }
         case projectConstants.UPDATE_PROJECT_TABLE:
             return {
                 ...state, data: state.data.map(p => p.projectId !== payload.projectId ? p : payload)
             }
-        default:
-            return state;
+            default:
+                return state;
     }
 }
