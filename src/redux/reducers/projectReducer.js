@@ -42,8 +42,7 @@ export default function project(state = initialState, action) {
             return {
                 ...state, data: [...state.data, data]
             }
-        case projectConstants.PROJECT_TABLE_ONCHANGES:
-            // console.log(state.data.filter(p =>  p[Object.keys(payload).join()] = Object.values(payload).join()))
+        case projectConstants.PROJECT_TABLE_ONCHANGE:
                return {
                 ...state, data: state.data.filter(p => p.projectId === id ?
                     p[Object.keys(payload).join()] = Object.values(payload).join() :

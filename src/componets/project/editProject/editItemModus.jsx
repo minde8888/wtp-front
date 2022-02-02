@@ -7,8 +7,7 @@ import {
   projectOnChanges,
 } from "../../../redux/actions/projectData";
 import { NavLink } from "react-router-dom";
-import EmptyObject from "../../../helpers/emptyObject";
-import uuid from "uuid";
+
 
 class EditItemModus extends Component {
   constructor(props) {
@@ -41,7 +40,7 @@ class EditItemModus extends Component {
   onChange = (e) => {
     e.preventDefault();
     const { name, id, value } = e.target;
-    this.props.dispatch(projectOnCahnges({ [name]: value }, id))
+    this.props.dispatch(projectOnChanges({ [name]: value }, id))
   };
 
   handleOnChange = (e) => {
