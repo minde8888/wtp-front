@@ -20,13 +20,7 @@ class EditItemModus extends Component {
       isChecked: null,
       newId: [],
       idToDelete: [],
-      number: "",
-      title: "",
-      place: "",
-      status: "",
-      projectId: "",
     };
-
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
@@ -46,8 +40,8 @@ class EditItemModus extends Component {
 
   onChange = (e) => {
     e.preventDefault();
-    const { name, id } = e.target;
-    this.props.dispatch(projectOnCahnges({ [name]: parseInt(e.nativeEvent.data) }, id))
+    const { name, id, value } = e.target;
+    this.props.dispatch(projectOnCahnges({ [name]: value }, id))
   };
 
   handleOnChange = (e) => {
@@ -60,22 +54,13 @@ class EditItemModus extends Component {
     this.props.dispatch(projectIdToDelete(this.state.newId));
   };
 
-  handleOnBlur = () => {
-    var { number, title, place, status, id } = this.state;
+  handleOnBlur = (e) => {
     var obj = {
-      number: number,
-      title: title,
-      place: place,
-      status: status,
+      [e.target.name]: e.target.value,
+      projectId: e.target.id
     };
-    var isEmpty = EmptyObject.emptyValues(obj);
-    if (!isEmpty) {
-      obj = EmptyObject.removeEmptyObjectValues(obj);
-      if (obj) {
-        obj = { ...obj, projectId: id };
-        this.props.dispatch(updateProject(obj));
-      }
-    }
+
+    this.props.dispatch(updateProject(obj));
     this.props.dispatch(edit(""));
   };
 
@@ -151,7 +136,7 @@ class EditItemModus extends Component {
                 type="text"
                 name="title"
                 placeholder={item.title}
-                value={this.state.title}
+                value={item.title}
                 onChange={(e) => {
                   if (e.target.value !== item.title) {
                     this.onChange(e);
@@ -179,7 +164,7 @@ class EditItemModus extends Component {
                 type="text"
                 name="place"
                 placeholder={item.place}
-                value={this.state.place}
+                value={item.place}
                 onChange={(e) => {
                   if (e.target.value !== item.place) {
                     this.onChange(e);
@@ -207,7 +192,7 @@ class EditItemModus extends Component {
                 type="text"
                 name="status"
                 placeholder={item.status}
-                value={this.state.status}
+                value={item.status}
                 onChange={(e) => {
                   if (e.target.value !== item.status) {
                     this.onChange(e);

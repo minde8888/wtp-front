@@ -43,21 +43,11 @@ export default function project(state = initialState, action) {
                 ...state, data: [...state.data, data]
             }
         case projectConstants.PROJECT_TABLE_ONCHANGES:
-            // console.log(isSelectedId, payload);
-            // var c = Object.values(payload).join()
-            // console.log(c);
-            // var a = state.data.filter(p => p.projectId === id ? p[Object.keys(payload).join()] += Object.values(payload).join() : p) //[Object.keys(payload).join()]
-            // console.log(a);
-            // console.log(Object.keys(payload).join());
-            // console.log();
-            // console.log(typeof Object.keys(payload).join())
-            // var a = Object.keys(payload).join()
-            // state.data.map(p => console.log(payload) )
-            return {
-                // ...state, data: state.data.map(p =>  p.Object.keys(payload).Object.values(payload))
-
-                //  ...state, data:state.data.map(p => p.projectId === payload.id )
-                ...state, data: state.data.filter(p => p.projectId === id ? p[Object.keys(payload).join()] += Object.values(payload).join() : p)
+            // console.log(state.data.filter(p =>  p[Object.keys(payload).join()] = Object.values(payload).join()))
+               return {
+                ...state, data: state.data.filter(p => p.projectId === id ?
+                    p[Object.keys(payload).join()] = Object.values(payload).join() :
+                    p)
             }
         case projectConstants.UPDATE_PROJECT_TABLE:
             return {
