@@ -119,9 +119,10 @@ export const projectIdToDelete = (obj) => ({
     payload: obj
 })
 
-export const projectOnCahnges = (obj={title:"name"}) => ({
+export const projectOnCahnges = (obj, id) => ({
     type: projectConstants.PROJECT_TABLE_ONCHANGES,
-    payload:obj
+    payload:obj,
+    id:id
 })
 
 export const projectToDelete = (obj) => (dispatch) => {

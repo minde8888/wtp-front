@@ -20,13 +20,7 @@ class EditItemModus extends Component {
       isChecked: null,
       newId: [],
       idToDelete: [],
-      number: "",
-      title: "",
-      place: "",
-      status: "",
-      projectId: "",
     };
-
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
@@ -45,21 +39,9 @@ class EditItemModus extends Component {
   }
 
   onChange = (e) => {
-    this.props.dispatch(projectOnCahnges())
     e.preventDefault();
-    var item = e.target.name;
-    var id = e.target.id;
-    if (item === "number") {
-      this.setState({
-        [item]: parseInt(e.target.value),
-        id: id,
-      });
-    } else {
-      this.setState({
-        [item]: e.target.value,
-        id: id,
-      });
-    }
+    const { name, id, value } = e.target;
+    this.props.dispatch(projectOnCahnges({ [name]: value }, id))
   };
 
   handleOnChange = (e) => {
@@ -72,22 +54,13 @@ class EditItemModus extends Component {
     this.props.dispatch(projectIdToDelete(this.state.newId));
   };
 
-  handleOnBlur = () => {
-    var { number, title, place, status, id } = this.state;
+  handleOnBlur = (e) => {
     var obj = {
-      number: number,
-      title: title,
-      place: place,
-      status: status,
+      [e.target.name]: e.target.value,
+      projectId: e.target.id
     };
-    var isEmpty = EmptyObject.emptyValues(obj);
-    if (!isEmpty) {
-      obj = EmptyObject.removeEmptyObjectValues(obj);
-      if (obj) {
-        obj = { ...obj, projectId: id };
-        this.props.dispatch(updateProject(obj));
-      }
-    }
+
+    this.props.dispatch(updateProject(obj));
     this.props.dispatch(edit(""));
   };
 
@@ -96,7 +69,7 @@ class EditItemModus extends Component {
     return (
       <>
         {data.map((item, k) => (
-          <tr key={uuid.v4()} className="justify-content-start">
+          <tr key={k} className="justify-content-start">
             <td className="bs-checkbox">
               <label>
                 <input
@@ -132,11 +105,10 @@ class EditItemModus extends Component {
                 id={item.projectId}
                 autoFocus="autoFocus"
                 className="tb-input"
-                type="number"
+                type="text"
                 name="number"
-                pattern="^-?[0-9]\d*\.?\d*$"
                 placeholder={item.number}
-                value={this.state.number}
+                value={item.number}
                 onChange={(e) => {
                   if (e.target.value !== item.number) {
                     this.onChange(e);
@@ -164,7 +136,7 @@ class EditItemModus extends Component {
                 type="text"
                 name="title"
                 placeholder={item.title}
-                value={this.state.title}
+                value={item.title}
                 onChange={(e) => {
                   if (e.target.value !== item.title) {
                     this.onChange(e);
@@ -192,7 +164,7 @@ class EditItemModus extends Component {
                 type="text"
                 name="place"
                 placeholder={item.place}
-                value={this.state.place}
+                value={item.place}
                 onChange={(e) => {
                   if (e.target.value !== item.place) {
                     this.onChange(e);
@@ -220,7 +192,7 @@ class EditItemModus extends Component {
                 type="text"
                 name="status"
                 placeholder={item.status}
-                value={this.state.status}
+                value={item.status}
                 onChange={(e) => {
                   if (e.target.value !== item.status) {
                     this.onChange(e);
