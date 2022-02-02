@@ -6,7 +6,8 @@ const initialState = {
     data: JSON.parse(localStorage.getItem('projects')),
     projectIsLoaded: false,
     isSelected: "",
-    isSelectedId:""
+    isSelectedId: "",
+    id: ""
 };
 
 export default function project(state = initialState, action) {
@@ -15,7 +16,8 @@ export default function project(state = initialState, action) {
         type,
         data,
         payload,
-        isSelectedId
+        isSelectedId,
+        id
     } = action;
 
     switch (type) {
@@ -41,11 +43,11 @@ export default function project(state = initialState, action) {
                 ...state, data: [...state.data, data]
             }
         case projectConstants.PROJECT_TABLE_ONCHANGES:
-            console.log(isSelectedId,  payload);
-           var c = Object.values(payload).join()
-           console.log(c);
-           var a =  state.data.filter(p => p.projectId === isSelectedId ? p[Object.keys(payload).join()] += Object.values(payload).join()  : p )//[Object.keys(payload).join()]
-         console.log(a);
+            // console.log(isSelectedId, payload);
+            // var c = Object.values(payload).join()
+            // console.log(c);
+            // var a = state.data.filter(p => p.projectId === id ? p[Object.keys(payload).join()] += Object.values(payload).join() : p) //[Object.keys(payload).join()]
+            // console.log(a);
             // console.log(Object.keys(payload).join());
             // console.log();
             // console.log(typeof Object.keys(payload).join())
@@ -55,7 +57,7 @@ export default function project(state = initialState, action) {
                 // ...state, data: state.data.map(p =>  p.Object.keys(payload).Object.values(payload))
 
                 //  ...state, data:state.data.map(p => p.projectId === payload.id )
-                ...state
+                ...state, data: state.data.filter(p => p.projectId === id ? p[Object.keys(payload).join()] += Object.values(payload).join() : p)
             }
         case projectConstants.UPDATE_PROJECT_TABLE:
             return {
