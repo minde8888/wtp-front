@@ -10,28 +10,28 @@ export const getAllProjects = () => (dispatch) => {
 
     return ProjectService.allProjects().then(
         async (data) => {
-                dispatch({
-                    type: projectConstants.PROJECT_DATA,
-                    data: data.data.$values,
-                });
-                localStorage.setItem('projects', JSON.stringify(data.data.$values));
-                return await Promise.resolve();
-            },
-            (error) => {
+            dispatch({
+                type: projectConstants.PROJECT_DATA,
+                data: data.data.$values,
+            });
+            localStorage.setItem('projects', JSON.stringify(data.data.$values));
+            return await Promise.resolve();
+        },
+        (error) => {
 
-                const message =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-                dispatch({
-                    type: messageConstants.ERROR,
-                    payload: error.response.data,
-                });
-                console.log(message);
-                return Promise.reject();
-            }
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            dispatch({
+                type: messageConstants.ERROR,
+                payload: error.response.data,
+            });
+            console.log(message);
+            return Promise.reject();
+        }
     );
 }
 
@@ -51,8 +51,7 @@ export const addNewProject = (obj) => (dispatch) => {
             });
 
             var data = JSON.parse(localStorage.getItem('projects'));
-            var key = data.length
-            data[key] = response.data
+            data = [...data, response.data]
             localStorage.setItem('projects', JSON.stringify(data));
 
             return Promise.resolve();
@@ -119,10 +118,10 @@ export const projectIdToDelete = (obj) => ({
     payload: obj
 })
 
-export const projectOnCahnges = (obj, id) => ({
-    type: projectConstants.PROJECT_TABLE_ONCHANGES,
-    payload:obj,
-    id:id
+export const projectOnChanges = (obj, id) => ({
+    type: projectConstants.PROJECT_TABLE_ONCHANGE,
+    payload: obj,
+    id: id
 })
 
 export const projectToDelete = (obj) => (dispatch) => {

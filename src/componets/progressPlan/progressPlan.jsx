@@ -41,7 +41,7 @@ const onDragEnd = (result, columns, setColumns) => {
     }
 };
 
-function ProgrssPlan(props) {
+function ProgressPlan(props) {
     let now = new Date();
     const totalDays = new Date(
         now.getFullYear(),
@@ -121,6 +121,7 @@ function ProgrssPlan(props) {
                                                             padding: 4,
                                                             minWidth: 50,
                                                             minHeight: 30,
+                                                            position:"relative"
                                                         }}
                                                     >
                                                         {column.items.map((item, index) => {
@@ -129,7 +130,7 @@ function ProgrssPlan(props) {
                                                                     key={item.id}
                                                                     style={{
                                                                         padding: "0 1rem",
-                                                                        backgroundColor: "brown",
+                                                                        backgroundColor: "black",
                                                                     }}
                                                                     onMouseDown={
                                                                         (e) =>
@@ -200,4 +201,4 @@ function ProgrssPlan(props) {
     );
 }
 
-export default ProgrssPlan;
+export default ProgressPlan;
