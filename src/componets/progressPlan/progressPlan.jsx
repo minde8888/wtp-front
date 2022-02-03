@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
 import "./progressPlan.scss";
@@ -42,6 +42,7 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 function ProgressPlan(props) {
+
     let now = new Date();
     const totalDays = new Date(
         now.getFullYear(),
@@ -95,6 +96,68 @@ function ProgressPlan(props) {
 
     const [columns, setColumns] = useState(columnsDays);
 
+    const minimum_size = 20;
+    let original_width = 0;
+    let original_height = 0;
+    let original_x = 0;
+    let original_y = 0;
+    let original_mouse_x = 0;
+    let original_mouse_y = 0;
+
+    const onMouseDown = (e) => {
+        let data = e.target.getBoundingClientRect()
+
+        original_width = data.width;
+        original_height = data.height;
+        original_x = data.left;
+        original_y = data.top;
+        original_mouse_x = e.pageX;
+        original_mouse_y = e.pageY
+        console.log(original_width);
+        console.log(original_height);
+        console.log(original_x);
+        console.log(original_y);
+        console.log(original_mouse_x);
+        console.log(original_mouse_y);
+    }
+    const onMouseMove = (e) => {
+        let element = document.querySelector(".month")
+
+        if (e.target.classList.contains('right')) {
+            const width = original_width + (e.pageX - original_mouse_x);
+
+            if (width > minimum_size) {
+                element.style.width = width + 'px'
+            }
+        }
+        else if (e.target.classList.contains('left')) {
+            const width = original_width - (e.pageX - original_mouse_x)
+            if (width > minimum_size) {
+                element.style.width = width + 'px'
+                element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+            }
+        }
+        else if (e.target.classList.contains('top')) {
+
+            const height = original_height - (e.pageY - original_mouse_y)
+            if (height > minimum_size) {
+                element.style.height = height + 'px'
+                element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+            }
+        }
+
+        else if (e.target.classList.contains('bottom')) {
+            const height = original_height + (e.pageY - original_mouse_y)
+            if (height > minimum_size) {
+                element.style.height = height + 'px'
+            }
+
+        }
+    }
+    const onMouseUp = (e) => {
+
+    }
+
     return (
         <>
             {[...Array(max + 1)].map((elementInArray, i) => (
@@ -108,87 +171,91 @@ function ProgressPlan(props) {
                                     <div style={{ margin: 0 }}>
                                         {column.day}
                                         <Droppable droppableId={columnId} key={columnId}>
-                                            {(provided, snapshot) => {
-                                                return (
-                                                    <div
-                                                        className="border"
-                                                        {...provided.droppableProps}
-                                                        ref={provided.innerRef}
-                                                        style={{
-                                                            background: snapshot.isDraggingOver
-                                                                ? "lightblue"
-                                                                : "",
-                                                            padding: 4,
-                                                            minWidth: 50,
-                                                            minHeight: 30,
-                                                            position:"relative"
-                                                        }}
-                                                    >
-                                                        {column.items.map((item, index) => {
-                                                            return (
-                                                                <div
+                                            {(provided, snapshot) => (
+                                                <div
+                                                    className="border month"
+                                                    {...provided.droppableProps}
+                                                    ref={provided.innerRef}
+                                                    style={{
+                                                        background: snapshot.isDraggingOver
+                                                            ? "lightblue"
+                                                            : "",
+                                                        padding: 4,
+                                                        minWidth: 50,
+                                                        minHeight: 30,
+                                                        position: "relative"
+                                                    }}
+
+                                                >
+                                                    {column.items.map((item, index) => (
+                                                        <div className="drag-box"
+                                                            key={item.id}
+                                                            style={{
+                                                                padding: "0 8px",
+                                                                backgroundColor: "black",
+                                                            }}
+
+                                                        >
+                                                            {i === item.index ? (
+                                                                <Draggable
                                                                     key={item.id}
-                                                                    style={{
-                                                                        padding: "0 1rem",
-                                                                        backgroundColor: "black",
-                                                                    }}
-                                                                    onMouseDown={
-                                                                        (e) =>
-                                                                            console.log(
-                                                                                "pagriebem desra",
-                                                                                e.target.getBoundingClientRect()
-                                                                            )
-                                                                        /*
-                                                                        kažkur išsaugoti kurią dešrą pagriebėm (this.setState)
-                                                                        iškarto keičiam dešros dydį (per inline style su position absolute)
-                                    
-                                                                       */
-                                                                    }
-                                                                    onMouseMove={(e) => {
-                                                                        console.log("judinam desra");
-                                                                    }}
-                                                                    onMouseUp={() => {
-                                                                        console.log("paleidom desra");
-                                                                        /*
-                                                                          kažkur pažymim kurią dešrą paleidom (this.setState)
-                                                                          suskaičiuojam pagal pixelius kiek padidinom dešrą
-                                                                        */
-                                                                    }}
+                                                                    draggableId={item.id}
+                                                                    index={index}
                                                                 >
-                                                                    {i === item.index ? (
-                                                                        <Draggable
-                                                                            key={item.id}
-                                                                            draggableId={item.id}
-                                                                            index={index}
+                                                                    {(provided, snapshot) => (
+                                                                        <div
+                                                                            className={`event ${item.color}`}
+                                                                            ref={provided.innerRef}
+                                                                            {...provided.draggableProps}
+                                                                            {...provided.dragHandleProps}
+                                                                            style={{
+                                                                                backgroundColor: snapshot.isDragging
+                                                                                    ? "#263B4A"
+                                                                                    : "",
+                                                                                color: "white",
+                                                                                ...provided.draggableProps.style,
+                                                                            }}
                                                                         >
-                                                                            {(provided, snapshot) => (
-                                                                                <div
-                                                                                    className={`event ${item.color}`}
-                                                                                    ref={provided.innerRef}
-                                                                                    {...provided.draggableProps}
-                                                                                    {...provided.dragHandleProps}
-                                                                                    style={{
-                                                                                        backgroundColor: snapshot.isDragging
-                                                                                            ? "#263B4A"
-                                                                                            : "",
-                                                                                        color: "white",
-                                                                                        ...provided.draggableProps.style,
-                                                                                    }}
-                                                                                >
-                                                                                    <span>
-                                                                                        {item.content}
-                                                                                    </span>
-                                                                                </div>
-                                                                            )}
-                                                                        </Draggable>
-                                                                    ) : null}
-                                                                </div>
-                                                            );
-                                                        })}
-                                                        {provided.placeholder}
-                                                    </div>
-                                                );
-                                            }}
+                                                                            <span className="first"
+                                                                                onMouseDown={onMouseDown}
+                                                                                onMouseMove={onMouseMove}
+                                                                                onMouseUp={onMouseUp}
+                                                                            >1</span>
+                                                                            <span className="second"
+                                                                                onMouseDown={
+                                                                                    (e) =>
+                                                                                        console.log(
+                                                                                            "pagriebem desra",
+                                                                                            e.target.getBoundingClientRect()
+                                                                                        )
+                                                                                    /*
+                                                                                    kažkur išsaugoti kurią dešrą pagriebėm (this.setState)
+                                                                                    iškarto keičiam dešros dydį (per inline style su position absolute)
+                                                
+                                                                                   */
+                                                                                }
+                                                                                onMouseMove={(e) => {
+                                                                                    console.log("judinam desra");
+                                                                                }}
+                                                                                onMouseUp={() => {
+                                                                                    console.log("paleidom desra");
+                                                                                    /*
+                                                                                      kažkur pažymim kurią dešrą paleidom (this.setState)
+                                                                                      suskaičiuojam pagal pixelius kiek padidinom dešrą
+                                                                                    */
+                                                                                }}>2</span>
+                                                                            <span className="event-name">
+                                                                                {item.content}
+                                                                            </span>
+                                                                        </div>
+                                                                    )}
+                                                                </Draggable>
+                                                            ) : null}
+                                                        </div>
+                                                    ))}
+                                                    {provided.placeholder}
+                                                </div>
+                                            )}
                                         </Droppable>
                                     </div>
                                 </div>
