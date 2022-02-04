@@ -1,28 +1,31 @@
 .drag-box {
-    display: flex;
-    padding: 0 1rem;
+    display         : flex;
+    padding         : 0 1rem;
     background-color: black;
-    position: absolute;
-    z-index: 1;
-    top: -1px;
-    left: -1px;
+    position        : absolute;
+    z-index         : 1;
+    top             : -1px;
+    left            : -1px;
 
     .event {
-        margin: 0 0 1px 0;
-        width: 34px;
-        position: relative;
-        height: 29px;
+        margin     : 0 0 1px 0;
+        width      : 34px;
+        position   : relative;
+        height     : 29px;
         user-Select: none;
 
         .event-name {
             position: absolute;
-            right: 200%;
-            color: black;
-            top: 0px;
+            right   : 200%;
+            color   : black;
+            top     : 0px;
         }
 
         .first {
-            margin: 0 25px 0 0;
+            position: absolute;
+            z-index : 1;
+            left    : -10px;
+
         }
 
     }
