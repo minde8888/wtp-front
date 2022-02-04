@@ -111,6 +111,7 @@ function ProgressPlan(props) {
 
   const onMouseDown = (e) => {
     let data = e.target.getBoundingClientRect();
+
     setState({
       ...state,
       original_width: data.width + 10,
@@ -136,15 +137,18 @@ function ProgressPlan(props) {
       element,
     } = state;
    
-console.log(element);
+    // console.log(e);
+
 //  console.log(e.target.classList.value);
-    if (e.target.classList.value === "first" &&
+// console.log(e.target.classList.value);
+    if (e.target.classList.value === "border month" &&
     element !== undefined) {
+      
       const width = original_width + (e.pageX - original_mouse_x);
-    //   console.log(width);
+      console.log(e.pageX);
+      console.log(original_mouse_x);
+      console.log(original_width);
       if (width > minimum_size) {
-          console.log(element.style);
-          console.log(width);
         element.style.width = width + "px";
       }
     } else if (e.target.classList.contains("left")) {
@@ -173,7 +177,7 @@ console.log(element);
   return (
     <>
       {[...Array(max + 1)].map((elementInArray, i) => (
-        <div key={i} className="d-flex flex-row justify-content-center">
+        <div key={i} className="d-flex flex-row justify-content-center box-month" onMouseMove={onMouseMove}>
           <DragDropContext
             onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
           >
@@ -230,36 +234,37 @@ console.log(element);
                                     >
                                       <span
                                         className="first"
-                                        onMouseDown={onMouseDown}
-                                        onMouseMove={onMouseMove}
+                                        onMouseDown={onMouseDown}                                        
                                         onMouseUp={onMouseUp}
                                       >
                                         1
                                       </span>
                                       <span
                                         className="second"
-                                        onMouseDown={
-                                          (e) =>
-                                            console.log(
-                                              "pagriebem desra",
-                                              e.target.getBoundingClientRect()
-                                            )
-                                          /*
-                                                                                    kažkur išsaugoti kurią dešrą pagriebėm (this.setState)
-                                                                                    iškarto keičiam dešros dydį (per inline style su position absolute)
+                                        onMouseDown={onMouseDown}                                        
+                                        onMouseUp={onMouseUp}
+                                        // onMouseDown={
+                                        //   (e) =>
+                                        //     console.log(
+                                        //       "pagriebem desra",
+                                        //       e.target.getBoundingClientRect()
+                                        //     )
+                                        //   /*
+                                        //                                             kažkur išsaugoti kurią dešrą pagriebėm (this.setState)
+                                        //                                             iškarto keičiam dešros dydį (per inline style su position absolute)
                                                 
-                                                                                   */
-                                        }
-                                        onMouseMove={(e) => {
-                                          console.log("judinam desra");
-                                        }}
-                                        onMouseUp={() => {
-                                          console.log("paleidom desra");
-                                          /*
-                                                                                      kažkur pažymim kurią dešrą paleidom (this.setState)
-                                                                                      suskaičiuojam pagal pixelius kiek padidinom dešrą
-                                                                                    */
-                                        }}
+                                        //                                            */
+                                        // }
+                                        // onMouseMove={(e) => {
+                                        //   console.log("judinam desra");
+                                        // }}
+                                        // onMouseUp={() => {
+                                        //   console.log("paleidom desra");
+                                        //   /*
+                                        //                                               kažkur pažymim kurią dešrą paleidom (this.setState)
+                                        //                                               suskaičiuojam pagal pixelius kiek padidinom dešrą
+                                        //                                             */
+                                        // }}
                                       >
                                         2
                                       </span>

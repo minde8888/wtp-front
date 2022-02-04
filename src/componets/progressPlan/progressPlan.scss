@@ -16,7 +16,7 @@
 
         .event-name {
             position: absolute;
-            right   : 200%;
+            right   : 50px;
             color   : black;
             top     : 0px;
         }
@@ -26,6 +26,11 @@
             z-index : 1;
             left    : -10px;
 
+        }
+        .second{
+            position: absolute;
+            z-index : 1;
+            right    : -10px;
         }
 
     }
