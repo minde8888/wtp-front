@@ -4,6 +4,7 @@ import uuid from "uuid/v4";
 import "./progressPlan.scss";
 import { connect } from "react-redux";
 import { resize } from "../../redux/actions/progressPlan";
+import { range } from "../../helpers/range";
 
 const onDragEnd = (result, columns, setColumns) => {
   // console.log(result);
@@ -56,28 +57,32 @@ function ProgressPlan(props) {
       id: uuid(),
       content: "event1ssssssssssssssssssssssss",
       color: "bg-success text-white",
-      day: 1,
+      start: 1,
+      end: 3,
       index: 0,
     },
     {
       id: uuid(),
       content: "event2",
       color: "bg-danger text-white",
-      day: 1,
+      start: 1,
+      end: 5,
       index: 1,
     },
     {
       id: uuid(),
       content: "event4",
       color: "bg-danger text-white",
-      day: 3,
+      start: 3,
+      end: 3,
       index: 2,
     },
     {
       id: uuid(),
       content: "event",
       color: "bg-primary text-white",
-      day: 15,
+      start: 15,
+      end: 25,
       index: 0,
     },
   ];
@@ -87,8 +92,9 @@ function ProgressPlan(props) {
     columnsDays = {
       ...columnsDays,
       [uuid()]: {
-        day: i + 1,
-        items: itemsFromBackend.filter((item) => item.day === i + 1),
+        start: i + 1,
+        end: i + 1,
+        items: itemsFromBackend.filter((item) => item.start === i + 1),
       },
     };
   }
@@ -119,6 +125,7 @@ function ProgressPlan(props) {
   } = state;
 
   const onMouseDown = (e) => {
+ 
     let data = e.target.getBoundingClientRect();
     setState({
       ...state,
@@ -133,8 +140,9 @@ function ProgressPlan(props) {
   };
 
   const onMouseMove = (e) => {
-    console.log(e.target);
+   
     if (resize) {
+  
       if (right === "right" && element !== undefined) {
         const width = original_width + (e.pageX - original_mouse_x);
         if (width > 50) {
@@ -183,49 +191,54 @@ function ProgressPlan(props) {
                       >
                         {column.items.map((item, index) => (
                           <div className="drag-box " key={item.id}>
-                            {i === item.index ? (
-                              <Draggable
-                                isDragDisabled={true}
-                                key={item.id}
-                                draggableId={item.id}
-                                index={index}
-                              >
-                                {(provided, snapshot) => (
-                                  <div
-                                    className={`event  ${item.color}`}
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                    style={{
-                                      backgroundColor: snapshot.isDragging
-                                        ? "#263B4A"
-                                        : "",
-                                      ...provided.draggableProps.style,
-                                    }}
-                                  >
-                                    {" "}
-                                    {console.log(provided)}
-                                    <span
-                                      className="left"
-                                      onMouseDown={onMouseDown}
-                                      onMouseUp={onMouseUp}
+                            {/* { range(item.start, item.end).map((e)=>{e})} */}
+                            {i === item.index
+                              ? range(item.start, item.end).map(
+                                  (range) => (
+                                    <Draggable
+                                      isDragDisabled={true}
+                                      key={uuid()}
+                                      draggableId={item.id}
+                                      index={index}
                                     >
-                                      1
-                                    </span>
-                                    <span
-                                      className="right"
-                                      onMouseDown={onMouseDown}
-                                      onMouseUp={onMouseUp}
-                                    >
-                                      2
-                                    </span>
-                                    <span className="event-name">
-                                      {item.content}
-                                    </span>
-                                  </div>
-                                )}
-                              </Draggable>
-                            ) : null}
+                                      {(provided, snapshot) => (
+                                        <div
+                                          className={`event  ${item.color}`}
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                          style={{
+                                            backgroundColor: snapshot.isDragging
+                                              ? "#263B4A"
+                                              : "",
+                                            ...provided.draggableProps.style,
+                                          }}
+                                        >
+                                          {range}
+                                          {console.log(provided.innerRef)}
+                                          <span
+                                            className="left"
+                                            onMouseDown={onMouseDown}
+                                            onMouseUp={onMouseUp}
+                                          >
+                                            1
+                                          </span>
+                                          <span
+                                            className="right"
+                                            onMouseDown={onMouseDown}
+                                            onMouseUp={onMouseUp}
+                                          >
+                                            2
+                                          </span>
+                                          <span className="event-name">
+                                            {item.content}
+                                          </span>
+                                        </div>
+                                      )}
+                                    </Draggable>
+                                  )
+                                )
+                              : null}
                           </div>
                         ))}
                         {provided.placeholder}
