@@ -5,6 +5,7 @@ import newPassword from "./getNewPasswordReducer";
 import user from "./userReducer";
 import employee from "./employeeReducer";
 import project from "./projectReducer";
+import progressPlan from "./progressPlanReducer";
 
 export default combineReducers({
   auth,
@@ -12,5 +13,6 @@ export default combineReducers({
   newPassword,
   user,
   employee,
-  project
+  project,
+  progressPlan
 });

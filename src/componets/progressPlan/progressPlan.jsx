@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
 import "./progressPlan.scss";
+import { connect } from "react-redux";
+import { resize } from "../../redux/actions/progressPlan";
 
 const onDragEnd = (result, columns, setColumns) => {
-  console.log(result);
+  // console.log(result);
   if (!result.destination) return;
   const { source, destination } = result;
 
@@ -75,7 +77,7 @@ function ProgressPlan(props) {
       id: uuid(),
       content: "event",
       color: "bg-primary text-white",
-      day: 5,
+      day: 15,
       index: 0,
     },
   ];
@@ -100,191 +102,139 @@ function ProgressPlan(props) {
 
   const [columns, setColumns] = useState(columnsDays);
   const [state, setState] = useState({
-    minimum_size: 10,
+    minimum_size: 50,
     original_width: 0,
-    original_height: 0,
     original_x: 0,
-    original_y: 0,
     original_mouse_x: 0,
-    original_mouse_y: 0,
+    resize: false,
   });
+  const {
+    minimum_size,
+    original_width,
+    original_x,
+    original_mouse_x,
+    element,
+    right,
+    left,
+  } = state;
 
   const onMouseDown = (e) => {
     let data = e.target.getBoundingClientRect();
-
     setState({
       ...state,
-      original_width: data.width + 10,
-      original_height: data.height,
+      original_width: e.target.offsetParent.offsetWidth - 1,
       original_x: data.left,
-      original_y: data.top,
       original_mouse_x: e.pageX,
-      original_mouse_y: e.pageY,
       element: e.target.offsetParent,
+      right: e.target.classList.value,
+      left: e.target.classList.value,
     });
-    // console.log( e.target.offsetParent);
+    props.dispatch(resize(true));
   };
 
   const onMouseMove = (e) => {
-    const {
-      minimum_size,
-      original_width,
-      original_height,
-      original_x,
-      original_y,
-      original_mouse_x,
-      original_mouse_y,
-      element,
-    } = state;
-   
-    // console.log(e);
-
-//  console.log(e.target.classList.value);
-// console.log(e.target.classList.value);
-    if (e.target.classList.value === "border month" &&
-    element !== undefined) {
-      
-      const width = original_width + (e.pageX - original_mouse_x);
-      console.log(e.pageX);
-      console.log(original_mouse_x);
-      console.log(original_width);
-      if (width > minimum_size) {
-        element.style.width = width + "px";
-      }
-    } else if (e.target.classList.contains("left")) {
-      const width = original_width - (e.pageX - original_mouse_x);
-      if (width > minimum_size) {
-        element.style.width = width + "px";
-        element.style.left = original_x + (e.pageX - original_mouse_x) + "px";
-      }
-    } else if (e.target.classList.contains("top")) {
-      const height = original_height - (e.pageY - original_mouse_y);
-      if (height > minimum_size) {
-        element.style.height = height + "px";
-        element.style.top = original_y + (e.pageY - original_mouse_y) + "px";
-      }
-    } else if (e.target.classList.contains("bottom")) {
-      const height = original_height + (e.pageY - original_mouse_y);
-      if (height > minimum_size) {
-        element.style.height = height + "px";
+    console.log(e.target);
+    if (resize) {
+      if (right === "right" && element !== undefined) {
+        const width = original_width + (e.pageX - original_mouse_x);
+        if (width > 50) {
+          element.style.width = width + "px";
+        }
+      } else if (left === "left" && element !== undefined) {
+        const width = original_width - (e.pageX - original_mouse_x);
+        if (width > minimum_size) {
+          element.style.width = width + "px";
+          element.style.left = 4 + (e.pageX - original_mouse_x) + "px";
+        }
       }
     }
   };
+
   const onMouseUp = (e) => {
-    console.log("paleidom desra");
+    props.dispatch(resize(false));
   };
 
   return (
     <>
-      {[...Array(max + 1)].map((elementInArray, i) => (
-        <div key={i} className="d-flex flex-row justify-content-center box-month" onMouseMove={onMouseMove}>
+      {[...Array(max + 1)].map((_elementInArray, i) => (
+        <div
+          key={i}
+          className="d-flex flex-row justify-content-center box-month "
+          onMouseMove={onMouseMove}
+        >
           <DragDropContext
             onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
           >
-            {Object.entries(columns).map(([columnId, column], index) => {
-              return (
-                <div className="text-center" key={columnId}>
-                  <div style={{ margin: 0 }}>
-                    {column.day}
-                    <Droppable droppableId={columnId} key={columnId}>
-                      {(provided, snapshot) => (
-                        <div
-                          className="border month"
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
-                          style={{
-                            background: snapshot.isDraggingOver
-                              ? "lightblue"
-                              : "",
-                            padding: 4,
-                            minWidth: 50,
-                            minHeight: 30,
-                            position: "relative",
-                          }}
-                        >
-                          {column.items.map((item, index) => (
-                            <div
-                              className="drag-box"
-                              key={item.id}
-                              style={{
-                                padding: "0 8px",
-                                backgroundColor: "black",
-                              }}
-                            >
-                              {i === item.index ? (
-                                <Draggable
-                                  isDragDisabled={true}
-                                  key={item.id}
-                                  draggableId={item.id}
-                                  index={index}
-                                >
-                                  {(provided, snapshot) => (
-                                    <div
-                                      className={`event ${item.color}`}
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                      style={{
-                                        backgroundColor: snapshot.isDragging
-                                          ? "#263B4A"
-                                          : "",
-                                        color: "white",
-                                        ...provided.draggableProps.style,
-                                      }}
+            {Object.entries(columns).map(([columnId, column], index) => (
+              <div className="text-center cell" key={columnId}>
+                <div className="cell-top">
+                  {index + 1}
+                  <Droppable droppableId={columnId} key={columnId}>
+                    {(provided, snapshot) => (
+                      <div
+                        className="border day"
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={{
+                          background: snapshot.isDraggingOver
+                            ? "lightblue"
+                            : "",
+                        }}
+                      >
+                        {column.items.map((item, index) => (
+                          <div className="drag-box " key={item.id}>
+                            {i === item.index ? (
+                              <Draggable
+                                isDragDisabled={true}
+                                key={item.id}
+                                draggableId={item.id}
+                                index={index}
+                              >
+                                {(provided, snapshot) => (
+                                  <div
+                                    className={`event  ${item.color}`}
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    style={{
+                                      backgroundColor: snapshot.isDragging
+                                        ? "#263B4A"
+                                        : "",
+                                      ...provided.draggableProps.style,
+                                    }}
+                                  >
+                                    {" "}
+                                    {console.log(provided)}
+                                    <span
+                                      className="left"
+                                      onMouseDown={onMouseDown}
+                                      onMouseUp={onMouseUp}
                                     >
-                                      <span
-                                        className="first"
-                                        onMouseDown={onMouseDown}                                        
-                                        onMouseUp={onMouseUp}
-                                      >
-                                        1
-                                      </span>
-                                      <span
-                                        className="second"
-                                        onMouseDown={onMouseDown}                                        
-                                        onMouseUp={onMouseUp}
-                                        // onMouseDown={
-                                        //   (e) =>
-                                        //     console.log(
-                                        //       "pagriebem desra",
-                                        //       e.target.getBoundingClientRect()
-                                        //     )
-                                        //   /*
-                                        //                                             kažkur išsaugoti kurią dešrą pagriebėm (this.setState)
-                                        //                                             iškarto keičiam dešros dydį (per inline style su position absolute)
-                                                
-                                        //                                            */
-                                        // }
-                                        // onMouseMove={(e) => {
-                                        //   console.log("judinam desra");
-                                        // }}
-                                        // onMouseUp={() => {
-                                        //   console.log("paleidom desra");
-                                        //   /*
-                                        //                                               kažkur pažymim kurią dešrą paleidom (this.setState)
-                                        //                                               suskaičiuojam pagal pixelius kiek padidinom dešrą
-                                        //                                             */
-                                        // }}
-                                      >
-                                        2
-                                      </span>
-                                      <span className="event-name">
-                                        {item.content}
-                                      </span>
-                                    </div>
-                                  )}
-                                </Draggable>
-                              ) : null}
-                            </div>
-                          ))}
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
-                  </div>
+                                      1
+                                    </span>
+                                    <span
+                                      className="right"
+                                      onMouseDown={onMouseDown}
+                                      onMouseUp={onMouseUp}
+                                    >
+                                      2
+                                    </span>
+                                    <span className="event-name">
+                                      {item.content}
+                                    </span>
+                                  </div>
+                                )}
+                              </Draggable>
+                            ) : null}
+                          </div>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </DragDropContext>
         </div>
       ))}
@@ -292,4 +242,12 @@ function ProgressPlan(props) {
   );
 }
 
-export default ProgressPlan;
+function mapStateToProps(state) {
+  const { resize } = state.progressPlan;
+
+  return {
+    resize,
+  };
+}
+
+export default connect(mapStateToProps)(ProgressPlan);
