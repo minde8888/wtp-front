@@ -3,13 +3,16 @@
 
         .cell-top {
             .day {
+                display         : flex;
                 padding   : 4px;
                 min-Width : 50px;
                 min-Height: 30px;
                 position  : relative;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
 
                 .drag-box {
-                    display         : flex;
+                    // display         : flex;
                     padding         : 0 10px;
                     background-color: black;
                     position        : absolute;
