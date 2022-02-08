@@ -125,7 +125,7 @@ function ProgressPlan(props) {
   } = state;
 
   const onMouseDown = (e) => {
- 
+
     let data = e.target.getBoundingClientRect();
     setState({
       ...state,
@@ -140,9 +140,9 @@ function ProgressPlan(props) {
   };
 
   const onMouseMove = (e) => {
-   
+
     if (resize) {
-  
+
       if (right === "right" && element !== undefined) {
         const width = original_width + (e.pageX - original_mouse_x);
         if (width > 50) {
@@ -180,7 +180,7 @@ function ProgressPlan(props) {
                   <Droppable droppableId={columnId} key={columnId}>
                     {(provided, snapshot) => (
                       <div
-                        className="border day"
+                        className="border day "
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         style={{
@@ -191,53 +191,54 @@ function ProgressPlan(props) {
                       >
                         {column.items.map((item, index) => (
                           <div className="drag-box " key={item.id}>
-                            {/* { range(item.start, item.end).map((e)=>{e})} */}
                             {i === item.index
-                              ? range(item.start, item.end).map(
-                                  (range) => (
-                                    <Draggable
-                                      isDragDisabled={true}
-                                      key={uuid()}
-                                      draggableId={item.id}
-                                      index={index}
+                              ? <Draggable
+                                isDragDisabled={false}
+                                key={item.id}
+                                draggableId={item.id}
+                                index={index}
+                              >
+                                {(provided, snapshot) => (
+                                  <div
+                                    className={`event   ${item.color}`}
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    style={{
+                                      backgroundColor: snapshot.isDragging
+                                        ? "#263B4A"
+                                        : "",
+                                      ...provided.draggableProps.style,
+                                    }}
+                                  >
+                                    <span
+                                      className="left"
+                                      onMouseDown={onMouseDown}
+                                      onMouseUp={onMouseUp}
                                     >
-                                      {(provided, snapshot) => (
-                                        <div
-                                          className={`event  ${item.color}`}
-                                          ref={provided.innerRef}
-                                          {...provided.draggableProps}
-                                          {...provided.dragHandleProps}
-                                          style={{
-                                            backgroundColor: snapshot.isDragging
-                                              ? "#263B4A"
-                                              : "",
-                                            ...provided.draggableProps.style,
-                                          }}
-                                        >
+                                      1
+                                    </span>
+                                    {range(item.start, item.end).map(
+                                      (range, i) => (
+                                        <div key={uuid()} className={` ${item.color}`}>
                                           {range}
-                                          {console.log(provided.innerRef)}
-                                          <span
-                                            className="left"
-                                            onMouseDown={onMouseDown}
-                                            onMouseUp={onMouseUp}
-                                          >
-                                            1
-                                          </span>
-                                          <span
-                                            className="right"
-                                            onMouseDown={onMouseDown}
-                                            onMouseUp={onMouseUp}
-                                          >
-                                            2
-                                          </span>
-                                          <span className="event-name">
-                                            {item.content}
-                                          </span>
-                                        </div>
-                                      )}
-                                    </Draggable>
-                                  )
-                                )
+                                        </div>)
+                                    )}
+
+                                    <span
+                                      className="right"
+                                      onMouseDown={onMouseDown}
+                                      onMouseUp={onMouseUp}
+                                    >
+                                      2
+                                    </span>
+                                    <span className="event-name">
+                                      {item.content}
+                                    </span>
+                                  </div>
+                                )}
+                              </Draggable>
+
                               : null}
                           </div>
                         ))}
