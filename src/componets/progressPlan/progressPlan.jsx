@@ -42,9 +42,9 @@ const onDragEnd = (result, columns, setColumns) => {
       },
     });
   }
-};
+}
 
-function ProgressPlan(props) {
+const ProgressPlan = (props) => {
   let now = new Date();
   const totalDays = new Date(
     now.getFullYear(),
@@ -183,11 +183,11 @@ function ProgressPlan(props) {
                         className="border day "
                         {...provided.droppableProps}
                         ref={provided.innerRef}
-                        style={{
-                          background: snapshot.isDraggingOver
-                            ? "lightblue"
-                            : "",
-                        }}
+                      // style={{
+                      //   background: snapshot.isDraggingOver
+                      //     ? "lightblue"
+                      //     : "",
+                      // }}
                       >
                         {column.items.map((item, index) => (
                           <div className="drag-box " key={item.id}>
