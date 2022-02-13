@@ -1,48 +1,10 @@
-import React, { useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import React, { useState, useEffect, useRef } from "react";
 import uuid from "uuid/v4";
 import "./progressPlan.scss";
 import { connect } from "react-redux";
 import { resize } from "../../redux/actions/progressPlan";
+import Draggable from "react-draggable";
 import { range } from "../../helpers/range";
-
-const onDragEnd = (result, columns, setColumns) => {
-  // console.log(result);
-  if (!result.destination) return;
-  const { source, destination } = result;
-
-  if (source.droppableId !== destination.droppableId) {
-    const sourceColumn = columns[source.droppableId];
-    const destColumn = columns[destination.droppableId];
-    const sourceItems = [...sourceColumn.items];
-    const destItems = [...destColumn.items];
-    const [removed] = sourceItems.splice(source.index, 1);
-    destItems.splice(destination.index, 0, removed);
-    setColumns({
-      ...columns,
-      [source.droppableId]: {
-        ...sourceColumn,
-        items: sourceItems,
-      },
-      [destination.droppableId]: {
-        ...destColumn,
-        items: destItems,
-      },
-    });
-  } else {
-    const column = columns[source.droppableId];
-    const copiedItems = [...column.items];
-    const [removed] = copiedItems.splice(source.index, 1);
-    copiedItems.splice(destination.index, 0, removed);
-    setColumns({
-      ...columns,
-      [source.droppableId]: {
-        ...column,
-        items: copiedItems,
-      },
-    });
-  }
-};
 
 function ProgressPlan(props) {
   let now = new Date();
@@ -86,63 +48,52 @@ function ProgressPlan(props) {
       index: 0,
     },
   ];
-
-  let columnsDays = {};
-  for (let i = 0; i < totalDays; i++) {
-    columnsDays = {
-      ...columnsDays,
-      [uuid()]: {
-        start: i + 1,
-        end: i + 1,
-        items: itemsFromBackend.filter((item) => item.start === i + 1),
-      },
-    };
-  }
-
-  const max = Math.max.apply(
-    Math,
-    itemsFromBackend.map(function (o) {
-      return o.index;
-    })
-  );
-
-  const [columns, setColumns] = useState(columnsDays);
+  /****************************************Resize******************************************/
   const [state, setState] = useState({
-    minimum_size: 50,
+    minimum_size: 42,
     original_width: 0,
     original_x: 0,
     original_mouse_x: 0,
-    resize: false,
+    container_size: totalDays * 42,
+    current_container: {},
+    top: 0,
+    right: 0,
+    left: 0,
   });
+
   const {
     minimum_size,
     original_width,
-    original_x,
     original_mouse_x,
     element,
     right,
     left,
+    top,
+    bottom,
+    container_size,
+    current_container,
   } = state;
 
-  const onMouseDown = (e) => {
-
-    let data = e.target.getBoundingClientRect();
+  const onMouseDown = (e, i) => {
     setState({
       ...state,
       original_width: e.target.offsetParent.offsetWidth - 1,
-      original_x: data.left,
       original_mouse_x: e.pageX,
       element: e.target.offsetParent,
       right: e.target.classList.value,
       left: e.target.classList.value,
+      current_container: containerRef.current[i].getBoundingClientRect(),
     });
     props.dispatch(resize(true));
   };
 
+  useEffect(() => {
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUpResize);
+  }, [props.onResize]);
+
   const onMouseMove = (e) => {
-
-    if (resize) {
-
+    if (props.onResize) {
       if (right === "right" && element !== undefined) {
         const width = original_width + (e.pageX - original_mouse_x);
         if (width > 50) {
@@ -158,98 +109,159 @@ function ProgressPlan(props) {
     }
   };
 
-  const onMouseUp = (e) => {
+  const onMouseUpResize = (e) => {
     props.dispatch(resize(false));
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUpResize);
   };
 
+  /******************************Resize***************************************/
+  let columnsDays = {};
+  for (let i = 0; i < totalDays; i++) {
+    columnsDays = {
+      ...columnsDays,
+      [uuid()]: {
+        start: i + 1,
+        end: i + 1,
+        items: itemsFromBackend.filter((item) => item.start === i + 1),
+      },
+    };
+  }
+
+  /**********************Draggable*******************************/
+  const containerRef = useRef([]);
+
+  const onDragEnd = (result, columns, setColumns, index) => {
+    console.log(totalDays * 42);
+    console.log(containerRef.current[index].getBoundingClientRect());
+    if (!result.destination) return;
+    const { source, destination } = result;
+    // console.log(source, destination);
+    if (source.droppableId !== destination.droppableId) {
+      const sourceColumn = columns[source.droppableId];
+      const destColumn = columns[destination.droppableId];
+      const sourceItems = [...sourceColumn.items];
+      const destItems = [...destColumn.items];
+      const [removed] = sourceItems.splice(source.index, 1);
+      destItems.splice(destination.index, 0, removed);
+      setColumns({
+        ...columns,
+        [source.droppableId]: {
+          ...sourceColumn,
+          items: sourceItems,
+        },
+        [destination.droppableId]: {
+          ...destColumn,
+          items: destItems,
+        },
+      });
+    } else {
+      const column = columns[source.droppableId];
+      const copiedItems = [...column.items];
+      const [removed] = copiedItems.splice(source.index, 1);
+      copiedItems.splice(destination.index, 0, removed);
+      setColumns({
+        ...columns,
+        [source.droppableId]: {
+          ...column,
+          items: copiedItems,
+        },
+      });
+    }
+  };
+
+  /****************find the amount of rows*****************/
+  const max = Math.max.apply(
+    Math,
+    itemsFromBackend.map(function (o) {
+      return o.index;
+    })
+  );
+  /****************find the amount of rows*****************/
+  const [columns, setColumns] = useState(columnsDays);
+
+  const handleStart = (e, i) => {
+    var draggable = e.target.getBoundingClientRect();
+    console.log(draggable);
+    var containerSize = containerRef.current[i].getBoundingClientRect();
+    containerRef.current[i].getBoundingClientRect();
+    var top = i === 0 ? 0 : -containerSize.height * i;
+    var bottom = max === 0 ? 0 : (max - i) * containerSize.height;
+    setState({ top: top, bottom: bottom });
+    document.addEventListener("mousemove", handleDrag);
+    document.addEventListener("mouseup", onMouseUpDraggable);
+  };
+  const handleDrag = (e) => {
+    console.log("drag" + e);
+  };
+  const onMouseUpDraggable = (e) => {
+    // props.dispatch(resize(false));
+    // console.log(e.target.parentElement);
+    document.removeEventListener("mousemove", handleDrag);
+    document.removeEventListener("mouseup", onMouseUpDraggable);
+  };
+
+  // console.log(props.resize);
   return (
     <>
       {[...Array(max + 1)].map((_elementInArray, i) => (
         <div
           key={i}
-          className="d-flex flex-row justify-content-center box-month "
-          onMouseMove={onMouseMove}
+          className="d-flex flex-row justify-content-center box-month container"
+          ref={(element) => {
+            containerRef.current[i] = element;
+          }}
         >
-          <DragDropContext
-            onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
-          >
-            {Object.entries(columns).map(([columnId, column], index) => (
-              <div className="text-center cell" key={columnId}>
-                <div className="cell-top">
-                  {index + 1}
-                  <Droppable droppableId={columnId} key={columnId}>
-                    {(provided, snapshot) => (
-                      <div
-                        className="border day "
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                        style={{
-                          background: snapshot.isDraggingOver
-                            ? "lightblue"
-                            : "",
-                        }}
-                      >
-                        {column.items.map((item, index) => (
-                          <div className="drag-box " key={item.id}>
-                            {i === item.index
-                              ? <Draggable
-                                isDragDisabled={false}
-                                key={item.id}
-                                draggableId={item.id}
-                                index={index}
+          {Object.entries(columns).map(([columnId, column], index) => (
+            <div className="text-center cell" key={columnId}>
+              <div className="cell-top">
+                <div className="border day " id={uuid()}>
+                  {column.items.map((item, index) => (
+                    <div className="drag-box " key={item.id}>
+                      {i === item.index ? (
+                        <Draggable
+                          bounds={{
+                            top: top,
+                            left: -100,
+                            right: 100,
+                            bottom: bottom,
+                          }}
+                          cancel="span"
+                          key={item.id}
+                          onMouseDown={(e) => handleStart(e, i)}
+                          onStop={(result) =>
+                            onDragEnd(result, columns, setColumns, i)
+                          }
+                        >
+                          <div className={`event ${item.color}`} id={item.id}>
+                            {console.log(bottom)}
+                            <span
+                              className="left"
+                              onMouseDown={(e) => onMouseDown(e, i)}
+                            ></span>
+                            {range(item.start, item.end).map((range, i) => (
+                              <div
+                                key={uuid()}
+                                className={`range ${item.color}`}
                               >
-                                {(provided, snapshot) => (
-                                  <div
-                                    className={`event   ${item.color}`}
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                    style={{
-                                      backgroundColor: snapshot.isDragging
-                                        ? "#263B4A"
-                                        : "",
-                                      ...provided.draggableProps.style,
-                                    }}
-                                  >
-                                    <span
-                                      className="left"
-                                      onMouseDown={onMouseDown}
-                                      onMouseUp={onMouseUp}
-                                    >
-                                      1
-                                    </span>
-                                    {range(item.start, item.end).map(
-                                      (range, i) => (
-                                        <div key={uuid()} className={` ${item.color}`}>
-                                          {range}
-                                        </div>)
-                                    )}
+                                {/* {range} */}
+                              </div>
+                            ))}
 
-                                    <span
-                                      className="right"
-                                      onMouseDown={onMouseDown}
-                                      onMouseUp={onMouseUp}
-                                    >
-                                      2
-                                    </span>
-                                    <span className="event-name">
-                                      {item.content}
-                                    </span>
-                                  </div>
-                                )}
-                              </Draggable>
-
-                              : null}
+                            <span
+                              className="right"
+                              onMouseDown={(e) => onMouseDown(e, i)}
+                            ></span>
+                            <span className="event-name">{item.content}</span>
                           </div>
-                        ))}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
+                        </Draggable>
+                      ) : null}
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
-          </DragDropContext>
+            </div>
+          ))}
         </div>
       ))}
     </>
@@ -257,10 +269,9 @@ function ProgressPlan(props) {
 }
 
 function mapStateToProps(state) {
-  const { resize } = state.progressPlan;
-
+  const { onResize } = state.progressPlan;
   return {
-    resize,
+    onResize,
   };
 }
 

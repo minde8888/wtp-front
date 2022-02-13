@@ -42,12 +42,17 @@ export default function project(state = initialState, action) {
             return {
                 ...state, data: [...state.data, data]
             }
-        case projectConstants.PROJECT_TABLE_ONCHANGE:
-               return {
-                ...state, data: state.data.filter(p => p.projectId === id ?
-                    p[Object.keys(payload).join()] = Object.values(payload).join() :
-                    p)
+        case projectConstants.PROJECT_TABLE_ONCHANGE: {
+            const dataCopy = [...state.data];
+            const projectIndex = dataCopy.findIndex(p => p.projectId === id);
+            const project = dataCopy[projectIndex];
+            const updatedProject = { ...project, ...payload }
+            dataCopy.splice(projectIndex, 1, updatedProject);
+
+            return {
+                ...state, data: [...dataCopy]
             }
+        }
         case projectConstants.UPDATE_PROJECT_TABLE:
             return {
                 ...state, data: state.data.map(p => p.projectId !== payload.projectId ? p : payload)
