@@ -7,6 +7,7 @@ import Draggable from "react-draggable";
 import { range } from "../../helpers/range";
 
 function ProgressPlan(props) {
+
   let now = new Date();
   const totalDays = new Date(
     now.getFullYear(),
@@ -212,6 +213,7 @@ function ProgressPlan(props) {
             containerRef.current[i] = element;
           }}
         >
+
           {Object.entries(columns).map(([columnId, column], index) => (
             <div className="text-center cell" key={columnId}>
               <div className="cell-top">
@@ -243,6 +245,7 @@ function ProgressPlan(props) {
                               <div
                                 key={uuid()}
                                 className={`range ${item.color}`}
+
                               >
                                 {/* {range} */}
                               </div>
