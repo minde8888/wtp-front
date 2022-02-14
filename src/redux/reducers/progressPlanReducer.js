@@ -1,13 +1,13 @@
 import { progressPlanConstants } from "../constants/progressPlanConstants";
 
 
-const initialState = {resize:false,};
+const initialState = { onResize: false, };
 
 export default function message(state = initialState, action) {
     const { type, payload } = action;
     switch (type) {
         case progressPlanConstants.RESIZE:
-            return { ...state, resize: payload };
+            return { ...state, onResize: payload };
 
         default:
             return state;
