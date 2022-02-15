@@ -49,74 +49,7 @@ function ProgressPlan(props) {
       index: 0,
     },
   ];
-  /****************************************Resize******************************************/
-  const [state, setState] = useState({
-    minimum_size: 42,
-    original_width: 0,
-    original_x: 0,
-    original_mouse_x: 0,
-    container_size: totalDays * 42,
-    current_container: {},
-    top: 0,
-    right: 0,
-    left: 0,
-  });
 
-  const {
-    minimum_size,
-    original_width,
-    original_mouse_x,
-    element,
-    right,
-    left,
-    top,
-    bottom,
-    container_size,
-    current_container,
-  } = state;
-
-  const onMouseDown = (e, i) => {
-    setState({
-      ...state,
-      original_width: e.target.offsetParent.offsetWidth - 1,
-      original_mouse_x: e.pageX,
-      element: e.target.offsetParent,
-      right: e.target.classList.value,
-      left: e.target.classList.value,
-      current_container: containerRef.current[i].getBoundingClientRect(),
-    });
-    props.dispatch(resize(true));
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseup", onMouseUpResize);
-  }, [props.onResize]);
-
-  const onMouseMove = (e) => {
-    if (props.onResize) {
-      if (right === "right" && element !== undefined) {
-        const width = original_width + (e.pageX - original_mouse_x);
-        if (width > 50) {
-          element.style.width = width + "px";
-        }
-      } else if (left === "left" && element !== undefined) {
-        const width = original_width - (e.pageX - original_mouse_x);
-        if (width > minimum_size) {
-          element.style.width = width + "px";
-          element.style.left = 4 + (e.pageX - original_mouse_x) + "px";
-        }
-      }
-    }
-  };
-
-  const onMouseUpResize = (e) => {
-    props.dispatch(resize(false));
-    document.removeEventListener("mousemove", onMouseMove);
-    document.removeEventListener("mouseup", onMouseUpResize);
-  };
-
-  /******************************Resize***************************************/
   let columnsDays = {};
   for (let i = 0; i < totalDays; i++) {
     columnsDays = {
@@ -129,12 +62,97 @@ function ProgressPlan(props) {
     };
   }
 
-  /**********************Draggable*******************************/
+  const [columns, setColumns] = useState(columnsDays);
+
+  /****************************************Resize start******************************************/
+  const [state, setState] = useState({
+    minimum_size: 42,
+    original_width: 0,
+    original_x: 0,
+    original_mouse_x: 0,
+    container_size: totalDays * 42,
+    current_container: {},
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom:0,
+    rightResize: 0,
+    leftResize: 0,
+  });
+
+  const {
+    minimum_size,
+    original_width,
+    original_mouse_x,
+    element,
+    right,
+    left,
+    top,
+    bottom,
+    rightResize,
+    leftResize,
+    container_size,
+    current_container,
+  } = state;
+
+  const { onResize } = props;
+
+  const onMouseDown = (e, i) => {
+    setState({
+      ...state,
+      original_width: e.target.offsetParent.offsetWidth - 1,
+      original_mouse_x: e.pageX,
+      element: e.target.offsetParent,
+      rightResize: e.target.classList.value,
+      leftResize: e.target.classList.value,
+      current_container: containerRef.current[i].getBoundingClientRect(),
+    });
+    props.dispatch(resize(true));
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUpResize);
+  }, [onResize]);
+
+  const onMouseMove = (e) => {
+    if (onResize) {
+      if (rightResize === "right" && element !== undefined) {
+        const width = original_width + (e.pageX - original_mouse_x);
+        if (width > minimum_size) {
+          element.style.width = width + "px";
+          // console.log(Math.round(width/minimum_size));
+          // console.log(element.id);
+          console.log(itemsFromBackend.find(x => {console.log(x.id === element.id)}));
+        }
+      } else if (leftResize === "left" && element !== undefined) {
+        const width = original_width - (e.pageX - original_mouse_x);
+        if (width > minimum_size) {
+          element.style.width = width + "px";
+          element.style.left = 4 + (e.pageX - original_mouse_x) + "px";
+        }
+      }
+    }
+  };
+
+  const onMouseUpResize = (e) => {
+
+
+    props.dispatch(resize(false));
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUpResize);
+  };
+
+  /******************************Resize end***************************************/
+
+
+  /**********************Draggable start*******************************/
   const containerRef = useRef([]);
+  var eventRef = useRef([]);
 
   const onDragEnd = (result, columns, setColumns, index) => {
-    console.log(totalDays * 42);
-    console.log(containerRef.current[index].getBoundingClientRect());
+    // console.log(totalDays * 42);
+    // console.log(eventRef.current[index].getBoundingClientRect());
     if (!result.destination) return;
     const { source, destination } = result;
     // console.log(source, destination);
@@ -179,30 +197,35 @@ function ProgressPlan(props) {
     })
   );
   /****************find the amount of rows*****************/
-  const [columns, setColumns] = useState(columnsDays);
+
 
   const handleStart = (e, i) => {
-    var draggable = e.target.getBoundingClientRect();
-    console.log(draggable);
-    var containerSize = containerRef.current[i].getBoundingClientRect();
-    containerRef.current[i].getBoundingClientRect();
-    var top = i === 0 ? 0 : -containerSize.height * i;
-    var bottom = max === 0 ? 0 : (max - i) * containerSize.height;
-    setState({ top: top, bottom: bottom });
+
+    var containerSizeValues = containerRef.current[i].getBoundingClientRect();
+    var eventSizeValues = e.target.parentElement.getBoundingClientRect();
+
+    var top = i === 0 ? 0 : -containerSizeValues.height * i;
+    var bottom = max === 0 ? 0 : (max - i) * containerSizeValues.height;
+    var left = (eventSizeValues.x - containerSizeValues.x) - (containerSizeValues.width - container_size) / 2;
+    var right = (containerSizeValues.right - eventSizeValues.right) - (containerSizeValues.width - container_size) / 2;
+
     document.addEventListener("mousemove", handleDrag);
     document.addEventListener("mouseup", onMouseUpDraggable);
+    setState({ top: top, bottom: bottom, left: (-left), right: right });
   };
   const handleDrag = (e) => {
-    console.log("drag" + e);
+    console.log(state);
   };
   const onMouseUpDraggable = (e) => {
+    console.log(state);
     // props.dispatch(resize(false));
     // console.log(e.target.parentElement);
     document.removeEventListener("mousemove", handleDrag);
     document.removeEventListener("mouseup", onMouseUpDraggable);
   };
 
-  // console.log(props.resize);
+  /**********************Draggable end*******************************/
+
   return (
     <>
       {[...Array(max + 1)].map((_elementInArray, i) => (
@@ -219,24 +242,27 @@ function ProgressPlan(props) {
               <div className="cell-top">
                 <div className="border day " id={uuid()}>
                   {column.items.map((item, index) => (
-                    <div className="drag-box " key={item.id}>
-                      {i === item.index ? (
+                    <div className="drag-box " key={item.id} >
+                      {i === item.index && (
                         <Draggable
                           bounds={{
                             top: top,
-                            left: -100,
-                            right: 100,
+                            left: left,
+                            right: right,
                             bottom: bottom,
                           }}
                           cancel="span"
                           key={item.id}
-                          onMouseDown={(e) => handleStart(e, i)}
+
                           onStop={(result) =>
                             onDragEnd(result, columns, setColumns, i)
                           }
+                          onStart={(e) => handleStart(e, i)}
                         >
-                          <div className={`event ${item.color}`} id={item.id}>
-                            {console.log(bottom)}
+                          <div className={`event ${item.color}`} id={item.id}
+                            ref={(element) => {
+                              eventRef.current[i] = element;
+                            }}>
                             <span
                               className="left"
                               onMouseDown={(e) => onMouseDown(e, i)}
@@ -258,7 +284,7 @@ function ProgressPlan(props) {
                             <span className="event-name">{item.content}</span>
                           </div>
                         </Draggable>
-                      ) : null}
+                      )}
                     </div>
                   ))}
                 </div>
