@@ -48,7 +48,6 @@ export default function project(state = initialState, action) {
             const project = dataCopy[projectIndex];
             const updatedProject = { ...project, ...payload }
             dataCopy.splice(projectIndex, 1, updatedProject);
-
             return {
                 ...state, data: [...dataCopy]
             }
