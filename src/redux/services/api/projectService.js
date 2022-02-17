@@ -34,7 +34,7 @@ class ProjectService {
     
     console.log(Object.fromEntries(formData))
 
-    return Instance.put(USER_URL+"/Update/", obj ,{ headers: authHeader() });
+    return Instance.put(USER_URL+"/Update/", obj );
   }
 }
 

@@ -54,14 +54,12 @@ function ProgressPlan(props) {
   for (let i = 0; i < totalDays; i++) {
     columnsDays = {
       ...columnsDays,
-      [uuid()]: {
-        start: i + 1,
-        end: i + 1,
+      [i]: {
         items: itemsFromBackend.filter((item) => item.start === i + 1),
       },
     };
   }
-
+console.log(columnsDays);
   const [columns, setColumns] = useState(columnsDays);
 
   /****************************************Resize start******************************************/
