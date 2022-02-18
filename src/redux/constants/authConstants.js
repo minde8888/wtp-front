@@ -8,4 +8,6 @@ export const authConstants = {
     LOGIN_FAIL: 'LOGIN_FAIL',
 
     LOGOUT: 'USERS_LOGOUT',
+
+    REFRESH:'REFRESH'
 };

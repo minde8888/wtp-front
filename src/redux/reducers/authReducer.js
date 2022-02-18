@@ -1,16 +1,20 @@
-import { authConstants } from "../constants/authConstants";
+import {
+    authConstants
+} from "../constants/authConstants";
 
-const token = JSON.parse(localStorage.getItem('token'));
+const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
 
-var initialState =
-    token ?
-        { isLoggedIn: true, token } :
-        { isLoggedIn: false, token: null };
-
+var initialState = {
+    payloade: "",
+    isLoggedIn: refreshToken === null || refreshToken.length === 0 || refreshToken === undefined   ? false : true
+}
 
 export default function auth(state = initialState, action) {
 
-    const { type, data } = action;
+    const {
+        type,
+        payloade
+    } = action;
 
     switch (type) {
         case authConstants.REGISTER_SUCCESS:
@@ -26,22 +30,27 @@ export default function auth(state = initialState, action) {
         case authConstants.LOGIN_SUCCESS:
             return {
                 ...state,
-                token: data.user,
                 isLoggedIn: true
             };
         case authConstants.LOGIN_FAIL:
             return {
                 ...state,
                 isLoggedIn: false,
-                user: null,
+                    user: null,
             };
         case authConstants.LOGOUT:
             return {
                 ...state,
                 isLoggedIn: false,
-                user: null,
+                    user: null,
             };
-        default:
-            return state;
+        case authConstants.REFRESH:
+            return {
+                ...state,
+                isLoggedIn: true,
+                    token: payloade
+            }
+            default:
+                return state;
     }
 }

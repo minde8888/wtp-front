@@ -27,7 +27,7 @@ export const getAllProjects = () => (dispatch) => {
                 error.toString();
             dispatch({
                 type: messageConstants.ERROR,
-                payload: error.response.data,
+                payload: error.response,
             });
             console.log(message);
             return Promise.reject();

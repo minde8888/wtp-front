@@ -73,7 +73,7 @@ console.log(columnsDays);
     top: 0,
     right: 0,
     left: 0,
-    bottom:0,
+    bottom: 0,
     rightResize: 0,
     leftResize: 0,
   });
@@ -120,8 +120,9 @@ console.log(columnsDays);
         if (width > minimum_size) {
           element.style.width = width + "px";
           // console.log(Math.round(width/minimum_size));
-          // console.log(element.id);
-          console.log(itemsFromBackend.find(x => {console.log(x.id === element.id)}));
+          console.log(columns);
+          console.log(element.id);
+          // console.log(itemsFromBackend);
         }
       } else if (leftResize === "left" && element !== undefined) {
         const width = original_width - (e.pageX - original_mouse_x);
@@ -239,7 +240,7 @@ console.log(columnsDays);
             <div className="text-center cell" key={columnId}>
               <div className="cell-top">
                 <div className="border day " id={uuid()}>
-                  {column.items.map((item, index) => (
+                  {/* {column.items.map((item, index) => (
                     <div className="drag-box " key={item.id} >
                       {i === item.index && (
                         <Draggable
@@ -271,7 +272,7 @@ console.log(columnsDays);
                                 className={`range ${item.color}`}
 
                               >
-                                {/* {range} */}
+                                {range} 
                               </div>
                             ))}
 
@@ -284,7 +285,7 @@ console.log(columnsDays);
                         </Draggable>
                       )}
                     </div>
-                  ))}
+                  ))} */}
                 </div>
               </div>
             </div>
