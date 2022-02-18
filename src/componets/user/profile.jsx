@@ -24,7 +24,7 @@ const Profile = (props) => {
                   src={data.imageName === null ? userImage : data.imageSrc}
                   alt={data.imageName}
                 />
-                <h3 className="mt-2">Maria Smantha</h3>{" "}
+                <h3 className="mt-2">{data.name} {data.surname}</h3>{" "}
                 <span className="mt-1 clearfix">Android Developer</span>
                 <div className="buttons px-2 mt-3">
                   <div className="col-md-4 btn-outline-secondary">

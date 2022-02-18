@@ -54,7 +54,9 @@ function ProgressPlan(props) {
   for (let i = 0; i < totalDays; i++) {
     columnsDays = {
       ...columnsDays,
-      [i]: itemsFromBackend.filter((item) => item.start === i + 1)
+      [i]: {
+        items: itemsFromBackend.filter((item) => item.start === i + 1),
+      },
     };
   }
 console.log(columnsDays);
