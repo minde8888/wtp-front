@@ -54,14 +54,10 @@ function ProgressPlan(props) {
   for (let i = 0; i < totalDays; i++) {
     columnsDays = {
       ...columnsDays,
-      [uuid()]: {
-        start: i + 1,
-        end: i + 1,
-        items: itemsFromBackend.filter((item) => item.start === i + 1),
-      },
+      [i]: itemsFromBackend.filter((item) => item.start === i + 1)
     };
   }
-
+console.log(columnsDays);
   const [columns, setColumns] = useState(columnsDays);
 
   /****************************************Resize start******************************************/
@@ -75,7 +71,7 @@ function ProgressPlan(props) {
     top: 0,
     right: 0,
     left: 0,
-    bottom:0,
+    bottom: 0,
     rightResize: 0,
     leftResize: 0,
   });
@@ -122,8 +118,9 @@ function ProgressPlan(props) {
         if (width > minimum_size) {
           element.style.width = width + "px";
           // console.log(Math.round(width/minimum_size));
-          // console.log(element.id);
-          console.log(itemsFromBackend.find(x => {console.log(x.id === element.id)}));
+          console.log(columns);
+          console.log(element.id);
+          // console.log(itemsFromBackend);
         }
       } else if (leftResize === "left" && element !== undefined) {
         const width = original_width - (e.pageX - original_mouse_x);
@@ -241,7 +238,7 @@ function ProgressPlan(props) {
             <div className="text-center cell" key={columnId}>
               <div className="cell-top">
                 <div className="border day " id={uuid()}>
-                  {column.items.map((item, index) => (
+                  {/* {column.items.map((item, index) => (
                     <div className="drag-box " key={item.id} >
                       {i === item.index && (
                         <Draggable
@@ -273,7 +270,7 @@ function ProgressPlan(props) {
                                 className={`range ${item.color}`}
 
                               >
-                                {/* {range} */}
+                                {range} 
                               </div>
                             ))}
 
@@ -286,7 +283,7 @@ function ProgressPlan(props) {
                         </Draggable>
                       )}
                     </div>
-                  ))}
+                  ))} */}
                 </div>
               </div>
             </div>
