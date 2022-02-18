@@ -1,23 +1,65 @@
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
-
-
-const instance = require('axios').create({
-  baseURL: 'https://localhost:44395/'
-});
-
-let token = localStorage.getItem('token');
-let refreshToken = localStorage.getItem('refreshToken');
-console.log({token:token, refreshToken:refreshToken});
-const refreshAuthLogic = failedRequest => instance.post('api/Auth/RefreshToken',{token:token, refreshToken:refreshToken}).then(tokenRefreshResponse => {
-
-  localStorage.setItem('token', tokenRefreshResponse.data.token);
-  localStorage.setItem('refreshToken', tokenRefreshResponse.data.refreshToken);
-  failedRequest.response.config.headers['Authorization'] = 'Bearer ' + tokenRefreshResponse.data.token;
-  return Promise.resolve();
-});
-
-createAuthRefreshInterceptor(instance, refreshAuthLogic);
+import {  setToken} from '../../actions/token';
+import getToken from '../../../componets/auth/token/getToken';
+import {  connect } from "react-redux";
 
 
 
-export default instance
+  const instance = require('axios').create({
+    baseURL: 'https://localhost:44395/'
+  });
+  instance.interceptors.request.use(
+    (config) => {
+      console.log(getToken());
+      config.headers = config.headers ?? {
+        Authorization: getToken()
+      };
+
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  const refreshAuthLogic = async (failedRequest) => {
+    console.log('failedRequest', failedRequest);
+    return instance.post("api/Auth/RefreshToken", {
+        token: getToken(),
+        refreshToken: localStorage.getItem("refreshToken")
+      })
+      .then((response) => {
+        const {
+          token,
+          refreshToken
+        } = response.data;
+        setToken(token);
+        localStorage.setItem("refreshToken", JSON.stringify(refreshToken));
+        response.config.headers = {
+          Authorization: getToken()
+        };
+        return Promise.resolve();
+      })
+      .catch((err) => {
+        console.log('error', err)
+        // removeLocalStorageData();
+        // fireSessionTimeoutAlert(err);
+        return Promise.reject(err);
+      });
+
+  }
+
+  createAuthRefreshInterceptor(instance, refreshAuthLogic);
+
+  export default instance;
+
+
+
+
+
+
+
+
+
+
+

@@ -1,10 +1,6 @@
 import AuthService from "../../redux/services/api/authServices"
-import {
-  authConstants
-} from "../constants/authConstants";
-import {
-  messageConstants
-} from "../constants/messageConstants";
+import {  authConstants} from "../constants/authConstants";
+import {  messageConstants} from "../constants/messageConstants";
 
 
 export const register = (obj) => (dispatch) => {
@@ -70,14 +66,18 @@ export const login = (email, password) => (dispatch) => {
           occupation: el.occupation,
           role: el.role,
           address: el.address
-        }
-        
+        }       
+
         localStorage.setItem('refreshToken', JSON.stringify(el.refreshToken));
-        localStorage.setItem('token', JSON.stringify(el.token));
+        // localStorage.setItem('token', JSON.stringify(el.token));
         localStorage.setItem('user', JSON.stringify(user));
         if (el.role === "Manager") {
           localStorage.setItem('employees', JSON.stringify(el.employees.$values));
         }
+        dispatch({
+          typr:authConstants.REFRESH,
+          payloade:el.token
+        })
       });
 
       return Promise.resolve();
@@ -127,7 +127,7 @@ export const logout = () => (dispatch) => {
 };
 
 export const isLogin = () => {
-  if (localStorage.getItem("token")) {
+  if (localStorage.getItem("refreshToken")) {
     return true;
   }
   return false;
