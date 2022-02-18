@@ -71,7 +71,8 @@ export const login = (email, password) => (dispatch) => {
           role: el.role,
           address: el.address
         }
-
+        
+        localStorage.setItem('refreshToken', JSON.stringify(el.refreshToken));
         localStorage.setItem('token', JSON.stringify(el.token));
         localStorage.setItem('user', JSON.stringify(user));
         if (el.role === "Manager") {

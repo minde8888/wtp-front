@@ -91,7 +91,6 @@ export const updateProject = (obj) => (dispatch) => {
             return Promise.resolve();
         },
         (error) => {
-
             const message =
                 (error.response &&
                     error.response.data &&
