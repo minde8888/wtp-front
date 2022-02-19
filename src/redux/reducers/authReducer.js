@@ -5,15 +5,14 @@ import {
 const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
 
 var initialState = {
-    payloade: "",
-    isLoggedIn: refreshToken === null || refreshToken.length === 0 || refreshToken === undefined   ? false : true
+    token: "",
+    isLoggedIn: refreshToken === null || refreshToken.length === 0 || refreshToken === undefined ? false : true
 }
 
 export default function auth(state = initialState, action) {
-
     const {
         type,
-        payloade
+        payload
     } = action;
 
     switch (type) {
@@ -36,21 +35,21 @@ export default function auth(state = initialState, action) {
             return {
                 ...state,
                 isLoggedIn: false,
-                    user: null,
+                user: null,
             };
         case authConstants.LOGOUT:
             return {
                 ...state,
                 isLoggedIn: false,
-                    user: null,
+                user: null,
             };
         case authConstants.REFRESH:
             return {
                 ...state,
                 isLoggedIn: true,
-                    token: payloade
+                token: payload
             }
-            default:
-                return state;
+        default:
+            return state;
     }
 }

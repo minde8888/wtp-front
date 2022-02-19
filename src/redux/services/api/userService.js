@@ -1,19 +1,18 @@
-import authHeader from './header';
-import instance from './url'
+import api from './apiServices'
 
 const USER_URL = "/v1/api/";
 
 class UserService {
 
   getEmployee(id) {
-    return instance.get(USER_URL + 'Employee/id?id=' + id, { headers: authHeader() });
+    return api.get(USER_URL + 'Employee/id?id=' + id);
   }
 
   getManager(id) {
-    return instance.get(USER_URL + 'Manager/id?id=' + id, { headers: authHeader() });
+    return api.get(USER_URL + 'Manager/id?id=' + id);
   }
   getAdminBoard() {
-    return instance.get(USER_URL + 'admin', { headers: authHeader() });
+    return api.get(USER_URL + 'admin');
   }
 
   updateUserInfo(Id, obj) {
@@ -30,7 +29,7 @@ class UserService {
     }
     // console.log(Object.fromEntries(formData))
 
-    return instance.put(USER_URL + obj.role + '/Update/' + Id, formData, { headers: authHeader() });
+    return api.put(USER_URL + obj.role + '/Update/' + Id, formData);
   }
 
   deleted(id, role) {
@@ -41,7 +40,7 @@ class UserService {
     if (role === "Employee") {
       user = "Employee";
     }
-    return instance.delete(USER_URL + user + '/Delete/' + id, { headers: authHeader() });
+    return api.delete(USER_URL + user + '/Delete/' + id);
   }
 
 }

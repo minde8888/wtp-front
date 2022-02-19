@@ -6,7 +6,6 @@ import { Link, Redirect } from "react-router-dom";
 import { login } from "../../../redux/actions/auth";
 import { connect } from "react-redux";
 import { clearMessage } from "../../../redux/actions/message";
-import { isLogin } from "../../../redux/actions/auth";
 
 class LoginContainer extends Component {
   constructor(props) {
@@ -44,7 +43,7 @@ class LoginContainer extends Component {
         .required("Password is required"),
     });
 
-    if (isLoggedIn && isLogin()) {
+    if (isLoggedIn) {
       return <Redirect to="/" />;
     }
 
@@ -62,18 +61,8 @@ class LoginContainer extends Component {
             password: values.password,
           });
 
-          dispatch(login(this.state.email, this.state.password))
-            .then(() => {
-              this.setState({
-                loading: false,
-              });
-              window.location.reload();
-            })
-            .catch(() => {
-              this.setState({
-                loading: false,
-              });
-            });
+          dispatch(login(this.state.email, this.state.password));
+          this.setState({ loading: isLoggedIn ? false : true });
         }}
       >
         {(formik) => (

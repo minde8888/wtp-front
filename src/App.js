@@ -1,4 +1,4 @@
-import Main from './componets/main.jsx'
+import Main from './components/main'
 import './scss/App.scss';
 
 function App() {

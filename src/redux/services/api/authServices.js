@@ -1,11 +1,11 @@
-import instance from '../api/url.js';
+import api from './apiServices';
 
 const AUTH_URL = "/api/auth";
 
 class AuthService {
 
   async login(email, password) {
-    return await instance
+    return await api
       .post(AUTH_URL + "/login",
         {
           "email": email,
@@ -24,22 +24,22 @@ class AuthService {
 
   async register(obj) {
     console.log(obj);
-    return await instance.post(AUTH_URL + "/register", obj, { skipAuthRefresh: true });
+    return await api.post(AUTH_URL + "/register", obj);
   }
 
   async getPassword(email) {
-    return await instance.post(AUTH_URL + "/ForgotPassword", {
+    return await api.post(AUTH_URL + "/ForgotPassword", {
       "email": email
-    }, { skipAuthRefresh: true })
+    })
   }
 
   async getNewPassword(token, email, password) {
-    return await instance.post(AUTH_URL + "/ResetPassword",
+    return await api.post(AUTH_URL + "/ResetPassword",
         {
           "email": email,
           "token": token,
           "password": password
-        }, { skipAuthRefresh: true })
+        })
       .catch((error) => {
         return error
       })
