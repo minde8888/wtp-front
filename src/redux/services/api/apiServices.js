@@ -1,5 +1,5 @@
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
-import { setToken } from '../../actions/token';
+import { setToken } from '../../actions/auth';
 import authHeader from './header';
 import store from "../../store"
 

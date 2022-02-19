@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import userImage from "../../image/user.png";
 import Employees from "./employee/employees";
 import "./profile.scss";
 
 const Profile = (props) => {
-  const { data, employees, width, height } = props;
+  const { data, width, height } = props;
 
-  useEffect(() => employees);
   var id = { id: data.id };
 
   return (
@@ -50,7 +49,7 @@ const Profile = (props) => {
           </div>
 
           <div>
-            <Employees {...employees} {...id} />
+            <Employees {...data.employees} {...id} />
           </div>
         </>
       )}

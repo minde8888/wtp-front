@@ -9,7 +9,6 @@ const initialState = {
 
 export default function user(state = initialState, action) {
 
-
     const { type, payload, width, height, data } = action;
 
     switch (type) {
@@ -18,6 +17,11 @@ export default function user(state = initialState, action) {
                 data: data,
                 userIsLoaded: true
             };
+        case userConstants.MANAGER_EMPLOYEES:
+            return {
+                ...state,
+                data: { ...state.data, employees:payload }
+            }
         case userConstants.MANAGER_DATA_ERROR:
             return {
                 message: payload,
@@ -46,8 +50,8 @@ export default function user(state = initialState, action) {
         case userConstants.UPDATE_USER:
             return {
                 ...state,
-                data:data,
-                userIsLoaded:true
+                data: data,
+                userIsLoaded: true
             }
         default:
             return state;

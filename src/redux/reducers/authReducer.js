@@ -48,7 +48,7 @@ export default function auth(state = initialState, action) {
                 ...state,
                 isLoggedIn: true,
                 token: payload
-            }
+            }   
         default:
             return state;
     }

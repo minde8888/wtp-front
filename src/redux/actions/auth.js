@@ -69,16 +69,22 @@ export const login = (email, password) => (dispatch) => {
           address: el.address
         }       
 
-        localStorage.setItem('refreshToken', el.refreshToken);
-    
+        localStorage.setItem('refreshToken', el.refreshToken);    
         localStorage.setItem('user', JSON.stringify(user));
-        if (el.role === "Manager") {
-          localStorage.setItem('employees', JSON.stringify(el.employees.$values));
-        }
+
         dispatch({
           type:userConstants.MANAGER_DATA,
           data:JSON.parse(localStorage.getItem('user'))
         })
+
+        if (el.role === "Manager") {
+          localStorage.setItem('employees', JSON.stringify(el.employees.$values));
+          dispatch({
+            type:userConstants.MANAGER_EMPLOYEES,
+            payload:JSON.parse(localStorage.getItem('employees'))
+          })
+        }
+   
         dispatch({
           type:authConstants.REFRESH,
           payload:el.token
@@ -131,3 +137,9 @@ export const logout = () => (dispatch) => {
   });
 };
 
+export const setToken = (token) => (dispatch) => {
+  dispatch({
+    type: authConstants.REFRESH,
+    payload: token
+  })
+};
