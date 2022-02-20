@@ -1,6 +1,6 @@
 import {  connect } from "react-redux";
 
-const getToken = (props) => {
+const GetToken = (props) => {
     debugger
     return props.state.token
 }
@@ -15,4 +15,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(getToken);
+export default connect(mapStateToProps)(GetToken);

@@ -134,7 +134,7 @@ class AddUserContainer extends Component {
               });
             });
 
-          this.removeValues = () => {
+          this.removeValues = () =>  {
             resetForm()
           }
         }}

@@ -1,12 +1,11 @@
-import authHeader from './header';
-import Instance from './url'
+import api from './apiServices'
 
 const USER_URL = "/v1/api/Project";
 
 class ProjectService {
 
   allProjects() {
-    return Instance.get(USER_URL, { headers: authHeader() });
+    return api.get(USER_URL);
   }
 
   addProject = (obj) => {
@@ -18,11 +17,11 @@ class ProjectService {
 
     console.log(Object.fromEntries(formData))
 
-    return Instance.post(USER_URL, formData, { headers: authHeader() });
+    return api.post(USER_URL, formData);
   }
 
   removeProject(obj) {
-    return Instance.post(USER_URL + '/Delete', obj, { headers: authHeader() });
+    return api.post(USER_URL + '/Delete', obj);
   }
 
   updateProjectTable(obj){
@@ -34,7 +33,7 @@ class ProjectService {
     
     console.log(Object.fromEntries(formData))
 
-    return Instance.put(USER_URL+"/Update/", obj );
+    return api.put(USER_URL+"/Update/", obj );
   }
 }
 

@@ -12,7 +12,7 @@ class NavBar extends Component {
 
     const search = window.location.search;
     const params = new URLSearchParams(search);
-
+ 
     this.state = {
       showEmployeeBoard: false,
       showManagerBoard: false,
@@ -28,6 +28,7 @@ class NavBar extends Component {
   }
 
   componentDidMount() {
+
     const data = this.props.data;
     if (data) {
       this.setState({

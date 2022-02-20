@@ -6,7 +6,6 @@ import { Link, Redirect } from "react-router-dom";
 import { login } from "../../../redux/actions/auth";
 import { connect } from "react-redux";
 import { clearMessage } from "../../../redux/actions/message";
-import { isLogin } from "../../../redux/actions/auth";
 
 class LoginContainer extends Component {
   constructor(props) {
@@ -17,7 +16,6 @@ class LoginContainer extends Component {
     this.state = {
       email: "",
       password: "",
-      loading: false,
     };
   }
 
@@ -44,7 +42,7 @@ class LoginContainer extends Component {
         .required("Password is required"),
     });
 
-    if (isLoggedIn && isLogin()) {
+    if (isLoggedIn) {
       return <Redirect to="/" />;
     }
 
@@ -57,23 +55,12 @@ class LoginContainer extends Component {
         validationSchema={validate}
         onSubmit={(values) => {
           this.setState({
-            loading: true,
-            email: values.email,
+              email: values.email,
             password: values.password,
           });
 
           dispatch(login(this.state.email, this.state.password))
-            .then(() => {
-              this.setState({
-                loading: false,
-              });
-              window.location.reload();
-            })
-            .catch(() => {
-              this.setState({
-                loading: false,
-              });
-            });
+          this.setState({ loading: isLoggedIn ? false : true });
         }}
       >
         {(formik) => (
@@ -94,9 +81,9 @@ class LoginContainer extends Component {
                   <button
                     className="btn btn-dark mt-3 mb-3"
                     type="submit"
-                    disabled={this.state.loading}
+                    disabled={isLoggedIn}
                   >
-                    {this.state.loading && (
+                    {isLoggedIn && (
                       <span className="spinner-border spinner-border-sm"></span>
                     )}
                     Login
