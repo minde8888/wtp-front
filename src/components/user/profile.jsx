@@ -86,7 +86,7 @@ const Profile = (props) => {
 };
 
 function mapStateToProps(state) {
-  console.log(state);
+
   const { data, employees, width, height } = state.user;
 
   return {

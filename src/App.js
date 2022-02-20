@@ -1,3 +1,4 @@
+import React from "react";
 import Main from './components/main'
 import './scss/App.scss';
 

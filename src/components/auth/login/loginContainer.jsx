@@ -16,7 +16,6 @@ class LoginContainer extends Component {
     this.state = {
       email: "",
       password: "",
-      loading: false,
     };
   }
 
@@ -56,12 +55,11 @@ class LoginContainer extends Component {
         validationSchema={validate}
         onSubmit={(values) => {
           this.setState({
-            loading: true,
-            email: values.email,
+              email: values.email,
             password: values.password,
           });
 
-          dispatch(login(this.state.email, this.state.password));
+          dispatch(login(this.state.email, this.state.password))
           this.setState({ loading: isLoggedIn ? false : true });
         }}
       >
@@ -83,9 +81,9 @@ class LoginContainer extends Component {
                   <button
                     className="btn btn-dark mt-3 mb-3"
                     type="submit"
-                    disabled={this.state.loading}
+                    disabled={isLoggedIn}
                   >
-                    {this.state.loading && (
+                    {isLoggedIn && (
                       <span className="spinner-border spinner-border-sm"></span>
                     )}
                     Login

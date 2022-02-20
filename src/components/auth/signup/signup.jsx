@@ -1,3 +1,4 @@
+import React from "react";
 import  SignupContainer  from './singupContainer';
 
 const Signup = () => {
