@@ -60,7 +60,7 @@ class LoginContainer extends Component {
           });
 
           dispatch(login(this.state.email, this.state.password))
-          this.setState({ loading: isLoggedIn ? false : true });
+         
         }}
       >
         {(formik) => (
@@ -105,6 +105,7 @@ class LoginContainer extends Component {
 }
 
 function mapStateToProps(state) {
+
   const { isLoggedIn } = state.auth;
   const { message } = state.message;
   return {
