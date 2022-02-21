@@ -30,6 +30,7 @@ const refreshAuthLogic = async (failedRequest) => {
         refreshToken
       } = response.data;
       store.dispatch((setToken(token)))
+      localStorage.setItem("token", token);//to remove temp
       localStorage.setItem("refreshToken", refreshToken);
       response.config.headers = authHeader()
       return Promise.resolve();

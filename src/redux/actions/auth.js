@@ -69,6 +69,7 @@ export const login = (email, password) => (dispatch) => {
           address: el.address
         }       
 
+        localStorage.setItem('token', el.token); 
         localStorage.setItem('refreshToken', el.refreshToken);    
         localStorage.setItem('user', JSON.stringify(user));
 
@@ -87,7 +88,7 @@ export const login = (email, password) => (dispatch) => {
    
         dispatch({
           type:authConstants.REFRESH,
-          payload:el.token
+          payload:localStorage.getItem('token')
         })
       });
 
@@ -138,6 +139,7 @@ export const logout = () => (dispatch) => {
 };
 
 export const setToken = (token) => (dispatch) => {
+  
   dispatch({
     type: authConstants.REFRESH,
     payload: token

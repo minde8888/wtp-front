@@ -6,6 +6,7 @@ import { resize } from "../../redux/actions/progressPlan";
 import Draggable from "react-draggable";
 import { range } from "../../helpers/range";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
+import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 
 
 function ProgressPlan(props) {
@@ -17,10 +18,12 @@ function ProgressPlan(props) {
     0
   ).getDate();
 
+  // const items = props.dispatch(getAllProgressPlans())
+  // console.log(items);
   const itemsFromBackend = [
     {
       id: uuid(),
-      content: "event1ssssssssssssssssssssssss",
+      content: "event1ssssss",
       color: "bg-success text-white",
       start: 1,
       end: 3,

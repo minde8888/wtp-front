@@ -7,12 +7,12 @@ class ProgressPlanService {
         return api.get(USER_URL);
     }
     addProgressPlan(obj) {
-        console.log(obj);
+
         let formData = new FormData();
         for (var key in obj) {
           formData.append(key, obj[key])
         }
-    
+
         return api.post(USER_URL, formData);
       }    
 }

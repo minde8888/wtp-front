@@ -7,13 +7,13 @@ export const resize = (bool) => ({
     payload: bool
 })
 
-export const getAllProgressPlan = () => (dispatch) => {
+export const getAllProgressPlans = () => (dispatch) => {
 
     return ProgressPlanService.allPlans().then(
         async (data) => {
             dispatch({
                 type: progressPlanConstants.PROGRESS_PLAN_DATA,
-                data: data.data.$values,
+                payload: data.data.$values,
             });
             localStorage.setItem('progress_plan', JSON.stringify(data.data.$values));
             return await Promise.resolve();
