@@ -8,6 +8,7 @@ import {  connect } from "react-redux";
   const instance = require('axios').create({
     baseURL: 'https://localhost:44395/'
   });
+  
   instance.interceptors.request.use(
     (config) => {
       console.log(getToken());
