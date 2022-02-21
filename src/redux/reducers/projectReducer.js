@@ -18,7 +18,7 @@ export default function project(state = initialState, action) {
         payload,
         isSelectedId,
         id
-    } = action;
+    } = action 
 
     switch (type) {
         case projectConstants.PROJECT_DATA:

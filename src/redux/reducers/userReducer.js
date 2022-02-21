@@ -4,20 +4,24 @@ const initialState = {
     message: "",
     userIsLoaded: false,
     employees: JSON.parse(localStorage.getItem('employees')),
-    data: JSON.parse(localStorage.getItem('user'))
+    data: ""
 };
 
 export default function user(state = initialState, action) {
-
 
     const { type, payload, width, height, data } = action;
 
     switch (type) {
         case userConstants.MANAGER_DATA:
             return {
-                data: payload,
+                data: data,
                 userIsLoaded: true
             };
+        case userConstants.MANAGER_EMPLOYEES:
+            return {
+                ...state,
+                data: { ...state.data, employees:payload }
+            }
         case userConstants.MANAGER_DATA_ERROR:
             return {
                 message: payload,
@@ -44,11 +48,10 @@ export default function user(state = initialState, action) {
                 ...state, employees: { ...payload }
             };
         case userConstants.UPDATE_USER:
-            // state.data = data  
             return {
                 ...state,
-                data:data,
-                userIsLoaded:true
+                data: data,
+                userIsLoaded: true
             }
         default:
             return state;

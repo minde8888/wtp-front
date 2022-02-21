@@ -1,11 +1,12 @@
-import LoginContainer from '../login/loginContainer'
+import React from "react";
+import  SignupContainer  from './singupContainer';
 
-const Login = () => {
+const Signup = () => {
     return (
         <div className="container mt-3">
           <div className="row">
             <div className="col-md-6 offset-md-3">
-              <LoginContainer />
+              <SignupContainer />
             </div>
             <div className="col-md-7 my-auto">
               <img className="img-fluid w-100" alt=""/>
@@ -15,4 +16,4 @@ const Login = () => {
       );
 };
 
-export default Login;
+export default Signup;

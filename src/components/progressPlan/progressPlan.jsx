@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { resize } from "../../redux/actions/progressPlan";
 import Draggable from "react-draggable";
 import { range } from "../../helpers/range";
+import AddProgressPlan from "./addProgressPlan/addProgressPlan";
+
 
 function ProgressPlan(props) {
 
@@ -59,7 +61,7 @@ function ProgressPlan(props) {
       },
     };
   }
-console.log(columnsDays);
+// console.log(columnsDays);
   const [columns, setColumns] = useState(columnsDays);
 
   /****************************************Resize start******************************************/
@@ -90,7 +92,6 @@ console.log(columnsDays);
     rightResize,
     leftResize,
     container_size,
-    current_container,
   } = state;
 
   const { onResize } = props;
@@ -120,8 +121,8 @@ console.log(columnsDays);
         if (width > minimum_size) {
           element.style.width = width + "px";
           // console.log(Math.round(width/minimum_size));
-          console.log(columns);
-          console.log(element.id);
+          // console.log(columns);
+          // console.log(element.id);
           // console.log(itemsFromBackend);
         }
       } else if (leftResize === "left" && element !== undefined) {
@@ -135,8 +136,6 @@ console.log(columnsDays);
   };
 
   const onMouseUpResize = (e) => {
-
-
     props.dispatch(resize(false));
     document.removeEventListener("mousemove", onMouseMove);
     document.removeEventListener("mouseup", onMouseUpResize);
@@ -213,10 +212,10 @@ console.log(columnsDays);
     setState({ top: top, bottom: bottom, left: (-left), right: right });
   };
   const handleDrag = (e) => {
-    console.log(state);
+    // console.log(state);
   };
   const onMouseUpDraggable = (e) => {
-    console.log(state);
+    // console.log(state);
     // props.dispatch(resize(false));
     // console.log(e.target.parentElement);
     document.removeEventListener("mousemove", handleDrag);
@@ -227,6 +226,7 @@ console.log(columnsDays);
 
   return (
     <>
+      <AddProgressPlan/>
       {[...Array(max + 1)].map((_elementInArray, i) => (
         <div
           key={i}
@@ -240,7 +240,7 @@ console.log(columnsDays);
             <div className="text-center cell" key={columnId}>
               <div className="cell-top">
                 <div className="border day " id={uuid()}>
-                  {/* {column.items.map((item, index) => (
+                  {column.items.map((item, index) => (
                     <div className="drag-box " key={item.id} >
                       {i === item.index && (
                         <Draggable
@@ -285,7 +285,7 @@ console.log(columnsDays);
                         </Draggable>
                       )}
                     </div>
-                  ))} */}
+                  ))}
                 </div>
               </div>
             </div>

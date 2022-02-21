@@ -10,12 +10,9 @@ import trash from "../../svg/trash.svg";
 import "./project.scss";
 
 class Table extends Component {
+
   componentDidMount() {
     this.props.dispatch(getAllProjects());
-  }
-
-  componentDidUpdate(prevProps) {
-    document.addEventListener("mousedown", this.handleClickOutside);
   }
 
   removeProjects = () => {

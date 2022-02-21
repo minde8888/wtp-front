@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import userImage from "../../image/user.png";
 import Employees from "./employee/employees";
 import "./profile.scss";
 
 const Profile = (props) => {
-  const { data, employees, width, height } = props;
+  const { data, width, height } = props;
 
-  useEffect(() => employees);
   var id = { id: data.id };
 
   return (
@@ -17,14 +16,13 @@ const Profile = (props) => {
           <div className="container d-flex justify-content-around flex-wrap col-md-12 ">
             <div className="card ">
               <div className="text-center px-2 ">
-                {" "}
                 <img
                   width={width !== 0 ? width : null}
                   height={height !== 0 ? height : null}
                   src={data.imageName === null ? userImage : data.imageSrc}
                   alt={data.imageName}
                 />
-                <h3 className="mt-2">{data.name} {data.surname}</h3>{" "}
+                <h3 className="mt-2">{data.name} {data.surname}</h3>
                 <span className="mt-1 clearfix">Android Developer</span>
                 <div className="buttons px-2 mt-3">
                   <div className="col-md-4 btn-outline-secondary">
@@ -51,7 +49,7 @@ const Profile = (props) => {
           </div>
 
           <div>
-            <Employees {...employees} {...id} />
+            <Employees {...data.employees} {...id} />
           </div>
         </>
       )}
@@ -88,7 +86,7 @@ const Profile = (props) => {
 };
 
 function mapStateToProps(state) {
-  console.log(state);
+
   const { data, employees, width, height } = state.user;
 
   return {

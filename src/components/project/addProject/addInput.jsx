@@ -1,16 +1,16 @@
-import React, { useRef, useState} from "react";
+import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
 import { setMessage, clearMessage } from "../../../redux/actions/message";
 import { addNewProject } from "../../../redux/actions/projectData";
 import plus from "../../../svg/plus.svg";
 
 const AddInput = (props) => {
-
   const [allValues, setValue] = useState({
     number: null,
     title: "",
     place: "",
     status: "",
+    managerId: props.data.id,
   });
 
   const [errors, setErrors] = useState({
@@ -123,6 +123,7 @@ const AddInput = (props) => {
 };
 
 function mapStateToProps(state) {
-  return {};
-} 
+  const { data } = state.user;
+  return { data };
+}
 export default connect(mapStateToProps)(AddInput);
