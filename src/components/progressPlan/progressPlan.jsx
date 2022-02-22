@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import uuid from "uuid/v4";
 import "./progressPlan.scss";
 import { connect } from "react-redux";
@@ -9,8 +9,52 @@ import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 
 
-function ProgressPlan(props) {
+// const getRowIndex = (index, daysInMonth) => 0 /*sveika dalis*/;
+// const getDayCoordinates = (index, daysInMonth) => {
+//   dayIndex = index % daysInMonth
+//   rowIndex = Math.floor(index / daysInMonth)
+//   return {
+//     dayIndex,
+//     rowIndex
+//   }
+// }
 
+const itemsFromBackend = [
+  {
+    id: uuid(),
+    content: "event1ssssss",
+    color: "bg-success text-white",
+    start: 1,
+    end: 3,
+    index: 0,
+  },
+  {
+    id: uuid(),
+    content: "event2",
+    color: "bg-danger text-white",
+    start: 1,
+    end: 5,
+    index: 1,
+  },
+  {
+    id: uuid(),
+    content: "event4",
+    color: "bg-danger text-white",
+    start: 3,
+    end: 3,
+    index: 2,
+  },
+  {
+    id: uuid(),
+    content: "event",
+    color: "bg-primary text-white",
+    start: 15,
+    end: 25,
+    index: 0,
+  },
+];
+
+function ProgressPlan(props) {
   let now = new Date();
   const totalDays = new Date(
     now.getFullYear(),
@@ -20,40 +64,6 @@ function ProgressPlan(props) {
 
   // const items = props.dispatch(getAllProgressPlans())
   // console.log(items);
-  const itemsFromBackend = [
-    {
-      id: uuid(),
-      content: "event1ssssss",
-      color: "bg-success text-white",
-      start: 1,
-      end: 3,
-      index: 0,
-    },
-    {
-      id: uuid(),
-      content: "event2",
-      color: "bg-danger text-white",
-      start: 1,
-      end: 5,
-      index: 1,
-    },
-    {
-      id: uuid(),
-      content: "event4",
-      color: "bg-danger text-white",
-      start: 3,
-      end: 3,
-      index: 2,
-    },
-    {
-      id: uuid(),
-      content: "event",
-      color: "bg-primary text-white",
-      start: 15,
-      end: 25,
-      index: 0,
-    },
-  ];
 
   let columnsDays = {};
   for (let i = 0; i < totalDays; i++) {
@@ -112,12 +122,33 @@ function ProgressPlan(props) {
     props.dispatch(resize(true));
   };
 
+  /*
+  1. rendering component
+  2. useEffect callback
+  3. change of props / state
+  4. useEffect cleanup
+  5. rendering component
+  6. useEffect callback
+  7. useEffect cleanup
+  8. component unmount
+  */
+
   useEffect(() => {
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseup", onMouseUpResize);
+    if (onResize) {
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUpResize);
+    } else {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUpResize);
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUpResize);
+    }
   }, [onResize]);
 
-  const onMouseMove = (e) => {
+  const onMouseMove = useCallback((e) => {
     if (onResize) {
       if (rightResize === "right" && element !== undefined) {
         const width = original_width + (e.pageX - original_mouse_x);
@@ -136,13 +167,13 @@ function ProgressPlan(props) {
         }
       }
     }
-  };
+  }, [onResize, element, original_mouse_x]);
 
-  const onMouseUpResize = (e) => {
+  const onMouseUpResize = useCallback((e) => {
     props.dispatch(resize(false));
     document.removeEventListener("mousemove", onMouseMove);
     document.removeEventListener("mouseup", onMouseUpResize);
-  };
+  }, );
 
   /******************************Resize end***************************************/
 
@@ -226,6 +257,18 @@ function ProgressPlan(props) {
   };
 
   /**********************Draggable end*******************************/
+
+
+  // 4 event new Array(6 * 30).map((_, index) => {
+  //  const { dayIndex, rowIndex } = getDayCoordinates(index, 30)
+  //  if (eventsMaps[rowIndex].start === dayIndex) {
+  //  return (<Event  />)
+  //}
+  // })
+
+  // .style-30-days {
+  //   grid-template-columns: repeat(30, 30px)
+  // }
 
   return (
     <>
