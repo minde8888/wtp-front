@@ -29,7 +29,7 @@ const refreshAuthLogic = async (failedRequest) => {
         token,
         refreshToken
       } = response.data;
-      store.dispatch((setToken(token)))
+      store.dispatch((setToken(token, refreshToken)))
       localStorage.setItem("token", token);//to remove temp
       localStorage.setItem("refreshToken", refreshToken);
       response.config.headers = authHeader()
