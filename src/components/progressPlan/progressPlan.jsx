@@ -7,6 +7,7 @@ import Draggable from "react-draggable";
 import { range } from "../../helpers/range";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import { getAllProgressPlans } from "../../redux/actions/progressPlan";
+import Events from "./events";
 
 
 
@@ -219,6 +220,7 @@ function ProgressPlan(props) {
       return o.index;
     })
   );
+
   /****************find the amount of rows*****************/
 
 
@@ -277,6 +279,7 @@ function ProgressPlan(props) {
   return (
     <>
       <AddProgressPlan/>
+      <Events events={itemsFromBackend}/>
       {[...Array(max + 1)].map((_elementInArray, i) => (
         <div
           key={i}
@@ -321,7 +324,7 @@ function ProgressPlan(props) {
                                 key={uuid()}
                                 className={`range ${item.color}`}
                               >
-                                {range} 
+                                {/* {range}  */}
                               </div>
                             ))}
 

@@ -18,13 +18,13 @@ export default function project(state = initialState, action) {
         payload,
         isSelectedId,
         id
-    } = action 
+    } = action
 
     switch (type) {
         case projectConstants.PROJECT_DATA:
             return {
                 data: data,
-                    projectIsLoaded: true,
+                projectIsLoaded: true,
             };
         case projectConstants.EDIT_MODUS:
             return {
@@ -56,7 +56,7 @@ export default function project(state = initialState, action) {
             return {
                 ...state, data: state.data.map(p => p.projectId !== payload.projectId ? p : payload)
             }
-            default:
-                return state;
+        default:
+            return state;
     }
 }
