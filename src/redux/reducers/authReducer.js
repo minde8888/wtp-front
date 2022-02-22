@@ -2,7 +2,7 @@ import {
     authConstants
 } from "../constants/authConstants";
 
-const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
+const refreshToken = localStorage.getItem('refreshToken');
 
 var initialState = {
     token: "",
@@ -48,7 +48,8 @@ export default function auth(state = initialState, action) {
             return {
                 ...state,
                 isLoggedIn: true,
-                token: payload
+                token: payload,
+                refreshToken:refreshToken
             }   
         default:
             return state;

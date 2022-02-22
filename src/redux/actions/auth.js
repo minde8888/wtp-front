@@ -88,7 +88,8 @@ export const login = (email, password) => (dispatch) => {
    
         dispatch({
           type:authConstants.REFRESH,
-          payload:localStorage.getItem('token')
+          payload:localStorage.getItem('token'),
+          refreshToken:localStorage.getItem('token')
         })
       });
 

@@ -9,15 +9,6 @@ import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 
 
-// const getRowIndex = (index, daysInMonth) => 0 /*sveika dalis*/;
-// const getDayCoordinates = (index, daysInMonth) => {
-//   dayIndex = index % daysInMonth
-//   rowIndex = Math.floor(index / daysInMonth)
-//   return {
-//     dayIndex,
-//     rowIndex
-//   }
-// }
 
 const itemsFromBackend = [
   {
@@ -56,7 +47,7 @@ const itemsFromBackend = [
 
 function ProgressPlan(props) {
   let now = new Date();
-  const totalDays = new Date(
+  const daysInMonth = new Date(
     now.getFullYear(),
     now.getMonth() + 1,
     0
@@ -66,7 +57,7 @@ function ProgressPlan(props) {
   // console.log(items);
 
   let columnsDays = {};
-  for (let i = 0; i < totalDays; i++) {
+  for (let i = 0; i < daysInMonth; i++) {
     columnsDays = {
       ...columnsDays,
       [i]: {
@@ -83,7 +74,7 @@ function ProgressPlan(props) {
     original_width: 0,
     original_x: 0,
     original_mouse_x: 0,
-    container_size: totalDays * 42,
+    container_size: daysInMonth * 42,
     current_container: {},
     top: 0,
     right: 0,
@@ -159,7 +150,7 @@ function ProgressPlan(props) {
           // console.log(element.id);
           // console.log(itemsFromBackend);
         }
-      } else if (leftResize === "left" && element !== undefined) {
+      } else if (leftResize === "left" && element !== undefined ) {
         const width = original_width - (e.pageX - original_mouse_x);
         if (width > minimum_size) {
           element.style.width = width + "px";
@@ -167,7 +158,7 @@ function ProgressPlan(props) {
         }
       }
     }
-  }, [onResize, element, original_mouse_x]);
+  }, [onResize, element, original_mouse_x, leftResize, minimum_size, original_width, rightResize]);
 
   const onMouseUpResize = useCallback((e) => {
     props.dispatch(resize(false));
@@ -183,7 +174,7 @@ function ProgressPlan(props) {
   var eventRef = useRef([]);
 
   const onDragEnd = (result, columns, setColumns, index) => {
-    // console.log(totalDays * 42);
+    // console.log(daysInMonth * 42);
     // console.log(eventRef.current[index].getBoundingClientRect());
     if (!result.destination) return;
     const { source, destination } = result;
@@ -259,6 +250,18 @@ function ProgressPlan(props) {
   /**********************Draggable end*******************************/
 
 
+
+
+  // const getRowIndex = (index, daysInMonth) => 0 /*sveika dalis*/;
+// const getDayCoordinates = (index, daysInMonth) => {
+//   dayIndex = index % daysInMonth
+//   rowIndex = Math.floor(index / daysInMonth)
+//   return {
+//     dayIndex,
+//     rowIndex
+//   }
+// }
+
   // 4 event new Array(6 * 30).map((_, index) => {
   //  const { dayIndex, rowIndex } = getDayCoordinates(index, 30)
   //  if (eventsMaps[rowIndex].start === dayIndex) {
@@ -269,6 +272,7 @@ function ProgressPlan(props) {
   // .style-30-days {
   //   grid-template-columns: repeat(30, 30px)
   // }
+
 
   return (
     <>
@@ -316,7 +320,6 @@ function ProgressPlan(props) {
                               <div
                                 key={uuid()}
                                 className={`range ${item.color}`}
-
                               >
                                 {range} 
                               </div>
