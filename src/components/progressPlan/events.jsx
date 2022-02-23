@@ -28,17 +28,14 @@ function Events(props) {
     gridTemplateColumns: `repeat( ${daysInMonth.toString()}, 30px)`
   }
 
-
+  // var a = 
 
   return (
     <>
       <div style={style}>
         {[...Array((Math.max(...maxRowIndex) + 1) * daysInMonth)].map((_, index) => {
           let { dayIndex, rowIndex } = getDayCoordinates(index, daysInMonth);
-          return (<div index={rowIndex} key={index}>{[...Array((Math.max(...maxRowIndex) + 1) * daysInMonth)].map((_, index) => {
-            let { dayIndex, rowIndex } = getDayCoordinates(index, daysInMonth);
-            return <div index={rowIndex} key={index}>{dayIndex + 1}   </div>
-          })}   </div>)
+          return (<div index={rowIndex} key={index}>{dayIndex + 1}   </div>)
         })}
       </div>
 
