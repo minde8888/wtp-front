@@ -5,7 +5,7 @@ import {
 const refreshToken = localStorage.getItem('refreshToken');
 
 var initialState = {
-    token: "",
+    token: localStorage.getItem('token'),
     isLoggedIn: refreshToken === null || refreshToken.length === 0 || refreshToken === undefined ? false : true
 }
 

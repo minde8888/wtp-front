@@ -6,6 +6,7 @@ import {
     messageConstants
 } from "../constants/messageConstants";
 
+
 export const getAllProjects = () => (dispatch) => {
 
     return ProjectService.allProjects().then(
@@ -40,7 +41,7 @@ export const addNewProject = (obj) => (dispatch) => {
     return ProjectService.addProject(obj).then(
 
         (response) => {
-            dispatch({
+              dispatch({
                 type: projectConstants.ADD_PROJECT,
                 payload: true,
                 data: response.data

@@ -4,7 +4,7 @@ const initialState = {
     message: "",
     userIsLoaded: false,
     employees: JSON.parse(localStorage.getItem('employees')),
-    data: ""
+    data: JSON.parse(localStorage.getItem('user'))
 };
 
 export default function user(state = initialState, action) {

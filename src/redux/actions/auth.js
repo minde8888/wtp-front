@@ -139,10 +139,11 @@ export const logout = () => (dispatch) => {
   });
 };
 
-export const setToken = (token) => (dispatch) => {
+export const setToken = (token, refreshToken) => (dispatch) => {
   
   dispatch({
     type: authConstants.REFRESH,
-    payload: token
+    payload: token,
+    refreshToken:refreshToken
   })
 };
