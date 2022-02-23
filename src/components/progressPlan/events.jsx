@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 function Events(props) {
   console.log(props);
   let now = new Date();
-  const daysInMonth = new Date(
+  let daysInMonth = new Date(
     now.getFullYear(),
     now.getMonth() + 1,
+    0,
   ).getDate();
 
   const getDayCoordinates = (index, daysInMonth) => {
-    console.log(index, daysInMonth);
     let dayIndex = index % daysInMonth;
     let rowIndex = Math.floor(index / daysInMonth);
     return {
@@ -19,18 +19,26 @@ function Events(props) {
     };
   };
 
-  let maxRowIndex = props.events.map((item) =>{
+  let maxRowIndex = props.events.map((item) => {
     return item.index;
   })
-console.log();
+
+  var style = {
+    display: 'grid',
+    gridTemplateColumns: `repeat( ${daysInMonth.toString()}, 30px)`
+  }
+
+  // var a = 
+
   return (
     <>
-      {new Array(6 * daysInMonth).map((_, index) => {
-        const { dayIndex, rowIndex } = getDayCoordinates(index, daysInMonth);
-        if (props[rowIndex].start === dayIndex) {
-          return <div>{console.log("a")} 1111</div>;
-        }
-      })}
+      <div style={style}>
+        {[...Array((Math.max(...maxRowIndex) + 1) * daysInMonth)].map((_, index) => {
+          let { dayIndex, rowIndex } = getDayCoordinates(index, daysInMonth);
+          return (<div index={rowIndex} key={index}>{dayIndex + 1}   </div>)
+        })}
+      </div>
+
     </>
   );
 }

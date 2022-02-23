@@ -21,7 +21,8 @@ api.interceptors.request.use(
 
 const refreshAuthLogic = async (failedRequest) => {
   return api.post("api/Auth/RefreshToken", {
-    token: store.getState().auth.token,
+   // token: store.getState().auth.token,
+   token:localStorage.getItem("token"),
     refreshToken: localStorage.getItem("refreshToken")
   })
     .then((response) => {
