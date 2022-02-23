@@ -9,8 +9,6 @@ import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 import Events from "./events";
 
-
-
 const itemsFromBackend = [
   {
     id: uuid(),
@@ -66,7 +64,7 @@ function ProgressPlan(props) {
       },
     };
   }
-// console.log(columnsDays);
+  // console.log(columnsDays);
   const [columns, setColumns] = useState(columnsDays);
 
   /****************************************Resize start******************************************/
@@ -137,38 +135,48 @@ function ProgressPlan(props) {
     return () => {
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUpResize);
-    }
+    };
   }, [onResize]);
 
-  const onMouseMove = useCallback((e) => {
-    if (onResize) {
-      if (rightResize === "right" && element !== undefined) {
-        const width = original_width + (e.pageX - original_mouse_x);
-        if (width > minimum_size) {
-          element.style.width = width + "px";
-          // console.log(Math.round(width/minimum_size));
-          // console.log(columns);
-          // console.log(element.id);
-          // console.log(itemsFromBackend);
-        }
-      } else if (leftResize === "left" && element !== undefined ) {
-        const width = original_width - (e.pageX - original_mouse_x);
-        if (width > minimum_size) {
-          element.style.width = width + "px";
-          element.style.left = 4 + (e.pageX - original_mouse_x) + "px";
+  const onMouseMove = useCallback(
+    (e) => {
+      if (onResize) {
+        if (rightResize === "right" && element !== undefined) {
+          const width = original_width + (e.pageX - original_mouse_x);
+          if (width > minimum_size) {
+            element.style.width = width + "px";
+            // console.log(Math.round(width/minimum_size));
+            // console.log(columns);
+            // console.log(element.id);
+            // console.log(itemsFromBackend);
+          }
+        } else if (leftResize === "left" && element !== undefined) {
+          const width = original_width - (e.pageX - original_mouse_x);
+          if (width > minimum_size) {
+            element.style.width = width + "px";
+            element.style.left = 4 + (e.pageX - original_mouse_x) + "px";
+          }
         }
       }
-    }
-  }, [onResize, element, original_mouse_x, leftResize, minimum_size, original_width, rightResize]);
+    },
+    [
+      onResize,
+      element,
+      original_mouse_x,
+      leftResize,
+      minimum_size,
+      original_width,
+      rightResize,
+    ]
+  );
 
   const onMouseUpResize = useCallback((e) => {
     props.dispatch(resize(false));
     document.removeEventListener("mousemove", onMouseMove);
     document.removeEventListener("mouseup", onMouseUpResize);
-  }, );
+  });
 
   /******************************Resize end***************************************/
-
 
   /**********************Draggable start*******************************/
   const containerRef = useRef([]);
@@ -223,20 +231,24 @@ function ProgressPlan(props) {
 
   /****************find the amount of rows*****************/
 
-
   const handleStart = (e, i) => {
-
     var containerSizeValues = containerRef.current[i].getBoundingClientRect();
     var eventSizeValues = e.target.parentElement.getBoundingClientRect();
 
     var top = i === 0 ? 0 : -containerSizeValues.height * i;
     var bottom = max === 0 ? 0 : (max - i) * containerSizeValues.height;
-    var left = (eventSizeValues.x - containerSizeValues.x) - (containerSizeValues.width - container_size) / 2;
-    var right = (containerSizeValues.right - eventSizeValues.right) - (containerSizeValues.width - container_size) / 2;
+    var left =
+      eventSizeValues.x -
+      containerSizeValues.x -
+      (containerSizeValues.width - container_size) / 2;
+    var right =
+      containerSizeValues.right -
+      eventSizeValues.right -
+      (containerSizeValues.width - container_size) / 2;
 
     document.addEventListener("mousemove", handleDrag);
     document.addEventListener("mouseup", onMouseUpDraggable);
-    setState({ top: top, bottom: bottom, left: (-left), right: right });
+    setState({ top: top, bottom: bottom, left: -left, right: right });
   };
   const handleDrag = (e) => {
     // console.log(state);
@@ -251,18 +263,15 @@ function ProgressPlan(props) {
 
   /**********************Draggable end*******************************/
 
-
-
-
   // const getRowIndex = (index, daysInMonth) => 0 /*sveika dalis*/;
-// const getDayCoordinates = (index, daysInMonth) => {
-//   dayIndex = index % daysInMonth
-//   rowIndex = Math.floor(index / daysInMonth)
-//   return {
-//     dayIndex,
-//     rowIndex
-//   }
-// }
+  // const getDayCoordinates = (index, daysInMonth) => {
+  //   dayIndex = index % daysInMonth
+  //   rowIndex = Math.floor(index / daysInMonth)
+  //   return {
+  //     dayIndex,
+  //     rowIndex
+  //   }
+  // }
 
   // 4 event new Array(6 * 30).map((_, index) => {
   //  const { dayIndex, rowIndex } = getDayCoordinates(index, 30)
@@ -275,75 +284,127 @@ function ProgressPlan(props) {
   //   grid-template-columns: repeat(30, 30px)
   // }
 
+  // return (
+  //   <>
+  //     <AddProgressPlan/>
+  //     <Events events={itemsFromBackend}/>
+  //     {[...Array(max + 1)].map((_elementInArray, i) => (
+  //       <div
+  //         key={i}
+  //         className="d-flex flex-row justify-content-center box-month container"
+  //         ref={(element) => {
+  //           containerRef.current[i] = element;
+  //         }}
+  //       >
+
+  //         {Object.entries(columns).map(([columnId, column], index) => (
+  //           <div className="text-center cell" key={columnId}>
+  //             <div className="cell-top">
+  //               <div className="border day " id={uuid()}>
+  //                 {column.items.map((item, index) => (
+  //                   <div className="drag-box " key={item.id} >
+  //                     {i === item.index && (
+  //                       <Draggable
+  //                         bounds={{
+  //                           top: top,
+  //                           left: left,
+  //                           right: right,
+  //                           bottom: bottom,
+  //                         }}
+  //                         cancel="span"
+  //                         key={item.id}
+
+  //                         onStop={(result) =>
+  //                           onDragEnd(result, columns, setColumns, i)
+  //                         }
+  //                         onStart={(e) => handleStart(e, i)}
+  //                       >
+  //                         <div className={`event ${item.color}`} id={item.id}
+  //                           ref={(element) => {
+  //                             eventRef.current[i] = element;
+  //                           }}>
+  //                           <span
+  //                             className="left"
+  //                             onMouseDown={(e) => onMouseDown(e, i)}
+  //                           ></span>
+  //                           {range(item.start, item.end).map((range, i) => (
+  //                             <div
+  //                               key={uuid()}
+  //                               className={`range ${item.color}`}
+  //                             >
+  //                               {/* {range}  */}
+  //                             </div>
+  //                           ))}
+
+  //                           <span
+  //                             className="right"
+  //                             onMouseDown={(e) => onMouseDown(e, i)}
+  //                           ></span>
+  //                           <span className="event-name">{item.content}</span>
+  //                         </div>
+  //                       </Draggable>
+  //                     )}
+  //                   </div>
+  //                 ))}
+  //               </div>
+  //             </div>
+  //           </div>
+  //         ))}
+  //       </div>
+  //     ))}
+  //   </>
+  // );
+
+  const getDayCoordinates = (index, daysInMonth) => {
+    let dayIndex = index % daysInMonth;
+    let rowIndex = Math.floor(index / daysInMonth);
+    return {
+      dayIndex,
+      rowIndex,
+    };
+  };
+
+  let maxRowIndex = itemsFromBackend.map((item) => {
+    return item.index;
+  });
+
+  var style = {
+    display: "grid",
+    justifyContent: "center",
+    alignContent: "center",
+    gridTemplateColumns: `repeat( ${(daysInMonth).toString()}, 30px)`,
+  };
+
+  var gridContainer = {
+    display: "grid",
+    justifyContent: "center",
+    alignContent: "center",
+    gridTemplateColumns: `12px ${(daysInMonth).toString()*30}px 12px`,
+    gridTemplateRows: "auto"
+}
 
   return (
     <>
-      <AddProgressPlan/>
-      <Events events={itemsFromBackend}/>
-      {[...Array(max + 1)].map((_elementInArray, i) => (
-        <div
-          key={i}
-          className="d-flex flex-row justify-content-center box-month container"
-          ref={(element) => {
-            containerRef.current[i] = element;
-          }}
-        >
-
-          {Object.entries(columns).map(([columnId, column], index) => (
-            <div className="text-center cell" key={columnId}>
-              <div className="cell-top">
-                <div className="border day " id={uuid()}>
-                  {column.items.map((item, index) => (
-                    <div className="drag-box " key={item.id} >
-                      {i === item.index && (
-                        <Draggable
-                          bounds={{
-                            top: top,
-                            left: left,
-                            right: right,
-                            bottom: bottom,
-                          }}
-                          cancel="span"
-                          key={item.id}
-
-                          onStop={(result) =>
-                            onDragEnd(result, columns, setColumns, i)
-                          }
-                          onStart={(e) => handleStart(e, i)}
-                        >
-                          <div className={`event ${item.color}`} id={item.id}
-                            ref={(element) => {
-                              eventRef.current[i] = element;
-                            }}>
-                            <span
-                              className="left"
-                              onMouseDown={(e) => onMouseDown(e, i)}
-                            ></span>
-                            {range(item.start, item.end).map((range, i) => (
-                              <div
-                                key={uuid()}
-                                className={`range ${item.color}`}
-                              >
-                                {/* {range}  */}
-                              </div>
-                            ))}
-
-                            <span
-                              className="right"
-                              onMouseDown={(e) => onMouseDown(e, i)}
-                            ></span>
-                            <span className="event-name">{item.content}</span>
-                          </div>
-                        </Draggable>
-                      )}
-                    </div>
-                  ))}
+      <AddProgressPlan />
+      <div style={gridContainer} >
+        <div>a</div>
+        <div style={style} >
+          {[...Array((Math.max(...maxRowIndex) + 1) * daysInMonth)].map(
+            (_, index) => {
+              let { dayIndex, rowIndex } = getDayCoordinates(
+                index,
+                daysInMonth
+              );
+              return (
+                <div index={rowIndex} key={index}>
+                  {dayIndex + 1}
                 </div>
-              </div>
-            </div>
-          ))}
+              );
+            }
+          )}
         </div>
-      ))}
+        <div>b</div>
+      </div>
     </>
   );
 }
