@@ -28,8 +28,6 @@ function Events(props) {
     gridTemplateColumns: `repeat( ${daysInMonth.toString()}, 30px)`
   }
 
-  // var a = 
-
   return (
     <>
       <div style={style}>
