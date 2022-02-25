@@ -402,7 +402,7 @@ function ProgressPlan(props) {
               );
             }
           )}
-        </div>
+        </div>  
         <div>b</div>
       </div>
     </>
