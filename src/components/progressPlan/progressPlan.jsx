@@ -7,7 +7,7 @@ import Draggable from "react-draggable";
 import { range } from "../../helpers/range";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import { getAllProgressPlans } from "../../redux/actions/progressPlan";
-import Events from "./events";
+// import Events from "./events";
 
 const itemsFromBackend = [
   {
@@ -355,6 +355,21 @@ function ProgressPlan(props) {
   //   </>
   // );
 
+  // let now = new Date();
+
+  const daysInPrevMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 0,
+    0
+  ).getDate();
+
+  const daysInNextMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 2,
+    0
+  ).getDate();
+
+
   const getDayCoordinates = (index, daysInMonth) => {
     let dayIndex = index % daysInMonth;
     let rowIndex = Math.floor(index / daysInMonth);
@@ -375,35 +390,59 @@ function ProgressPlan(props) {
     gridTemplateColumns: `repeat( ${(daysInMonth).toString()}, 30px)`,
   };
 
-  var gridContainer = {
+  var stylePrev = {
     display: "grid",
     justifyContent: "center",
     alignContent: "center",
-    gridTemplateColumns: `12px ${(daysInMonth).toString()*30}px 12px`,
-    gridTemplateRows: "auto"
-}
+    gridTemplateColumns: `repeat( ${(daysInMonth + daysInPrevMonth + daysInNextMonth + 2).toString()}, 30px)`,
+  };
+  var styleNext = {
+    display: "grid",
+    justifyContent: "center",
+    alignContent: "center",
+    gridTemplateColumns: `repeat( ${(daysInNextMonth).toString()}, 30px)`,
+  };
+
+  var gridContainer = {
+    display: "grid",
+    // justifyContent: "center",
+    // alignContent: "center",
+    // gridTemplateColumns: `${(daysInPrevMonth).toString() * 30}px 1px ${(daysInMonth).toString() * 30}px 1px ${(daysInNextMonth).toString() * 30}px`,
+    gridColumn: 1,
+    gridGap: "6px"
+  }
 
   return (
     <>
       <AddProgressPlan />
       <div style={gridContainer} >
-        <div>a</div>
-        <div style={style} >
-          {[...Array((Math.max(...maxRowIndex) + 1) * daysInMonth)].map(
+        <div style={stylePrev} >
+          {[...Array((Math.max(...maxRowIndex) + 1) * (daysInPrevMonth + daysInMonth + daysInNextMonth))].map(
             (_, index) => {
               let { dayIndex, rowIndex } = getDayCoordinates(
                 index,
-                daysInMonth
+                daysInPrevMonth + daysInMonth + daysInNextMonth
               );
               return (
-                <div index={rowIndex} key={index}>
-                  {dayIndex + 1}
-                </div>
+                <>
+                  {daysInPrevMonth === index + 1 ||
+                    daysInPrevMonth + daysInMonth === index + 1 ?
+                    <>
+                      <div className="cell" index={rowIndex} key={index}>
+                        {dayIndex + 1}
+                      </div>
+                      <div index={rowIndex}> </div>
+                    </>
+                    :
+                    <div className="cell" index={rowIndex} key={index}>
+                      {dayIndex + 1}
+                    </div>
+                  }
+                </>
               );
             }
           )}
-        </div>  
-        <div>b</div>
+        </div>
       </div>
     </>
   );
