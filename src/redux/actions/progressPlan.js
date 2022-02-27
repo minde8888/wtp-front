@@ -10,13 +10,13 @@ export const resize = (bool) => ({
 export const getAllProgressPlans = () => (dispatch) => {
 
     return ProgressPlanService.allPlans().then(
-        async (data) => {
+        (data) => {
             dispatch({
                 type: progressPlanConstants.PROGRESS_PLAN_DATA,
-                payload: data.data.$values,
+                data: data.data.$values,
             });
             localStorage.setItem('progress_plan', JSON.stringify(data.data.$values));
-            return await Promise.resolve();
+            return Promise.resolve();
         },
         (error) => {
 
