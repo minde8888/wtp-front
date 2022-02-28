@@ -229,27 +229,26 @@ function ProgressPlan(props) {
     gridGap: "6px",
   };
 
-  const moveArrayItemToNewIndex = (arr, old_index, new_index) => {
-    if (new_index >= arr.length) {
-      var k = new_index - arr.length + 1;
-      while (k--) {
-        arr.push(undefined);
-      }
-    }
-    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-    return arr;
-  }
-
-  // let arr = {};
+  let arrIndex = [];
+  let obj = {};
   if (props.progress !== null) {
     var objRowIndex = props.progress.map((e, i, a) => {
-       return moveArrayItemToNewIndex(a, i, e.index);
+      arrIndex = [...arrIndex, e.index];
+
+      arrIndex[arrIndex.length - 2] === e.index
+        ? obj[e.index] = e 
+        : obj = { ...obj, [e.index]: e };
+
+      // console.log(arrIndex[arrIndex.length - 2] === e.index);
+      // console.log(1111111111111111);
+      // console.log(i);
+      // console.log({[e.index]: e});
     });
     // console.log(Object.keys(props.progress));
     // console.log(objRowIndex);
     // console.log(arr[]);
     // console.log(...props.progress);
-    console.log(objRowIndex);
+    console.log(obj);
   }
 
   return (
