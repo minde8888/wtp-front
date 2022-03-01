@@ -231,43 +231,27 @@ function ProgressPlan(props) {
     gridGap: "6px",
   };
 
-  const [obj, setObj] = useState({})
-
-  let arr = [];
+  let arrIndex = [];
+  let obj = {};
   if (props.progress !== null) {
     var objRowIndex = props.progress.map((e, i, a) => {
-      let objIndex = e.index
-      // console.log(e);
-      const {color, end, start, name, index, progressPlanId} = e
+      arrIndex = [...arrIndex, e.index];
 
-      arr = [...arr, index]
-console.log(arr[i]);
-      console.log(arr[arr.lenggh-1]);
-      if (index === arr[arr.lenggh-1]) {
-       
-        console.log(arr);
-        console.log(index);
-      }
-      // const {index, }
-      // Object.values(e).find((e) =>{console.log(e)})
-      // console.log(arr);
-      // console.log( Object.assign({},...e));
+      arrIndex[arrIndex.length - 2] === e.index
+        ? obj[e.index] = e 
+        : obj = { ...obj, [e.index]: e };
 
-      // console.log({[e.index]:e});
-      // console.log(e.index);
+      // console.log(arrIndex[arrIndex.length - 2] === e.index);
+      // console.log(1111111111111111);
       // console.log(i);
-      // setObj({...obj,[e.index]:e})
-      // return  e.index === i ? {[e.index]:e} : {[e.index]:e}
-      // props.progress.find((e) =>{console.log(e.index === i )})
+      // console.log({[e.index]: e});
     });
     // console.log(Object.keys(props.progress));
     // console.log(objRowIndex);
     // console.log(arr[]);
     // console.log(...props.progress);
-    // console.log({...objRowIndex});
-    // if ( e.index === i) {
-    //   console.log(111);
-    // }
+    console.log(obj);
+  }
 
   }
   // console.log(obj);
