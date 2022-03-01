@@ -6,8 +6,10 @@ import { resize } from "../../redux/actions/progressPlan";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 import Events from "./events";
+import { array } from "yup";
 
 function ProgressPlan(props) {
+
   let now = new Date();
   const daysInMonth = new Date(
     now.getFullYear(),
@@ -229,29 +231,46 @@ function ProgressPlan(props) {
     gridGap: "6px",
   };
 
-  const moveArrayItemToNewIndex = (arr, old_index, new_index) => {
-    if (new_index >= arr.length) {
-      var k = new_index - arr.length + 1;
-      while (k--) {
-        arr.push(undefined);
-      }
-    }
-    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-    return arr;
-  }
+  const [obj, setObj] = useState({})
 
-  // let arr = {};
+  let arr = [];
   if (props.progress !== null) {
     var objRowIndex = props.progress.map((e, i, a) => {
-       return moveArrayItemToNewIndex(a, i, e.index);
+      let objIndex = e.index
+      // console.log(e);
+      const {color, end, start, name, index, progressPlanId} = e
+
+      arr = [...arr, index]
+console.log(arr[i]);
+      console.log(arr[arr.lenggh-1]);
+      if (index === arr[arr.lenggh-1]) {
+       
+        console.log(arr);
+        console.log(index);
+      }
+      // const {index, }
+      // Object.values(e).find((e) =>{console.log(e)})
+      // console.log(arr);
+      // console.log( Object.assign({},...e));
+
+      // console.log({[e.index]:e});
+      // console.log(e.index);
+      // console.log(i);
+      // setObj({...obj,[e.index]:e})
+      // return  e.index === i ? {[e.index]:e} : {[e.index]:e}
+      // props.progress.find((e) =>{console.log(e.index === i )})
     });
     // console.log(Object.keys(props.progress));
     // console.log(objRowIndex);
     // console.log(arr[]);
     // console.log(...props.progress);
-    console.log(objRowIndex);
-  }
+    // console.log({...objRowIndex});
+    // if ( e.index === i) {
+    //   console.log(111);
+    // }
 
+  }
+  // console.log(obj);
   return (
     <>
       <AddProgressPlan />
@@ -260,7 +279,7 @@ function ProgressPlan(props) {
           {[
             ...Array(
               (Math.max(...maxRowIndex) + 1) *
-                (daysInPrevMonth + daysInMonth + daysInNextMonth + 2)
+              (daysInPrevMonth + daysInMonth + daysInNextMonth + 2)
             ),
           ].map((_, index) => {
             let { dayIndex, rowIndex } = getDayCoordinates(
@@ -270,12 +289,12 @@ function ProgressPlan(props) {
             return (
               <div key={uuid()}>
                 {daysInPrevMonth === dayIndex ||
-                daysInPrevMonth + daysInMonth === dayIndex - 1 ? (
+                  daysInPrevMonth + daysInMonth === dayIndex - 1 ? (
                   <div className="cell" index={rowIndex}></div>
                 ) : (
                   <div className="cell" index={rowIndex}>
                     {
-                      // (props.progress !== null &&  console.log(props.progress[index].index))
+                      // (props.progress.length !== null &&  console.log(props.progress[index].index))
                     }
                   </div>
                 )}
