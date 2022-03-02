@@ -10,7 +10,7 @@ const AddProgressPlan = (props) => {
     color: "",
     start: "",
     end: "",
-    index: 1,
+    index: 2,
     employees: null,
   });
 
