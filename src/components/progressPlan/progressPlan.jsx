@@ -6,7 +6,8 @@ import { resize } from "../../redux/actions/progressPlan";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 import Events from "./events";
-import { array } from "yup";
+// import { dayDate } from "./date/date";
+
 
 function ProgressPlan(props) {
 
@@ -20,6 +21,12 @@ function ProgressPlan(props) {
   useEffect(() => {
     props.dispatch(getAllProgressPlans());
   }, []);
+
+  // var date = moment()
+  //     .utcOffset('+05:30')
+  //     .format('YYYY-MM-DD hh:mm:ss a');
+
+
 
   // console.log(props);
   // let columnsDays = {};
@@ -231,30 +238,6 @@ function ProgressPlan(props) {
     gridGap: "6px",
   };
 
-  let arrIndex = [];
-  let obj = {};
-  if (props.progress !== null) {
-    var objRowIndex = props.progress.map((e, i, a) => {
-      arrIndex = [...arrIndex, e.index];
-
-      arrIndex[arrIndex.length - 2] === e.index
-        ? obj[e.index] = e 
-        : obj = { ...obj, [e.index]: e };
-
-      // console.log(arrIndex[arrIndex.length - 2] === e.index);
-      // console.log(1111111111111111);
-      // console.log(i);
-      // console.log({[e.index]: e});
-    });
-    // console.log(Object.keys(props.progress));
-    // console.log(objRowIndex);
-    // console.log(arr[]);
-    // console.log(...props.progress);
-    console.log(obj);
-  }
-
-  }
-  // console.log(obj);
   return (
     <>
       <AddProgressPlan />
@@ -278,7 +261,9 @@ function ProgressPlan(props) {
                 ) : (
                   <div className="cell" index={rowIndex}>
                     {
-                      // (props.progress.length !== null &&  console.log(props.progress[index].index))
+                      (props.progress !== null &&
+                        props.progress.length >
+                        index && console.log(props.progress[index].index))
                     }
                   </div>
                 )}
