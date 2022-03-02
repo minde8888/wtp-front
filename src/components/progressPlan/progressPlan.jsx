@@ -6,7 +6,7 @@ import { resize } from "../../redux/actions/progressPlan";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 import Events from "./events";
-// import { dayDate } from "./date/date";
+import { dayDate } from "./date/date";
 
 
 function ProgressPlan(props) {
@@ -259,12 +259,13 @@ function ProgressPlan(props) {
                   daysInPrevMonth + daysInMonth === dayIndex - 1 ? (
                   <div className="cell" index={rowIndex}></div>
                 ) : (
-                  <div className="cell" index={rowIndex}>
+                  <div className="cell" date={dayDate(dayIndex-27)} index={rowIndex}>
                     {
                       (props.progress !== null &&
                         props.progress.length >
                         index && console.log(props.progress[index].index))
                     }
+                    {dayIndex+1}
                   </div>
                 )}
               </div>
