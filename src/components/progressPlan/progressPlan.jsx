@@ -235,10 +235,19 @@ function ProgressPlan(props) {
     var objRowIndex = props.progress.map((e, i, a) => {
       arrIndex = [...arrIndex, e.index];
 
+      // const dataCopy = [...state.data];
+      // const projectIndex = dataCopy.findIndex(p => p.projectId === id);
+      // const project = dataCopy[projectIndex];
+      // const updatedProject = { ...project, ...payload }
+      // dataCopy.splice(projectIndex, 1, updatedProject);
+
       arrIndex[arrIndex.length - 2] === e.index
         ? obj[e.index] = e 
         : obj = { ...obj, [e.index]: e };
 
+        if (arrIndex[arrIndex.length - 2] === e.index) {
+          console.log(obj[e.index].name);
+        }
       // console.log(arrIndex[arrIndex.length - 2] === e.index);
       // console.log(1111111111111111);
       // console.log(i);
