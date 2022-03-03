@@ -44,3 +44,37 @@ export const yearDate = (y) => {
     date.setFullYear(y)
     return date
 }
+
+export const dayDateInColons = (day) => {
+    let d = day
+    const date = new Date()
+    if (d === daysInPrevMonth) {
+        d = -d + 1
+    } else if (daysInMonth + daysInPrevMonth === d) {
+        d = daysInMonth - daysInPrevMonth
+    } else if (daysInMonth + daysInPrevMonth + daysInNextMonth === d) {
+        d = daysInNextMonth - daysInMonth - daysInPrevMonth
+    }
+    date.setDate(d)
+    return date
+}
+
+let now = new Date();
+
+const daysInPrevMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 0,
+    0
+).getDate();
+
+const daysInMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    0
+).getDate();
+
+const daysInNextMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 2,
+    0
+).getDate();
