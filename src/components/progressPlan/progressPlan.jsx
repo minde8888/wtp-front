@@ -6,7 +6,7 @@ import { resize } from "../../redux/actions/progressPlan";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 import Events from "./events";
-import { dayDate } from "./date/date";
+import { dayDateInColons } from "./date/date";
 
 
 function ProgressPlan(props) {
@@ -241,8 +241,8 @@ function ProgressPlan(props) {
   return (
     <>
       <AddProgressPlan />
-      <div key={uuid()} style={gridContainer}>
-        <div key={uuid()} style={style}>
+      <div  style={gridContainer}>
+        <div  style={style}>
           {[
             ...Array(
               (Math.max(...maxRowIndex) + 1) *
@@ -259,7 +259,7 @@ function ProgressPlan(props) {
                   daysInPrevMonth + daysInMonth === dayIndex - 1 ? (
                   <div className="cell" index={rowIndex}></div>
                 ) : (
-                  <div className="cell" date={dayDate(dayIndex-27)} index={rowIndex}>
+                  <div className="cell" date={dayDateInColons(dayIndex)} index={rowIndex}>
                     {
                       (props.progress !== null &&
                         props.progress.length >
