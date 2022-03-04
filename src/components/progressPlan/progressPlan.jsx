@@ -183,12 +183,12 @@ function ProgressPlan(props) {
   };
 
   /****************find the amount of rows*****************/
-  // const max = Math.max.apply(
-  //   Math,
-  //   itemsFromBackend.map(function (o) {
-  //     return o.index;
-  //   })
-  // );
+  const max = Math.max.apply(
+    Math,
+    props.progress.map(function (o) {
+      return o.index;
+    })
+  );
 
   /****************find the amount of rows*****************/
 
