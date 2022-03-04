@@ -48,14 +48,16 @@ export const yearDate = (y) => {
 export const dayDateInColons = (day) => {
     let d = day
     const date = new Date()
-    if (d === daysInPrevMonth) {
-        d = -d + 1
-    } else if (daysInMonth + daysInPrevMonth === d) {
-        d = daysInMonth - daysInPrevMonth
-    } else if (daysInMonth + daysInPrevMonth + daysInNextMonth === d) {
-        d = daysInNextMonth - daysInMonth - daysInPrevMonth
+    if (d <= daysInPrevMonth) {
+        d = -daysInPrevMonth + d + 1
+        date.setDate(d)
+    } else if (daysInPrevMonth < d && d <= (daysInPrevMonth + daysInMonth)) {
+        d = d - daysInPrevMonth
+        date.setDate(d)
+    } else if (daysInMonth <= d) {
+        d = (d + 2) - (daysInMonth)
+        date.setDate(d)
     }
-    date.setDate(d)
     return date
 }
 

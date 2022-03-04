@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { setMessage, clearMessage } from "../../../redux/actions/message";
 import { addNewProgressPlan } from "../../../redux/actions/progressPlan";
 import plus from "../../../svg/plus.svg";
+import DatePicker from "./datePicker/datePicker";
 
 const AddProgressPlan = (props) => {
   const [allValues, setValue] = useState({
@@ -118,6 +119,7 @@ const AddProgressPlan = (props) => {
           <img src={plus} alt="" />
         </button>
       </div>
+      <DatePicker/>
     </div>
   );
 };
