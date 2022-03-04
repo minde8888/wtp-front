@@ -183,13 +183,17 @@ function ProgressPlan(props) {
   };
 
   /****************find the amount of rows*****************/
-  const max = Math.max.apply(
-    Math,
-    props.progress.map(function (o) {
-      return o.index;
-    })
-  );
 
+  let max
+  if (props.progress !== null) {
+    max = Math.max.apply(
+      Math,
+      props.progress.map(function (o) {
+        return o.index;
+      })
+    );
+  }
+  console.log(max);
   /****************find the amount of rows*****************/
 
   /**********************Draggable end*******************************/
@@ -241,8 +245,8 @@ function ProgressPlan(props) {
   return (
     <>
       <AddProgressPlan />
-      <div  style={gridContainer}>
-        <div  style={style}>
+      <div style={gridContainer}>
+        <div style={style}>
           {[
             ...Array(
               (Math.max(...maxRowIndex) + 1) *
@@ -265,7 +269,7 @@ function ProgressPlan(props) {
                         props.progress.length >
                         index && console.log(props.progress[index].index))
                     }
-                    {dayIndex+1}
+                    {dayIndex + 1}
                   </div>
                 )}
               </div>
