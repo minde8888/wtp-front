@@ -29,7 +29,7 @@ function GetDatePicker(props) {
 
   useEffect(() => {
     props.dispatch(addDate(date));
-
+    let s = { [state]: null }
   }, [state]);
 
   return (

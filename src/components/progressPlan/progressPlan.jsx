@@ -185,7 +185,7 @@ function ProgressPlan(props) {
   /****************find the amount of rows*****************/
 
   let max
-  if (props.progress !== null) {
+  if (props.isLoaded) {
     max = Math.max.apply(
       Math,
       props.progress.map(function (o) {
@@ -193,7 +193,7 @@ function ProgressPlan(props) {
       })
     );
   }
-  console.log(max);
+  console.log(props.progress);
   /****************find the amount of rows*****************/
 
   /**********************Draggable end*******************************/

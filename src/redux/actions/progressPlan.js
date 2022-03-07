@@ -9,6 +9,7 @@ export const getAllProgressPlans = () => (dispatch) => {
             dispatch({
                 type: progressPlanConstants.PROGRESS_PLAN_DATA,
                 data: data.data.$values,
+                
             });
             localStorage.setItem('progress_plan', JSON.stringify(data.data.$values));
             return Promise.resolve();
