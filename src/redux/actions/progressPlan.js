@@ -2,11 +2,6 @@ import { progressPlanConstants } from "../constants/progressPlanConstants"
 import { messageConstants } from "../constants/messageConstants";
 import ProgressPlanService from "../services/api/progressPlanService";
 
-export const resize = (bool) => ({
-    type: progressPlanConstants.RESIZE,
-    payload: bool
-})
-
 export const getAllProgressPlans = () => (dispatch) => {
 
     return ProgressPlanService.allPlans().then(
@@ -43,7 +38,8 @@ export const addNewProgressPlan = (obj) => (dispatch) => {
         (response) => {
             dispatch({
                 type: progressPlanConstants.ADD_PROGRESS_PLAN,
-                payload: response.data
+                data: response.data,
+                payload:true
             })
             dispatch({
                 type: messageConstants.SET_MESSAGE,
@@ -73,3 +69,18 @@ export const addNewProgressPlan = (obj) => (dispatch) => {
         }
     );
 }
+
+export const resize = (bool) => ({
+    type: progressPlanConstants.RESIZE,
+    payload: bool
+})
+
+export const addColor = (obj) => ({
+    type: progressPlanConstants.COLOR,
+    payload: obj
+})
+
+export const addDate = (date) => ({
+    type: progressPlanConstants.DATE,
+    payload: date,
+})
