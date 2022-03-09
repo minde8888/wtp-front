@@ -9,7 +9,7 @@ import SketchColor from "./colorPicker/colorPicker";
 const AddProgressPlan = (props) => {
   const [value, setValue] = useState({
     name: "",
-    index: 2,
+    index: 3,
     employees: null,
   });
 

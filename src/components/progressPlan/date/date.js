@@ -50,14 +50,17 @@ export const dayDateInColons = (day) => {
     const date = new Date()
     if (d <= daysInPrevMonth) {
         d = -daysInPrevMonth + d + 1
+        date.setHours(0,0,0)
         date.setDate(d)
         date.setHours(0, 0, 0, 0);
     } else if (daysInPrevMonth < d && d <= (daysInPrevMonth + daysInMonth)) {
         d = d - daysInPrevMonth
+        date.setHours(0,0,0)
         date.setDate(d)
         date.setHours(0, 0, 0, 0);
     } else if (daysInMonth <= d) {
         d = (d + 2) - (daysInMonth)
+        date.setHours(0,0,0)
         date.setDate(d)
         date.setHours(0, 0, 0, 0);
     }

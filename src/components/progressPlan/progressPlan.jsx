@@ -249,15 +249,14 @@ function ProgressPlan(props) {
       <AddProgressPlan />
       <div style={gridContainer}>
         <div style={style}>
-          {[
-            ...Array(
-              (Math.max(...maxRowIndex) + 1) *
-              (daysInPrevMonth + daysInMonth + daysInNextMonth + 2)
-            ),
-          ].map((_, index) => {
+          {[...Array((Math.max(...maxRowIndex) + 1) *
+            (daysInPrevMonth + daysInMonth + daysInNextMonth + 2)
+          ),].map((_, index) => {
             let { dayIndex, rowIndex } = getDayCoordinates(
               index,
-              daysInPrevMonth + daysInMonth + daysInNextMonth + 2
+              daysInPrevMonth +
+              daysInMonth +
+              daysInNextMonth + 2
             );
             return (
               <div key={uuid()}>
@@ -268,8 +267,10 @@ function ProgressPlan(props) {
                   <div className="cell" ref={dateRef} date={dayDateInColons(dayIndex)} index={rowIndex}>
                     {
                       (props.progress !== null &&
-                        props.progress.length >
-                        index && console.log(dayDateInColons(dayIndex)))
+                        props.progress.some(value => rowIndex.toString() === value.index) &&
+                        props.progress.some(value => dayDateInColons(dayIndex).toString() === value.start)) &&
+                      // console.log(dayIndex)
+                      console.log(rowIndex)
                     }
                     {dayIndex + 1}
                   </div>
