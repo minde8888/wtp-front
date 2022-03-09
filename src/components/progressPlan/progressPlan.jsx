@@ -242,6 +242,8 @@ function ProgressPlan(props) {
     gridGap: "6px",
   };
 
+  var dateRef = useRef([]);
+
   return (
     <>
       <AddProgressPlan />
@@ -263,11 +265,11 @@ function ProgressPlan(props) {
                   daysInPrevMonth + daysInMonth === dayIndex - 1 ? (
                   <div className="cell" index={rowIndex}></div>
                 ) : (
-                  <div className="cell" date={dayDateInColons(dayIndex)} index={rowIndex}>
+                  <div className="cell" ref={dateRef} date={dayDateInColons(dayIndex)} index={rowIndex}>
                     {
                       (props.progress !== null &&
                         props.progress.length >
-                        index && console.log(props.progress[index].index))
+                        index && console.log(dayDateInColons(dayIndex)))
                     }
                     {dayIndex + 1}
                   </div>
