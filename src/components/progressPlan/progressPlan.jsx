@@ -8,9 +8,7 @@ import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 import Events from "./events";
 import { dayDateInColons } from "./date/date";
 
-
 function ProgressPlan(props) {
-
   let now = new Date();
   const daysInMonth = new Date(
     now.getFullYear(),
@@ -25,8 +23,6 @@ function ProgressPlan(props) {
   // var date = moment()
   //     .utcOffset('+05:30')
   //     .format('YYYY-MM-DD hh:mm:ss a');
-
-
 
   // console.log(props);
   // let columnsDays = {};
@@ -184,7 +180,7 @@ function ProgressPlan(props) {
 
   /****************find the amount of rows*****************/
 
-  let max
+  let max;
   if (props.isLoaded) {
     max = Math.max.apply(
       Math,
@@ -242,34 +238,50 @@ function ProgressPlan(props) {
     gridGap: "6px",
   };
 
+  const exists = (obj, value) =>
+    Object.keys(obj).some((k) => {
+      return obj.start === value;
+    });
+
   return (
     <>
       <AddProgressPlan />
       <div style={gridContainer}>
         <div style={style}>
-          {[...Array((Math.max(...maxRowIndex) + 1) *
-            (daysInPrevMonth + daysInMonth + daysInNextMonth + 2)
-          ),].map((_, index) => {
+          {[
+            ...Array(
+              (Math.max(...maxRowIndex) + 1) *
+                (daysInPrevMonth + daysInMonth + daysInNextMonth + 2)
+            ),
+          ].map((_, index) => {
             let { dayIndex, rowIndex } = getDayCoordinates(
               index,
-              daysInPrevMonth +
-              daysInMonth +
-              daysInNextMonth + 2
+              daysInPrevMonth + daysInMonth + daysInNextMonth + 2
             );
             return (
               <div key={uuid()}>
                 {daysInPrevMonth === dayIndex ||
-                  daysInPrevMonth + daysInMonth === dayIndex - 1 ? (
+                daysInPrevMonth + daysInMonth === dayIndex - 1 ? (
                   <div className="cell" index={rowIndex}></div>
                 ) : (
-                  <div className="cell" date={dayDateInColons(dayIndex)} index={rowIndex}>
-                    {
-                      (props.progress !== null &&
-                        props.progress.some(value => rowIndex.toString() === value.index) &&
-                        props.progress.some(value => dayDateInColons(dayIndex).toString() === value.start)) &&
-                      // console.log(dayIndex)
-                      console.log(rowIndex)
-                    }
+                  <div
+                    className="cell"
+                    date={dayDateInColons(dayIndex)}
+                    index={rowIndex}
+                  >
+                    {props.progress !== null &&
+                      props.progress.some(
+                        (value) => rowIndex.toString() === value.index
+                      ) &&
+                      // exists(props.progress[dayIndex],  dayDateInColons(dayIndex)) &&
+                      console.log( props.progress[dayIndex].start)
+                      // console.log(
+                      //   exists(
+                      //     props.progress[dayIndex],
+                      //     dayDateInColons(dayIndex)
+                      //   )
+                      // )
+                      }
                     {dayIndex + 1}
                   </div>
                 )}
