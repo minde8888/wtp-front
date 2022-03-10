@@ -95,7 +95,7 @@ function Events(props) {
     });
     // props.dispatch(resize(true));
   };
-
+console.log(props);
   return (
     <>
       <Draggable
@@ -111,7 +111,7 @@ function Events(props) {
         // onStart={(e) => handleStart(e)}
       >
         <div
-          className={`event ${"item.color"}`}
+          className={`event text-warning ${"item.color"}`}
           id={"item.id"}
           // ref={(element) => {
           //   eventRef.current[i] = element;
