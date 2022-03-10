@@ -189,7 +189,6 @@ function ProgressPlan(props) {
       })
     );
   }
-  console.log(props.progress);
   /****************find the amount of rows*****************/
 
   /**********************Draggable end*******************************/
@@ -238,9 +237,9 @@ function ProgressPlan(props) {
     gridGap: "6px",
   };
 
-  const exists = (obj, value) =>
-    Object.keys(obj).some((k) => {
-      return obj.start === value;
+  const exists = (value, index) =>
+    props.progress.some((obj) => {
+      return (obj.index === index && Date.parse(obj.start) === Date.parse(value));
     });
 
   return (
@@ -251,7 +250,7 @@ function ProgressPlan(props) {
           {[
             ...Array(
               (Math.max(...maxRowIndex) + 1) *
-                (daysInPrevMonth + daysInMonth + daysInNextMonth + 2)
+              (daysInPrevMonth + daysInMonth + daysInNextMonth + 2)
             ),
           ].map((_, index) => {
             let { dayIndex, rowIndex } = getDayCoordinates(
@@ -261,7 +260,7 @@ function ProgressPlan(props) {
             return (
               <div key={uuid()}>
                 {daysInPrevMonth === dayIndex ||
-                daysInPrevMonth + daysInMonth === dayIndex - 1 ? (
+                  daysInPrevMonth + daysInMonth === dayIndex - 1 ? (
                   <div className="cell" index={rowIndex}></div>
                 ) : (
                   <div
@@ -270,19 +269,10 @@ function ProgressPlan(props) {
                     index={rowIndex}
                   >
                     {props.progress !== null &&
-                      props.progress.some(
-                        (value) => rowIndex.toString() === value.index
-                      ) &&
-                      // exists(props.progress[dayIndex],  dayDateInColons(dayIndex)) &&
-                      console.log( props.progress[dayIndex].start)
-                      // console.log(
-                      //   exists(
-                      //     props.progress[dayIndex],
-                      //     dayDateInColons(dayIndex)
-                      //   )
-                      // )
-                      }
-                    {dayIndex + 1}
+                      exists(dayDateInColons(dayIndex).toString(), rowIndex.toString()) &&
+                      <Events {...props.progress} />
+                    }
+                    {/* {dayIndex} */}
                   </div>
                 )}
               </div>
