@@ -5,6 +5,7 @@ import { addNewProgressPlan } from "../../../redux/actions/progressPlan";
 import plus from "../../../svg/plus.svg";
 import GetDatePicker from "./datePicker/getDatePicker";
 import SketchColor from "./colorPicker/colorPicker";
+import "./addProgressPlan.scss";
 
 const AddProgressPlan = (props) => {
   const [value, setValue] = useState({
@@ -41,7 +42,7 @@ const AddProgressPlan = (props) => {
   };
 
   return (
-    <div className="col-10 td-input row justify-content-end">
+    <div className="col-10 td-input row justify-content-end addPlan">
       <div className="col">
         <SketchColor {...props} />
       </div>
