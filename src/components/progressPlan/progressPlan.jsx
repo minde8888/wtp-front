@@ -7,14 +7,12 @@ import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 import Events from "./events";
 import { dayDateInColons } from "./date/date";
 import { months } from "./date/date";
+import { daysInPrevMonth } from "./date/date";
+import { daysInNextMonth } from "./date/date";
+import { daysInMonth } from "./date/date";
 
 function ProgressPlan(props) {
   let now = new Date();
-  const daysInMonth = new Date(
-    now.getFullYear(),
-    now.getMonth() + 1,
-    0
-  ).getDate();
 
   useEffect(() => {
     props.dispatch(getAllProgressPlans());
@@ -30,18 +28,6 @@ function ProgressPlan(props) {
       })
     );
   };
-
-  const daysInPrevMonth = new Date(
-    now.getFullYear(),
-    now.getMonth() + 0,
-    0
-  ).getDate();
-
-  const daysInNextMonth = new Date(
-    now.getFullYear(),
-    now.getMonth() + 2,
-    0
-  ).getDate();
 
   const getDayCoordinates = (index, daysInMonth) => {
     let dayIndex = index % daysInMonth;
@@ -67,7 +53,7 @@ function ProgressPlan(props) {
     justifyContent: "center",
   };
 
-  const exists = (value, index) =>
+  const positionRowIndex = (value, index) =>
     props.progress.some((obj) => {
       return obj.index === index && Date.parse(obj.start) === Date.parse(value);
     });
@@ -129,7 +115,7 @@ function ProgressPlan(props) {
                           )
                         )}
                         {props.progress !== null &&
-                          exists(
+                          positionRowIndex(
                             dayDateInColons(dayIndex).toString(),
                             rowIndex.toString()
                           ) && (
@@ -153,9 +139,8 @@ function ProgressPlan(props) {
 }
 
 function mapStateToProps(state) {
-  const { stateResize, progress } = state.progressPlan;
+  const { progress } = state.progressPlan;
   return {
-    stateResize,
     progress,
   };
 }

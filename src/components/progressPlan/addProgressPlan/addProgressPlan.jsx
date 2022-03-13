@@ -10,10 +10,10 @@ import "./addProgressPlan.scss";
 const AddProgressPlan = (props) => {
   const [value, setValue] = useState({
     name: "",
-    index: 1,
+    index: 2,
     employees: null,
   });
-
+  console.log(props);
   const [errors, setErrors] = useState({
     name: "",
   });

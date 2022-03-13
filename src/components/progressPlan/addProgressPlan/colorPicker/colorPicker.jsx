@@ -29,6 +29,7 @@ class SketchColor extends Component {
       b: color.rgb.b,
       a: color.rgb.a,
     };
+
     this.props.dispatch(addColor(obj));
     this.setState({ color: color.rgb });
   };

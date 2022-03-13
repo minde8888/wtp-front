@@ -56,17 +56,23 @@ export const dayDateInColons = (day) => {
 
 let now = new Date();
 
-const daysInPrevMonth = new Date(
+export const daysInPrevMonth = new Date(
     now.getFullYear(),
     now.getMonth() + 0,
     0
 ).getDate();
 
-const daysInMonth = new Date(
+export const daysInMonth = new Date(
     now.getFullYear(),
     now.getMonth() + 1,
     0
 ).getDate();
+
+export const daysInNextMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 2,
+    0
+  ).getDate();
 
 export const getDatesBetweenDates = (startDate, endDate) => {
     let dates = []

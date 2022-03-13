@@ -4,15 +4,9 @@ import Draggable from "react-draggable";
 import { resize } from "../../redux/actions/progressPlan";
 import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 import { getDatesBetweenDates } from "./date/date";
+import { daysInMonth } from "./date/date";
 
 function Events(props) {
-  let now = new Date();
-  const daysInMonth = new Date(
-    now.getFullYear(),
-    now.getMonth() + 1,
-    0
-  ).getDate();
-
   /*-------------Resize Start-----------------*/
 
   const [state, setState] = useState({
@@ -27,6 +21,7 @@ function Events(props) {
     bottom: 0,
     rightResize: 0,
     leftResize: 0,
+    containerSizeValues: props.container.current.getBoundingClientRect(), //uzkrauna pries gaunant props container
   });
 
   const { stateResize } = props;
@@ -54,6 +49,7 @@ function Events(props) {
     rightResize,
     leftResize,
     container_size,
+    containerSizeValues,
   } = state;
 
   useEffect(() => {
@@ -73,7 +69,7 @@ function Events(props) {
 
   const onMouseMove = useCallback(
     (e) => {
-      console.log(window.screen.width)
+      console.log(window.screen.width);
       if (element) {
         if (rightResize === "right" && element !== undefined) {
           const width = original_width + (e.pageX - original_mouse_x);
@@ -111,7 +107,7 @@ function Events(props) {
   /*------------Draggable start--------------*/
 
   const onDragEnd = (e) => {
-    console.log(e);
+    // console.log(e);
   };
 
   const handleStart = (e) => {
@@ -126,7 +122,7 @@ function Events(props) {
   };
 
   const handleDrag = (e) => {
-    console.log(state);
+    console.log(window.screen.width);
   };
 
   const onMouseUpDraggable = (e) => {
@@ -140,9 +136,12 @@ function Events(props) {
   /*------------Draggable End----------------*/
 
   const { color, start, end, progressPlanId } = props.data;
+
   let rgb =
     JSON.parse(color).r + "," + JSON.parse(color).g + "," + JSON.parse(color).b;
+
   var colorBackground = { background: `rgba(${rgb})` };
+
   const elements = [];
   for (
     let i = 0;
