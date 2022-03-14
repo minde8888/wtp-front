@@ -53,14 +53,16 @@ function ProgressPlan(props) {
     justifyContent: "center",
   };
 
-  const positionRowIndex = (value, index) =>
-    props.progress.some((obj) => {
-      return obj.index === index && Date.parse(obj.start) === Date.parse(value);
-    });
+  const positionRowIndex = (date, index) => {    
+    if (Date.parse(props.progress[index].start) === Date.parse(date)) {
+      return true
+    }
+  }
+
 
   var count = 0;
   now.setHours(0, 0, 0);
-
+  console.log(props.progress);
   return (
     <>
       <AddProgressPlan />
@@ -75,7 +77,7 @@ function ProgressPlan(props) {
             {[
               ...Array(
                 (getRowMax(props.progress) + 1) *
-                  (daysInPrevMonth + daysInMonth + daysInNextMonth + 2)
+                (daysInPrevMonth + daysInMonth + daysInNextMonth + 2)
               ),
             ].map((_, index) => {
               let { dayIndex, rowIndex } = getDayCoordinates(
@@ -85,7 +87,7 @@ function ProgressPlan(props) {
               return (
                 <div key={uuid()}>
                   {daysInPrevMonth === dayIndex ||
-                  daysInPrevMonth + daysInMonth === dayIndex - 1 ? (
+                    daysInPrevMonth + daysInMonth === dayIndex - 1 ? (
                     <div className="cell empty" index={rowIndex}></div>
                   ) : (
                     <>
@@ -100,10 +102,9 @@ function ProgressPlan(props) {
                           daysInPrevMonth <= dayIndex &&
                           dayIndex <= daysInPrevMonth + daysInMonth ? (
                           <div
-                            className={`days ${
-                              dayDateInColons(dayIndex).toString() ===
-                                now.toString() && "today"
-                            }`}
+                            className={`days ${dayDateInColons(dayIndex).toString() ===
+                              now.toString() && "today"
+                              }`}
                           >
                             {dayIndex - daysInPrevMonth}
                           </div>
