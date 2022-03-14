@@ -8,7 +8,7 @@ import { daysInMonth } from "./date/date";
 
 function Events(props) {
   /*-------------Resize Start-----------------*/
-
+console.log(props);
   const [state, setState] = useState({
     minimum_size: 30,
     original_width: 0,
@@ -21,12 +21,13 @@ function Events(props) {
     bottom: 0,
     rightResize: 0,
     leftResize: 0,
-    containerSizeValues: props.container.current.getBoundingClientRect(), //uzkrauna pries gaunant props container
+   // containerSizeValues: props.container.current.getBoundingClientRect(), //uzkrauna pries gaunant props container
   });
 
   const { stateResize } = props;
 
   const onMouseDown = (e) => {
+    console.log(e);
     setState({
       // neuzsetina !!!!!!!!!!!!!!!
       original_width: e.target.offsetParent.offsetWidth - 1,
@@ -34,7 +35,7 @@ function Events(props) {
       element: e.target.offsetParent,
       rightResize: e.target.classList.value,
       leftResize: e.target.classList.value,
-      current_container: props.container.current.getBoundingClientRect(),
+      //current_container: props.container.current.getBoundingClientRect(),
     });
     props.dispatch(resize(true));
   };
@@ -111,14 +112,14 @@ function Events(props) {
   };
 
   const handleStart = (e) => {
-    var element = e.target.getBoundingClientRect();
-    var containerSizeValues = props.container.current.getBoundingClientRect();
-    document.addEventListener("mousemove", handleDrag);
-    document.addEventListener("mouseup", onMouseUpDraggable);
-    setState({
-      top: containerSizeValues.top - element.top,
-      bottom: containerSizeValues.bottom - element.bottom,
-    });
+    // var element = e.target.getBoundingClientRect();
+    // var containerSizeValues = props.container.current.getBoundingClientRect();
+    // document.addEventListener("mousemove", handleDrag);
+    // document.addEventListener("mouseup", onMouseUpDraggable);
+    // setState({
+    //   top: containerSizeValues.top - element.top,
+    //   bottom: containerSizeValues.bottom - element.bottom,
+    // });
   };
 
   const handleDrag = (e) => {
