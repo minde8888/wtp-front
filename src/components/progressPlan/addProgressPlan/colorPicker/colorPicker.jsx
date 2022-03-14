@@ -3,7 +3,6 @@ import reactCSS from "reactcss";
 import { SketchPicker } from "react-color";
 import { addColor } from "../../../../redux/actions/progressPlan";
 
-
 class SketchColor extends Component {
   state = {
     displayColorPicker: false,
@@ -28,7 +27,9 @@ class SketchColor extends Component {
       r: color.rgb.r,
       g: color.rgb.g,
       b: color.rgb.b,
+      a: color.rgb.a,
     };
+
     this.props.dispatch(addColor(obj));
     this.setState({ color: color.rgb });
   };

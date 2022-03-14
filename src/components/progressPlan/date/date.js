@@ -2,30 +2,17 @@ export const THIS_YEAR = +(new Date().getFullYear());
 
 export const THIS_MONTH = +(new Date().getMonth()) + 1;
 
-export const WEEK_DAYS = {
-    Sunday: "Sun",
-    Monday: "Mon",
-    Tuesday: "Tue",
-    Wednesday: "Wed",
-    Thursday: "Thu",
-    Friday: "Fri",
-    Saturday: "Sat"
+export const weekDays = {
+    Sun: "Sunday",
+    Mon: "Monday",
+    Tue: "Tuesday",
+    Wed: "Wednesday",
+    Thu: "Thursday",
+    Fri: "Friday",
+    Sat: "Saturday"
 }
 
-export const CALENDAR_MONTHS = {
-    January: "Jan",
-    February: "Feb",
-    March: "Mar",
-    April: "Apr",
-    May: "May",
-    June: "Jun",
-    July: "Jul",
-    August: "Aug",
-    September: "Sep",
-    October: "Oct",
-    November: "Nov",
-    December: "Dec"
-}
+export const  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 export const dayDate = (day) => {
     const date = new Date()
@@ -69,20 +56,31 @@ export const dayDateInColons = (day) => {
 
 let now = new Date();
 
-const daysInPrevMonth = new Date(
+export const daysInPrevMonth = new Date(
     now.getFullYear(),
     now.getMonth() + 0,
     0
 ).getDate();
 
-const daysInMonth = new Date(
+export const daysInMonth = new Date(
     now.getFullYear(),
     now.getMonth() + 1,
     0
 ).getDate();
 
-const daysInNextMonth = new Date(
+export const daysInNextMonth = new Date(
     now.getFullYear(),
     now.getMonth() + 2,
     0
-).getDate();
+  ).getDate();
+
+export const getDatesBetweenDates = (startDate, endDate) => {
+    let dates = []
+    const theDate = new Date(startDate)
+    while (theDate < endDate) {
+      dates = [...dates, new Date(theDate)]
+      theDate.setDate(theDate.getDate() + 1)
+    }
+    dates = [...dates, endDate]
+    return dates
+  }
