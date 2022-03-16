@@ -8,8 +8,6 @@ import { daysInMonth } from "./date/date";
 
 function Events(props) {
   /*-------------Resize Start-----------------*/
-console.log(props.container);
-
   const [state, setState] = useState({
     minimum_size: 30,
     original_width: 0,
@@ -22,7 +20,8 @@ console.log(props.container);
     bottom: 0,
     rightResize: 0,
     leftResize: 0,
-   // containerSizeValues: props.container.current.getBoundingClientRect(), //uzkrauna pries gaunant props container
+    containerSizeValues: null,
+    // containerSizeValues: props.container.current.getBoundingClientRect(), //uzkrauna pries gaunant props container
   });
 
   const { stateResize } = props;
@@ -31,6 +30,7 @@ console.log(props.container);
     console.log(e);
     setState({
       // neuzsetina !!!!!!!!!!!!!!!
+      ...state,
       original_width: e.target.offsetParent.offsetWidth - 1,
       original_mouse_x: e.pageX,
       element: e.target.offsetParent,
@@ -67,7 +67,7 @@ console.log(props.container);
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUpResize);
     };
-  }, [stateResize]);
+  }, [stateResize, props.container.current]);
 
   const onMouseMove = useCallback(
     (e) => {
