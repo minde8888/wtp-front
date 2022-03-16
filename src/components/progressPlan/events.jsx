@@ -8,7 +8,8 @@ import { daysInMonth } from "./date/date";
 
 function Events(props) {
   /*-------------Resize Start-----------------*/
-console.log(props);
+console.log(props.container);
+
   const [state, setState] = useState({
     minimum_size: 30,
     original_width: 0,
