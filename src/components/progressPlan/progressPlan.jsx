@@ -54,6 +54,7 @@ function ProgressPlan(props) {
   };
 
   const positionRowIndex = (date, index) => {    
+   // Date.parse(props.progress[index].start) === dayDateInColons(dayIndex)
     if (Date.parse(props.progress[index].start) === Date.parse(date)) {
       return true
     }
