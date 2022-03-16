@@ -13,7 +13,6 @@ const AddProgressPlan = (props) => {
     index: 3,
     employees: null,
   });
-  console.log(props);
   const [errors, setErrors] = useState({
     name: "",
   });
@@ -29,10 +28,10 @@ const AddProgressPlan = (props) => {
     props.dispatch(clearMessage());
     if (value.name === null)
       return props.dispatch(setMessage("Project Name can not by empty !"));
-      let obj = { ...props.date, ...value, color: JSON.stringify(props.color) };
-      props.dispatch(addNewProgressPlan(obj)).then(() => {
-        nameRef.current.value = null;
-      });
+    let obj = { ...props.date, ...value, color: JSON.stringify(props.color) };
+    props.dispatch(addNewProgressPlan(obj)).then(() => {
+      nameRef.current.value = null;
+    });
   };
 
   const validInputs = (e) => {
