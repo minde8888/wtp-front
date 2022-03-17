@@ -17,6 +17,7 @@
     position: relative;
 
     .days {
+        display: flex;
         position   : absolute;
         bottom     : 20px;
         width      : 30px;
@@ -29,7 +30,7 @@
     .event {
         display        : flex;
         flex-wrap      : nowrap;
-        justify-content: space-between;
+        // justify-content: space-between;
         height         : 18px;
         user-Select    : none;
         position       : absolute;

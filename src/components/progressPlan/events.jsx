@@ -7,6 +7,7 @@ import { getDatesBetweenDates } from "./date/date";
 import { daysInMonth } from "./date/date";
 
 function Events(props) {
+
   /*-------------Resize Start-----------------*/
   const [state, setState] = useState({
     minimum_size: 30,
@@ -21,22 +22,21 @@ function Events(props) {
     rightResize: 0,
     leftResize: 0,
     containerSizeValues: null,
-    // containerSizeValues: props.container.current.getBoundingClientRect(), //uzkrauna pries gaunant props container
+    elemenetResize: null
   });
 
   const { stateResize } = props;
 
   const onMouseDown = (e) => {
-    console.log(e);
+
     setState({
-      // neuzsetina !!!!!!!!!!!!!!!
       ...state,
+      elemenetResize: eventRef.current,
       original_width: e.target.offsetParent.offsetWidth - 1,
       original_mouse_x: e.pageX,
       element: e.target.offsetParent,
       rightResize: e.target.classList.value,
       leftResize: e.target.classList.value,
-      //current_container: props.container.current.getBoundingClientRect(),
     });
     props.dispatch(resize(true));
   };
@@ -52,9 +52,11 @@ function Events(props) {
     leftResize,
     container_size,
     containerSizeValues,
+    elemenetResize
   } = state;
 
   useEffect(() => {
+    setState({ ...state, containerSizeValues: props.container.current })
     if (stateResize) {
       document.addEventListener("mousemove", onMouseMove);
       document.addEventListener("mouseup", onMouseUpResize);
@@ -95,10 +97,12 @@ function Events(props) {
       minimum_size,
       original_width,
       rightResize,
+      props.container
     ]
   );
 
   const onMouseUpResize = useCallback((e) => {
+    console.log(e);
     props.dispatch(resize(false));
     document.removeEventListener("mousemove", onMouseMove);
     document.removeEventListener("mouseup", onMouseUpResize);
@@ -137,7 +141,8 @@ function Events(props) {
 
   /*------------Draggable End----------------*/
 
-  const { color, start, end, progressPlanId } = props.data;
+
+  const { color, start, end, progressPlanId } = props.data[props.rowIndex];
 
   let rgb =
     JSON.parse(color).r + "," + JSON.parse(color).g + "," + JSON.parse(color).b;
@@ -151,13 +156,14 @@ function Events(props) {
     i++
   ) {
     elements.push(
-      <div key={i} className={"range"} style={colorBackground}></div>
+      <div key={i} className={"range"} ></div>
     );
   }
 
   var eventRef = useRef([]);
 
   return (
+
     <Draggable
       bounds={{
         top: top,
@@ -167,7 +173,16 @@ function Events(props) {
       onStop={(result) => onDragEnd(result)}
       onStart={(e) => handleStart(e)}
     >
-      <div
+      <div className="event" style={colorBackground} id={progressPlanId} ref={(element) => {
+        eventRef.current = element;
+      }}>
+        <span className="left" onMouseDown={(e) => onMouseDown(e)}></span>
+        {elements}
+        <span className="right" onMouseDown={(e) => onMouseDown(e)}></span>
+        <span className="event-name"></span>
+      </div>
+      {/* <div
+        style={colorBackground}
         className={`event `}
         id={progressPlanId}
         ref={(element) => {
@@ -178,7 +193,7 @@ function Events(props) {
         {elements}
         <span className="right" onMouseDown={(e) => onMouseDown(e)}></span>
         <span className="event-name"></span>
-      </div>
+      </div> */}
     </Draggable>
   );
 }
