@@ -12,13 +12,14 @@ import { daysInNextMonth } from "./date/date";
 import { daysInMonth } from "./date/date";
 
 function ProgressPlan(props) {
+
   let dateNow = new Date();
+
+  const containerRef = useRef([]);
 
   useEffect(() => {
     props.dispatch(getAllProgressPlans());
   }, []);
-
-  const containerRef = useRef([]);
 
   var style = {
     display: "grid",
@@ -54,7 +55,7 @@ function ProgressPlan(props) {
         <div>{months[dateNow.getMonth()]}</div>
         <div>{months[dateNow.getMonth() + 1]}</div>
       </div>
-      <div style={gridContainer} ref={containerRef}>
+      <div ref={containerRef} style={gridContainer}>
         {Array.isArray(props.progress) && props.progress.length !== 0 && (
           <div style={style}>
             {totalDays.map((_, index) => {
@@ -134,7 +135,8 @@ function RenderDay({
           progress
         ) && (
           <Events
-            data={progress[rowIndex]}
+            rowIndex={rowIndex}
+            data={progress}
             dispatch={dispatch}
             container={containerRef}
           />
