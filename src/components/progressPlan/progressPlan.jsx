@@ -3,7 +3,10 @@ import uuid from "uuid/v4";
 import "./progressPlan.scss";
 import { connect } from "react-redux";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
-import { getAllProgressPlans, getContainer } from "../../redux/actions/progressPlan";
+import {
+  getAllProgressPlans,
+  getContainer,
+} from "../../redux/actions/progressPlan";
 import Events from "./events";
 import { dayDateInColons } from "./date/date";
 import { months } from "./date/date";
@@ -12,7 +15,6 @@ import { daysInNextMonth } from "./date/date";
 import { daysInMonth } from "./date/date";
 
 function ProgressPlan(props) {
-
   let dateNow = new Date();
 
   const containerRef = useRef([]);
@@ -121,7 +123,7 @@ function RenderDay({
     return null;
   }
   return (
-    <div className={"cell"} date={dayDateInColons(dayIndex)} index={rowIndex}>
+    <div className="cell" date={dayDateInColons(dayIndex)} index={rowIndex}>
       <RenderTopMonthDays
         rowIndex={rowIndex}
         daysInPrevMonth={daysInPrevMonth}
