@@ -4,6 +4,7 @@ import { progressPlanConstants } from "../constants/progressPlanConstants";
 const initialState = { stateResize: false, progress: null, isLoaded: true };
 
 export default function progressPlan(state = initialState, action) {
+
     const { type, payload, data } = action;
     switch (type) {
         case progressPlanConstants.PROGRESS_PLAN_DATA:

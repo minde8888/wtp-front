@@ -7,7 +7,6 @@ import { getDatesBetweenDates } from "./date/date";
 import { daysInMonth } from "./date/date";
 
 function Events(props) {
-
   /*-------------Resize Start-----------------*/
   const [state, setState] = useState({
     minimum_size: 30,
@@ -22,16 +21,15 @@ function Events(props) {
     rightResize: 0,
     leftResize: 0,
     containerSizeValues: null,
-    resizeElelemet: null
+    elementResize: null,
   });
 
   const { stateResize } = props;
 
   const onMouseDown = (e) => {
-console.log();
     setState({
       ...state,
-      // elemenetResize: eventRef.current,
+      elementResize: eventRef.current,
       original_width: e.target.offsetParent.offsetWidth - 1,
       original_mouse_x: e.pageX,
       element: e.target.offsetParent,
@@ -53,15 +51,16 @@ console.log();
     leftResize,
     container_size,
     containerSizeValues,
-    resizeElelemet
+    elementResize,
   } = state;
 
   useEffect(() => {
-    setState({ ...state, containerSizeValues: props.container.current })
-    if (stateResize && !resizeElelemet) {
-      console.log(resizeElelemet);
-      resizeElelemet.addEventListener("mousemove", onMouseMove);
-      resizeElelemet.addEventListener("mouseup", onMouseUpResize);
+    if (stateResize) {
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUpResize);
+    } else {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUpResize);
     }
     //  else {
     //   resizeElelemet.removeEventListener("mousemove", onMouseMove);
@@ -100,7 +99,8 @@ console.log();
       minimum_size,
       original_width,
       rightResize,
-      props.container
+      props.container,
+      top,
     ]
   );
 
@@ -115,27 +115,45 @@ console.log();
 
   /*------------Draggable start--------------*/
 
-  const onDragEnd = (e) => {
-    // console.log(e);
+  const handleStart = (e) => {
+    var element = e.target.getBoundingClientRect();
+    const container = props.container.current.getBoundingClientRect();
+    document.addEventListener("mousemove", handleDrag);
+    document.addEventListener("mouseup", onMouseUpDraggable);
+
+    setState({
+      top: container.top - element.top,
+      bottom: container.bottom - element.bottom,
+    });
+    // console.log(container.top - element.top);
+    // console.log(container.top);
+    // console.log(element.top);
+    // console.log(top);
+    // console.log(111111);
   };
 
-  const handleStart = (e) => {
-    // var element = e.target.getBoundingClientRect();
-    // var containerSizeValues = props.container.current.getBoundingClientRect();
-    // document.addEventListener("mousemove", handleDrag);
-    // document.addEventListener("mouseup", onMouseUpDraggable);
-    // setState({
-    //   top: containerSizeValues.top - element.top,
-    //   bottom: containerSizeValues.bottom - element.bottom,
-    // });
-  };
+  // console.log(top);
+  // console.log(bottom);
 
   const handleDrag = (e) => {
+    // console.log(e.target.getBoundingClientRect());
     console.log(window.screen.width);
   };
 
   const onMouseUpDraggable = (e) => {
+    // console.log(e.target);
     // console.log(state);
+    let element = e.target.getBoundingClientRect();
+    // console.log(element);
+    const container = props.container.current.getBoundingClientRect();
+    // let row = (container.bottom - container.top) / 20;
+    let positionTop = Math.round((container.top - element.top) / 20);
+    let positionBottom = Math.round((container.bottom - element.bottom) / 20);
+    setState({
+      top: positionTop * 20,
+      bottom: positionBottom * 20,
+    });
+
     props.dispatch(resize(false));
     // console.log(e.target.parentElement);
     document.removeEventListener("mousemove", handleDrag);
@@ -143,7 +161,6 @@ console.log();
   };
 
   /*------------Draggable End----------------*/
-
 
   const { color, start, end, progressPlanId } = props.data[props.rowIndex];
 
@@ -158,45 +175,36 @@ console.log();
     i < getDatesBetweenDates(new Date(start), new Date(end)).length;
     i++
   ) {
-    elements.push(
-      <div key={i} className={"range"} ></div>
-    );
+    elements.push(<div key={i} className={"range"}></div>);
   }
-
+  // console.log(top);
+  // console.log(bottom);
   var eventRef = useRef([]);
-
+console.log(props);
   return (
-
     <Draggable
       bounds={{
-        top: top,
+        top: top, //nurodo kiek judeti elementui nuo esemos pozicijos i virsu
         bottom: bottom,
       }}
       cancel="span"
-      onStop={(result) => onDragEnd(result)}
+      // onStop={(result) => onDragEnd(result)}
       onStart={(e) => handleStart(e)}
-    >
-      <div className="event" style={colorBackground} id={progressPlanId} ref={(element) => {
-        eventRef.current = element;
-      }}>
-        <span className="left" onMouseDown={(e) => onMouseDown(e)}></span>
-        {elements}
-        <span className="right" onMouseDown={(e) => onMouseDown(e)}></span>
-        <span className="event-name"></span>
-      </div>
-      {/* <div
+    >  
+      <div
+        className="event"
         style={colorBackground}
-        className={`event `}
         id={progressPlanId}
         ref={(element) => {
           eventRef.current = element;
         }}
       >
+            {/* {console.log(top)} */}
         <span className="left" onMouseDown={(e) => onMouseDown(e)}></span>
         {elements}
         <span className="right" onMouseDown={(e) => onMouseDown(e)}></span>
         <span className="event-name"></span>
-      </div> */}
+      </div>
     </Draggable>
   );
 }
