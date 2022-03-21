@@ -10,7 +10,7 @@ import "./addProgressPlan.scss";
 const AddProgressPlan = (props) => {
   const [value, setValue] = useState({
     name: "",
-    index: 3,
+    index:  props.progress.length-1,
     employees: null,
   });
   const [errors, setErrors] = useState({
@@ -68,7 +68,8 @@ const AddProgressPlan = (props) => {
 };
 
 function mapStateToProps(state) {
-  const { date, color } = state.progressPlan;
-  return { date, color };
+  const { date, color, progress } = state.progressPlan;
+
+  return { date, color, progress };
 }
 export default connect(mapStateToProps)(AddProgressPlan);
