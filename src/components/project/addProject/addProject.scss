@@ -68,7 +68,7 @@ button {
     }
 }
 
-.tb-actions {
+.container {
     margin: 0;
     .form-group{
         text-align: center;
@@ -79,7 +79,7 @@ button {
     }
 
     .row {
-        justify-content: flex-end;
+        justify-content: start;
 
         .d-button {
             margin: 25px 60px 25px 50px;

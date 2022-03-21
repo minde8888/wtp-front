@@ -5,6 +5,7 @@ import { addNewProject } from "../../../redux/actions/projectData";
 import plus from "../../../svg/plus.svg";
 
 const AddInput = (props) => {
+
   const [allValues, setValue] = useState({
     number: null,
     title: "",

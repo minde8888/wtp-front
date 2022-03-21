@@ -7,6 +7,7 @@ const initialState = {
     projectIsLoaded: false,
     isSelected: "",
     isSelectedId: "",
+    isLoaded: false,
     id: ""
 };
 
@@ -17,6 +18,7 @@ export default function project(state = initialState, action) {
         data,
         payload,
         isSelectedId,
+        isLoaded,
         id
     } = action
 
@@ -54,7 +56,8 @@ export default function project(state = initialState, action) {
         }
         case projectConstants.UPDATE_PROJECT_TABLE:
             return {
-                ...state, data: state.data.map(p => p.projectId !== payload.projectId ? p : payload)
+                ...state, data: state.data.map(p => p.projectId !== payload.projectId ? p : payload),
+                isLoaded: isLoaded
             }
         default:
             return state;

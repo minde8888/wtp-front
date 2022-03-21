@@ -1,32 +1,53 @@
-.bs-checkbox {
-    text-align    : center;
-    vertical-align: middle;
-    width         : 60px;
-    cursor        : pointer;
-
-    img {
-        width: 22px;
+tr {
+    .detail {
+        width: 30px;
     }
 }
 
-.bs-checkbox:hover {
+.bs-checkbox {
+    text-align: center;
+    vertical-align: middle;
+    width: 60px;
     background: #e3e6e9;
+
+    img {
+        width: 20px;
+    }
+
+    input {
+        cursor: pointer;
+        z-index: 1;
+    }
+
 }
 
 tbody {
     tr {
+
+        height: 26px;
+
         .table-checkbox {
-            cursor: pointer;
-            width : 36px;
-        }
-
-        .check-box {
-            background-color: rgba(101, 117, 117, 0.253);
-            height          : 30px;
-        }
-
-        td {
+            display: flex;
+            justify-content: center;
             align-items: center;
+            cursor: pointer;
+            width: 60px;
+            text-align: center;
+            vertical-align: middle;
+            height: 100%;
+            width: 100%;
+
+            .check-box {
+                background-color: rgba(101, 117, 117, 0.253);
+                height: 100%;
+                width: 100%;
+
+            }
+        }
+
+        .tb {
+            padding: 1rem 0 0 0.5rem;
+            line-height: 16px;
         }
     }
 

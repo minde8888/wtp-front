@@ -11,7 +11,7 @@ export const getAllProjects = () => (dispatch) => {
 
     return ProjectService.allProjects().then(
         async (data) => {
-             dispatch({
+            dispatch({
                 type: projectConstants.PROJECT_DATA,
                 data: data.data.$values,
             });
@@ -41,7 +41,7 @@ export const addNewProject = (obj) => (dispatch) => {
     return ProjectService.addProject(obj).then(
 
         (response) => {
-              dispatch({
+            dispatch({
                 type: projectConstants.ADD_PROJECT,
                 payload: true,
                 data: response.data
@@ -84,10 +84,10 @@ export const updateProject = (obj) => (dispatch) => {
                 type: messageConstants.SET_MESSAGE,
                 payload: "The project was successfully updated."
             });
-
             dispatch({
                 type: projectConstants.UPDATE_PROJECT_TABLE,
-                payload: data.data
+                payload: data.data,
+                isLoaded: true
             });
             return Promise.resolve();
         },
@@ -99,10 +99,15 @@ export const updateProject = (obj) => (dispatch) => {
                 error.message ||
                 error.toString();
             dispatch({
+                type: projectConstants.UPDATE_PROJECT_TABLE,
+                isLoaded: false
+            });
+            dispatch({
                 type: messageConstants.ERROR,
                 payload: error.response.data,
             });
-            console.log(message);
+
+
             return Promise.reject();
         }
     );
