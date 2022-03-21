@@ -30,7 +30,6 @@ export const getAllProjects = () => (dispatch) => {
                 type: messageConstants.ERROR,
                 payload: error.response,
             });
-            console.log(message);
             return Promise.reject();
         }
     );

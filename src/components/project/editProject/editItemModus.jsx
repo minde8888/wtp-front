@@ -8,7 +8,6 @@ import {
 } from "../../../redux/actions/projectData";
 import { NavLink } from "react-router-dom";
 
-
 class EditItemModus extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +39,7 @@ class EditItemModus extends Component {
   onChange = (e) => {
     e.preventDefault();
     const { name, id, value } = e.target;
-    this.props.dispatch(projectOnChanges({ [name]: value }, id))
+    this.props.dispatch(projectOnChanges({ [name]: value }, id));
   };
 
   handleOnChange = (e) => {
@@ -56,7 +55,7 @@ class EditItemModus extends Component {
   handleOnBlur = (e) => {
     var obj = {
       [e.target.name]: e.target.value,
-      projectId: e.target.id
+      projectId: e.target.id,
     };
 
     this.props.dispatch(updateProject(obj));
@@ -78,17 +77,6 @@ class EditItemModus extends Component {
                   onChange={this.handleOnChange}
                 />
               </label>
-            </td>
-            <td className="btn table-checkbox">
-              <label>
-                <input
-                  className="check-box box-action input-box"
-                  value={item.projectId}
-                  name="btSelectItem"
-                  type="checkbox"
-                />
-              </label>
-              <NavLink className="detail-icon" to="#"></NavLink>
             </td>
             <td
               className={`tb  ${
@@ -209,6 +197,50 @@ class EditItemModus extends Component {
                 }}
                 onBlur={this.handleOnBlur}
               />
+            </td>
+            <td className="bs-checkbox">
+              <label>
+                <input
+                  className="check-box box-action input-box"
+                  value={item.projectId}
+                  name="btSelectItem"
+                  type="checkbox"
+                />
+              </label>
+              <NavLink className="detail-icon" to="#"></NavLink>
+            </td>
+            <td className="bs-checkbox">
+              <label>
+                <input
+                  className="check-box box-action input-box"
+                  value={item.projectId}
+                  name="btSelectItem"
+                  type="checkbox"
+                />
+              </label>
+              <NavLink className="detail-icon" to="#"></NavLink>
+            </td>
+            <td className="bs-checkbox">
+              <label>
+                <input
+                  className="check-box box-action input-box"
+                  value={item.projectId}
+                  name="btSelectItem"
+                  type="checkbox"
+                />
+              </label>
+              <NavLink className="detail-icon" to="#"></NavLink>
+            </td>
+            <td className="bs-checkbox">
+              <label>
+                <input
+                  className="check-box box-action input-box"
+                  value={item.projectId}
+                  name="btSelectItem"
+                  type="checkbox"
+                />
+              </label>
+              <NavLink className="detail-icon" to="#"></NavLink>
             </td>
           </tr>
         ))}
