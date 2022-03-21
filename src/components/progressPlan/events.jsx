@@ -35,6 +35,7 @@ function Events(props) {
       element: e.target.offsetParent,
       rightResize: e.target.classList.value,
       leftResize: e.target.classList.value,
+      resizeElelemet:e.target.offsetParent
     });
     props.dispatch(resize(true));
   };
@@ -61,11 +62,15 @@ function Events(props) {
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUpResize);
     }
+    //  else {
+    //   resizeElelemet.removeEventListener("mousemove", onMouseMove);
+    //   resizeElelemet.removeEventListener("mouseup", onMouseUpResize);
+    // }
 
-    return () => {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUpResize);
-    };
+    // return () => {
+    //   resizeElelemet.removeEventListener("mousemove", onMouseMove);
+    //   resizeElelemet.removeEventListener("mouseup", onMouseUpResize);
+    // };
   }, [stateResize, props.container.current]);
 
   const onMouseMove = useCallback(
@@ -100,7 +105,7 @@ function Events(props) {
   );
 
   const onMouseUpResize = useCallback((e) => {
-    console.log(e);
+
     props.dispatch(resize(false));
     document.removeEventListener("mousemove", onMouseMove);
     document.removeEventListener("mouseup", onMouseUpResize);
@@ -172,10 +177,10 @@ function Events(props) {
   ) {
     elements.push(<div key={i} className={"range"}></div>);
   }
-  console.log(top);
-  console.log(bottom);
+  // console.log(top);
+  // console.log(bottom);
   var eventRef = useRef([]);
-
+console.log(props);
   return (
     <Draggable
       bounds={{
@@ -194,7 +199,7 @@ function Events(props) {
           eventRef.current = element;
         }}
       >
-            {console.log(top)}
+            {/* {console.log(top)} */}
         <span className="left" onMouseDown={(e) => onMouseDown(e)}></span>
         {elements}
         <span className="right" onMouseDown={(e) => onMouseDown(e)}></span>

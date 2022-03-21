@@ -31,7 +31,7 @@ class EditItemModus extends Component {
     });
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (prevProps.data.length !== this.props.data.length) {
       this.setState({ newId: [] });
     }
@@ -79,7 +79,7 @@ class EditItemModus extends Component {
                 />
               </label>
             </td>
-            <th className="btn table-checkbox">
+            <td className="btn table-checkbox">
               <label>
                 <input
                   className="check-box box-action input-box"
@@ -89,7 +89,7 @@ class EditItemModus extends Component {
                 />
               </label>
               <NavLink className="detail-icon" to="#"></NavLink>
-            </th>
+            </td>
             <td
               className={`tb  ${
                 isSelectedId === item.projectId ? "d-none" : ""

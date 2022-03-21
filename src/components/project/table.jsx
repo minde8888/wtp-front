@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import EditItemModus from "./editProject/editItemModus";
 import { connect } from "react-redux";
 import {
@@ -9,43 +9,42 @@ import TablePreloader from "../preloader/tablePreloader";
 import trash from "../../svg/trash.svg";
 import "./project.scss";
 
-class Table extends Component {
+const Table = (props) => {
 
-  componentDidMount() {
-    this.props.dispatch(getAllProjects());
-  }
+  useEffect(() => {
+    props.dispatch(getAllProjects());
+  }, []);
 
-  removeProjects = () => {
-    this.props.dispatch(projectToDelete(this.props.removeProjects));
+  const removeProjects = () => {
+    props.dispatch(projectToDelete(props.removeProjects));
   };
 
-  render = () => {
-    return (
-      <>
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th className="bs-checkbox" onClick={this.removeProjects}>
-                <img src={trash} alt="" />
-              </th>
-              <th className="detail"></th>
-              <th scope="col-2">Project nr</th>
-              <th scope="col">Name</th>
-              <th scope="col">Address</th>
-              <th scope="col">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.props.projectIsLoaded ? (
-              <EditItemModus />
-            ) : (
-              <TablePreloader />
-            )}
-          </tbody>
-        </table>
-      </>
-    );
-  };
+  return (
+    <>
+      <table className="table table-bordered">
+        <thead>
+          <tr>
+            <th className="bs-checkbox" onClick={removeProjects}>
+              <img src={trash} alt="" />
+            </th>
+            <th className="detail"></th>
+            <th scope="col-2">Project nr</th>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.projectIsLoaded ? (
+            <EditItemModus />
+          ) : (
+            <TablePreloader />
+          )}
+        </tbody>
+      </table>
+    </>
+  );
+
 }
 
 function mapStateToProps(state) {
