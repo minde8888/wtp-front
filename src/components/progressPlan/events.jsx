@@ -22,21 +22,22 @@ function Events(props) {
     rightResize: 0,
     leftResize: 0,
     containerSizeValues: null,
-    elemenetResize: null
+    resizeElelemet: null
   });
 
   const { stateResize } = props;
 
   const onMouseDown = (e) => {
-
+console.log();
     setState({
       ...state,
-      elemenetResize: eventRef.current,
+      // elemenetResize: eventRef.current,
       original_width: e.target.offsetParent.offsetWidth - 1,
       original_mouse_x: e.pageX,
       element: e.target.offsetParent,
       rightResize: e.target.classList.value,
       leftResize: e.target.classList.value,
+      resizeElelemet:e.target.offsetParent
     });
     props.dispatch(resize(true));
   };
@@ -52,23 +53,25 @@ function Events(props) {
     leftResize,
     container_size,
     containerSizeValues,
-    elemenetResize
+    resizeElelemet
   } = state;
 
   useEffect(() => {
     setState({ ...state, containerSizeValues: props.container.current })
-    if (stateResize) {
-      document.addEventListener("mousemove", onMouseMove);
-      document.addEventListener("mouseup", onMouseUpResize);
-    } else {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUpResize);
+    if (stateResize && !resizeElelemet) {
+      console.log(resizeElelemet);
+      resizeElelemet.addEventListener("mousemove", onMouseMove);
+      resizeElelemet.addEventListener("mouseup", onMouseUpResize);
     }
+    //  else {
+    //   resizeElelemet.removeEventListener("mousemove", onMouseMove);
+    //   resizeElelemet.removeEventListener("mouseup", onMouseUpResize);
+    // }
 
-    return () => {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUpResize);
-    };
+    // return () => {
+    //   resizeElelemet.removeEventListener("mousemove", onMouseMove);
+    //   resizeElelemet.removeEventListener("mouseup", onMouseUpResize);
+    // };
   }, [stateResize, props.container.current]);
 
   const onMouseMove = useCallback(
@@ -102,7 +105,7 @@ function Events(props) {
   );
 
   const onMouseUpResize = useCallback((e) => {
-    console.log(e);
+
     props.dispatch(resize(false));
     document.removeEventListener("mousemove", onMouseMove);
     document.removeEventListener("mouseup", onMouseUpResize);
