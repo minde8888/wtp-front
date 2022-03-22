@@ -3,9 +3,7 @@ import uuid from "uuid/v4";
 import "./progressPlan.scss";
 import { connect } from "react-redux";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
-import {
-  getAllProgressPlans,
-} from "../../redux/actions/progressPlan";
+import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 import Events from "./events";
 import { dayDateInColons } from "./date/date";
 import { months } from "./date/date";
@@ -135,9 +133,8 @@ function RenderDay({
           rowIndex.toString(),
           progress
         ) && (
-          <Events
-            rowIndex={rowIndex}
-            data={progress}
+          <Events            
+            event={progress[rowIndex]}
             dispatch={dispatch}
             container={containerRef}
           />
