@@ -14,7 +14,7 @@ button,
     padding         : $ruler;
     background-color: $color-bg;
     text-shadow     : 1px 1px 0 $color-white;
-    height          : 40px;
+    height          : 34px;
 }
 
 .input-box {
@@ -69,8 +69,7 @@ button {
 }
 
 .container {
-    margin: 0;
-    .form-group{
+    .form-group {
         text-align: center;
     }
 
@@ -86,12 +85,13 @@ button {
         }
 
         .add {
-            width: 80px;
+            width   : 80px;
             position: relative;
+
             img {
-                position: absolute;
-                top: 50%;
-                left: 50%;
+                position : absolute;
+                top      : 50%;
+                left     : 50%;
                 transform: translate(-50%, -50%);
             }
         }

@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import {
   getAllProgressPlans,
-  getContainer,
 } from "../../redux/actions/progressPlan";
 import Events from "./events";
 import { dayDateInColons } from "./date/date";
