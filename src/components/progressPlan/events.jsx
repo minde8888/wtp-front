@@ -34,7 +34,7 @@ function Events({ event, container }) {
         ...prevState,
         elementResize: eventRef.current,
         original_width: e.target.offsetParent.offsetWidth - 1,
-        original_mouse_x: e.pageX,
+        original_mouse_x: e.pageX,//kakart naujas perraso left tvarkyti
         element: e.target.offsetParent,
         rightResize: e.target.classList.value,
         leftResize: e.target.classList.value,
@@ -42,7 +42,7 @@ function Events({ event, container }) {
         isResizing: true,
       }));
     },
-    [setState, progressPlanId]
+    [setState]
   );
 
   const {
@@ -56,23 +56,23 @@ function Events({ event, container }) {
     leftResize,
     container_size,
     containerSizeValues,
-    elementResize,
+    elementResize
   } = state;
 
   const onMouseMove = useCallback(
     (e) => {
-      // console.log(element);
       if (element) {
         if (rightResize === "right" && element !== undefined) {
           const width = original_width + (e.pageX - original_mouse_x);
-          if (width > minimum_size) {
+             if (width > minimum_size) {
             element.style.width = width + "px";
           }
         } else if (leftResize === "left" && element !== undefined) {
-          const width = original_width - (e.pageX - original_mouse_x);
+          const width = original_width - (e.pageX - original_mouse_x);        
           if (width > minimum_size) {
+            console.log(original_mouse_x);
             element.style.width = width + "px";
-            element.style.left = 4 + (e.pageX - original_mouse_x) + "px";
+            element.style.left = (e.pageX - original_mouse_x) + "px";
           }
         }
       }
@@ -82,10 +82,11 @@ function Events({ event, container }) {
 
   useEffect(() => {
     const onMouseUpResize = (e) => {
-      // console.log(progressPlanId);
       document.removeEventListener("mousemove", onMouseMove);
-      // document.removeEventListener("mouseup", onMouseUpResize);
-      setState((prevState) => ({ ...prevState, isResizing: false }));
+      setState((prevState) => ({
+        ...prevState,
+        isResizing: false
+      }));
     };
 
     if (state.isResizing) {
@@ -96,38 +97,38 @@ function Events({ event, container }) {
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUpResize);
     };
-  }, [container.current, onMouseMove, state]);
+  }, [onMouseMove, state]);
 
   /*----------Resize End --------------------*/
 
   /*------------Draggable start--------------*/
 
   const handleStart = (e) => {
+    
+
+
     var element = e.target.getBoundingClientRect();
-    // const container = container.current.getBoundingClientRect();
+
+    const containerSize = container.current.getBoundingClientRect();
+    console.log(containerSize.top - element.top);
     document.addEventListener("mousemove", handleDrag);
     document.addEventListener("mouseup", onMouseUpDraggable);
 
-    // setState({
-    //   top: container.top - element.top,
-    //   bottom: container.bottom - element.bottom,
-    // });
-    // console.log(container.top - element.top);
-    // console.log(container.top);
-    // console.log(element.top);
-    // console.log(top);
-    // console.log(111111);
+    setState((prevState) => ({
+      top: containerSize.top - element.top,
+      bottom: containerSize.bottom - element.bottom,
+    }));
   };
 
-  // console.log(top);
-  // console.log(bottom);
+
 
   const handleDrag = (e) => {
     // console.log(e.target.getBoundingClientRect());
-    console.log(window.screen.width);
+    // console.log(window.screen.width);
   };
 
-  const onMouseUpDraggable = (e) => {
+  const onMouseUpDraggable = useCallback( (e) => {
+    const containerSize = container.current.getBoundingClientRect();
     // console.log(e.target);
     // console.log(state);
     let element = e.target.getBoundingClientRect();
@@ -136,16 +137,18 @@ function Events({ event, container }) {
     // let row = (container.bottom - container.top) / 20;
     let positionTop = Math.round((container.top - element.top) / 20);
     let positionBottom = Math.round((container.bottom - element.bottom) / 20);
-    setState({
-      top: positionTop * 20,
-      bottom: positionBottom * 20,
-    });
+    setState((prevState) => ({
+      ...prevState,
+      top: containerSize.top - element.top,
+      bottom: containerSize.bottom - element.bottom,
+    }));
 
     // console.log(e.target.parentElement);
     document.removeEventListener("mousemove", handleDrag);
     document.removeEventListener("mouseup", onMouseUpDraggable);
-  };
-
+  },[bottom, container.bottom, container.top, top]);
+  // console.log(top);
+  // console.log(111111);
   /*------------Draggable End----------------*/
 
   let rgb =

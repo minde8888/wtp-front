@@ -19,7 +19,7 @@ const Profile = (props) => {
                 <img
                   width={width !== 0 ? width : null}
                   height={height !== 0 ? height : null}
-                  src={data.imageName === null ? userImage : data.imageSrc}
+                  src={data.imageName === null || data.imageName === "null" ? userImage : data.imageSrc}
                   alt={data.imageName}
                 />
                 <h3 className="mt-2">{data.name} {data.surname}</h3>
@@ -64,7 +64,7 @@ const Profile = (props) => {
           <img
             width={width !== 0 ? width : null}
             height={height !== 0 ? height : null}
-            src={data.imageName === null ? userImage : data.imageSrc}
+            src={data.imageName === null || data.imageName === "null" ? userImage : data.imageSrc}
             alt={data.imageName}
           />
           <p>
