@@ -6,8 +6,11 @@ import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 import { getDatesBetweenDates } from "./date/date";
 import { daysInMonth } from "./date/date";
 
-function Events(props) {
+function Events({ event, container }) {
   /*-------------Resize Start-----------------*/
+
+  const { color, start, end, progressPlanId } = event;
+
   const [state, setState] = useState({
     minimum_size: 30,
     original_width: 0,
@@ -22,23 +25,25 @@ function Events(props) {
     leftResize: 0,
     containerSizeValues: null,
     elementResize: null,
+    isResizing: false,
   });
 
-  const { stateResize } = props;
-
-  const onMouseDown = (e) => {
-    setState({
-      ...state,
-      elementResize: eventRef.current,
-      original_width: e.target.offsetParent.offsetWidth - 1,
-      original_mouse_x: e.pageX,
-      element: e.target.offsetParent,
-      rightResize: e.target.classList.value,
-      leftResize: e.target.classList.value,
-      resizeElelemet:e.target.offsetParent
-    });
-    props.dispatch(resize(true));
-  };
+  const onMouseDown = useCallback(
+    (e) => {
+      setState((prevState) => ({
+        ...prevState,
+        elementResize: eventRef.current,
+        original_width: e.target.offsetParent.offsetWidth - 1,
+        original_mouse_x: e.pageX,
+        element: e.target.offsetParent,
+        rightResize: e.target.classList.value,
+        leftResize: e.target.classList.value,
+        resizeElement: e.target.offsetParent,
+        isResizing: true,
+      }));
+    },
+    [setState, progressPlanId]
+  );
 
   const {
     minimum_size,
@@ -54,28 +59,9 @@ function Events(props) {
     elementResize,
   } = state;
 
-  useEffect(() => {
-    if (stateResize) {
-      document.addEventListener("mousemove", onMouseMove);
-      document.addEventListener("mouseup", onMouseUpResize);
-    } else {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUpResize);
-    }
-    //  else {
-    //   resizeElelemet.removeEventListener("mousemove", onMouseMove);
-    //   resizeElelemet.removeEventListener("mouseup", onMouseUpResize);
-    // }
-
-    // return () => {
-    //   resizeElelemet.removeEventListener("mousemove", onMouseMove);
-    //   resizeElelemet.removeEventListener("mouseup", onMouseUpResize);
-    // };
-  }, [stateResize, props.container.current]);
-
   const onMouseMove = useCallback(
     (e) => {
-      console.log(window.screen.width);
+      // console.log(element);
       if (element) {
         if (rightResize === "right" && element !== undefined) {
           const width = original_width + (e.pageX - original_mouse_x);
@@ -91,25 +77,26 @@ function Events(props) {
         }
       }
     },
-    [
-      stateResize,
-      element,
-      original_mouse_x,
-      leftResize,
-      minimum_size,
-      original_width,
-      rightResize,
-      props.container,
-      top,
-    ]
+    [state, container]
   );
 
-  const onMouseUpResize = useCallback((e) => {
+  useEffect(() => {
+    const onMouseUpResize = (e) => {
+      // console.log(progressPlanId);
+      document.removeEventListener("mousemove", onMouseMove);
+      // document.removeEventListener("mouseup", onMouseUpResize);
+      setState((prevState) => ({ ...prevState, isResizing: false }));
+    };
 
-    props.dispatch(resize(false));
-    document.removeEventListener("mousemove", onMouseMove);
-    document.removeEventListener("mouseup", onMouseUpResize);
-  });
+    if (state.isResizing) {
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUpResize);
+    }
+    return () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUpResize);
+    };
+  }, [container.current, onMouseMove, state]);
 
   /*----------Resize End --------------------*/
 
@@ -117,14 +104,14 @@ function Events(props) {
 
   const handleStart = (e) => {
     var element = e.target.getBoundingClientRect();
-    const container = props.container.current.getBoundingClientRect();
+    // const container = container.current.getBoundingClientRect();
     document.addEventListener("mousemove", handleDrag);
     document.addEventListener("mouseup", onMouseUpDraggable);
 
-    setState({
-      top: container.top - element.top,
-      bottom: container.bottom - element.bottom,
-    });
+    // setState({
+    //   top: container.top - element.top,
+    //   bottom: container.bottom - element.bottom,
+    // });
     // console.log(container.top - element.top);
     // console.log(container.top);
     // console.log(element.top);
@@ -145,7 +132,7 @@ function Events(props) {
     // console.log(state);
     let element = e.target.getBoundingClientRect();
     // console.log(element);
-    const container = props.container.current.getBoundingClientRect();
+    // const cont = container.current.getBoundingClientRect();
     // let row = (container.bottom - container.top) / 20;
     let positionTop = Math.round((container.top - element.top) / 20);
     let positionBottom = Math.round((container.bottom - element.bottom) / 20);
@@ -154,15 +141,12 @@ function Events(props) {
       bottom: positionBottom * 20,
     });
 
-    props.dispatch(resize(false));
     // console.log(e.target.parentElement);
     document.removeEventListener("mousemove", handleDrag);
     document.removeEventListener("mouseup", onMouseUpDraggable);
   };
 
   /*------------Draggable End----------------*/
-
-  const { color, start, end, progressPlanId } = props.data[props.rowIndex];
 
   let rgb =
     JSON.parse(color).r + "," + JSON.parse(color).g + "," + JSON.parse(color).b;
@@ -180,7 +164,7 @@ function Events(props) {
   // console.log(top);
   // console.log(bottom);
   var eventRef = useRef([]);
-console.log(props);
+  // console.log(props);
   return (
     <Draggable
       bounds={{
@@ -190,7 +174,7 @@ console.log(props);
       cancel="span"
       // onStop={(result) => onDragEnd(result)}
       onStart={(e) => handleStart(e)}
-    >  
+    >
       <div
         className="event"
         style={colorBackground}
@@ -199,7 +183,7 @@ console.log(props);
           eventRef.current = element;
         }}
       >
-            {/* {console.log(top)} */}
+        {/* {console.log(top)} */}
         <span className="left" onMouseDown={(e) => onMouseDown(e)}></span>
         {elements}
         <span className="right" onMouseDown={(e) => onMouseDown(e)}></span>
@@ -209,8 +193,4 @@ console.log(props);
   );
 }
 
-function mapStateToProps(state) {
-  const { stateResize } = state.progressPlan;
-  return { stateResize };
-}
-export default connect(mapStateToProps)(Events);
+export default Events;
