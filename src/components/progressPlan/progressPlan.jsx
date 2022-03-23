@@ -44,7 +44,7 @@ function ProgressPlan(props) {
     ),
   ];
 
-  console.log(totalDays); //add event to array in correct position
+  //add event to array in correct position totalDays
 
   dateNow.setHours(0, 0, 0);
 
@@ -126,7 +126,7 @@ function RenderDay({
       />
       {progress !== null &&
         progress[rowIndex].start === dayDateInColons(dayIndex).toString() &&
-        progress[rowIndex].index === rowIndex.toString() &&
+        // progress[rowIndex].index === rowIndex.toString() &&
         (
           <Events
             event={progress[rowIndex]}
