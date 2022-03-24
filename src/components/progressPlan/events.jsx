@@ -12,7 +12,7 @@ function Events({ event, container }) {
   const { color, start, end, progressPlanId } = event;
 
   const [state, setState] = useState({
-    minimum_size: 30,
+    minimum_size: 29,
     original_width: 0,
     original_x: 0,
     original_mouse_x: 0,
@@ -34,7 +34,8 @@ function Events({ event, container }) {
         ...prevState,
         elementResize: eventRef.current,
         original_width: e.target.offsetParent.offsetWidth - 1,
-        original_mouse_x: e.pageX,//kakart naujas perraso left tvarkyti
+        original_mouse_x: e.pageX, //siata reiksme neturi keisitis
+        original_x: e.target.offsetParent.getBoundingClientRect().left,
         element: e.target.offsetParent,
         rightResize: e.target.classList.value,
         leftResize: e.target.classList.value,
@@ -54,9 +55,10 @@ function Events({ event, container }) {
     bottom,
     rightResize,
     leftResize,
+    original_x,
     container_size,
     containerSizeValues,
-    elementResize
+    elementResize,
   } = state;
 
   const onMouseMove = useCallback(
@@ -64,15 +66,17 @@ function Events({ event, container }) {
       if (element) {
         if (rightResize === "right" && element !== undefined) {
           const width = original_width + (e.pageX - original_mouse_x);
-             if (width > minimum_size) {
+          if (width > minimum_size) {
             element.style.width = width + "px";
           }
         } else if (leftResize === "left" && element !== undefined) {
-          const width = original_width - (e.pageX - original_mouse_x);        
+          const width = original_width - (e.pageX - original_mouse_x);
           if (width > minimum_size) {
-            console.log(original_mouse_x);
+            // console.log(e.target.offsetParent);
+            console.log(original_x);
+            // console.log(e.target.offsetParent.getBoundingClientRect().right);
             element.style.width = width + "px";
-            element.style.left = (e.pageX - original_mouse_x) + "px";
+            element.style.left = e.pageX - original_mouse_x + "px";
           }
         }
       }
@@ -85,7 +89,7 @@ function Events({ event, container }) {
       document.removeEventListener("mousemove", onMouseMove);
       setState((prevState) => ({
         ...prevState,
-        isResizing: false
+        isResizing: false,
       }));
     };
 
@@ -104,9 +108,6 @@ function Events({ event, container }) {
   /*------------Draggable start--------------*/
 
   const handleStart = (e) => {
-    
-
-
     var element = e.target.getBoundingClientRect();
 
     const containerSize = container.current.getBoundingClientRect();
@@ -120,33 +121,34 @@ function Events({ event, container }) {
     }));
   };
 
-
-
   const handleDrag = (e) => {
     // console.log(e.target.getBoundingClientRect());
     // console.log(window.screen.width);
   };
 
-  const onMouseUpDraggable = useCallback( (e) => {
-    const containerSize = container.current.getBoundingClientRect();
-    // console.log(e.target);
-    // console.log(state);
-    let element = e.target.getBoundingClientRect();
-    // console.log(element);
-    // const cont = container.current.getBoundingClientRect();
-    // let row = (container.bottom - container.top) / 20;
-    let positionTop = Math.round((container.top - element.top) / 20);
-    let positionBottom = Math.round((container.bottom - element.bottom) / 20);
-    setState((prevState) => ({
-      ...prevState,
-      top: containerSize.top - element.top,
-      bottom: containerSize.bottom - element.bottom,
-    }));
+  const onMouseUpDraggable = useCallback(
+    (e) => {
+      const containerSize = container.current.getBoundingClientRect();
+      // console.log(e.target);
+      // console.log(state);
+      let element = e.target.getBoundingClientRect();
+      // console.log(element);
+      // const cont = container.current.getBoundingClientRect();
+      // let row = (container.bottom - container.top) / 20;
+      let positionTop = Math.round((container.top - element.top) / 20);
+      let positionBottom = Math.round((container.bottom - element.bottom) / 20);
+      setState((prevState) => ({
+        ...prevState,
+        top: containerSize.top - element.top,
+        bottom: containerSize.bottom - element.bottom,
+      }));
 
-    // console.log(e.target.parentElement);
-    document.removeEventListener("mousemove", handleDrag);
-    document.removeEventListener("mouseup", onMouseUpDraggable);
-  },[bottom, container.bottom, container.top, top]);
+      // console.log(e.target.parentElement);
+      document.removeEventListener("mousemove", handleDrag);
+      document.removeEventListener("mouseup", onMouseUpDraggable);
+    },
+    [bottom, container.bottom, container.top, top]
+  );
   // console.log(top);
   // console.log(111111);
   /*------------Draggable End----------------*/
