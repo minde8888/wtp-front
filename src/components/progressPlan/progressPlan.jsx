@@ -130,7 +130,6 @@ function RenderDay({
         (
           <Events
             event={progress[rowIndex]}
-            dispatch={dispatch}
             container={containerRef}
           />
 

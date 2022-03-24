@@ -12,6 +12,8 @@ import userImage from "../../../image/user.png";
 import "./updateProfile.scss";
 
 const UpdateProfile = (props) => {
+
+  console.log(props);
   const { register, handleSubmit } = useForm();
 
   const {
@@ -29,7 +31,7 @@ const UpdateProfile = (props) => {
   useEffect(() => props.data, [props.data]);
 
   const { city, country, street, zip } = props.data.address;
-  const { fileSrc, imageFile, width, height, userIsLoaded } = props;
+  const { imageFile, width, height, userIsLoaded, data } = props;
   const { message } = props.message;
 
   const onFileChange = async (e) => {
@@ -90,14 +92,8 @@ const UpdateProfile = (props) => {
                 width={width !== 0 ? width : null}
                 height={height !== 0 ? height : null}
                 id="getValue"
-                src={
-                  typeof fileSrc === "string"
-                    ? fileSrc
-                    : imageSrc !== "https://localhost:44395/Images/"
-                    ? imageSrc
-                    : userImage
-                }
-                alt={imageName}
+                src={data.imageName === null || data.imageName === "null" ? userImage : data.imageSrc}
+                alt={data.imageName}
               />
               <span className="font-weight-bold">
                 {name} {surname}
