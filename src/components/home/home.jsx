@@ -1,25 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 
-
-
 const Home = (props) => {
-
-
-  return (    
-    <div className="">
-
-    </div>
-  );
+  return <div className="">1111</div>;
 };
 
 function mapStateToProps(state) {
-  
-  const { } = state.user;
+  const {} = state.user;
 
-  return {
-
-  };
+  return {};
 }
 
 export default connect(mapStateToProps)(Home);

@@ -28,7 +28,7 @@ export const getAllProjects = () => (dispatch) => {
                 error.toString();
             dispatch({
                 type: messageConstants.ERROR,
-                payload: error.response,
+                payload: message,
             });
             return Promise.reject();
         }
@@ -103,7 +103,7 @@ export const updateProject = (obj) => (dispatch) => {
             });
             dispatch({
                 type: messageConstants.ERROR,
-                payload: error.response.data,
+                payload: message,
             });
 
 

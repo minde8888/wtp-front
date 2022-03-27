@@ -28,7 +28,6 @@ class NavBar extends Component {
   }
 
   componentDidMount() {
-
     const data = this.props.data;
     if (data) {
       this.setState({
@@ -61,10 +60,19 @@ class NavBar extends Component {
       <div className="m-4">
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
-            <a href="#" className="navbar-brand">
-              <img src="/examples/images/logo.svg" height="28" alt="CoolBrand" />
-            </a>
-            <button type="button" className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <NavLink className="navbar-brand" to="#">
+              <img
+                src="/examples/images/logo.svg"
+                height="28"
+                alt="CoolBrand"
+              />
+            </NavLink>
+            <button
+              type="button"
+              className="navbar-toggler"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarCollapse"
+            >
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarCollapse">
@@ -103,7 +111,11 @@ class NavBar extends Component {
                       </NavLink>
                     </li>
                     <li className="nav-item">
-                      <a href="/login" className="nav-link" onClick={this.logOut}>
+                      <a
+                        href="/login"
+                        className="nav-link"
+                        onClick={this.logOut}
+                      >
                         LogOut
                       </a>
                     </li>

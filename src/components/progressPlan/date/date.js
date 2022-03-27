@@ -14,24 +14,6 @@ export const weekDays = {
 
 export const  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-export const dayDate = (day) => {
-    const date = new Date()
-    date.setDate(day)
-    return date
-}
-
-export const monthDate = (month) => {
-    const date = new Date()
-    date.setMonth(month)
-    return date
-}
-
-export const yearDate = (y) => {
-    const date = new Date()
-    date.setFullYear(y)
-    return date
-}
-
 export const dayDateInColons = (day) => {
     let d = day
     const date = new Date()
