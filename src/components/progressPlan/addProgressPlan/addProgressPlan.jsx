@@ -55,7 +55,7 @@ const AddProgressPlan = (props) => {
           onBlur={validInputs}
         />
       </div>
-      <div className="col">
+      <div className="col datePicker">
         <GetDatePicker {...props} />
       </div>
       <div className="col-1">
