@@ -37,11 +37,6 @@ function ProgressPlan(props) {
   if (progress === null) {
     return null;
   }
-  const max = Math.max(
-    progress.map((e) => {
-      return e.index;
-    })
-  );
 
   let rowMaxNumber =
     Math.max(
@@ -58,35 +53,57 @@ function ProgressPlan(props) {
 
   let currentMonth = new Date().getMonth();
   let prevMonth = new Date().getMonth() - 1;
+  let nextMonth = new Date().getMonth() + 1;
 
   for (let i = 0; i < progress.length; i++) {
     if (currentMonth === new Date(progress[i].start).getMonth()) {
-      if (Number(progress[i].index) === i) {
+      if (Number(progress[i].index) > 0) {
         let positionEvent =
-          (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) * i +
-          new Date(progress[i].start).getDate();
-        totalDays[positionEvent + daysInPrevMonth] = progress[i];
+          (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
+            progress[i].index +
+          new Date(progress[i].start).getDate() +
+          daysInPrevMonth;
+        totalDays[positionEvent] = progress[i];
       } else {
         let index = new Date(progress[i].start).getDate() + daysInPrevMonth;
         totalDays[index] = progress[i];
       }
     }
 
-    // if (prevMonth === new Date(progress[i].start).getMonth()) {
-    //   if (Number(progress[i].index) > 0) {
-    //     let positionEvent =
-    //       (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) * i +
-    //       new Date(progress[i].start).getDate();
-    //     totalDays[positionEvent - 1] = progress[progress[i].index];
-    //     console.log(positionEvent);
-    //   } else {
-    //     let index = new Date(progress[i].start).getDate() + daysInPrevMonth + daysInMonth + 1;
-    //     totalDays[index] = progress[i];
-    //   }
-    // }
+    if (prevMonth === new Date(progress[i].start).getMonth()) {
+      if (Number(progress[i].index) > 0) {
+        let positionEvent =
+          (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
+            progress[i].index +
+          new Date(progress[i].start).getDate();
+        totalDays[positionEvent - 1] = progress[i];
+      } else {
+        let index = new Date(progress[i].start).getDate() - 1;
+        totalDays[index] = progress[i];
+      }
+    }
+
+    if (nextMonth === new Date(progress[i].start).getMonth()) {
+      if (Number(progress[i].index) > 0) {
+        let positionEvent =
+          (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
+            progress[i].index +
+          new Date(progress[i].start).getDate() +
+          daysInPrevMonth +
+          daysInMonth +
+          2;
+        totalDays[positionEvent - 1] = progress[i];
+      } else {
+        let index =
+          new Date(progress[i].start).getDate() +
+          daysInPrevMonth +
+          daysInMonth +
+          1;
+        totalDays[index] = progress[i];
+      }
+    }
   }
 
-  console.log(totalDays);
   dateNow.setHours(0, 0, 0);
 
   return (
@@ -186,8 +203,9 @@ function RenderTopMonthDays({ rowIndex, daysInPrevMonth, dayIndex, dateNow }) {
   ) {
     return (
       <div
-        className={`days ${dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
-          }`}
+        className={`days ${
+          dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
+        }`}
       >
         {dayIndex - daysInPrevMonth}
       </div>

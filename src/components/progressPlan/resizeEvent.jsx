@@ -126,6 +126,7 @@ function ResizeEvents({ event, container }) {
         original_mouse_x,
         original_width,
         rightResize,
+        event
     ]);
 
     return (
