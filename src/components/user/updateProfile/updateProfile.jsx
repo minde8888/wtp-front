@@ -13,7 +13,6 @@ import "./updateProfile.scss";
 
 const UpdateProfile = (props) => {
 
-  console.log(props);
   const { register, handleSubmit } = useForm();
 
   const {
@@ -31,7 +30,7 @@ const UpdateProfile = (props) => {
   useEffect(() => props.data, [props.data]);
 
   const { city, country, street, zip } = props.data.address;
-  const { imageFile, width, height, userIsLoaded, data } = props;
+  const { imageFile, width, height, userIsLoaded } = props;
   const { message } = props.message;
 
   const onFileChange = async (e) => {
@@ -92,8 +91,8 @@ const UpdateProfile = (props) => {
                 width={width !== 0 ? width : null}
                 height={height !== 0 ? height : null}
                 id="getValue"
-                src={data.imageName === null || data.imageName === "null" ? userImage : data.imageSrc}
-                alt={data.imageName}
+                src={imageName === null || imageName === "null" ? userImage : imageSrc}
+                alt={imageName}
               />
               <span className="font-weight-bold">
                 {name} {surname}

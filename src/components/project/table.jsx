@@ -13,7 +13,7 @@ const Table = (props) => {
 
   useEffect(() => {
     props.dispatch(getAllProjects());
-  }, []);
+  }, [props]);
 
   const removeProjects = () => {
     props.dispatch(projectToDelete(props.removeProjects));

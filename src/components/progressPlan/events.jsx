@@ -1,12 +1,8 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useState, useCallback } from "react";
 import Draggable from "react-draggable";
-import { resize } from "../../redux/actions/progressPlan";
-import { getAllProgressPlans } from "../../redux/actions/progressPlan";
-import { getDatesBetweenDates, daysInMonth } from "./date/date";
 import ResizeEvents from "./resizeEvent";
 
 function Events({ event, container }) {
-
   const [state, setState] = useState({ top: 0, bottom: 0 });
 
   const { top, bottom } = state;
@@ -34,14 +30,11 @@ function Events({ event, container }) {
   const onMouseUpDraggable = useCallback(
     (e) => {
       const containerSize = container.current.getBoundingClientRect();
-      // console.log(e.target);
-      // console.log(state);
+
       let element = e.target.getBoundingClientRect();
-      // console.log(element);
-      // const cont = container.current.getBoundingClientRect();
-      // let row = (container.bottom - container.top) / 20;
-      let positionTop = Math.round((container.top - element.top) / 20);
-      let positionBottom = Math.round((container.bottom - element.bottom) / 20);
+
+      // let positionTop = Math.round((container.top - element.top) / 20);
+      // let positionBottom = Math.round((container.bottom - element.bottom) / 20);
       setState((prevState) => ({
         ...prevState,
         top: containerSize.top - element.top,
@@ -52,15 +45,14 @@ function Events({ event, container }) {
       document.removeEventListener("mousemove", handleDrag);
       document.removeEventListener("mouseup", onMouseUpDraggable);
     },
-    [bottom, container.bottom, container.top, top]
+    [container]
   );
   // console.log(top);
   // console.log(111111);
 
-
   // console.log(top);
   // console.log(bottom);
-  var eventRef = useRef([]);
+
   // console.log(props);
   return (
     <Draggable
@@ -72,10 +64,7 @@ function Events({ event, container }) {
       // onStop={(result) => onDragEnd(result)}
       onStart={(e) => handleStart(e)}
     >
-      <ResizeEvents
-        event={event}
-        container={container}
-      />
+      <ResizeEvents event={event} container={container} />
     </Draggable>
   );
 }
