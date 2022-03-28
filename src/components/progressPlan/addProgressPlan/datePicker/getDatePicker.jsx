@@ -33,7 +33,7 @@ function GetDatePicker(props) {
 
   return (
     <ThemeProvider
-      theme={{
+      theme={{   
         breakpoints: ["32em", "48em", "64em"],
         reactDatepicker: {
           daySize: [36, 40],
@@ -42,8 +42,9 @@ function GetDatePicker(props) {
             accessibility: "#D80249",
             selectedDay: "#f7518b",
             selectedDayHover: "#F75D95",
-            primaryColor: "#d8366f",
+            primaryColor: "#d8366f",         
           },
+         
         },
       }}
     >

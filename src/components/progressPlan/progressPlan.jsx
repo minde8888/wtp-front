@@ -57,22 +57,36 @@ function ProgressPlan(props) {
   ];
 
   let currentMonth = new Date().getMonth();
+  let prevMonth = new Date().getMonth() - 1;
+
   for (let i = 0; i < progress.length; i++) {
-    console.log(progress[i]);
     if (currentMonth === new Date(progress[i].start).getMonth()) {
-      if (progress[i].index > 0 && progress[i].index === i) {
+      if (Number(progress[i].index) === i) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) * i +
           new Date(progress[i].start).getDate();
-        totalDays[positionEvent + daysInPrevMonth] = true;
+        totalDays[positionEvent + daysInPrevMonth] = progress[i];
       } else {
         let index = new Date(progress[i].start).getDate() + daysInPrevMonth;
-        totalDays[index] = true;
+        totalDays[index] = progress[i];
       }
     }
-  }
-  // console.log(totalDays);
 
+    // if (prevMonth === new Date(progress[i].start).getMonth()) {
+    //   if (Number(progress[i].index) > 0) {
+    //     let positionEvent =
+    //       (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) * i +
+    //       new Date(progress[i].start).getDate();
+    //     totalDays[positionEvent - 1] = progress[progress[i].index];
+    //     console.log(positionEvent);
+    //   } else {
+    //     let index = new Date(progress[i].start).getDate() + daysInPrevMonth + daysInMonth + 1;
+    //     totalDays[index] = progress[i];
+    //   }
+    // }
+  }
+
+  console.log(totalDays);
   dateNow.setHours(0, 0, 0);
 
   return (
@@ -98,7 +112,6 @@ function ProgressPlan(props) {
                   daysInMonth={daysInMonth}
                   daysInNextMonth={daysInNextMonth}
                   dateNow={dateNow}
-                  progress={props.progress}
                   dispatch={props.dispatch}
                   containerRef={containerRef}
                   events={events}
@@ -155,8 +168,8 @@ function RenderDay({
       {progress !== null && events && (
         // progress[rowIndex].start === dayDateInColons(dayIndex).toString() &&
         // progress[rowIndex].index === rowIndex.toString() &&
-        <Events event={progress[rowIndex]} container={containerRef} />
-        // <>{console.log(index)}</>
+        <Events event={events} container={containerRef} />
+        // <>{console.log(events)}</>
       )}
     </div>
   );
@@ -173,9 +186,8 @@ function RenderTopMonthDays({ rowIndex, daysInPrevMonth, dayIndex, dateNow }) {
   ) {
     return (
       <div
-        className={`days ${
-          dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
-        }`}
+        className={`days ${dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
+          }`}
       >
         {dayIndex - daysInPrevMonth}
       </div>
