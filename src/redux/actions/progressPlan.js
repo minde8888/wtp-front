@@ -9,7 +9,7 @@ export const getAllProgressPlans = () => (dispatch) => {
             dispatch({
                 type: progressPlanConstants.PROGRESS_PLAN_DATA,
                 data: data.data.$values,
-                
+
             });
             localStorage.setItem('progress_plan', JSON.stringify(data.data.$values));
             return Promise.resolve();
@@ -40,7 +40,7 @@ export const addNewProgressPlan = (obj) => (dispatch) => {
             dispatch({
                 type: progressPlanConstants.ADD_PROGRESS_PLAN,
                 data: response.data,
-                payload:true
+                payload: true
             })
             dispatch({
                 type: messageConstants.SET_MESSAGE,
@@ -85,3 +85,13 @@ export const addDate = (date) => ({
     type: progressPlanConstants.DATE,
     payload: date,
 })
+
+export const changeDate = (id, date, position) => ({
+    type: progressPlanConstants.RESIZE_DATE,
+    payload: {
+        date: date.toString(),
+        id: id,
+        position: position
+    }
+})
+

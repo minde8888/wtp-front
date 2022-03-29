@@ -8,9 +8,17 @@ import SketchColor from "./colorPicker/colorPicker";
 import "./addProgressPlan.scss";
 
 const AddProgressPlan = (props) => {
+
+  let rowMaxNumber =
+    Math.max(
+      ...props.progress.map((e) => {
+        return e.index;
+      })
+    ) + 1;
+
   const [value, setValue] = useState({
     name: "",
-    index:  props.progress.length-1,
+    index: rowMaxNumber,
     employees: null,
   });
   const [errors, setErrors] = useState({
@@ -68,6 +76,7 @@ const AddProgressPlan = (props) => {
 };
 
 function mapStateToProps(state) {
+
   const { date, color, progress } = state.progressPlan;
 
   return { date, color, progress };

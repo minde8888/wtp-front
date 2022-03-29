@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { getDatesBetweenDates, daysInMonth } from "./date/date";
+import { getDatesBetweenDates, daysInMonth, newDate } from "./date/date";
+import { changeDate } from "../../redux/actions/progressPlan";
+import store from "../../redux/store";
 
 function ResizeEvents({ event, container }) {
+
     const { color, start, end, progressPlanId } = event;
 
     const [state, setState] = useState({
@@ -92,19 +95,15 @@ function ResizeEvents({ event, container }) {
 
     useEffect(() => {
         const onMouseUpResize = (e) => {
+            const id = e.target.offsetParent.id
+            console.log(id);
             document.removeEventListener("mousemove", onMouseMove);
-            if (!leftWidth) {
-                setState((prevState) => ({
-                    ...prevState,
-                    isResizing: false,
-                    leftWidth: e.pageX - original_mouse_x,
-                }));
-            } else {
-                setState((prevState) => ({
-                    ...prevState,
-                    isResizing: false,
-                    leftWidth: leftWidth + (e.pageX - original_mouse_x),
-                }));
+            let newDaysPosition = Math.round((e.pageX - original_mouse_x) / 30)
+            if (leftResize === "left") {
+                store.dispatch(changeDate(id, newDate(start, newDaysPosition), "start"))
+            }
+            if (leftResize === "right") {
+                store.dispatch(changeDate(id, newDate(start, newDaysPosition), "end"))
             }
         };
 
@@ -134,6 +133,7 @@ function ResizeEvents({ event, container }) {
             className="event"
             style={colorBackground}
             id={progressPlanId}
+            date={event}
         // ref={(element) => {
         //     eventRef.current = element;
         // }}
@@ -147,3 +147,5 @@ function ResizeEvents({ event, container }) {
 }
 
 export default ResizeEvents;
+
+
