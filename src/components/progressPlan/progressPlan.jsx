@@ -5,13 +5,10 @@ import { connect } from "react-redux";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 import Events from "./events";
-import { dayDateInColons } from "./date/date";
-import { months } from "./date/date";
-import { daysInPrevMonth } from "./date/date";
-import { daysInNextMonth } from "./date/date";
-import { daysInMonth } from "./date/date";
+import { daysInNextMonth, daysInMonth, daysInPrevMonth, months, dayDateInColons } from "./date/date";
 
 function ProgressPlan(props) {
+  console.log(props);
   let dateNow = new Date();
 
   const containerRef = useRef([]);
@@ -55,12 +52,13 @@ function ProgressPlan(props) {
   let prevMonth = new Date().getMonth() - 1;
   let nextMonth = new Date().getMonth() + 1;
 
+  //optimizuoti !!!!!!!!!!!!!!!
   for (let i = 0; i < progress.length; i++) {
     if (currentMonth === new Date(progress[i].start).getMonth()) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-            progress[i].index +
+          progress[i].index +
           new Date(progress[i].start).getDate() +
           daysInPrevMonth;
         totalDays[positionEvent] = progress[i];
@@ -74,7 +72,7 @@ function ProgressPlan(props) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-            progress[i].index +
+          progress[i].index +
           new Date(progress[i].start).getDate();
         totalDays[positionEvent - 1] = progress[i];
       } else {
@@ -87,7 +85,7 @@ function ProgressPlan(props) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-            progress[i].index +
+          progress[i].index +
           new Date(progress[i].start).getDate() +
           daysInPrevMonth +
           daysInMonth +
@@ -183,14 +181,13 @@ function RenderDay({
         dateNow={dateNow}
       />
       {progress !== null && events && (
-        // progress[rowIndex].start === dayDateInColons(dayIndex).toString() &&
-        // progress[rowIndex].index === rowIndex.toString() &&
         <Events event={events} container={containerRef} />
-        // <>{console.log(events)}</>
       )}
     </div>
   );
 }
+
+
 
 function RenderTopMonthDays({ rowIndex, daysInPrevMonth, dayIndex, dateNow }) {
   if (rowIndex === 0 && daysInPrevMonth >= dayIndex) {
@@ -203,9 +200,8 @@ function RenderTopMonthDays({ rowIndex, daysInPrevMonth, dayIndex, dateNow }) {
   ) {
     return (
       <div
-        className={`days ${
-          dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
-        }`}
+        className={`days ${dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
+          }`}
       >
         {dayIndex - daysInPrevMonth}
       </div>

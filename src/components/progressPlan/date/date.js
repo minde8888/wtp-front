@@ -12,24 +12,24 @@ export const weekDays = {
     Sat: "Saturday"
 }
 
-export const  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+export const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 export const dayDateInColons = (day) => {
     let d = day
     const date = new Date()
     if (d <= daysInPrevMonth) {
         d = -daysInPrevMonth + d + 1
-        date.setHours(0,0,0)
+        date.setHours(0, 0, 0)
         date.setDate(d)
         date.setHours(0, 0, 0, 0);
     } else if (daysInPrevMonth < d && d <= (daysInPrevMonth + daysInMonth)) {
         d = d - daysInPrevMonth
-        date.setHours(0,0,0)
+        date.setHours(0, 0, 0)
         date.setDate(d)
         date.setHours(0, 0, 0, 0);
     } else if (daysInMonth <= d) {
         d = (d + 2) - (daysInMonth)
-        date.setHours(0,0,0)
+        date.setHours(0, 0, 0)
         date.setDate(d)
         date.setHours(0, 0, 0, 0);
     }
@@ -54,15 +54,31 @@ export const daysInNextMonth = new Date(
     now.getFullYear(),
     now.getMonth() + 2,
     0
-  ).getDate();
+).getDate();
 
 export const getDatesBetweenDates = (startDate, endDate) => {
     let dates = []
     const theDate = new Date(startDate)
     while (theDate < endDate) {
-      dates = [...dates, new Date(theDate)]
-      theDate.setDate(theDate.getDate() + 1)
+        dates = [...dates, new Date(theDate)]
+        theDate.setDate(theDate.getDate() + 1)
     }
     dates = [...dates, endDate]
     return dates
-  }
+}
+
+export const newDate = (date, days) => {
+    console.log(date);
+    console.log(days);
+    let d = new Date(date)
+    d.setDate(d.getDate() + days);
+    if (new Date(date).getMonth() > d.getMonth()) {
+        d.setDate(d.getDate() + days);
+        return d
+    } else if (new Date(date).getMonth() < d.getMonth()) {
+        d.setDate(d.getDate() + days);
+        return d
+    } else {
+        return d
+    }
+}
