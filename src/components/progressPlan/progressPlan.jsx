@@ -8,7 +8,7 @@ import Events from "./events";
 import { daysInNextMonth, daysInMonth, daysInPrevMonth, months, dayDateInColons } from "./date/date";
 
 function ProgressPlan(props) {
-  console.log(props);
+
   let dateNow = new Date();
 
   const containerRef = useRef([]);

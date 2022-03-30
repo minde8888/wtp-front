@@ -9,7 +9,7 @@ const initialState = {
 
 export default function progressPlan(state = initialState, action) {
     console.log(action);
-    const { type, payload, data} = action;
+    const { type, payload, data } = action;
     switch (type) {
         case progressPlanConstants.PROGRESS_PLAN_DATA:
             return {
@@ -29,14 +29,11 @@ export default function progressPlan(state = initialState, action) {
         case progressPlanConstants.DATE:
             return { ...state, date: payload };
         case progressPlanConstants.RESIZE_DATE:
-            const progressCopy = [...state.progress];
-            const currentProgressPlan = progressCopy.find(p => p.progressPlanId === payload.id)
-            console.log(currentProgressPlan.payload.position = payload.date);
-        // const progressIndex = progressCopy.findIndex(p => p.progressPlanId === id);
-        // const progress = progressCopy[progressIndex];
-        // const updatedProgress = { ...progress, ...payload }
-        // progressCopy.splice(progressIndex, 1, updatedProgress);
-        // return { ...state, progress: [progressCopy] }
+            console.log(payload);
+            let progressCopy = [...state.progress];
+            let currentProgressPlan = progressCopy.find(p => p.progressPlanId === payload.id)
+            currentProgressPlan[payload.position] = payload.date
+            return { ...state, progress: progressCopy };
         default:
             return state;
     }

@@ -67,9 +67,7 @@ export const getDatesBetweenDates = (startDate, endDate) => {
     return dates
 }
 
-export const newDate = (date, days) => {
-    console.log(date);
-    console.log(days);
+export const  newDate = (date, days) => {
     let d = new Date(date)
     d.setDate(d.getDate() + days);
     if (new Date(date).getMonth() > d.getMonth()) {
