@@ -20,7 +20,7 @@ class ProgressPlanService {
     for (var key in obj) {
       formData.append(key, obj[key])
     }
-    // console.log(Object.fromEntries(formData))
+    console.log(Object.fromEntries(formData))
     return api.put(USER_URL + '/Update', formData);
   }
 }

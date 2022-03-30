@@ -84,7 +84,7 @@ export const changeDate = (id, date, position) => (dispatch) => {
         progressPlanId: id,
         [position]: date.toString()
     }
-    return ProgressPlanService.updateEventPosition(obj).then(() => {   
+    return ProgressPlanService.updateEventPosition(obj).then(() => {
     },
         (error) => {
             const message =
