@@ -3,7 +3,7 @@ import { getDatesBetweenDates, daysInMonth, newDate } from "./date/date";
 import { changeDate } from "../../redux/actions/progressPlan";
 import store from "../../redux/store";
 
-function ResizeEvents({ event, container }) {
+function ResizeEvents({ event }) {
   const { color, start, end, progressPlanId } = event;
 
   const [state, setState] = useState({
@@ -97,14 +97,12 @@ function ResizeEvents({ event, container }) {
       document.removeEventListener("mousemove", onMouseMove);
       let newDaysPosition = Math.round((e.pageX - original_mouse_x) / 30);
       if (leftResize === "left") {
-          console.log(e.target.offsetParent.id);
-        store.dispatch(changeDate(e.target.offsetParent.id, newDate(start, newDaysPosition), "start"));
+        store.dispatch(changeDate(element.id, newDate(start, newDaysPosition), "start"));
       }
       if (leftResize === "right") {
-        store.dispatch(changeDate(e.target.offsetParent.id, newDate(end, newDaysPosition), "end"));
+        store.dispatch(changeDate(element.id, newDate(end, newDaysPosition), "end"));
       }
     };
-
     if (state.isResizing) {
       document.addEventListener("mousemove", onMouseMove);
       document.addEventListener("mouseup", onMouseUpResize);
@@ -124,6 +122,8 @@ function ResizeEvents({ event, container }) {
     original_width,
     rightResize,
     event,
+    start,
+    end
   ]);
 
   return (
@@ -131,10 +131,6 @@ function ResizeEvents({ event, container }) {
       className="event"
       style={colorBackground}
       id={progressPlanId}
-      date={event}
-      // ref={(element) => {
-      //     eventRef.current = element;
-      // }}
     >
       <span className="left" onMouseDown={(e) => onMouseDown(e)}></span>
       {elements}
