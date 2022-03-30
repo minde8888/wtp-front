@@ -71,6 +71,38 @@ export const addNewProgressPlan = (obj) => (dispatch) => {
     );
 }
 
+export const changeDate = (id, date, position) => (dispatch) => {
+    dispatch({
+        type: progressPlanConstants.RESIZE_DATE,
+        payload: {
+            date: date.toString(),
+            id: id,
+            position: position
+        }
+    })
+    let obj = {
+        progressPlanId: id,
+        [position]: date.toString()
+    }
+    return ProgressPlanService.updateEventPosition(obj).then(() => {   
+    },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            dispatch({
+                type: messageConstants.ERROR,
+                payload: message,
+            });
+
+            return Promise.reject();
+        })
+}
+
+
 export const resize = (bool) => ({
     type: progressPlanConstants.RESIZE,
     payload: bool
@@ -86,12 +118,4 @@ export const addDate = (date) => ({
     payload: date,
 })
 
-export const changeDate = (id, date, position) => ({
-    type: progressPlanConstants.RESIZE_DATE,
-    payload: {
-        date: date.toString(),
-        id: id,
-        position: position
-    }
-})
 

@@ -8,7 +8,6 @@ const initialState = {
 };
 
 export default function progressPlan(state = initialState, action) {
-    console.log(action);
     const { type, payload, data } = action;
     switch (type) {
         case progressPlanConstants.PROGRESS_PLAN_DATA:
@@ -29,7 +28,6 @@ export default function progressPlan(state = initialState, action) {
         case progressPlanConstants.DATE:
             return { ...state, date: payload };
         case progressPlanConstants.RESIZE_DATE:
-            console.log(payload);
             let progressCopy = [...state.progress];
             let currentProgressPlan = progressCopy.find(p => p.progressPlanId === payload.id)
             currentProgressPlan[payload.position] = payload.date
