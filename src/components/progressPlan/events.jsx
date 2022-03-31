@@ -7,17 +7,13 @@ import { getDatesBetweenDates, daysInMonth, newDate } from "./date/date";
 function Events({ event, container }) {
 
   const [stateDrag, setDrag] = useState({ top: 0, bottom: 0 });
+  const [statePosition, setPosition] = useState({ x: 0, y: 0 })
   const { top, bottom } = stateDrag;
+  const { x, y } = statePosition
 
   const handleStart = (e) => {
-    console.log(e);
     var element = e.target.getBoundingClientRect();
-
     const containerSize = container.current.getBoundingClientRect();
-    console.log(containerSize.top - element.top);
-    document.addEventListener("mousemove", handleDrag);
-    document.addEventListener("mouseup", onMouseUpDraggable);
-
     setDrag((prevState) => ({
       ...prevState,
       top: containerSize.top - element.top,
@@ -25,32 +21,26 @@ function Events({ event, container }) {
     }));
   };
 
-  const handleDrag = (e) => {
-    // console.log(e.target.getBoundingClientRect());
-    // console.log(window.screen.width);
-  };
+  const onStop = useCallback((data) => {
+    const containerSize = container.current.getBoundingClientRect();
+    let element = data.node.getBoundingClientRect();
+    let positionTop = Math.round((containerSize.top - element.top) / 20);
+    let positionBottom = Math.round((containerSize.bottom - element.bottom) / 20);
 
-  const onMouseUpDraggable = useCallback(
-    (e) => {
-      const containerSize = container.current.getBoundingClientRect();
+    setState((prevState) => ({
+      ...prevState,
+      top: positionTop,
+      bottom: positionBottom,
+    }));
 
-      let element = e.target.getBoundingClientRect();
-
-      let positionTop = Math.round((containerSize.top - element.top) / 20);
-      let positionBottom = Math.round((containerSize.bottom - element.bottom) / 20);
-
-      setState((prevState) => ({
-        ...prevState,
-        top: positionTop,
-        bottom: positionBottom,
-      }));
-
-      // console.log(e.target.parentElement);
-      document.removeEventListener("mousemove", handleDrag);
-      document.removeEventListener("mouseup", onMouseUpDraggable);
-    },
-    [container]
-  );
+    let days = Math.round(data.x / 30)
+    let index = Math.round(data.y / 20)
+    setPosition({
+      x: days,
+      y: index
+    })
+  },
+    [container])
 
   /*----------Resize--------------------*/
 
@@ -74,9 +64,7 @@ function Events({ event, container }) {
 
   let rgb =
     JSON.parse(color).r + "," + JSON.parse(color).g + "," + JSON.parse(color).b;
-
   let colorBackground = { background: `rgba(${rgb})` };
-
   const elements = [];
   for (
     let i = 0;
@@ -145,10 +133,11 @@ function Events({ event, container }) {
     const onMouseUpResize = (e) => {
       document.removeEventListener("mousemove", onMouseMove);
       let newDaysPosition = Math.round((e.pageX - original_mouse_x) / 30);
-      if (leftResize === "left") {
+      const width = original_width - (e.pageX - original_mouse_x);
+      if (leftResize === "left" && width > minimum_size) {
         store.dispatch(changeDate(element.id, newDate(start, newDaysPosition), "start"));
       }
-      if (leftResize === "right") {
+      if (rightResize === "right" && width > -minimum_size) {
         store.dispatch(changeDate(element.id, newDate(end, newDaysPosition), "end"));
       }
     };
@@ -177,12 +166,17 @@ function Events({ event, container }) {
 
   return (
     <Draggable
+      position={{
+        x: x * 30,
+        y: y * 20,
+
+      }}
       bounds={{
         top: top,
         bottom: bottom,
       }}
       cancel="span"
-      // onStop={(result) => onDragEnd(result)}
+      onStop={(event, data) => onStop(data)}
       onStart={(e) => handleStart(e)}
     >
       <div
