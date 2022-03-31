@@ -98,10 +98,14 @@ function ResizeEvents({ event }) {
       let newDaysPosition = Math.round((e.pageX - original_mouse_x) / 30);
       if (leftResize === "left") {
         console.log(newDaysPosition);
-        store.dispatch(changeDate(element.id, newDate(start, newDaysPosition), "start"));
+        store.dispatch(
+          changeDate(element.id, newDate(start, newDaysPosition), "start")
+        );
       }
       if (leftResize === "right") {
-        store.dispatch(changeDate(element.id, newDate(end, newDaysPosition), "end"));
+        store.dispatch(
+          changeDate(element.id, newDate(end, newDaysPosition), "end")
+        );
       }
     };
     if (state.isResizing) {
@@ -124,15 +128,11 @@ function ResizeEvents({ event }) {
     rightResize,
     event,
     start,
-    end
+    end,
   ]);
 
   return (
-    <div
-      className="event"
-      style={colorBackground}
-      id={progressPlanId}
-    >
+    <div className="event" style={colorBackground} id={progressPlanId}>
       <span className="left" onMouseDown={(e) => onMouseDown(e)}></span>
       {elements}
       <span className="right" onMouseDown={(e) => onMouseDown(e)}></span>
