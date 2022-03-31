@@ -36,12 +36,13 @@ function Events({ event, container }) {
 
       let element = e.target.getBoundingClientRect();
 
-      // let positionTop = Math.round((container.top - element.top) / 20);
-      // let positionBottom = Math.round((container.bottom - element.bottom) / 20);
+      let positionTop = Math.round((containerSize.top - element.top) / 20);
+      let positionBottom = Math.round((containerSize.bottom - element.bottom) / 20);
+
       setState((prevState) => ({
         ...prevState,
-        top: containerSize.top - element.top,
-        bottom: containerSize.bottom - element.bottom,
+        top: positionTop,
+        bottom: positionBottom,
       }));
 
       // console.log(e.target.parentElement);

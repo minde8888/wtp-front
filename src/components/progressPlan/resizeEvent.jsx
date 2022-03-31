@@ -97,6 +97,7 @@ function ResizeEvents({ event }) {
       document.removeEventListener("mousemove", onMouseMove);
       let newDaysPosition = Math.round((e.pageX - original_mouse_x) / 30);
       if (leftResize === "left") {
+        console.log(newDaysPosition);
         store.dispatch(changeDate(element.id, newDate(start, newDaysPosition), "start"));
       }
       if (leftResize === "right") {
