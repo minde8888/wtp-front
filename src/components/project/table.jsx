@@ -10,7 +10,6 @@ import trash from "../../svg/trash.svg";
 import "./project.scss";
 
 const Table = (props) => {
-
   useEffect(() => {
     props.dispatch(getAllProjects());
   }, [props]);
@@ -35,21 +34,15 @@ const Table = (props) => {
             <th scope="col">Checklist</th>
             <th scope="col">Progress</th>
             <th scope="col">Rent</th>
-           
           </tr>
         </thead>
         <tbody>
-          {props.projectIsLoaded ? (
-            <EditItemModus />
-          ) : (
-            <TablePreloader />
-          )}
+          {props.projectIsLoaded ? <EditItemModus /> : <TablePreloader />}
         </tbody>
       </table>
     </>
   );
-
-}
+};
 
 function mapStateToProps(state) {
   const { projectIsLoaded, removeProjects } = state.project;
