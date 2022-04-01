@@ -5,11 +5,10 @@ import store from "../../redux/store";
 import { getDatesBetweenDates, daysInMonth, newDate } from "./date/date";
 
 function Events({ event, container }) {
-
   const [stateDrag, setDrag] = useState({ top: 0, bottom: 0 });
-  const [statePosition, setPosition] = useState({ x: 0, y: 0 })
+  const [statePosition, setPosition] = useState({ x: 0, y: 0 });
   const { top, bottom } = stateDrag;
-  const { x, y } = statePosition
+  const { x, y } = statePosition;
 
   const handleStart = (e) => {
     var element = e.target.getBoundingClientRect();
@@ -21,11 +20,16 @@ function Events({ event, container }) {
     }));
   };
 
-  const onStop = useCallback((data) => {
-    const containerSize = container.current.getBoundingClientRect();
-    let element = data.node.getBoundingClientRect();
-    let positionTop = Math.round((containerSize.top - element.top) / 20);
-    let positionBottom = Math.round((containerSize.bottom - element.bottom) / 20);
+  const onStop = useCallback(
+    (event, data) => {
+      console.log(data.node.id);
+      console.log(data.node.attributes[2].value);
+      const containerSize = container.current.getBoundingClientRect();
+      let element = data.node.getBoundingClientRect();
+      let positionTop = Math.round((containerSize.top - element.top) / 20);
+      let positionBottom = Math.round(
+        (containerSize.bottom - element.bottom) / 20
+      );
 
 
 
@@ -142,11 +146,17 @@ function Events({ event, container }) {
       document.removeEventListener("mousemove", onMouseMove);
       let newDaysPosition = Math.round((e.pageX - original_mouse_x) / 30);
       const width = original_width - (e.pageX - original_mouse_x);
+      console.log(-minimum_size);
+      console.log(width);
       if (leftResize === "left" && width > minimum_size) {
-        store.dispatch(changeDate(element.id, newDate(start, newDaysPosition), "start"));
+        store.dispatch(
+          changeDate(element.id, newDate(start, newDaysPosition), "start")
+        );
       }
       if (rightResize === "right" && width > -minimum_size) {
-        store.dispatch(changeDate(element.id, newDate(end, newDaysPosition), "end"));
+        store.dispatch(
+          changeDate(element.id, newDate(end, newDaysPosition), "end")
+        );
       }
     };
     if (state.isResizing) {
@@ -169,7 +179,7 @@ function Events({ event, container }) {
     rightResize,
     event,
     start,
-    end
+    end,
   ]);
 
   return (
@@ -177,14 +187,13 @@ function Events({ event, container }) {
       position={{
         x: x * 30,
         y: y * 20,
-
       }}
       bounds={{
         top: top,
         bottom: bottom,
       }}
       cancel="span"
-      onStop={(event, data) => onStop(data)}
+      onStop={(event, data) => onStop(event, data)}
       onStart={(e) => handleStart(e)}
     >
       <div
