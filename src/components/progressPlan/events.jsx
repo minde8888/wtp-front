@@ -31,22 +31,28 @@ function Events({ event, container }) {
         (containerSize.bottom - element.bottom) / 20
       );
 
-      setState((prevState) => ({
-        ...prevState,
-        top: positionTop,
-        bottom: positionBottom,
-      }));
 
-      let days = Math.round(data.x / 30);
-      let index = Math.round(data.y / 20);
 
-      setPosition({
-        x: days,
-        y: index,
-      });
-    },
-    [container]
-  );
+    setState((prevState) => ({
+      ...prevState,
+      top: positionTop,
+      bottom: positionBottom,
+    }));
+
+    let days = Math.round(data.x / 30)
+    let index = Math.round(data.y / 20)
+
+    const date = new Date(start);
+    date.setDate(date.getDate() +days);
+    console.log(date);
+    // console.log(data.node.attributes[2].value);
+    // console.log(index);
+    setPosition({
+      x: days,
+      y: index
+    })
+  },
+    [container])
 
   /*----------Resize--------------------*/
 
@@ -190,7 +196,12 @@ function Events({ event, container }) {
       onStop={(event, data) => onStop(event, data)}
       onStart={(e) => handleStart(e)}
     >
-      <div className="event" style={colorBackground} id={progressPlanId} index={index}>
+      <div
+        className="event"
+        style={colorBackground}
+        id={progressPlanId}
+        index={index}
+      >
         <span className="left" onMouseDown={(e) => onMouseDown(e)}></span>
         {elements}
         <span className="right" onMouseDown={(e) => onMouseDown(e)}></span>
