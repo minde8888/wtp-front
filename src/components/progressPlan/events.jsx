@@ -27,6 +27,8 @@ function Events({ event, container }) {
     let positionTop = Math.round((containerSize.top - element.top) / 20);
     let positionBottom = Math.round((containerSize.bottom - element.bottom) / 20);
 
+
+
     setState((prevState) => ({
       ...prevState,
       top: positionTop,
@@ -35,6 +37,12 @@ function Events({ event, container }) {
 
     let days = Math.round(data.x / 30)
     let index = Math.round(data.y / 20)
+
+    const date = new Date(start);
+    date.setDate(date.getDate() +days);
+    console.log(date);
+    // console.log(data.node.attributes[2].value);
+    // console.log(index);
     setPosition({
       x: days,
       y: index
@@ -44,7 +52,7 @@ function Events({ event, container }) {
 
   /*----------Resize--------------------*/
 
-  const { color, start, end, progressPlanId } = event;
+  const { color, start, end, progressPlanId, index } = event;
 
   const [state, setState] = useState({
     minimum_size: 29,
@@ -183,6 +191,7 @@ function Events({ event, container }) {
         className="event"
         style={colorBackground}
         id={progressPlanId}
+        index={index}
       >
         <span className="left" onMouseDown={(e) => onMouseDown(e)}></span>
         {elements}
