@@ -32,6 +32,13 @@ export default function progressPlan(state = initialState, action) {
             let currentProgressPlan = progressCopy.find(p => p.progressPlanId === payload.id)
             currentProgressPlan[payload.position] = payload.date
             return { ...state, progress: progressCopy };
+        case progressPlanConstants.DRAGGABLE_DATA:
+            let progressCop = [...state.progress];
+            let curProgressPlan = progressCop.find(p => p.progressPlanId === payload.id)
+            curProgressPlan.start = payload.start;
+            curProgressPlan.end = payload.end;
+            curProgressPlan.index = payload.index;
+            return { ...state, progress: progressCop };
         default:
             return state;
     }

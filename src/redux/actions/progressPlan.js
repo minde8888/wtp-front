@@ -102,6 +102,41 @@ export const changeDate = (id, date, position) => (dispatch) => {
         })
 }
 
+export const draggableDate = (id, date, index) => (dispatch) => {
+    dispatch({
+        type: progressPlanConstants.DRAGGABLE_DATA,
+        payload: {
+            start: date.start.toString(),
+            end: date.end.toString(),
+            id: id,
+            index: index
+        }
+    })
+    let obj = {
+        progressPlanId: id,
+        start: date.start.toString(),
+        end: date.end.toString(),
+        index: index
+    }
+
+    return ProgressPlanService.updateEventPosition(obj).then(() => {
+    },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            dispatch({
+                type: messageConstants.ERROR,
+                payload: message,
+            });
+
+            return Promise.reject();
+        })
+}
+
 
 export const resize = (bool) => ({
     type: progressPlanConstants.RESIZE,

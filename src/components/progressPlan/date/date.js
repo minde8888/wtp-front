@@ -67,16 +67,32 @@ export const getDatesBetweenDates = (startDate, endDate) => {
     return dates
 }
 
-export const  newDate = (date, days) => {
+export const moveDate = (start, end, days) => {
+
+    const dateStart = new Date(start)
+    const dateEnd = new Date(end)
+    const startMonth = dateStart.getMonth()
+    let startDate = getNewDate(dateStart, days)
+    let endDate = getNewDate(dateEnd, days)
+    const endMonth = dateStart.getMonth()
+    let diff = startMonth - endMonth
+    startDate = getNewDate(dateStart, diff)
+    endDate = getNewDate(dateEnd, diff)
+
+    return { start: startDate, end: endDate }
+}
+
+export const newDate = (date, days) => {
     let d = new Date(date)
-    d.setDate(d.getDate() + days);
-    if (new Date(date).getMonth() > d.getMonth()) {
-        d.setDate(d.getDate() + days);
-        return d
-    } else if (new Date(date).getMonth() < d.getMonth()) {
-        d.setDate(d.getDate() + days);
-        return d
-    } else {
-        return d
-    }
+    const startMonth = d.getMonth()
+    let newDate = getNewDate(d, days)
+    const endMonth = d.getMonth()
+    let diff = startMonth - endMonth
+    newDate = getNewDate(d, diff)
+    return newDate
+}
+
+const getNewDate = (date, days) => {
+    date.setDate(date.getDate() + days)
+    return date
 }

@@ -1,14 +1,20 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Draggable from "react-draggable";
-import { changeDate } from "../../redux/actions/progressPlan";
+import { changeDate, draggableDate } from "../../redux/actions/progressPlan";
 import store from "../../redux/store";
-import { getDatesBetweenDates, daysInMonth, newDate } from "./date/date";
+import {
+  getDatesBetweenDates,
+  daysInMonth,
+  newDate,
+  moveDate,
+} from "./date/date";
 
 function Events({ event, container }) {
   const [stateDrag, setDrag] = useState({ top: 0, bottom: 0 });
   const [statePosition, setPosition] = useState({ x: 0, y: 0 });
   const { top, bottom } = stateDrag;
   const { x, y } = statePosition;
+  const { color, start, end, progressPlanId, index } = event;
 
   const handleStart = (e) => {
     var element = e.target.getBoundingClientRect();
@@ -22,8 +28,6 @@ function Events({ event, container }) {
 
   const onStop = useCallback(
     (event, data) => {
-      console.log(data.node.id);
-      console.log(data.node.attributes[2].value);
       const containerSize = container.current.getBoundingClientRect();
       let element = data.node.getBoundingClientRect();
       let positionTop = Math.round((containerSize.top - element.top) / 20);
@@ -31,32 +35,29 @@ function Events({ event, container }) {
         (containerSize.bottom - element.bottom) / 20
       );
 
+      setState((prevState) => ({
+        ...prevState,
+        top: positionTop,
+        bottom: positionBottom,
+      }));
 
+      let days = Math.round(data.x / 30);
+      let index = Math.round(data.y / 20);
 
-    setState((prevState) => ({
-      ...prevState,
-      top: positionTop,
-      bottom: positionBottom,
-    }));
+      let newIndex = parseInt(data.node.attributes[2].value) + index;
+      let id = data.node.id;
+      let date = moveDate(start, end, days);
+      store.dispatch(draggableDate(id, date, newIndex));
 
-    let days = Math.round(data.x / 30)
-    let index = Math.round(data.y / 20)
-
-    const date = new Date(start);
-    date.setDate(date.getDate() +days);
-    console.log(date);
-    // console.log(data.node.attributes[2].value);
-    // console.log(index);
-    setPosition({
-      x: days,
-      y: index
-    })
-  },
-    [container])
+      setPosition({
+        x: days,
+        y: index,
+      });
+    },
+    [container]
+  );
 
   /*----------Resize--------------------*/
-
-  const { color, start, end, progressPlanId, index } = event;
 
   const [state, setState] = useState({
     minimum_size: 29,
@@ -146,14 +147,17 @@ function Events({ event, container }) {
       document.removeEventListener("mousemove", onMouseMove);
       let newDaysPosition = Math.round((e.pageX - original_mouse_x) / 30);
       const width = original_width - (e.pageX - original_mouse_x);
-      console.log(-minimum_size);
-      console.log(width);
+      // console.log(e.pageX - original_mouse_x);
+      // console.log(original_width);
+      console.log(e.pageX);
+      console.log(original_mouse_x);
+
       if (leftResize === "left" && width > minimum_size) {
         store.dispatch(
           changeDate(element.id, newDate(start, newDaysPosition), "start")
         );
       }
-      if (rightResize === "right" && width > -minimum_size) {
+      if (rightResize === "right") {
         store.dispatch(
           changeDate(element.id, newDate(end, newDaysPosition), "end")
         );
