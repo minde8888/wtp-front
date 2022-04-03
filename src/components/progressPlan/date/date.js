@@ -57,17 +57,24 @@ export const daysInNextMonth = new Date(
 ).getDate();
 
 export const getDatesBetweenDates = (startDate, endDate) => {
+    let monthSpace = Math.abs(startDate.getMonth() - endDate.getMonth()) === 
+    2 ? 2 : Math.abs(startDate.getMonth() - endDate.getMonth()) === 
+    1 ? 1 : 0
+
+    let lastDate = getNewDate(endDate, monthSpace) 
     let dates = []
     const theDate = new Date(startDate)
-    while (theDate < endDate) {
+
+    while (theDate < lastDate) {
         dates = [...dates, new Date(theDate)]
-        theDate.setDate(theDate.getDate() + 1)
+        theDate.setDate(theDate.getDate() + 1 )
     }
+
     dates = [...dates, endDate]
     return dates
 }
 
-export const moveDate = (start, end, days) => {
+export const dragDate = (start, end, days) => {
 
     const dateStart = new Date(start)
     const dateEnd = new Date(end)
@@ -82,7 +89,7 @@ export const moveDate = (start, end, days) => {
     return { start: startDate, end: endDate }
 }
 
-export const newDate = (date, days) => {
+export const resizeDate = (date, days) => {
     let d = new Date(date)
     const startMonth = d.getMonth()
     let newDate = getNewDate(d, days)

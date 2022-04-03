@@ -5,8 +5,8 @@ import store from "../../redux/store";
 import {
   getDatesBetweenDates,
   daysInMonth,
-  newDate,
-  moveDate,
+  dragDate,
+  resizeDate,
 } from "./date/date";
 
 function Events({ event, container }) {
@@ -22,20 +22,23 @@ function Events({ event, container }) {
     setDrag((prevState) => ({
       ...prevState,
       top: containerSize.top - element.top,
-      bottom: containerSize.bottom - element.bottom,
+      bottom:
+        containerSize.bottom - element.bottom - (element.top - element.bottom),
     }));
   };
 
   const onStop = useCallback(
-    (event, data) => {
+    (event, data) => { 
       const containerSize = container.current.getBoundingClientRect();
       let element = data.node.getBoundingClientRect();
+      const elementHeight = element.top - element.bottom;
+      console.log(Math.round(elementHeight));
       let positionTop = Math.round((containerSize.top - element.top) / 20);
       let positionBottom = Math.round(
         (containerSize.bottom - element.bottom) / 20
       );
 
-      setState((prevState) => ({
+      setDrag((prevState) => ({
         ...prevState,
         top: positionTop,
         bottom: positionBottom,
@@ -46,7 +49,7 @@ function Events({ event, container }) {
 
       let newIndex = parseInt(data.node.attributes[2].value) + index;
       let id = data.node.id;
-      let date = moveDate(start, end, days);
+      let date = dragDate(start, end, days);
       store.dispatch(draggableDate(id, date, newIndex));
 
       setPosition({
@@ -62,10 +65,8 @@ function Events({ event, container }) {
   const [state, setState] = useState({
     minimum_size: 29,
     original_width: 0,
-    original_x: 0,
     original_mouse_x: 0,
     container_size: daysInMonth * 30,
-    current_container: {},
     element: null,
     rightResize: 0,
     leftResize: 0,
@@ -93,7 +94,6 @@ function Events({ event, container }) {
         ...prevState,
         original_width: e.target.offsetParent.offsetWidth - 1,
         original_mouse_x: e.pageX,
-        original_x: e.target.offsetParent.getBoundingClientRect().left,
         element: e.target.offsetParent,
         rightResize: e.target.classList.value,
         leftResize: e.target.classList.value,
@@ -146,22 +146,21 @@ function Events({ event, container }) {
     const onMouseUpResize = (e) => {
       document.removeEventListener("mousemove", onMouseMove);
       let newDaysPosition = Math.round((e.pageX - original_mouse_x) / 30);
-      const width = original_width - (e.pageX - original_mouse_x);
-      // console.log(e.pageX - original_mouse_x);
-      // console.log(original_width);
-      console.log(e.pageX);
-      console.log(original_mouse_x);
+      const widthLeft = original_width - (e.pageX - original_mouse_x);
+      const widthRight = original_width + (e.pageX - original_mouse_x);
 
-      if (leftResize === "left" && width > minimum_size) {
+      if (leftResize === "left" && widthLeft >= minimum_size) {
         store.dispatch(
-          changeDate(element.id, newDate(start, newDaysPosition), "start")
+          changeDate(element.id, resizeDate(start, newDaysPosition), "start")
         );
       }
-      if (rightResize === "right") {
+      if (rightResize === "right" && widthRight >= minimum_size) {
+        console.log(minimum_size);
         store.dispatch(
-          changeDate(element.id, newDate(end, newDaysPosition), "end")
+          changeDate(element.id, resizeDate(end, newDaysPosition), "end")
         );
       }
+      newDaysPosition = 0;
     };
     if (state.isResizing) {
       document.addEventListener("mousemove", onMouseMove);
