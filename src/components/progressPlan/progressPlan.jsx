@@ -57,7 +57,6 @@ function ProgressPlan(props) {
   let prevMonth = new Date().getMonth() - 1;
   let nextMonth = new Date().getMonth() + 1;
 
-  //optimizuoti !!!!!!!!!!!!!!!
   for (let i = 0; i < progress.length; i++) {
     if (currentMonth === new Date(progress[i].start).getMonth()) {
       if (Number(progress[i].index) > 0) {

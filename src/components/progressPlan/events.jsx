@@ -1,14 +1,20 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Draggable from "react-draggable";
-import { changeDate } from "../../redux/actions/progressPlan";
+import { changeDate, draggableDate } from "../../redux/actions/progressPlan";
 import store from "../../redux/store";
-import { getDatesBetweenDates, daysInMonth, newDate } from "./date/date";
+import {
+  getDatesBetweenDates,
+  daysInMonth,
+  dragDate,
+  resizeDate,
+} from "./date/date";
 
 function Events({ event, container }) {
   const [stateDrag, setDrag] = useState({ top: 0, bottom: 0 });
   const [statePosition, setPosition] = useState({ x: 0, y: 0 });
   const { top, bottom } = stateDrag;
   const { x, y } = statePosition;
+  const { color, start, end, progressPlanId, index } = event;
 
   const handleStart = (e) => {
     var element = e.target.getBoundingClientRect();
@@ -16,55 +22,51 @@ function Events({ event, container }) {
     setDrag((prevState) => ({
       ...prevState,
       top: containerSize.top - element.top,
-      bottom: containerSize.bottom - element.bottom,
+      bottom:
+        containerSize.bottom - element.bottom - (element.top - element.bottom),
     }));
   };
 
   const onStop = useCallback(
-    (event, data) => {
-      console.log(data.node.id);
-      console.log(data.node.attributes[2].value);
+    (event, data) => { 
       const containerSize = container.current.getBoundingClientRect();
       let element = data.node.getBoundingClientRect();
+      const elementHeight = element.top - element.bottom;
+      console.log(Math.round(elementHeight));
       let positionTop = Math.round((containerSize.top - element.top) / 20);
       let positionBottom = Math.round(
         (containerSize.bottom - element.bottom) / 20
       );
 
+      setDrag((prevState) => ({
+        ...prevState,
+        top: positionTop,
+        bottom: positionBottom,
+      }));
 
+      let days = Math.round(data.x / 30);
+      let index = Math.round(data.y / 20);
 
-    setState((prevState) => ({
-      ...prevState,
-      top: positionTop,
-      bottom: positionBottom,
-    }));
+      let newIndex = parseInt(data.node.attributes[2].value) + index;
+      let id = data.node.id;
+      let date = dragDate(start, end, days);
+      store.dispatch(draggableDate(id, date, newIndex));
 
-    let days = Math.round(data.x / 30)
-    let index = Math.round(data.y / 20)
-
-    const date = new Date(start);
-    date.setDate(date.getDate() +days);
-    console.log(date);
-    // console.log(data.node.attributes[2].value);
-    // console.log(index);
-    setPosition({
-      x: days,
-      y: index
-    })
-  },
-    [container])
+      setPosition({
+        x: days,
+        y: index,
+      });
+    },
+    [container]
+  );
 
   /*----------Resize--------------------*/
-
-  const { color, start, end, progressPlanId, index } = event;
 
   const [state, setState] = useState({
     minimum_size: 29,
     original_width: 0,
-    original_x: 0,
     original_mouse_x: 0,
     container_size: daysInMonth * 30,
-    current_container: {},
     element: null,
     rightResize: 0,
     leftResize: 0,
@@ -92,7 +94,6 @@ function Events({ event, container }) {
         ...prevState,
         original_width: e.target.offsetParent.offsetWidth - 1,
         original_mouse_x: e.pageX,
-        original_x: e.target.offsetParent.getBoundingClientRect().left,
         element: e.target.offsetParent,
         rightResize: e.target.classList.value,
         leftResize: e.target.classList.value,
@@ -145,19 +146,21 @@ function Events({ event, container }) {
     const onMouseUpResize = (e) => {
       document.removeEventListener("mousemove", onMouseMove);
       let newDaysPosition = Math.round((e.pageX - original_mouse_x) / 30);
-      const width = original_width - (e.pageX - original_mouse_x);
-      console.log(-minimum_size);
-      console.log(width);
-      if (leftResize === "left" && width > minimum_size) {
+      const widthLeft = original_width - (e.pageX - original_mouse_x);
+      const widthRight = original_width + (e.pageX - original_mouse_x);
+
+      if (leftResize === "left" && widthLeft >= minimum_size) {
         store.dispatch(
-          changeDate(element.id, newDate(start, newDaysPosition), "start")
+          changeDate(element.id, resizeDate(start, newDaysPosition), "start")
         );
       }
-      if (rightResize === "right" && width > -minimum_size) {
+      if (rightResize === "right" && widthRight >= minimum_size) {
+        console.log(minimum_size);
         store.dispatch(
-          changeDate(element.id, newDate(end, newDaysPosition), "end")
+          changeDate(element.id, resizeDate(end, newDaysPosition), "end")
         );
       }
+      newDaysPosition = 0;
     };
     if (state.isResizing) {
       document.addEventListener("mousemove", onMouseMove);
