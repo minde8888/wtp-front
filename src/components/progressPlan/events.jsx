@@ -28,14 +28,13 @@ function Events({ event, container }) {
   };
 
   const onStop = useCallback(
-    (event, data) => { 
+    (event, data) => {
       const containerSize = container.current.getBoundingClientRect();
       let element = data.node.getBoundingClientRect();
-      const elementHeight = element.top - element.bottom;
-      console.log(Math.round(elementHeight));
-      let positionTop = Math.round((containerSize.top - element.top) / 20);
+      const elementHeight = Math.round((element.top - element.bottom) / 10) * 10;
+      let positionTop = Math.round((containerSize.top - element.top) / elementHeight);
       let positionBottom = Math.round(
-        (containerSize.bottom - element.bottom) / 20
+        (containerSize.bottom - element.bottom) / elementHeight
       );
 
       setDrag((prevState) => ({
@@ -45,7 +44,7 @@ function Events({ event, container }) {
       }));
 
       let days = Math.round(data.x / 30);
-      let index = Math.round(data.y / 20);
+      let index = Math.round(data.y / -elementHeight);
 
       let newIndex = parseInt(data.node.attributes[2].value) + index;
       let id = data.node.id;
@@ -153,11 +152,18 @@ function Events({ event, container }) {
         store.dispatch(
           changeDate(element.id, resizeDate(start, newDaysPosition), "start")
         );
+      } else if (leftResize === "left" && widthLeft === minimum_size) {
+        store.dispatch(
+          changeDate(element.id, resizeDate(start, 0), "start")
+        );
       }
       if (rightResize === "right" && widthRight >= minimum_size) {
-        console.log(minimum_size);
         store.dispatch(
           changeDate(element.id, resizeDate(end, newDaysPosition), "end")
+        );
+      } else if (leftResize === "left" && widthLeft === minimum_size) {
+        store.dispatch(
+          changeDate(element.id, resizeDate(start, 0), "end")
         );
       }
       newDaysPosition = 0;
