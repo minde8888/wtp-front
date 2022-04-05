@@ -12,9 +12,9 @@ import "./project.scss";
 const Table = (props) => {
   useEffect(() => {
     props.dispatch(getAllProjects());
-  }, [props]);
+  }, []);
 
-  const removeProjects = () => {
+  const removeProject = () => {
     props.dispatch(projectToDelete(props.removeProjects));
   };
 
@@ -23,7 +23,7 @@ const Table = (props) => {
       <table className="table table-bordered">
         <thead>
           <tr>
-            <th className="bs-checkbox" onClick={removeProjects}>
+            <th className="bs-checkbox" onClick={removeProject}>
               <img src={trash} alt="" />
             </th>
             <th scope="col-2">Project nr</th>
