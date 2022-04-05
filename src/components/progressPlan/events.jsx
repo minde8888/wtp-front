@@ -4,7 +4,7 @@ import { changeDate, draggableDate } from "../../redux/actions/progressPlan";
 import store from "../../redux/store";
 import {
   getDatesBetweenDates,
-  daysInMonth,
+  daysMonth,
   dragDate,
   resizeDate,
 } from "./date/date";
@@ -15,7 +15,7 @@ function Events({ event, container }) {
   const { top, bottom } = stateDrag;
   const { x, y } = statePosition;
   const { color, start, end, progressPlanId, index } = event;
-
+  let daysInMonth = daysMonth();
   const handleStart = (e) => {
     var element = e.target.getBoundingClientRect();
     const containerSize = container.current.getBoundingClientRect();

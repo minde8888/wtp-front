@@ -17,18 +17,18 @@ export const months = ["January", "February", "March", "April", "May", "June", "
 export const dayDateInColons = (day) => {
     let d = day
     const date = new Date()
-    if (d <= daysInPrevMonth) {
-        d = -daysInPrevMonth + d + 1
+    if (d <= daysPrevMonth()) {
+        d = -daysPrevMonth() + d + 1
         date.setHours(0, 0, 0)
         date.setDate(d)
         date.setHours(0, 0, 0, 0);
-    } else if (daysInPrevMonth < d && d <= (daysInPrevMonth + daysInMonth)) {
-        d = d - daysInPrevMonth
+    } else if (daysPrevMonth() < d && d <= (daysPrevMonth() + daysMonth())) {
+        d = d - daysPrevMonth()
         date.setHours(0, 0, 0)
         date.setDate(d)
         date.setHours(0, 0, 0, 0);
-    } else if (daysInMonth <= d) {
-        d = (d + 2) - (daysInMonth)
+    } else if (daysMonth() <= d) {
+        d = (d + 2) - (daysMonth())
         date.setHours(0, 0, 0)
         date.setDate(d)
         date.setHours(0, 0, 0, 0);
@@ -38,36 +38,42 @@ export const dayDateInColons = (day) => {
 
 let now = new Date();
 
-export const daysInPrevMonth = new Date(
-    now.getFullYear(),
-    now.getMonth() + 0,
-    0
-).getDate();
+export const daysPrevMonth = (a = 0) => {
+    return new Date(
+        now.getFullYear(),
+        now.getMonth() + a,
+        0
+    ).getDate()
+};
 
-export const daysInMonth = new Date(
-    now.getFullYear(),
-    now.getMonth() + 1,
-    0
-).getDate();
+export const daysMonth = (a = 1) => {
+    return new Date(
+        now.getFullYear(),
+        now.getMonth() + a,
+        0
+    ).getDate()
+};
 
-export const daysInNextMonth = new Date(
-    now.getFullYear(),
-    now.getMonth() + 2,
-    0
-).getDate();
+export const daysNextMonth = (a = 2) => {
+   return new Date(
+        now.getFullYear(),
+        now.getMonth() + a,
+        0
+    ).getDate()
+};
 
 export const getDatesBetweenDates = (startDate, endDate) => {
-    let monthSpace = Math.abs(startDate.getMonth() - endDate.getMonth()) === 
-    2 ? 2 : Math.abs(startDate.getMonth() - endDate.getMonth()) === 
-    1 ? 1 : 0
+    let monthSpace = Math.abs(startDate.getMonth() - endDate.getMonth()) ===
+        2 ? 2 : Math.abs(startDate.getMonth() - endDate.getMonth()) ===
+            1 ? 1 : 0
 
-    let lastDate = getNewDate(endDate, monthSpace) 
+    let lastDate = getNewDate(endDate, monthSpace)
     let dates = []
     const theDate = new Date(startDate)
 
     while (theDate < lastDate) {
         dates = [...dates, new Date(theDate)]
-        theDate.setDate(theDate.getDate() + 1 )
+        theDate.setDate(theDate.getDate() + 1)
     }
 
     dates = [...dates, endDate]

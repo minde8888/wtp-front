@@ -6,12 +6,16 @@ import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 import Events from "./events";
 import {
-  daysInNextMonth,
-  daysInMonth,
-  daysInPrevMonth,
+  daysNextMonth,
+  daysMonth,
+  daysPrevMonth,
   months,
   dayDateInColons,
 } from "./date/date";
+
+let daysInMonth = daysMonth();
+let daysInPrevMonth = daysPrevMonth();
+let daysInNextMonth = daysNextMonth();
 
 function ProgressPlan(props) {
   let dateNow = new Date();
@@ -62,7 +66,7 @@ function ProgressPlan(props) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-            progress[i].index +
+          progress[i].index +
           new Date(progress[i].start).getDate() +
           daysInPrevMonth;
         totalDays[positionEvent] = progress[i];
@@ -76,7 +80,7 @@ function ProgressPlan(props) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-            progress[i].index +
+          progress[i].index +
           new Date(progress[i].start).getDate();
         totalDays[positionEvent - 1] = progress[i];
       } else {
@@ -89,7 +93,7 @@ function ProgressPlan(props) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-            progress[i].index +
+          progress[i].index +
           new Date(progress[i].start).getDate() +
           daysInPrevMonth +
           daysInMonth +
@@ -116,7 +120,7 @@ function ProgressPlan(props) {
         <div>{months[dateNow.getMonth()]}</div>
         <div>{months[dateNow.getMonth() + 1]}</div>
       </div>
-      <div ref={containerRef} style={gridContainer}>
+      <div ref={containerRef} style={gridContainer} className="containerScroll">
         {Array.isArray(props.progress) && props.progress.length !== 0 && (
           <div style={style}>
             {totalDays.map((events, index) => {
@@ -202,9 +206,8 @@ function RenderTopMonthDays({ rowIndex, daysInPrevMonth, dayIndex, dateNow }) {
   ) {
     return (
       <div
-        className={`days ${
-          dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
-        }`}
+        className={`days ${dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
+          }`}
       >
         {dayIndex - daysInPrevMonth}
       </div>
