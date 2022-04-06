@@ -5,6 +5,7 @@ import Employees from "./employee/employees";
 import "./profile.scss";
 
 const Profile = (props) => {
+  console.log(props);
   const { data, width, height } = props;
 
   var id = { id: data.id };
@@ -47,7 +48,6 @@ const Profile = (props) => {
               </div>
             </div>
           </div>
-
           <div>
             <Employees {...data.employees} {...id} />
           </div>

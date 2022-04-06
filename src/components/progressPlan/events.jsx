@@ -27,12 +27,17 @@ function Events({ event, container }) {
     }));
   };
 
+  console.log(window.innerWidth);
+
   const onStop = useCallback(
     (event, data) => {
       const containerSize = container.current.getBoundingClientRect();
       let element = data.node.getBoundingClientRect();
-      const elementHeight = Math.round((element.top - element.bottom) / 10) * 10;
-      let positionTop = Math.round((containerSize.top - element.top) / elementHeight);
+      const elementHeight =
+        Math.round((element.top - element.bottom) / 10) * 10;
+      let positionTop = Math.round(
+        (containerSize.top - element.top) / elementHeight
+      );
       let positionBottom = Math.round(
         (containerSize.bottom - element.bottom) / elementHeight
       );
@@ -137,7 +142,7 @@ function Events({ event, container }) {
       minimum_size,
       original_mouse_x,
       original_width,
-      rightResize,
+      rightResize
     ]
   );
 
@@ -147,24 +152,20 @@ function Events({ event, container }) {
       let newDaysPosition = Math.round((e.pageX - original_mouse_x) / 30);
       const widthLeft = original_width - (e.pageX - original_mouse_x);
       const widthRight = original_width + (e.pageX - original_mouse_x);
-
+ 
       if (leftResize === "left" && widthLeft >= minimum_size) {
         store.dispatch(
           changeDate(element.id, resizeDate(start, newDaysPosition), "start")
         );
-      } else if (leftResize === "left" && widthLeft === minimum_size) {
-        store.dispatch(
-          changeDate(element.id, resizeDate(start, 0), "start")
-        );
+      } else if (leftResize === "left" && widthLeft <= minimum_size) {
+        store.dispatch(changeDate(element.id, resizeDate(end, 0), "start"));
       }
       if (rightResize === "right" && widthRight >= minimum_size) {
         store.dispatch(
           changeDate(element.id, resizeDate(end, newDaysPosition), "end")
         );
-      } else if (leftResize === "left" && widthLeft === minimum_size) {
-        store.dispatch(
-          changeDate(element.id, resizeDate(start, 0), "end")
-        );
+      } else if (leftResize === "right" && widthRight <= minimum_size) {
+        store.dispatch(changeDate(element.id, resizeDate(start, 0), "end"));
       }
       newDaysPosition = 0;
     };

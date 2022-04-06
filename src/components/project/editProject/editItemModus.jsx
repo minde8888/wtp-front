@@ -221,15 +221,19 @@ class EditItemModus extends Component {
               <NavLink className="detail-icon" to="#"></NavLink>
             </td>
             <td className="bs-checkbox">
-              <label>
-                <input
-                  className="check-box box-action input-box"
-                  value={item.projectId}
-                  name="btSelectItem"
-                  type="checkbox"
-                />
-              </label>
-              <NavLink className="detail-icon" to="#"></NavLink>
+              <NavLink
+                className="detail-icon"
+                to={"/progress-plan/" + item.progressPlan.progressPlanId}
+              >
+                <label>
+                  <input
+                    className="check-box box-action input-box"
+                    value={item.projectId}
+                    name="btSelectItem"
+                    type="checkbox"
+                  />
+                </label>
+              </NavLink>
             </td>
             <td className="bs-checkbox">
               <label>
