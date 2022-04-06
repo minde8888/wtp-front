@@ -11,8 +11,8 @@ export const getAllProjects = () => (dispatch) => {
 
     return ProjectService.allProjects().then(
        (data)  => {
-                  console.log( data.data.$values)
-                setTimeout(() => {console.log(data.data.$values)}, 8000);
+                  console.log( data)
+               
             dispatch({
                 type: projectConstants.PROJECT_DATA,
                 data: data.data.$values,

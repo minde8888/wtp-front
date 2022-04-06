@@ -8,7 +8,7 @@ import SketchColor from "./colorPicker/colorPicker";
 import "./addProgressPlan.scss";
 
 const AddProgressPlan = (props) => {
-
+  // console.log(props);
   let rowMaxNumber =
     Math.max(
       ...props.progress.map((e) => {
@@ -36,7 +36,12 @@ const AddProgressPlan = (props) => {
     props.dispatch(clearMessage());
     if (value.name === null)
       return props.dispatch(setMessage("Project Name can not by empty !"));
-    let obj = { ...props.date, ...value, color: JSON.stringify(props.color) };
+    let obj = {
+      ...props.date,
+      projectId: props.id,
+      ...value,
+      color: JSON.stringify(props.color),
+    };
     props.dispatch(addNewProgressPlan(obj)).then(() => {
       nameRef.current.value = null;
     });
@@ -76,7 +81,6 @@ const AddProgressPlan = (props) => {
 };
 
 function mapStateToProps(state) {
-
   const { date, color, progress } = state.progressPlan;
 
   return { date, color, progress };

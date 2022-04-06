@@ -223,7 +223,7 @@ class EditItemModus extends Component {
             <td className="bs-checkbox">
               <NavLink
                 className="detail-icon"
-                to={"/progress-plan/" + item.progressPlan.progressPlanId   }
+                to={"/progress-plan/" + item.progressPlan.$values[0].progressPlanId }
               >
                 <label>
                   <input
@@ -246,7 +246,7 @@ class EditItemModus extends Component {
               </label>
               <NavLink className="detail-icon" to="#"></NavLink>
             </td>
-            {/* <div>{console.log(item)}</div> */}
+            {/* <div>{console.log()}</div> */}
           </tr>
       
         ))}
