@@ -11,7 +11,7 @@ import "./project.scss";
 
 const Table = (props) => {
   useEffect(() => {
-    props.dispatch(getAllProjects());
+     props.dispatch( getAllProjects());
   }, []);
 
   const removeProject = () => {

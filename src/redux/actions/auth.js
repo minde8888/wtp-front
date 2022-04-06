@@ -4,17 +4,16 @@ import {  messageConstants} from "../constants/messageConstants";
 import { userConstants } from "../constants/userConstants";
 
 
-export const register = (obj) => (dispatch) => {
+export const register = (obj) => async (dispatch) => {
 
-  return AuthService.register(obj).then(() => {
+  try {
+    await AuthService.register(obj);
     dispatch({
       type: messageConstants.SET_MESSAGE,
       payload: "The user was successfully created."
     });
-
-    return Promise.resolve();
-  }).catch(error => {
-
+    return await Promise.resolve();
+  } catch (error) {
     if (error.response) {
       var str = JSON.stringify(error.response.data);
 
@@ -23,10 +22,9 @@ export const register = (obj) => (dispatch) => {
         str.lastIndexOf("]") - 1
       );
 
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
+      const message = (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
         error.message ||
         error.toString();
 
@@ -45,8 +43,8 @@ export const register = (obj) => (dispatch) => {
       payload: "Network Error",
     });
     console.log(error);
-    return Promise.reject();
-  })
+    return await Promise.reject();
+  }
 
 };
 

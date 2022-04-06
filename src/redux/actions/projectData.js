@@ -10,13 +10,15 @@ import {
 export const getAllProjects = () => (dispatch) => {
 
     return ProjectService.allProjects().then(
-        async (data) => {
+       (data)  => {
+                  console.log( data.data.$values)
+                setTimeout(() => {console.log(data.data.$values)}, 8000);
             dispatch({
                 type: projectConstants.PROJECT_DATA,
                 data: data.data.$values,
             });
             localStorage.setItem('projects', JSON.stringify(data.data.$values));
-            return await Promise.resolve();
+            return Promise.resolve();
         },
         (error) => {
 

@@ -7,7 +7,7 @@ import PublicRoute from "../route/publicRoute";
 import ForgotPassword from "./auth/nwePassword/forgotPassword";
 import Preloader from "./preloader/preloader";
 
-const EmployeesToProject = lazy(()=> import("./progressPlan/addEmployees/employeesToProject"));
+const EmployeesToProject = lazy(() => import("./progressPlan/addEmployees/employeesToProject"));
 const TopTable = lazy(() => import("./project/topTable"));
 const Login = lazy(() => import("./auth/login/login"));
 const NavBar = lazy(() => import("./nav/nav"));
@@ -56,9 +56,9 @@ const Main = () => {
             path="/employee-profile/:userId?"
           />
           <PrivateRoute component={TopTable} path="/table" />
-          <PrivateRoute component={ProgressPlan} path="/progress-plan" />
+          <PrivateRoute component={ProgressPlan} path="/progress-plan/:progressPlanId?" />
           <PrivateRoute component={EmployeesToProject} path="/add-employees-project" />
-          
+
         </Suspense>
       </Switch>
     </div>

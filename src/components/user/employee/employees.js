@@ -6,6 +6,7 @@ import { deleteUser } from "../../../redux/actions/deleteUser"
 import "./employees.scss"
 
 const Employees = (props) => {
+  
   var users = Object.keys(props).map((key) => {
     let employee = Number.isInteger(parseInt(key)) ? props[key] : null
     return employee;
@@ -15,12 +16,13 @@ const Employees = (props) => {
   var handleClick = (id, role) => {
     props.dispatch(deleteUser(id, role))
   }
-
+  console.log(props);
   return (
     <div>
-      {users.map((u, k) => {
+      {props.employees.map((u, k) => {
         return (
           <div key={k}>
+            <div>{console.log(u)}</div>
             <div className="card ">
               <div className="text-center px-2 "> <img src={u.imageName === null ? userImage : u.imageSrc}
                 alt={u.imageName} />

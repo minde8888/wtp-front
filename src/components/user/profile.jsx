@@ -5,7 +5,7 @@ import Employees from "./employee/employees";
 import "./profile.scss";
 
 const Profile = (props) => {
-  console.log(props);
+  // console.log(props);
   const { data, width, height } = props;
 
   var id = { id: data.id };
