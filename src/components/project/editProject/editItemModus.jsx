@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 class EditItemModus extends Component {
   constructor(props) {
     super(props);
-
+// console.log(props);
     this.state = {
       data: props.data,
       action: false,
@@ -223,7 +223,7 @@ class EditItemModus extends Component {
             <td className="bs-checkbox">
               <NavLink
                 className="detail-icon"
-                to={"/progress-plan/" + item.progressPlan.progressPlanId}
+                to={"/progress-plan/" + item.progressPlan.progressPlanId   }
               >
                 <label>
                   <input
@@ -246,7 +246,9 @@ class EditItemModus extends Component {
               </label>
               <NavLink className="detail-icon" to="#"></NavLink>
             </td>
+            {/* <div>{console.log(item)}</div> */}
           </tr>
+      
         ))}
       </>
     );

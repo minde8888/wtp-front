@@ -6,7 +6,6 @@ export const updateProfile = (Id, obj) => (dispatch) => {
 
     return UserService.updateUserInfo(Id, obj).then(
         (response) => {
-
             const user = {
                 id: response.data.id,
                 name: response.data.name,
@@ -30,7 +29,6 @@ export const updateProfile = (Id, obj) => (dispatch) => {
             return Promise.resolve();
         },
         (error) => {
-
             const message =
                 (error.response &&
                     error.response.data &&
