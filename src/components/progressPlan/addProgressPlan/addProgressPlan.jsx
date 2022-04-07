@@ -83,7 +83,6 @@ const AddProgressPlan = (props) => {
 
 function mapStateToProps(state) {
   const { date, color } = state.progressPlan;
-console.log(state);
   return { date, color };
 }
 export default connect(mapStateToProps)(AddProgressPlan);

@@ -36,8 +36,9 @@ export const addNewProgressPlan = (obj) => (dispatch) => {
     return ProgressPlanService.addProgressPlan(obj).then(
 
         (response) => {
+            console.log(response);
             dispatch({
-                type: progressPlanConstants.ADD_PROGRESS_PLAN,
+                type: projectConstants.ADD_PROGRESS,
                 data: response.data,
                 payload: true
             })
