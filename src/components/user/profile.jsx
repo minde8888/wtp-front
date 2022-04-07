@@ -36,7 +36,7 @@ const Profile = (props) => {
                     <h5>Email</h5>
                   </div>
                 </div>
-                <hr className="line" />{" "}
+                <hr className="line" />
                 <small className="mt-4">
                   I am an android developer working at google Inc at
                   california,USA

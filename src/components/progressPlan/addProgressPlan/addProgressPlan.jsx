@@ -1,14 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { setMessage, clearMessage } from "../../../redux/actions/message";
-import { addNewProgressPlan } from "../../../redux/actions/progressPlan";
+import { addNewProgressPlan, getAllProgressPlans } from "../../../redux/actions/progressPlan";
 import plus from "../../../svg/plus.svg";
 import GetDatePicker from "./datePicker/getDatePicker";
 import SketchColor from "./colorPicker/colorPicker";
 import "./addProgressPlan.scss";
 
 const AddProgressPlan = (props) => {
-  // console.log(props);
+
   let rowMaxNumber =
     Math.max(
       ...props.progress.map((e) => {
@@ -42,6 +42,7 @@ const AddProgressPlan = (props) => {
       ...value,
       color: JSON.stringify(props.color),
     };
+
     props.dispatch(addNewProgressPlan(obj)).then(() => {
       nameRef.current.value = null;
     });
@@ -81,8 +82,8 @@ const AddProgressPlan = (props) => {
 };
 
 function mapStateToProps(state) {
-  const { date, color, progress } = state.progressPlan;
-
-  return { date, color, progress };
+  const { date, color } = state.progressPlan;
+console.log(state);
+  return { date, color };
 }
 export default connect(mapStateToProps)(AddProgressPlan);

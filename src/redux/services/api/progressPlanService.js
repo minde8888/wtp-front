@@ -8,10 +8,12 @@ class ProgressPlanService {
   }
 
   addProgressPlan(obj) {
+    
     let formData = new FormData();
     for (var key in obj) {
       formData.append(key, obj[key])
     }
+    console.log(Object.fromEntries(formData))
     return api.post(USER_URL, formData);
   }
 

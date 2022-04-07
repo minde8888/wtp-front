@@ -19,15 +19,21 @@ let daysInPrevMonth = daysPrevMonth();
 let daysInNextMonth = daysNextMonth();
 
 function ProgressPlan(props) {
-  
+
   let { progressPlanId } = useParams();
   let dateNow = new Date();
 
+
+
   const containerRef = useRef([]);
-  const { progress } = props;
+  const id = props.match.params.progressPlanId;
+
+  const data = props.data.find((p) => p.projectId === id)
+  const progress = data.progressPlan.$values;
+
   useEffect(() => {
     props.dispatch(getAllProgressPlans());
-  }, []);
+  }, [progress]);
 
   var style = {
     display: "grid",
@@ -69,7 +75,7 @@ function ProgressPlan(props) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-            progress[i].index +
+          progress[i].index +
           new Date(progress[i].start).getDate() +
           daysInPrevMonth;
         totalDays[positionEvent] = progress[i];
@@ -83,7 +89,7 @@ function ProgressPlan(props) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-            progress[i].index +
+          progress[i].index +
           new Date(progress[i].start).getDate();
         totalDays[positionEvent - 1] = progress[i];
       } else {
@@ -96,7 +102,7 @@ function ProgressPlan(props) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-            progress[i].index +
+          progress[i].index +
           new Date(progress[i].start).getDate() +
           daysInPrevMonth +
           daysInMonth +
@@ -117,14 +123,14 @@ function ProgressPlan(props) {
 
   return (
     <>
-      <AddProgressPlan id={progressPlanId} />
+      <AddProgressPlan progress={progress} id={progressPlanId} />
       <div className="month">
         <div>{months[dateNow.getMonth() - 1]}</div>
         <div>{months[dateNow.getMonth()]}</div>
         <div>{months[dateNow.getMonth() + 1]}</div>
       </div>
       <div ref={containerRef} style={gridContainer} className="containerScroll">
-        {Array.isArray(props.progress) && props.progress.length !== 0 && (
+        {Array.isArray(progress) && progress.length !== 0 && (
           <div style={style}>
             {totalDays.map((events, index) => {
               if (!containerRef.current) {
@@ -141,6 +147,7 @@ function ProgressPlan(props) {
                   dispatch={props.dispatch}
                   containerRef={containerRef}
                   events={events}
+                  id={id}
                 />
               );
             })}
@@ -169,6 +176,7 @@ function RenderDay({
   progress,
   containerRef,
   events,
+  id
 }) {
   let { dayIndex, rowIndex } = getDayCoordinates(
     index,
@@ -192,7 +200,7 @@ function RenderDay({
         dateNow={dateNow}
       />
       {progress !== null && events && (
-        <Events event={events} container={containerRef} />
+        <Events event={events} container={containerRef} id={id} />
       )}
     </div>
   );
@@ -209,9 +217,8 @@ function RenderTopMonthDays({ rowIndex, daysInPrevMonth, dayIndex, dateNow }) {
   ) {
     return (
       <div
-        className={`days ${
-          dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
-        }`}
+        className={`days ${dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
+          }`}
       >
         {dayIndex - daysInPrevMonth}
       </div>
@@ -228,9 +235,10 @@ function RenderTopMonthDays({ rowIndex, daysInPrevMonth, dayIndex, dateNow }) {
 }
 
 function mapStateToProps(state) {
-  const { progress } = state.progressPlan;
+
+  const { data } = state.project;
   return {
-    progress,
+    data
   };
 }
 

@@ -9,7 +9,7 @@ import {
   resizeDate,
 } from "./date/date";
 
-function Events({ event, container }) {
+function Events({ event, container, id }) {
   const [stateDrag, setDrag] = useState({ top: 0, bottom: 0 });
   const [statePosition, setPosition] = useState({ x: 0, y: 0 });
   const { top, bottom } = stateDrag;
@@ -27,10 +27,8 @@ function Events({ event, container }) {
     }));
   };
 
-  console.log(window.innerWidth);
-
   const onStop = useCallback(
-    (event, data) => {
+    (e, data) => {
       const containerSize = container.current.getBoundingClientRect();
       let element = data.node.getBoundingClientRect();
       const elementHeight =
@@ -52,9 +50,9 @@ function Events({ event, container }) {
       let index = Math.round(data.y / -elementHeight);
 
       let newIndex = parseInt(data.node.attributes[2].value) + index;
-      let id = data.node.id;
+      let elementId = data.node.id;
       let date = dragDate(start, end, days);
-      store.dispatch(draggableDate(id, date, newIndex));
+      store.dispatch(draggableDate(elementId, date, newIndex, id));
 
       setPosition({
         x: days,
@@ -152,20 +150,20 @@ function Events({ event, container }) {
       let newDaysPosition = Math.round((e.pageX - original_mouse_x) / 30);
       const widthLeft = original_width - (e.pageX - original_mouse_x);
       const widthRight = original_width + (e.pageX - original_mouse_x);
- 
+
       if (leftResize === "left" && widthLeft >= minimum_size) {
         store.dispatch(
-          changeDate(element.id, resizeDate(start, newDaysPosition), "start")
+          changeDate(element.id, resizeDate(start, newDaysPosition), "start", id)
         );
       } else if (leftResize === "left" && widthLeft <= minimum_size) {
-        store.dispatch(changeDate(element.id, resizeDate(end, 0), "start"));
+        store.dispatch(changeDate(element.id, resizeDate(end, 0), "start", id));
       }
       if (rightResize === "right" && widthRight >= minimum_size) {
         store.dispatch(
-          changeDate(element.id, resizeDate(end, newDaysPosition), "end")
+          changeDate(element.id, resizeDate(end, newDaysPosition), "end", id)
         );
       } else if (leftResize === "right" && widthRight <= minimum_size) {
-        store.dispatch(changeDate(element.id, resizeDate(start, 0), "end"));
+        store.dispatch(changeDate(element.id, resizeDate(start, 0), "end", id));
       }
       newDaysPosition = 0;
     };
@@ -203,7 +201,7 @@ function Events({ event, container }) {
         bottom: bottom,
       }}
       cancel="span"
-      onStop={(event, data) => onStop(event, data)}
+      onStop={(e, data) => onStop(e, data)}
       onStart={(e) => handleStart(e)}
     >
       <div

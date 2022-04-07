@@ -8,8 +8,10 @@ class ProjectService {
     return api.get(USER_URL);
   }
 
+  oneProject(id){
+    return api.post(USER_URL + '/id', id);
+  }
   addProject = (obj) => {
-
     let formData = new FormData();
     for (var key in obj) {
       formData.append(key, obj[key])

@@ -16,7 +16,7 @@ const Employees = (props) => {
   var handleClick = (id, role) => {
     props.dispatch(deleteUser(id, role))
   }
-  console.log(props);
+
   return (
     <div>
       {props.employees.map((u, k) => {

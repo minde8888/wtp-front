@@ -10,9 +10,7 @@ import {
 export const getAllProjects = () => (dispatch) => {
 
     return ProjectService.allProjects().then(
-       (data)  => {
-                  console.log( data)
-               
+       (data)  => {             
             dispatch({
                 type: projectConstants.PROJECT_DATA,
                 data: data.data.$values,

@@ -59,6 +59,28 @@ export default function project(state = initialState, action) {
                 ...state, data: state.data.map(p => p.projectId !== payload.projectId ? p : payload),
                 isLoaded: isLoaded
             }
+        case projectConstants.ADD_PROGRESS:
+            return {
+
+            }
+        case projectConstants.RESIZE_PROGRESS_DATE:
+            let dateCopy = [...state.data];
+            let currentProject = dateCopy.find(p => p.projectId === payload.projectId)
+            let progress = currentProject.progressPlan.$values.find(e => e.progressPlanId === payload.resizeId)
+            progress[payload.position] = payload.date;
+            return {
+                ...state, data: dateCopy
+            }
+        case projectConstants.DRAGGABLE_PROGRESS_DATE:
+            let dateCopyDrag = [...state.data];
+            let dragProject = dateCopyDrag.find(p => p.projectId === payload.projectId)
+            let dargProgress = dragProject.progressPlan.$values.find(e => e.progressPlanId === payload.elemetId)
+            dargProgress.end = payload.end;
+            dargProgress.start = payload.start;
+            dargProgress.index = payload.index;
+            return {
+                ...state, data: dateCopyDrag
+            }
         default:
             return state;
     }

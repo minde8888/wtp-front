@@ -1,5 +1,6 @@
 import { progressPlanConstants } from "../constants/progressPlanConstants"
 import { messageConstants } from "../constants/messageConstants";
+import { projectConstants } from "../constants/projectConstants";
 import ProgressPlanService from "../services/api/progressPlanService";
 
 export const getAllProgressPlans = () => (dispatch) => {
@@ -9,13 +10,11 @@ export const getAllProgressPlans = () => (dispatch) => {
             dispatch({
                 type: progressPlanConstants.PROGRESS_PLAN_DATA,
                 data: data.data.$values,
-
             });
             localStorage.setItem('progress_plan', JSON.stringify(data.data.$values));
             return Promise.resolve();
         },
         (error) => {
-
             const message =
                 (error.response &&
                     error.response.data &&
@@ -33,7 +32,7 @@ export const getAllProgressPlans = () => (dispatch) => {
 }
 
 export const addNewProgressPlan = (obj) => (dispatch) => {
-console.log(obj);
+
     return ProgressPlanService.addProgressPlan(obj).then(
 
         (response) => {
@@ -71,17 +70,18 @@ console.log(obj);
     );
 }
 
-export const changeDate = (id, date, position) => (dispatch) => {
+export const changeDate = (resizeId, date, position, projectId) => (dispatch) => {
     dispatch({
-        type: progressPlanConstants.RESIZE_DATE,
+        type: projectConstants.RESIZE_PROGRESS_DATE,
         payload: {
             date: date.toString(),
-            id: id,
+            resizeId: resizeId,
+            projectId: projectId,
             position: position
         }
     })
     let obj = {
-        progressPlanId: id,
+        progressPlanId: resizeId,
         [position]: date.toString()
     }
     return ProgressPlanService.updateEventPosition(obj).then(() => {
@@ -102,18 +102,19 @@ export const changeDate = (id, date, position) => (dispatch) => {
         })
 }
 
-export const draggableDate = (id, date, index) => (dispatch) => {
+export const draggableDate = (elemetId, date, index, projectId) => (dispatch) => {
     dispatch({
-        type: progressPlanConstants.DRAGGABLE_DATA,
+        type: projectConstants.DRAGGABLE_PROGRESS_DATE,
         payload: {
             start: date.start.toString(),
             end: date.end.toString(),
-            id: id,
+            elemetId: elemetId,
+            projectId: projectId,
             index: index
         }
     })
     let obj = {
-        progressPlanId: id,
+        progressPlanId: elemetId,
         start: date.start.toString(),
         end: date.end.toString(),
         index: index
