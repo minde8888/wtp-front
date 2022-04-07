@@ -33,7 +33,7 @@ export const getAllProgressPlans = () => (dispatch) => {
 }
 
 export const addNewProgressPlan = (obj) => (dispatch) => {
-
+console.log(obj);
     return ProgressPlanService.addProgressPlan(obj).then(
 
         (response) => {

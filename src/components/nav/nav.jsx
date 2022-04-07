@@ -83,9 +83,6 @@ class NavBar extends Component {
                 <NavLink className="nav-link" to="/table">
                   Projects
                 </NavLink>
-                <NavLink className="nav-link" to="/progress-plan">
-                  Progress plan
-                </NavLink>
                 <NavLink className="nav-link" to="/profile">
                   profile
                 </NavLink>
