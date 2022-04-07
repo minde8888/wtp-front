@@ -60,8 +60,10 @@ export default function project(state = initialState, action) {
                 isLoaded: isLoaded
             }
         case projectConstants.ADD_PROGRESS:
+            console.log(data);
             return {
-
+                ...state,
+                data: { ...state.data, data }
             }
         case projectConstants.RESIZE_PROGRESS_DATE:
             let dateCopy = [...state.data];

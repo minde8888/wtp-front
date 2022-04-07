@@ -18,8 +18,8 @@ export default function progressPlan(state = initialState, action) {
             };
         case progressPlanConstants.ADD_PROGRESS_PLAN:
             return {
-                ...state,
-                data: { ...state.data, data }
+                state,
+                // data: { ...state.data, data }
             }
         case progressPlanConstants.RESIZE:
             return { ...state, stateResize: payload };
