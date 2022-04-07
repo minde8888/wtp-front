@@ -45,6 +45,7 @@ const Table = (props) => {
 };
 
 function mapStateToProps(state) {
+
   const { projectIsLoaded, removeProjects } = state.project;
   return { projectIsLoaded, removeProjects };
 }
