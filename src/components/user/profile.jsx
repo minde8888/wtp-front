@@ -2,14 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import userImage from "../../image/user.png";
 import Employees from "./employee/employees";
-import "./profile.scss";
+import styles from "./profile.module.scss";
 
 const Profile = (props) => {
-  // console.log(props);
   const { data, width, height } = props;
-
-  var id = { id: data.id };
-
   return (
     <div className="container">
       {data.role === "Manager" && (
@@ -20,12 +16,18 @@ const Profile = (props) => {
                 <img
                   width={width !== 0 ? width : null}
                   height={height !== 0 ? height : null}
-                  src={data.imageName === null || data.imageName === "null" ? userImage : data.imageSrc}
+                  src={
+                    data.imageName === null || data.imageName === "null"
+                      ? userImage
+                      : data.imageSrc
+                  }
                   alt={data.imageName}
                 />
-                <h3 className="mt-2">{data.name} {data.surname}</h3>
+                <h3 className="mt-2">
+                  {data.name} {data.surname}
+                </h3>
                 <span className="mt-1 clearfix">Android Developer</span>
-                <div className="buttons px-2 mt-3">
+                <div className={styles.buttons + "px-2 mt-3"}>
                   <div className="col-md-4 btn-outline-secondary">
                     <h5>Project</h5>
                   </div>
@@ -49,7 +51,7 @@ const Profile = (props) => {
             </div>
           </div>
           <div>
-            <Employees {...data.employees} {...id} />
+            <Employees employees={props.data.employees.$values} />
           </div>
         </>
       )}
@@ -64,7 +66,11 @@ const Profile = (props) => {
           <img
             width={width !== 0 ? width : null}
             height={height !== 0 ? height : null}
-            src={data.imageName === null || data.imageName === "null" ? userImage : data.imageSrc}
+            src={
+              data.imageName === null || data.imageName === "null"
+                ? userImage
+                : data.imageSrc
+            }
             alt={data.imageName}
           />
           <p>
@@ -86,12 +92,10 @@ const Profile = (props) => {
 };
 
 function mapStateToProps(state) {
-
-  const { data, employees, width, height } = state.user;
+  const { data, width, height } = state.user;
 
   return {
     data,
-    employees,
     width,
     height,
   };

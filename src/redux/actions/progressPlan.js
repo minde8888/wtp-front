@@ -103,19 +103,19 @@ export const changeDate = (resizeId, date, position, projectId) => (dispatch) =>
         })
 }
 
-export const draggableDate = (elemetId, date, index, projectId) => (dispatch) => {
+export const draggableDate = (elementId, date, index, projectId) => (dispatch) => {
     dispatch({
         type: projectConstants.DRAGGABLE_PROGRESS_DATE,
         payload: {
             start: date.start.toString(),
             end: date.end.toString(),
-            elemetId: elemetId,
+            elementId: elementId,
             projectId: projectId,
             index: index
         }
     })
     let obj = {
-        progressPlanId: elemetId,
+        progressPlanId: elementId,
         start: date.start.toString(),
         end: date.end.toString(),
         index: index

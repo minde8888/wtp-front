@@ -1,14 +1,13 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
 import { setMessage, clearMessage } from "../../../redux/actions/message";
-import { addNewProgressPlan, getAllProgressPlans } from "../../../redux/actions/progressPlan";
+import { addNewProgressPlan } from "../../../redux/actions/progressPlan";
 import plus from "../../../svg/plus.svg";
 import GetDatePicker from "./datePicker/getDatePicker";
 import SketchColor from "./colorPicker/colorPicker";
 import "./addProgressPlan.scss";
 
 const AddProgressPlan = (props) => {
-
   let rowMaxNumber =
     Math.max(
       ...props.progress.map((e) => {

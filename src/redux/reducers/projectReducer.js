@@ -66,20 +66,24 @@ export default function project(state = initialState, action) {
                 data: { ...state.data, data }
             }
         case projectConstants.RESIZE_PROGRESS_DATE:
-            let dateCopy = [...state.data];
-            let currentProject = dateCopy.find(p => p.projectId === payload.projectId)
-            let progress = currentProject.progressPlan.$values.find(e => e.progressPlanId === payload.resizeId)
-            progress[payload.position] = payload.date;
+            const dateCopyResize = [...state.data];
+            const index = dateCopyResize.findIndex(p => p.projectId === payload.projectId);
+            const resizeIndex = dateCopyResize[index].progressPlan.$values.findIndex(p => p.progressPlanId === payload.resizeId);
+            const resizeProgress = dateCopyResize[index].progressPlan.$values[resizeIndex];
+            const updatedResize = { ...resizeProgress, ...{ [payload.position]: payload.date } }
+            dateCopyResize[index].progressPlan.$values.splice(resizeIndex, 1, updatedResize);
+
             return {
-                ...state, data: dateCopy
+                ...state, data: dateCopyResize
             }
         case projectConstants.DRAGGABLE_PROGRESS_DATE:
-            let dateCopyDrag = [...state.data];
-            let dragProject = dateCopyDrag.find(p => p.projectId === payload.projectId)
-            let dargProgress = dragProject.progressPlan.$values.find(e => e.progressPlanId === payload.elemetId)
-            dargProgress.end = payload.end;
-            dargProgress.start = payload.start;
-            dargProgress.index = payload.index;
+            const dateCopyDrag = [...state.data];
+            const projectIndex = dateCopyDrag.findIndex(p => p.projectId === payload.projectId);
+            const dragIndex = dateCopyDrag[projectIndex].progressPlan.$values.findIndex(p => p.progressPlanId === payload.elementId);
+            const dargProgress = dateCopyDrag[projectIndex].progressPlan.$values[dragIndex];
+            const updatedDrag = { ...dargProgress, ...payload }
+            dateCopyDrag[projectIndex].progressPlan.$values.splice(dragIndex, 1, updatedDrag);
+
             return {
                 ...state, data: dateCopyDrag
             }

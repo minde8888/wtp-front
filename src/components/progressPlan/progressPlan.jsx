@@ -19,16 +19,13 @@ let daysInPrevMonth = daysPrevMonth();
 let daysInNextMonth = daysNextMonth();
 
 function ProgressPlan(props) {
-
   let { progressPlanId } = useParams();
   let dateNow = new Date();
-
-
 
   const containerRef = useRef([]);
   const id = props.match.params.progressPlanId;
 
-  const data = props.data.find((p) => p.projectId === id)
+  const data = props.data.find((p) => p.projectId === id);
   const progress = data.progressPlan.$values;
 
   useEffect(() => {
@@ -75,7 +72,7 @@ function ProgressPlan(props) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-          progress[i].index +
+            progress[i].index +
           new Date(progress[i].start).getDate() +
           daysInPrevMonth;
         totalDays[positionEvent] = progress[i];
@@ -89,7 +86,7 @@ function ProgressPlan(props) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-          progress[i].index +
+            progress[i].index +
           new Date(progress[i].start).getDate();
         totalDays[positionEvent - 1] = progress[i];
       } else {
@@ -102,7 +99,7 @@ function ProgressPlan(props) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-          progress[i].index +
+            progress[i].index +
           new Date(progress[i].start).getDate() +
           daysInPrevMonth +
           daysInMonth +
@@ -176,7 +173,7 @@ function RenderDay({
   progress,
   containerRef,
   events,
-  id
+  id,
 }) {
   let { dayIndex, rowIndex } = getDayCoordinates(
     index,
@@ -217,8 +214,9 @@ function RenderTopMonthDays({ rowIndex, daysInPrevMonth, dayIndex, dateNow }) {
   ) {
     return (
       <div
-        className={`days ${dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
-          }`}
+        className={`days ${
+          dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
+        }`}
       >
         {dayIndex - daysInPrevMonth}
       </div>
@@ -235,10 +233,9 @@ function RenderTopMonthDays({ rowIndex, daysInPrevMonth, dayIndex, dateNow }) {
 }
 
 function mapStateToProps(state) {
-
   const { data } = state.project;
   return {
-    data
+    data,
   };
 }
 

@@ -11,11 +11,11 @@ import {
 
 function Events({ event, container, id }) {
   const [stateDrag, setDrag] = useState({ top: 0, bottom: 0 });
-  const [statePosition, setPosition] = useState({ x: 0, y: 0 });
   const { top, bottom } = stateDrag;
-  const { x, y } = statePosition;
   const { color, start, end, progressPlanId, index } = event;
+
   let daysInMonth = daysMonth();
+
   const handleStart = (e) => {
     var element = e.target.getBoundingClientRect();
     const containerSize = container.current.getBoundingClientRect();
@@ -29,22 +29,9 @@ function Events({ event, container, id }) {
 
   const onStop = useCallback(
     (e, data) => {
-      const containerSize = container.current.getBoundingClientRect();
       let element = data.node.getBoundingClientRect();
       const elementHeight =
         Math.round((element.top - element.bottom) / 10) * 10;
-      let positionTop = Math.round(
-        (containerSize.top - element.top) / elementHeight
-      );
-      let positionBottom = Math.round(
-        (containerSize.bottom - element.bottom) / elementHeight
-      );
-
-      setDrag((prevState) => ({
-        ...prevState,
-        top: positionTop,
-        bottom: positionBottom,
-      }));
 
       let days = Math.round(data.x / 30);
       let index = Math.round(data.y / -elementHeight);
@@ -53,13 +40,8 @@ function Events({ event, container, id }) {
       let elementId = data.node.id;
       let date = dragDate(start, end, days);
       store.dispatch(draggableDate(elementId, date, newIndex, id));
-
-      setPosition({
-        x: days,
-        y: index,
-      });
     },
-    [container]
+    [id, end, start]
   );
 
   /*----------Resize--------------------*/
@@ -140,7 +122,7 @@ function Events({ event, container, id }) {
       minimum_size,
       original_mouse_x,
       original_width,
-      rightResize
+      rightResize,
     ]
   );
 
@@ -153,7 +135,12 @@ function Events({ event, container, id }) {
 
       if (leftResize === "left" && widthLeft >= minimum_size) {
         store.dispatch(
-          changeDate(element.id, resizeDate(start, newDaysPosition), "start", id)
+          changeDate(
+            element.id,
+            resizeDate(start, newDaysPosition),
+            "start",
+            id
+          )
         );
       } else if (leftResize === "left" && widthLeft <= minimum_size) {
         store.dispatch(changeDate(element.id, resizeDate(end, 0), "start", id));
@@ -188,14 +175,11 @@ function Events({ event, container, id }) {
     event,
     start,
     end,
+    id,
   ]);
 
   return (
     <Draggable
-      position={{
-        x: x * 30,
-        y: y * 20,
-      }}
       bounds={{
         top: top,
         bottom: bottom,

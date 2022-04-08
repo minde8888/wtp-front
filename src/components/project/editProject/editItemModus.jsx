@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 class EditItemModus extends Component {
   constructor(props) {
     super(props);
-// console.log(props);
+
     this.state = {
       data: props.data,
       action: false,
