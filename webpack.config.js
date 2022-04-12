@@ -5,7 +5,7 @@ export const entry = './src/index.js';
 export const output = {
     path: resolve(__dirname, 'dist'),
     filename: 'main.js',
-    // publicPath: '/',
+    publicPath: '/',
 };
 export const devServer = {
     port: 3000,
