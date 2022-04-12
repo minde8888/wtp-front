@@ -3,8 +3,7 @@ import { progressPlanConstants } from "../constants/progressPlanConstants";
 
 const initialState = {
     stateResize: false,
-    progress: null,
-    isLoaded: true,
+    isLoaded: true
 };
 
 export default function progressPlan(state = initialState, action) {
@@ -16,11 +15,6 @@ export default function progressPlan(state = initialState, action) {
                 progress: data,
                 isLoaded: false
             };
-        case progressPlanConstants.ADD_PROGRESS_PLAN:
-            return {
-                state,
-                // data: { ...state.data, data }
-            }
         case progressPlanConstants.RESIZE:
             return { ...state, stateResize: payload };
         case progressPlanConstants.COLOR:

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState} from "react";
 import { connect } from "react-redux";
 import { setMessage, clearMessage } from "../../../redux/actions/message";
 import { addNewProgressPlan } from "../../../redux/actions/progressPlan";
@@ -8,6 +8,7 @@ import SketchColor from "./colorPicker/colorPicker";
 import "./addProgressPlan.scss";
 
 const AddProgressPlan = (props) => {
+
   let rowMaxNumber =
     Math.max(
       ...props.progress.map((e) => {

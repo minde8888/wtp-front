@@ -49,13 +49,12 @@ export const register = (obj) => async (dispatch) => {
 };
 
 export const login = (email, password) => (dispatch) => {
-
   return AuthService.login(email, password).then(
     (data) => {
       localStorage.setItem('token', data.$values[0].token);
       localStorage.setItem('refreshToken', data.$values[0].refreshToken);
       localStorage.setItem('user', JSON.stringify(data.$values[0]));
-
+      localStorage.setItem('employees', JSON.stringify(data.$values[0].employees.$values));
       dispatch({
         type: userConstants.MANAGER_DATA,
         data: JSON.parse(localStorage.getItem('user'))

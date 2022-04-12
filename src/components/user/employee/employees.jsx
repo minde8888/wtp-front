@@ -5,14 +5,13 @@ import store from "../../../redux/store";
 import { deleteUser } from "../../../redux/actions/deleteUser";
 import "./employees.scss";
 
-const Employees = ({employees}) => {
-// console.log(employees);
+const Employees = ({ employees }) => {
   var handleClick = (id, role) => {
     store.dispatch(deleteUser(id, role));
   };
-if (!employees) {
-  return null
-}
+  if (!employees) {
+    return null;
+  }
   return (
     <div>
       {employees.map((u, k) => {

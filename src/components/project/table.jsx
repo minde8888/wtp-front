@@ -10,6 +10,7 @@ import trash from "../../svg/trash.svg";
 import "./project.scss";
 
 const Table = (props) => {
+
   useEffect(() => {
     props.dispatch(getAllProjects());
   }, []);

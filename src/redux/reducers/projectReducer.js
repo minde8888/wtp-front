@@ -60,10 +60,12 @@ export default function project(state = initialState, action) {
                 isLoaded: isLoaded
             }
         case projectConstants.ADD_PROGRESS:
-            console.log(data);
+            const dataCopyAdd = [...state.data];
+            const currentProjectIndex = dataCopyAdd.findIndex((e) => e.projectId === data.projectId)
+            const progressAdd = [...dataCopyAdd[currentProjectIndex].progressPlan.$values, data]
+            dataCopyAdd[currentProjectIndex].progressPlan.$values = progressAdd
             return {
-                ...state,
-                data: { ...state.data, data }
+                ...state, data: dataCopyAdd
             }
         case projectConstants.RESIZE_PROGRESS_DATE:
             const dateCopyResize = [...state.data];
@@ -72,7 +74,6 @@ export default function project(state = initialState, action) {
             const resizeProgress = dateCopyResize[index].progressPlan.$values[resizeIndex];
             const updatedResize = { ...resizeProgress, ...{ [payload.position]: payload.date } }
             dateCopyResize[index].progressPlan.$values.splice(resizeIndex, 1, updatedResize);
-
             return {
                 ...state, data: dateCopyResize
             }
@@ -83,7 +84,6 @@ export default function project(state = initialState, action) {
             const dargProgress = dateCopyDrag[projectIndex].progressPlan.$values[dragIndex];
             const updatedDrag = { ...dargProgress, ...payload }
             dateCopyDrag[projectIndex].progressPlan.$values.splice(dragIndex, 1, updatedDrag);
-
             return {
                 ...state, data: dateCopyDrag
             }

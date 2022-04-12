@@ -4,7 +4,6 @@ import { userConstants } from "../constants/userConstants";
 export const getManagerProfile = (id) => (dispatch) => {
     return UserService.getManager(id).then(
          (data) => {
-             console.log(data);
             data.data.$values.forEach(el => {
                   dispatch({
                     type: userConstants.MANAGER_EMPLOYEE_UPDATE,

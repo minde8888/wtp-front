@@ -10,13 +10,14 @@ import {
 } from "./date/date";
 
 function Events({ event, container, id }) {
+
   const [stateDrag, setDrag] = useState({ top: 0, bottom: 0 });
   const { top, bottom } = stateDrag;
   const { color, start, end, progressPlanId, index } = event;
 
   let daysInMonth = daysMonth();
 
-  const handleStart = (e) => {
+  const onStart = (e) => {
     var element = e.target.getBoundingClientRect();
     const containerSize = container.current.getBoundingClientRect();
     setDrag((prevState) => ({
@@ -186,7 +187,7 @@ function Events({ event, container, id }) {
       }}
       cancel="span"
       onStop={(e, data) => onStop(e, data)}
-      onStart={(e) => handleStart(e)}
+      onStart={(e) => onStart(e)}
     >
       <div
         className="event"

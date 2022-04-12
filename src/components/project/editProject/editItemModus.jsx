@@ -213,7 +213,6 @@ class EditItemModus extends Component {
               <label>
                 <input
                   className="check-box box-action input-box"
-                  value={item.projectId}
                   name="btSelectItem"
                   type="checkbox"
                 />
@@ -223,12 +222,11 @@ class EditItemModus extends Component {
             <td className="bs-checkbox">
               <NavLink
                 className="detail-icon"
-                to={"/progress-plan/" + item.projectId }
+                to={"/progress-plan/" + item.projectId}
               >
                 <label>
                   <input
                     className="check-box box-action input-box"
-                    value={item.projectId}
                     name="btSelectItem"
                     type="checkbox"
                   />
@@ -239,21 +237,29 @@ class EditItemModus extends Component {
               <label>
                 <input
                   className="check-box box-action input-box"
-                  value={item.projectId}
                   name="btSelectItem"
                   type="checkbox"
                 />
               </label>
               <NavLink className="detail-icon" to="#"></NavLink>
             </td>
-            {/* <div>{console.log()}</div> */}
           </tr>
-      
         ))}
       </>
     );
   };
 }
+
+// function withRouter(Component) {
+//   function ComponentWithRouterProp(props) {
+//     // let location = useLocation();
+//     // let navigate = useNavigate();
+//     let params = useParams();
+//     return <Component {...props} router={{ location, navigate, params }} />;
+//   }
+
+//   return ComponentWithRouterProp;
+// }
 
 function mapStateToProps(state) {
   const { isSelectedId, data } = state.project;

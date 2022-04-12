@@ -3,7 +3,7 @@ import { messageConstants } from "../constants/messageConstants";
 import { projectConstants } from "../constants/projectConstants";
 import ProgressPlanService from "../services/api/progressPlanService";
 
-export const getAllProgressPlans = () => (dispatch) => {
+export const getAllProgressPlans = () => (dispatch) => { //admin
 
     return ProgressPlanService.allPlans().then(
         (data) => {
@@ -36,7 +36,6 @@ export const addNewProgressPlan = (obj) => (dispatch) => {
     return ProgressPlanService.addProgressPlan(obj).then(
 
         (response) => {
-            console.log(response);
             dispatch({
                 type: projectConstants.ADD_PROGRESS,
                 data: response.data,
@@ -47,9 +46,11 @@ export const addNewProgressPlan = (obj) => (dispatch) => {
                 payload: "The plan was successfully created."
             });
 
-            // var data = JSON.parse(localStorage.getItem('projects'));
-            // data = [...data, response.data]
-            // localStorage.setItem('projects', JSON.stringify(data));
+            const data = JSON.parse(localStorage.getItem('projects'));
+            const currentProjectIndex = data.findIndex((e) => e.projectId === response.data.projectId)
+            const progressAdd = [...data[currentProjectIndex].progressPlan.$values, response.data]
+            data[currentProjectIndex].progressPlan.$values = progressAdd
+            localStorage.setItem('projects', JSON.stringify(data));
 
             return Promise.resolve();
         },
@@ -86,6 +87,7 @@ export const changeDate = (resizeId, date, position, projectId) => (dispatch) =>
         [position]: date.toString()
     }
     return ProgressPlanService.updateEventPosition(obj).then(() => {
+        
     },
         (error) => {
             const message =

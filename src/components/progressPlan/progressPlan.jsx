@@ -19,18 +19,17 @@ let daysInPrevMonth = daysPrevMonth();
 let daysInNextMonth = daysNextMonth();
 
 function ProgressPlan(props) {
+ 
   let { progressPlanId } = useParams();
   let dateNow = new Date();
-
   const containerRef = useRef([]);
-  const id = props.match.params.progressPlanId;
-
-  const data = props.data.find((p) => p.projectId === id);
-  const progress = data.progressPlan.$values;
 
   useEffect(() => {
     props.dispatch(getAllProgressPlans());
-  }, [progress]);
+  }, [props.data]);
+ 
+  const data = props.data.find((p) => p.projectId === progressPlanId);
+  const progress = data.progressPlan.$values;
 
   var style = {
     display: "grid",
@@ -144,7 +143,7 @@ function ProgressPlan(props) {
                   dispatch={props.dispatch}
                   containerRef={containerRef}
                   events={events}
-                  id={id}
+                  id={progressPlanId}
                 />
               );
             })}
@@ -233,6 +232,7 @@ function RenderTopMonthDays({ rowIndex, daysInPrevMonth, dayIndex, dateNow }) {
 }
 
 function mapStateToProps(state) {
+// console.log(state);
   const { data } = state.project;
   return {
     data,
