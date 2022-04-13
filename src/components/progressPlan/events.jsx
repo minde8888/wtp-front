@@ -10,7 +10,6 @@ import {
 } from "./date/date";
 
 function Events({ event, container, id }) {
-
   const [stateDrag, setDrag] = useState({ top: 0, bottom: 0 });
   const { top, bottom } = stateDrag;
   const { color, start, end, progressPlanId, index } = event;
@@ -45,6 +44,10 @@ function Events({ event, container, id }) {
     [id, end, start]
   );
 
+  const onDrag = useCallback((e) => {
+    // console.log(e.target.getBoundingClientRect());
+    console.log(container.current.getBoundingClientRect());
+  });
   /*----------Resize--------------------*/
 
   const [state, setState] = useState({
@@ -72,7 +75,7 @@ function Events({ event, container, id }) {
   ) {
     elements.push(<div key={i} className={"range"}></div>);
   }
-
+/* eslint-disable */
   const onMouseDown = useCallback(
     (e) => {
       setState((prevState) => ({
@@ -86,9 +89,9 @@ function Events({ event, container, id }) {
         isResizing: true,
       }));
     },
-    [setState]
+    [state]
   );
-
+/* eslint-disable */
   const {
     minimum_size,
     original_width,
@@ -188,6 +191,7 @@ function Events({ event, container, id }) {
       cancel="span"
       onStop={(e, data) => onStop(e, data)}
       onStart={(e) => onStart(e)}
+      onDrag={(e) => onDrag(e)}
     >
       <div
         className="event"

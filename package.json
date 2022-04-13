@@ -28,19 +28,17 @@
     "react-hook-form": "^7.29.0",
     "react-redux": "^7.2.8",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "^5.0.0",
+    "react-scripts": "^4.0.0",
     "reducers": "^3.0.0-alpha",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-root-reducer": "^0.0.6",
     "redux-thunk": "^2.4.1",
-    "sass": "^1.50.0",
     "scss-loader": "^0.0.1",
     "serve": "^13.0.2",
     "style-loader": "^3.3.1",
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4",
-    "webpack": "^5.72.0",
     "yarn": "^1.22.18",
     "yarn-audit-fix": "^9.2.2",
     "yup": "^0.32.11"
@@ -49,9 +47,6 @@
     "react-error-overlay": "6.0.9"
   },
   "scripts": {
-    "yarn ": "webpack-dev-server",
-    "dev": "webpack-dev-server --mode=development",
-    "prod": "webpack --mode=production",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -87,11 +82,7 @@
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
-    "babel-loader": "^8.2.4",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "html-webpack-plugin": "^5.5.0",
-    "path": "^0.12.7",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.8.1"
+    "path": "^0.12.7"
   }
 }

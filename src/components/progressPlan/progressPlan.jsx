@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import uuid from "uuid/v4";
+import { v4 as uuid }  from "uuid";
 import "./progressPlan.scss";
 import { connect } from "react-redux";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
@@ -23,11 +23,11 @@ function ProgressPlan(props) {
   let { progressPlanId } = useParams();
   let dateNow = new Date();
   const containerRef = useRef([]);
-
+/* eslint-disable */
   useEffect(() => {
     props.dispatch(getAllProgressPlans());
   }, [props.data]);
- 
+ /* eslint-disable */
   const data = props.data.find((p) => p.projectId === progressPlanId);
   const progress = data.progressPlan.$values;
 

@@ -10,11 +10,11 @@ import trash from "../../svg/trash.svg";
 import "./project.scss";
 
 const Table = (props) => {
-
+/* eslint-disable */
   useEffect(() => {
     props.dispatch(getAllProjects());
   }, []);
-
+/* eslint-disable */
   const removeProject = () => {
     props.dispatch(projectToDelete(props.removeProjects));
   };
