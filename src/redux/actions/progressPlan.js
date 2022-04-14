@@ -25,7 +25,6 @@ export const getAllProgressPlans = () => (dispatch) => { //admin
                 type: messageConstants.ERROR,
                 payload: error.response,
             });
-            console.log(message);
             return Promise.reject();
         }
     );
@@ -86,8 +85,16 @@ export const changeDate = (resizeId, date, position, projectId) => (dispatch) =>
         progressPlanId: resizeId,
         [position]: date.toString()
     }
+    const data = JSON.parse(localStorage.getItem('projects'));
+    const index = data.findIndex(p => p.projectId === projectId);
+    const resizeIndex = data[index].progressPlan.$values.findIndex(p => p.progressPlanId === resizeId);
+    const resizeProgress = data[index].progressPlan.$values[resizeIndex];
+    const updatedResize = { ...resizeProgress, ...{ [position]: date } }
+    data[index].progressPlan.$values.splice(resizeIndex, 1, updatedResize);
+    localStorage.setItem('projects', JSON.stringify(data));
+    
     return ProgressPlanService.updateEventPosition(obj).then(() => {
-        
+
     },
         (error) => {
             const message =
@@ -122,6 +129,13 @@ export const draggableDate = (elementId, date, index, projectId) => (dispatch) =
         end: date.end.toString(),
         index: index
     }
+    const data = JSON.parse(localStorage.getItem('projects'));
+    const projectIndex = data.findIndex(p => p.projectId === projectId);
+    const dragIndex = data[projectIndex].progressPlan.$values.findIndex(p => p.progressPlanId === elementId);
+    const dargProgress = data[projectIndex].progressPlan.$values[dragIndex];
+    const updatedDrag = { ...dargProgress, ...obj }
+    data[projectIndex].progressPlan.$values.splice(dragIndex, 1, updatedDrag);
+    localStorage.setItem('projects', JSON.stringify(data));
 
     return ProgressPlanService.updateEventPosition(obj).then(() => {
     },

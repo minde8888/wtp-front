@@ -1,10 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, {useRef } from "react";
 import { useParams } from "react-router-dom";
 import { v4 as uuid }  from "uuid";
 import "./progressPlan.scss";
 import { connect } from "react-redux";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
-import { getAllProgressPlans } from "../../redux/actions/progressPlan";
 import Events from "./events";
 import {
   daysNextMonth,
@@ -23,11 +22,7 @@ function ProgressPlan(props) {
   let { progressPlanId } = useParams();
   let dateNow = new Date();
   const containerRef = useRef([]);
-/* eslint-disable */
-  useEffect(() => {
-    props.dispatch(getAllProgressPlans());
-  }, [props.data]);
- /* eslint-disable */
+
   const data = props.data.find((p) => p.projectId === progressPlanId);
   const progress = data.progressPlan.$values;
 
@@ -45,9 +40,7 @@ function ProgressPlan(props) {
     display: "grid",
     justifyContent: "center",
   };
-  if (progress === null) {
-    return null;
-  }
+  if (progress === null) return null;
 
   let rowMaxNumber =
     Math.max(
@@ -182,13 +175,13 @@ function RenderDay({
     daysInPrevMonth === dayIndex ||
     daysInPrevMonth + daysInMonth === dayIndex - 1
   ) {
-    return <div className="cell empty" index={rowIndex}></div>;
+    return <div className="cell empty move" index={rowIndex}></div>;
   }
   if (!containerRef.current) {
     return null;
   }
   return (
-    <div className="cell" date={dayDateInColons(dayIndex)} index={index}>
+    <div className="cell move" date={dayDateInColons(dayIndex)} index={index}>
       <RenderTopMonthDays
         rowIndex={rowIndex}
         daysInPrevMonth={daysInPrevMonth}
@@ -232,7 +225,7 @@ function RenderTopMonthDays({ rowIndex, daysInPrevMonth, dayIndex, dateNow }) {
 }
 
 function mapStateToProps(state) {
-// console.log(state);
+
   const { data } = state.project;
   return {
     data,

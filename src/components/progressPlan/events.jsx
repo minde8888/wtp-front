@@ -1,30 +1,64 @@
+import { log } from "loglevel";
 import React, { useEffect, useState, useCallback } from "react";
 import Draggable from "react-draggable";
 import { changeDate, draggableDate } from "../../redux/actions/progressPlan";
 import store from "../../redux/store";
-import {
-  getDatesBetweenDates,
-  daysMonth,
-  dragDate,
-  resizeDate,
-} from "./date/date";
+import { getDatesBetweenDates, dragDate, resizeDate } from "./date/date";
+
+let a = 0;
+let b = 1;
+let c = 2;
 
 function Events({ event, container, id }) {
-  const [stateDrag, setDrag] = useState({ top: 0, bottom: 0 });
-  const { top, bottom } = stateDrag;
+  const [stateDrag, setDrag] = useState({
+    top: 0,
+    bottom: 0,
+    el: null,
+    originalX: 0,
+    width: 0,
+  });
+
+  const { top, bottom, el, originalX, width } = stateDrag;
   const { color, start, end, progressPlanId, index } = event;
 
-  let daysInMonth = daysMonth();
+  /*--------------------get next month ----------------------- */
+
+  const mousemove = (event) => {
+    if (Object.values(event.target.classList).includes("move") && el != null) {
+      let widthRight = window.screen.width - el - 120;
+      let widthLeft = el - width - 120;
+
+      if (widthRight <= event.screenX - originalX) {
+        console.log(a + 1);
+        window.removeEventListener("mousemove", mousemove);
+      }
+      if (widthLeft <= originalX - event.screenX) {
+        console.log(b + 1);
+        window.removeEventListener("mousemove", mousemove);
+      }
+    }
+  };
+
+  window.addEventListener("mousemove", mousemove);
+
+  /*--------------------get next month end----------------------- */
 
   const onStart = (e) => {
-    var element = e.target.getBoundingClientRect();
+    let elementRight = e.target.offsetParent.getBoundingClientRect().right;
+    let element = e.target.getBoundingClientRect();
     const containerSize = container.current.getBoundingClientRect();
+
     setDrag((prevState) => ({
       ...prevState,
       top: containerSize.top - element.top,
       bottom:
         containerSize.bottom - element.bottom - (element.top - element.bottom),
+      el: elementRight,
+      originalX: e.pageX,
+      width: e.target.offsetParent.offsetWidth - 1,
     }));
+
+    window.addEventListener("mousemove", mousemove);
   };
 
   const onStop = useCallback(
@@ -40,25 +74,21 @@ function Events({ event, container, id }) {
       let elementId = data.node.id;
       let date = dragDate(start, end, days);
       store.dispatch(draggableDate(elementId, date, newIndex, id));
+
+      window.removeEventListener("mousemove", mousemove);
     },
-    [id, end, start]
+    [id, end, start, mousemove]
   );
 
-  const onDrag = useCallback((e) => {
-    // console.log(e.target.getBoundingClientRect());
-    console.log(container.current.getBoundingClientRect());
-  });
   /*----------Resize--------------------*/
 
   const [state, setState] = useState({
     minimum_size: 29,
     original_width: 0,
     original_mouse_x: 0,
-    container_size: daysInMonth * 30,
     element: null,
     rightResize: 0,
     leftResize: 0,
-    containerSizeValues: null,
     elementResize: null,
     leftWidth: 0,
     isResizing: false,
@@ -73,25 +103,26 @@ function Events({ event, container, id }) {
     i < getDatesBetweenDates(new Date(start), new Date(end)).length;
     i++
   ) {
-    elements.push(<div key={i} className={"range"}></div>);
+    elements.push(<div key={i} className={"range move"}></div>);
   }
-/* eslint-disable */
+  /* eslint-disable */
   const onMouseDown = useCallback(
     (e) => {
+      document.addEventListener("mousemove", mousemove);
       setState((prevState) => ({
         ...prevState,
         original_width: e.target.offsetParent.offsetWidth - 1,
         original_mouse_x: e.pageX,
         element: e.target.offsetParent,
-        rightResize: e.target.classList.value,
-        leftResize: e.target.classList.value,
+        rightResize: e.target.classList,
+        leftResize: e.target.classList,
         resizeElement: e.target.offsetParent,
         isResizing: true,
       }));
     },
     [state]
   );
-/* eslint-disable */
+  /* eslint-disable */
   const {
     minimum_size,
     original_width,
@@ -105,12 +136,18 @@ function Events({ event, container, id }) {
   const onMouseMove = useCallback(
     (e) => {
       if (element) {
-        if (rightResize === "right" && element !== undefined) {
+        if (
+          Object.values(rightResize).includes("right") &&
+          element !== undefined
+        ) {
           const width = original_width + (e.pageX - original_mouse_x);
           if (width > minimum_size) {
             element.style.width = width + "px";
           }
-        } else if (leftResize === "left" && element !== undefined) {
+        } else if (
+          Object.values(leftResize).includes("left") &&
+          element !== undefined
+        ) {
           const width = original_width - (e.pageX - original_mouse_x);
           if (width > minimum_size) {
             element.style.width = width + "px";
@@ -131,13 +168,15 @@ function Events({ event, container, id }) {
   );
 
   useEffect(() => {
-    const onMouseUpResize = (e) => {
-      document.removeEventListener("mousemove", onMouseMove);
+    const onMouseUp = (e) => {
       let newDaysPosition = Math.round((e.pageX - original_mouse_x) / 30);
       const widthLeft = original_width - (e.pageX - original_mouse_x);
       const widthRight = original_width + (e.pageX - original_mouse_x);
 
-      if (leftResize === "left" && widthLeft >= minimum_size) {
+      if (
+        Object.values(leftResize).includes("left") &&
+        widthLeft >= minimum_size
+      ) {
         store.dispatch(
           changeDate(
             element.id,
@@ -146,25 +185,36 @@ function Events({ event, container, id }) {
             id
           )
         );
-      } else if (leftResize === "left" && widthLeft <= minimum_size) {
+      } else if (
+        Object.values(leftResize).includes("left") &&
+        widthLeft <= minimum_size
+      ) {
         store.dispatch(changeDate(element.id, resizeDate(end, 0), "start", id));
       }
-      if (rightResize === "right" && widthRight >= minimum_size) {
+      if (
+        Object.values(rightResize).includes("right") &&
+        widthRight >= minimum_size
+      ) {
         store.dispatch(
           changeDate(element.id, resizeDate(end, newDaysPosition), "end", id)
         );
-      } else if (leftResize === "right" && widthRight <= minimum_size) {
+      } else if (
+        Object.values(rightResize).includes("right") &&
+        widthRight <= minimum_size
+      ) {
         store.dispatch(changeDate(element.id, resizeDate(start, 0), "end", id));
       }
       newDaysPosition = 0;
     };
     if (state.isResizing) {
       document.addEventListener("mousemove", onMouseMove);
-      document.addEventListener("mouseup", onMouseUpResize);
+      document.addEventListener("mouseup", onMouseUp);
+      window.removeEventListener("mousemove", mousemove);
     }
     return () => {
       document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUpResize);
+      document.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("mousemove", mousemove);
     };
   }, [
     state.isResizing,
@@ -191,7 +241,7 @@ function Events({ event, container, id }) {
       cancel="span"
       onStop={(e, data) => onStop(e, data)}
       onStart={(e) => onStart(e)}
-      onDrag={(e) => onDrag(e)}
+      // onDrag={(e) => onDrag(e)}
     >
       <div
         className="event"
@@ -199,9 +249,9 @@ function Events({ event, container, id }) {
         id={progressPlanId}
         index={index}
       >
-        <span className="left" onMouseDown={(e) => onMouseDown(e)}></span>
+        <span className="left move" onMouseDown={(e) => onMouseDown(e)}></span>
         {elements}
-        <span className="right" onMouseDown={(e) => onMouseDown(e)}></span>
+        <span className="right move" onMouseDown={(e) => onMouseDown(e)}></span>
         <span className="event-name"></span>
       </div>
     </Draggable>
