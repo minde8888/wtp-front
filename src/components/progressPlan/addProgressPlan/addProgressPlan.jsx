@@ -1,4 +1,4 @@
-import React, { useRef, useState} from "react";
+import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
 import { setMessage, clearMessage } from "../../../redux/actions/message";
 import { addNewProgressPlan } from "../../../redux/actions/progressPlan";
@@ -8,7 +8,6 @@ import SketchColor from "./colorPicker/colorPicker";
 import "./addProgressPlan.scss";
 
 const AddProgressPlan = (props) => {
-
   let rowMaxNumber =
     Math.max(
       ...props.progress.map((e) => {
@@ -20,9 +19,6 @@ const AddProgressPlan = (props) => {
     name: "",
     index: rowMaxNumber,
     employees: null,
-  });
-  const [errors, setErrors] = useState({
-    name: "",
   });
 
   let nameRef = useRef();
@@ -40,18 +36,12 @@ const AddProgressPlan = (props) => {
       ...props.date,
       projectId: props.id,
       ...value,
-      color: JSON.stringify(props.color),
+      color: JSON.stringify(props.color),      
     };
 
     props.dispatch(addNewProgressPlan(obj)).then(() => {
       nameRef.current.value = null;
     });
-  };
-
-  const validInputs = (e) => {
-    if (e.target.value === "error")
-      setErrors({ ...errors, [e.target.name]: true });
-    else setErrors({ ...errors, [e.target.name]: false });
   };
 
   return (
@@ -66,7 +56,6 @@ const AddProgressPlan = (props) => {
           ref={nameRef}
           placeholder="Plan name"
           onChange={onChangeName}
-          onBlur={validInputs}
         />
       </div>
       <div className="col datePicker">

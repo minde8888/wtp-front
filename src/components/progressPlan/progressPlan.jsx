@@ -1,10 +1,12 @@
-import React, {useRef } from "react";
+import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
-import { v4 as uuid }  from "uuid";
+import { v4 as uuid } from "uuid";
 import "./progressPlan.scss";
 import { connect } from "react-redux";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
+import ToNextMonth from "./toNextMonth/toNextMonth";
 import Events from "./events";
+import RightClickMenu from "./contextMenu/contextmenu";
 import {
   daysNextMonth,
   daysMonth,
@@ -13,18 +15,17 @@ import {
   dayDateInColons,
 } from "./date/date";
 
-let daysInMonth = daysMonth();
-let daysInPrevMonth = daysPrevMonth();
-let daysInNextMonth = daysNextMonth();
-
 function ProgressPlan(props) {
- 
   let { progressPlanId } = useParams();
   let dateNow = new Date();
   const containerRef = useRef([]);
-
   const data = props.data.find((p) => p.projectId === progressPlanId);
   const progress = data.progressPlan.$values;
+  let { skipMonth } = props;
+
+  let daysInMonth = daysMonth(skipMonth);
+  let daysInPrevMonth = daysPrevMonth(skipMonth);
+  let daysInNextMonth = daysNextMonth(skipMonth);
 
   var style = {
     display: "grid",
@@ -55,9 +56,9 @@ function ProgressPlan(props) {
     ),
   ];
 
-  let currentMonth = new Date().getMonth();
-  let prevMonth = new Date().getMonth() - 1;
-  let nextMonth = new Date().getMonth() + 1;
+  let currentMonth = new Date().getMonth() + skipMonth;
+  let prevMonth = new Date().getMonth() - 1 + skipMonth;
+  let nextMonth = new Date().getMonth() + 1 + skipMonth;
 
   for (let i = 0; i < progress.length; i++) {
     if (currentMonth === new Date(progress[i].start).getMonth()) {
@@ -107,24 +108,28 @@ function ProgressPlan(props) {
       }
     }
   }
-
-  dateNow.setHours(0, 0, 0);
+  const getCurrentMonth = (a = 0) => {
+    dateNow.setHours(0, 0, 0);
+    return Math.abs((dateNow.getMonth() + skipMonth + a) % 12);
+  };
 
   return (
     <>
+      <RightClickMenu />
       <AddProgressPlan progress={progress} id={progressPlanId} />
       <div className="month">
-        <div>{months[dateNow.getMonth() - 1]}</div>
-        <div>{months[dateNow.getMonth()]}</div>
-        <div>{months[dateNow.getMonth() + 1]}</div>
+        <div>{months[getCurrentMonth(-1)]}</div>
+        <div>{months[getCurrentMonth()]}</div>
+        <div>{months[getCurrentMonth(1)]}</div>
       </div>
+
+      <ToNextMonth rowMaxNumber={rowMaxNumber} />
+
       <div ref={containerRef} style={gridContainer} className="containerScroll">
         {Array.isArray(progress) && progress.length !== 0 && (
           <div style={style}>
             {totalDays.map((events, index) => {
-              if (!containerRef.current) {
-                return null;
-              }
+              if (!containerRef.current) return null;
               return (
                 <RenderDay
                   key={uuid()}
@@ -185,6 +190,8 @@ function RenderDay({
       <RenderTopMonthDays
         rowIndex={rowIndex}
         daysInPrevMonth={daysInPrevMonth}
+        daysInMonth={daysInMonth}
+        daysInNextMonth={daysInNextMonth}
         dayIndex={dayIndex}
         dateNow={dateNow}
       />
@@ -195,7 +202,14 @@ function RenderDay({
   );
 }
 
-function RenderTopMonthDays({ rowIndex, daysInPrevMonth, dayIndex, dateNow }) {
+function RenderTopMonthDays({
+  rowIndex,
+  dayIndex,
+  dateNow,
+  daysInMonth,
+  daysInPrevMonth,
+  daysInNextMonth,
+}) {
   if (rowIndex === 0 && daysInPrevMonth >= dayIndex) {
     return <div className="days">{dayIndex + 1}</div>;
   }
@@ -225,10 +239,11 @@ function RenderTopMonthDays({ rowIndex, daysInPrevMonth, dayIndex, dateNow }) {
 }
 
 function mapStateToProps(state) {
-
   const { data } = state.project;
+  const { skipMonth } = state.progressPlan;
   return {
     data,
+    skipMonth,
   };
 }
 

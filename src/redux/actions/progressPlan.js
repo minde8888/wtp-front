@@ -23,7 +23,7 @@ export const getAllProgressPlans = () => (dispatch) => { //admin
                 error.toString();
             dispatch({
                 type: messageConstants.ERROR,
-                payload: error.response,
+                payload: message,
             });
             return Promise.reject();
         }
@@ -92,7 +92,7 @@ export const changeDate = (resizeId, date, position, projectId) => (dispatch) =>
     const updatedResize = { ...resizeProgress, ...{ [position]: date } }
     data[index].progressPlan.$values.splice(resizeIndex, 1, updatedResize);
     localStorage.setItem('projects', JSON.stringify(data));
-    
+
     return ProgressPlanService.updateEventPosition(obj).then(() => {
 
     },
@@ -171,4 +171,13 @@ export const addDate = (date) => ({
     payload: date,
 })
 
+export const prevMonth = (a) => ({
+    type: progressPlanConstants.ADD_MONTH,
+    payload: a
+})
+
+export const nextMonth = (b) => ({
+    type: progressPlanConstants.MINUS_MONTH,
+    payload: b
+})
 

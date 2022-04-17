@@ -1,50 +1,21 @@
-import { log } from "loglevel";
 import React, { useEffect, useState, useCallback } from "react";
 import Draggable from "react-draggable";
 import { changeDate, draggableDate } from "../../redux/actions/progressPlan";
 import store from "../../redux/store";
 import { getDatesBetweenDates, dragDate, resizeDate } from "./date/date";
-
-let a = 0;
-let b = 1;
-let c = 2;
+import { ContextMenuTrigger } from "react-contextmenu";
 
 function Events({ event, container, id }) {
+  /*-----------------------onDrag---------------------------------*/
   const [stateDrag, setDrag] = useState({
     top: 0,
     bottom: 0,
-    el: null,
-    originalX: 0,
-    width: 0,
   });
 
-  const { top, bottom, el, originalX, width } = stateDrag;
+  const { top, bottom } = stateDrag;
   const { color, start, end, progressPlanId, index } = event;
 
-  /*--------------------get next month ----------------------- */
-
-  const mousemove = (event) => {
-    if (Object.values(event.target.classList).includes("move") && el != null) {
-      let widthRight = window.screen.width - el - 120;
-      let widthLeft = el - width - 120;
-
-      if (widthRight <= event.screenX - originalX) {
-        console.log(a + 1);
-        window.removeEventListener("mousemove", mousemove);
-      }
-      if (widthLeft <= originalX - event.screenX) {
-        console.log(b + 1);
-        window.removeEventListener("mousemove", mousemove);
-      }
-    }
-  };
-
-  window.addEventListener("mousemove", mousemove);
-
-  /*--------------------get next month end----------------------- */
-
   const onStart = (e) => {
-    let elementRight = e.target.offsetParent.getBoundingClientRect().right;
     let element = e.target.getBoundingClientRect();
     const containerSize = container.current.getBoundingClientRect();
 
@@ -53,12 +24,7 @@ function Events({ event, container, id }) {
       top: containerSize.top - element.top,
       bottom:
         containerSize.bottom - element.bottom - (element.top - element.bottom),
-      el: elementRight,
-      originalX: e.pageX,
-      width: e.target.offsetParent.offsetWidth - 1,
     }));
-
-    window.addEventListener("mousemove", mousemove);
   };
 
   const onStop = useCallback(
@@ -74,14 +40,12 @@ function Events({ event, container, id }) {
       let elementId = data.node.id;
       let date = dragDate(start, end, days);
       store.dispatch(draggableDate(elementId, date, newIndex, id));
-
-      window.removeEventListener("mousemove", mousemove);
     },
-    [id, end, start, mousemove]
+    [id, end, start]
   );
+  /*-----------------------onDrag End-------------------------------*/
 
-  /*----------Resize--------------------*/
-
+  /*-----------------------Resize-----------------------------------*/
   const [state, setState] = useState({
     minimum_size: 29,
     original_width: 0,
@@ -94,9 +58,12 @@ function Events({ event, container, id }) {
     isResizing: false,
   });
 
-  let rgb =
-    JSON.parse(color).r + "," + JSON.parse(color).g + "," + JSON.parse(color).b;
-  let colorBackground = { background: `rgba(${rgb})` };
+  let rgba = `${JSON.parse(color).r}, 
+  ${JSON.parse(color).g} , 
+  ${JSON.parse(color).b},
+  ${JSON.parse(color).a}`;
+
+  let colorBackground = { background: `rgba(${rgba})` };
   const elements = [];
   for (
     let i = 0;
@@ -108,7 +75,6 @@ function Events({ event, container, id }) {
   /* eslint-disable */
   const onMouseDown = useCallback(
     (e) => {
-      document.addEventListener("mousemove", mousemove);
       setState((prevState) => ({
         ...prevState,
         original_width: e.target.offsetParent.offsetWidth - 1,
@@ -209,12 +175,10 @@ function Events({ event, container, id }) {
     if (state.isResizing) {
       document.addEventListener("mousemove", onMouseMove);
       document.addEventListener("mouseup", onMouseUp);
-      window.removeEventListener("mousemove", mousemove);
     }
     return () => {
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
-      window.removeEventListener("mousemove", mousemove);
     };
   }, [
     state.isResizing,
@@ -231,30 +195,38 @@ function Events({ event, container, id }) {
     end,
     id,
   ]);
+  /*-----------------------Resize End--------------------------------*/
 
   return (
-    <Draggable
-      bounds={{
-        top: top,
-        bottom: bottom,
-      }}
-      cancel="span"
-      onStop={(e, data) => onStop(e, data)}
-      onStart={(e) => onStart(e)}
-      // onDrag={(e) => onDrag(e)}
-    >
-      <div
-        className="event"
-        style={colorBackground}
-        id={progressPlanId}
-        index={index}
+    <ContextMenuTrigger id="same_unique_identifier">
+      <Draggable
+        bounds={{
+          top: top,
+          bottom: bottom,
+        }}
+        cancel="span"
+        onStop={(e, data) => onStop(e, data)}
+        onStart={(e) => onStart(e)}
       >
-        <span className="left move" onMouseDown={(e) => onMouseDown(e)}></span>
-        {elements}
-        <span className="right move" onMouseDown={(e) => onMouseDown(e)}></span>
-        <span className="event-name"></span>
-      </div>
-    </Draggable>
+        <div
+          className="event"
+          style={colorBackground}
+          id={progressPlanId}
+          index={index}
+        >
+          <span
+            className="left move"
+            onMouseDown={(e) => onMouseDown(e)}
+          ></span>
+          {elements}
+          <span
+            className="right move"
+            onMouseDown={(e) => onMouseDown(e)}
+          ></span>
+          <span className="event-name"></span>
+        </div>
+      </Draggable>
+    </ContextMenuTrigger>
   );
 }
 

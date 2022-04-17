@@ -1,0 +1,16 @@
+.container {
+    cursor          : pointer;
+    font-size       : 14px;
+    z-index         : 1;
+    background-color: whitesmoke;
+    border-style    : 1px solid rgb(15, 15, 15);
+
+    .contextMenuItem:hover {
+        background-color: rgb(216, 213, 213);
+    }
+
+    .delete {
+        color        : red;
+        margin-bottom: 3px;
+    }
+}

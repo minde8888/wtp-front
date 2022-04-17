@@ -3,7 +3,8 @@ import { progressPlanConstants } from "../constants/progressPlanConstants";
 
 const initialState = {
     stateResize: false,
-    isLoaded: true
+    isLoaded: true,
+    skipMonth: 0,
 };
 
 export default function progressPlan(state = initialState, action) {
@@ -21,6 +22,12 @@ export default function progressPlan(state = initialState, action) {
             return { ...state, color: payload };
         case progressPlanConstants.DATE:
             return { ...state, date: payload };
+        case progressPlanConstants.ADD_MONTH:
+            let add = state.skipMonth + payload
+            return { ...state, skipMonth: add };
+        case progressPlanConstants.MINUS_MONTH:
+            let minus = state.skipMonth + payload
+            return { ...state, skipMonth: minus };
         default:
             return state;
     }
