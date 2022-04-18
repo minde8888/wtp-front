@@ -181,3 +181,7 @@ export const nextMonth = (b) => ({
     payload: b
 })
 
+export const sendId = (id) => ({
+    type: progressPlanConstants.EVENT_ID,
+    payload: id
+})

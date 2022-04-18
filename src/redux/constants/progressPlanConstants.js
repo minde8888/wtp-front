@@ -10,5 +10,7 @@ export const progressPlanConstants = {
     PROGRESS_PLAN_DATA: "PROGRESS_PLAN_DATA",
 
     ADD_MONTH: "ADD_MONTH",
-    MINUS_MONTH: "MINUS_MONTH"
+    MINUS_MONTH: "MINUS_MONTH",
+
+    EVENT_ID: "EVENT_ID"
 };

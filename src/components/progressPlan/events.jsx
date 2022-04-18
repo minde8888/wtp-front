@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Draggable from "react-draggable";
-import { changeDate, draggableDate } from "../../redux/actions/progressPlan";
+import { changeDate, draggableDate, sendId } from "../../redux/actions/progressPlan";
 import store from "../../redux/store";
 import { getDatesBetweenDates, dragDate, resizeDate } from "./date/date";
-import { ContextMenuTrigger } from "react-contextmenu";
 
 function Events({ event, container, id }) {
   /*-----------------------onDrag---------------------------------*/
@@ -197,36 +196,40 @@ function Events({ event, container, id }) {
   ]);
   /*-----------------------Resize End--------------------------------*/
 
+  const onContextMenu = (e) => {
+    store.dispatch(sendId(e.target.offsetParent.id))
+    const contextMenu = document.querySelector("#contextMenu");
+    document.addEventListener("contextmenu", (e) => e.preventDefault());
+    const { pageX, pageY } = e;
+    contextMenu.style.top = `${pageY}px`;
+    contextMenu.style.left = `${pageX}px`;
+    contextMenu.style.display = "block";
+  };
+
   return (
-    <ContextMenuTrigger id="same_unique_identifier">
-      <Draggable
-        bounds={{
-          top: top,
-          bottom: bottom,
-        }}
-        cancel="span"
-        onStop={(e, data) => onStop(e, data)}
-        onStart={(e) => onStart(e)}
+    <Draggable
+      bounds={{
+        top: top,
+        bottom: bottom,
+      }}
+      cancel="span"
+      onStop={(e, data) => onStop(e, data)}
+      onStart={(e) => onStart(e)}
+    >
+      <div
+        className="event"
+        style={colorBackground}
+        id={progressPlanId}
+        index={index}
+        onContextMenu={onContextMenu}
       >
-        <div
-          className="event"
-          style={colorBackground}
-          id={progressPlanId}
-          index={index}
-        >
-          <span
-            className="left move"
-            onMouseDown={(e) => onMouseDown(e)}
-          ></span>
-          {elements}
-          <span
-            className="right move"
-            onMouseDown={(e) => onMouseDown(e)}
-          ></span>
-          <span className="event-name"></span>
-        </div>
-      </Draggable>
-    </ContextMenuTrigger>
+        <span className="eventName">{event.name}</span>
+        <span className="left move" onMouseDown={(e) => onMouseDown(e)}></span>
+        {elements}
+        <span className="right move" onMouseDown={(e) => onMouseDown(e)}></span>
+        <span className="event-name"></span>
+      </div>
+    </Draggable>
   );
 }
 

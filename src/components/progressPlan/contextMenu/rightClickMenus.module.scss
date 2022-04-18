@@ -1,16 +1,75 @@
 .container {
     cursor          : pointer;
     font-size       : 14px;
-    z-index         : 1;
-    background-color: whitesmoke;
-    border-style    : 1px solid rgb(15, 15, 15);
+    z-index         : 2;
+    background-color: rgb(51, 51, 53);
+    position        : fixed;
+    border-radius   : 5px;
+    min-width       : 120px;
+    display         : none;
 
-    .contextMenuItem:hover {
-        background-color: rgb(216, 213, 213);
+    div {
+        line-height  : 10px;
+        font-size    : 12px;
+        padding      : 4px 4px;
+        cursor       : pointer;
+        border-bottom: 1px solid rgb(87, 86, 86);
+
+        span {
+            color : whitesmoke;
+            margin: 0 0 0 5px;
+        }
+
+        svg {
+            margin: 0 2px 2px 0;
+
+        }
+    }
+
+    div:hover {
+        background-color: rgb(78, 75, 75);
+        border-radius   : 5px;
     }
 
     .delete {
-        color        : red;
-        margin-bottom: 3px;
+        color : rgb(224, 95, 95);
+        margin: 0 3px 0 3px;
+
+        svg {
+            font-size: 16px;
+        }
+    }
+
+    .add {
+        color: rgb(123, 219, 123);
+
+        svg {
+            font-size: 20px;
+        }
+
+    }
+
+    .employee {
+        color: rgb(87, 87, 245);
+
+        svg {
+            font-size: 18px;
+        }
+    }
+
+    .color {
+        color: rgb(42, 174, 197);
+
+        svg {
+            font-size: 20px;
+        }
+    }
+
+    .info {
+        color: whitesmoke;
+    }
+
+    svg {
+        font-size: 20px;
     }
 }

@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
-import "./progressPlan.scss";
 import { connect } from "react-redux";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import ToNextMonth from "./toNextMonth/toNextMonth";
@@ -14,6 +13,7 @@ import {
   months,
   dayDateInColons,
 } from "./date/date";
+import "./progressPlan.scss";
 
 function ProgressPlan(props) {
   let { progressPlanId } = useParams();
@@ -115,16 +115,14 @@ function ProgressPlan(props) {
 
   return (
     <>
-      <RightClickMenu />
+      <RightClickMenu progress={progress} />
       <AddProgressPlan progress={progress} id={progressPlanId} />
       <div className="month">
         <div>{months[getCurrentMonth(-1)]}</div>
         <div>{months[getCurrentMonth()]}</div>
         <div>{months[getCurrentMonth(1)]}</div>
       </div>
-
       <ToNextMonth rowMaxNumber={rowMaxNumber} />
-
       <div ref={containerRef} style={gridContainer} className="containerScroll">
         {Array.isArray(progress) && progress.length !== 0 && (
           <div style={style}>
@@ -191,7 +189,6 @@ function RenderDay({
         rowIndex={rowIndex}
         daysInPrevMonth={daysInPrevMonth}
         daysInMonth={daysInMonth}
-        daysInNextMonth={daysInNextMonth}
         dayIndex={dayIndex}
         dateNow={dateNow}
       />
@@ -208,7 +205,6 @@ function RenderTopMonthDays({
   dateNow,
   daysInMonth,
   daysInPrevMonth,
-  daysInNextMonth,
 }) {
   if (rowIndex === 0 && daysInPrevMonth >= dayIndex) {
     return <div className="days">{dayIndex + 1}</div>;
