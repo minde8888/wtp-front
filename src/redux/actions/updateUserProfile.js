@@ -6,26 +6,17 @@ export const updateProfile = (Id, obj) => (dispatch) => {
 
     return UserService.updateUserInfo(Id, obj).then(
         (response) => {
-            const user = {
-                id: response.data.id,
-                name: response.data.name,
-                surname: response.data.surname,
-                email: response.data.email,
-                imageName: response.data.imageName,
-                imageSrc: response.data.imageSrc,
-                isActive: response.data.isActive,
-                mobileNumber: response.data.phoneNumber,
-                occupation: response.data.occupation,
-                role: response.data.role,
-                address: response.data.address,
-            }
+            console.log(response.data);
 
             dispatch({
                 type: userConstants.UPDATE_USER,
-                data: user,
+                payload: {
+                    data: response.data,
+                }
+
             });
 
-            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(response.data));
             return Promise.resolve();
         },
         (error) => {

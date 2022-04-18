@@ -1,0 +1,29 @@
+.container {
+    display              : grid;
+    width                : 100%;
+    grid-area            : content;
+    grid-template-columns: 1fr 1fr;
+    align-self           : center;
+    position             : absolute;
+
+    .left {
+        justify-self: start;
+        text-align  : left;
+        cursor: pointer;
+        &:hover {
+            background: rgb(66, 65, 66);
+            background: linear-gradient(90deg, rgba(66, 65, 66, 1) 0%, rgba(9, 9, 121, 0.022846638655462215) 100%, rgba(0, 212, 255, 1) 100%);
+        }
+    }
+
+    .right {
+        justify-self: end;
+        text-align  : right;
+        cursor: pointer;
+        &:hover {
+            background: rgb(66, 65, 66);
+            background: linear-gradient(270deg, rgba(66, 65, 66, 1) 0%, rgba(9, 9, 121, 0.022846638655462215) 100%, rgba(0, 212, 255, 1) 100%);
+        }
+    }
+
+}

@@ -5,6 +5,7 @@ const AUTH_URL = "/api/auth";
 class AuthService {
 
   async login(email, password) {
+
     return await api
       .post(AUTH_URL + "/login",
         {

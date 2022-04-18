@@ -26,11 +26,11 @@ function GetDatePicker(props) {
     start: state.startDate,
     end: state.endDate,
   };
-
+/* eslint-disable */
   useEffect(() => {
     props.dispatch(addDate(date));
   }, [state]);
-
+/* eslint-disable */
   return (
     <ThemeProvider
       theme={{   

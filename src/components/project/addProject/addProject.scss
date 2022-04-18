@@ -48,18 +48,18 @@ button {
     }
 
     .icon {
-        margin-right: $ruler/2;
+        margin-right:calc($ruler / 2);
     }
 
     &.unit {
-        border-radius  : $ruler/2;
+        border-radius  :calc($ruler / 2);
         line-height    : 0;
         width          : $ruler*3;
         height         : $ruler*3;
         display        : inline-flex;
         justify-content: center;
         align-items    : center;
-        margin         : 0 $ruler/2;
+        margin         : 0 calc($ruler / 2);
         font-size      : $ruler*1.2;
 
         .icon {
