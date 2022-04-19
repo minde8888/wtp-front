@@ -4,8 +4,9 @@ import { changeDate, draggableDate, sendId } from "../../redux/actions/progressP
 import store from "../../redux/store";
 import { getDatesBetweenDates, dragDate, resizeDate } from "./date/date";
 
-function Events({ event, container, id }) {
+function Events({ event, container, id, tempColor }) {
   /*-----------------------onDrag---------------------------------*/
+  console.log(tempColor); ///?????????????
   const [stateDrag, setDrag] = useState({
     top: 0,
     bottom: 0,
@@ -195,6 +196,8 @@ function Events({ event, container, id }) {
     id,
   ]);
   /*-----------------------Resize End--------------------------------*/
+  
+  /*-----------------------Context Menu------------------------------*/
 
   const onContextMenu = (e) => {
     store.dispatch(sendId(e.target.offsetParent.id))
@@ -205,6 +208,7 @@ function Events({ event, container, id }) {
     contextMenu.style.left = `${pageX}px`;
     contextMenu.style.display = "block";
   };
+  /*-----------------------Context Menu End---------------------------*/
 
   return (
     <Draggable

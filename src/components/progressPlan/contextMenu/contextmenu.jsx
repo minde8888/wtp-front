@@ -12,9 +12,8 @@ import styles from "./rightClickMenus.module.scss";
 
 function RightClickMenu(props) {
   const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef);
-
-  const { eventId } = props;
+  const { colorRef, eventId } = props;
+  useOutsideAlerter(wrapperRef, colorRef);
 
   const onAdd = (e) => {
     console.log(props);
@@ -23,8 +22,11 @@ function RightClickMenu(props) {
   const onDelete = () => {
     console.log(eventId);
   };
-  const onColor = (e) => {
-    console.log(e);
+  const onColor = () => {
+    props.colorRef.current.style.display = "block";
+    const { y, right } = wrapperRef.current.getBoundingClientRect();
+    props.colorRef.current.style.top = `${y}px`;
+    props.colorRef.current.style.left = `${right}px`;
   };
   const onEmployee = (e) => {
     console.log(e);
@@ -57,19 +59,19 @@ function RightClickMenu(props) {
           <span>Delete</span>
         </div>
       </div>
-      
-      {/* <div>
-        <SketchColor />
-      </div> */}
+      <SketchColor />
     </>
   );
 }
 
-function useOutsideAlerter(ref) {
+function useOutsideAlerter(ref, colorRef) {
   useEffect(() => {
     function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
+      if (ref.current && 
+        !ref.current.contains(event.target) && 
+        !colorRef.current.contains(event.target)) {
         ref.current.style.display = "none";
+        colorRef.current.style.display = "none";
       }
     }
 
@@ -77,13 +79,15 @@ function useOutsideAlerter(ref) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref]);
+  }, [ref, colorRef]);
 }
 
 function mapStateToProps(state) {
-  const { eventId } = state.progressPlan;
+  const { eventId, colorRef } = state.progressPlan;
+ 
   return {
     eventId,
+    colorRef
   };
 }
 
