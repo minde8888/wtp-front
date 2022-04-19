@@ -161,9 +161,10 @@ export const resize = (bool) => ({
     payload: bool
 })
 
-export const addColor = (obj) => ({
+export const addColor = (obj, ref) => ({
     type: progressPlanConstants.COLOR,
-    payload: obj
+    payload: obj,
+    colorRef: ref
 })
 
 export const addDate = (date) => ({

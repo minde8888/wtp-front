@@ -5,10 +5,11 @@ const initialState = {
     stateResize: false,
     isLoaded: true,
     skipMonth: 0,
+    colorRef:null
 };
 
 export default function progressPlan(state = initialState, action) {
-    const { type, payload, data } = action;
+    const { type, payload, data, colorRef } = action;
     switch (type) {
         case progressPlanConstants.PROGRESS_PLAN_DATA:
             return {
@@ -19,7 +20,7 @@ export default function progressPlan(state = initialState, action) {
         case progressPlanConstants.RESIZE:
             return { ...state, stateResize: payload };
         case progressPlanConstants.COLOR:
-            return { ...state, color: payload };
+            return { ...state, color: payload, colorRef: colorRef };
         case progressPlanConstants.DATE:
             return { ...state, date: payload };
         case progressPlanConstants.ADD_MONTH:

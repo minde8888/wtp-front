@@ -21,7 +21,7 @@ function ProgressPlan(props) {
   const containerRef = useRef([]);
   const data = props.data.find((p) => p.projectId === progressPlanId);
   const progress = data.progressPlan.$values;
-  let { skipMonth } = props;
+  let { skipMonth, color } = props;
 
   let daysInMonth = daysMonth(skipMonth);
   let daysInPrevMonth = daysPrevMonth(skipMonth);
@@ -65,7 +65,7 @@ function ProgressPlan(props) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-            progress[i].index +
+          progress[i].index +
           new Date(progress[i].start).getDate() +
           daysInPrevMonth;
         totalDays[positionEvent] = progress[i];
@@ -79,7 +79,7 @@ function ProgressPlan(props) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-            progress[i].index +
+          progress[i].index +
           new Date(progress[i].start).getDate();
         totalDays[positionEvent - 1] = progress[i];
       } else {
@@ -92,7 +92,7 @@ function ProgressPlan(props) {
       if (Number(progress[i].index) > 0) {
         let positionEvent =
           (daysInPrevMonth + daysInMonth + daysInNextMonth + 2) *
-            progress[i].index +
+          progress[i].index +
           new Date(progress[i].start).getDate() +
           daysInPrevMonth +
           daysInMonth +
@@ -136,10 +136,10 @@ function ProgressPlan(props) {
                   daysInMonth={daysInMonth}
                   daysInNextMonth={daysInNextMonth}
                   dateNow={dateNow}
-                  dispatch={props.dispatch}
                   containerRef={containerRef}
                   events={events}
                   id={progressPlanId}
+                  color={color}
                 />
               );
             })}
@@ -169,6 +169,7 @@ function RenderDay({
   containerRef,
   events,
   id,
+  color
 }) {
   let { dayIndex, rowIndex } = getDayCoordinates(
     index,
@@ -191,9 +192,10 @@ function RenderDay({
         daysInMonth={daysInMonth}
         dayIndex={dayIndex}
         dateNow={dateNow}
+        color={color}
       />
       {progress !== null && events && (
-        <Events event={events} container={containerRef} id={id} />
+        <Events event={events} container={containerRef} id={id} tempColor={color} />
       )}
     </div>
   );
@@ -216,9 +218,8 @@ function RenderTopMonthDays({
   ) {
     return (
       <div
-        className={`days ${
-          dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
-        }`}
+        className={`days ${dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
+          }`}
       >
         {dayIndex - daysInPrevMonth}
       </div>
@@ -236,10 +237,11 @@ function RenderTopMonthDays({
 
 function mapStateToProps(state) {
   const { data } = state.project;
-  const { skipMonth } = state.progressPlan;
+  const { skipMonth, color } = state.progressPlan;
   return {
     data,
     skipMonth,
+    color
   };
 }
 
