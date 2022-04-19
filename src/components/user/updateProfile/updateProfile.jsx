@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 import {
@@ -27,7 +27,7 @@ const UpdateProfile = (props) => {
     id,
   } = props.data;
 
-  useEffect(() => props.data, [props.data]);
+  // useEffect(() => props.data, [props.data]);
 
   const { city, country, street, zip } = props.data.address;
   const { imageFile, width, height, userIsLoaded } = props;

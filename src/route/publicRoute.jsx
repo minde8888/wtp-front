@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 import store from '../redux/store';
 
 const PublicRoute = ({ component: Component, restricted, ...rest }) => {
@@ -11,7 +11,7 @@ const PublicRoute = ({ component: Component, restricted, ...rest }) => {
       {...rest}
       render={(props) =>
         store.getState().auth.isLoggedIn && restricted ? (
-          <Redirect to="/login" />
+          <Navigate to="/login" />
         ) : (
           <Component {...props} />
         )

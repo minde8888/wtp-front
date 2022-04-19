@@ -5,13 +5,14 @@ import { addNewProject } from "../../../redux/actions/projectData";
 import plus from "../../../svg/plus.svg";
 
 const AddInput = (props) => {
-
   const [allValues, setValue] = useState({
     number: null,
     title: "",
     place: "",
     status: "",
     managerId: props.data.id,
+    date: new Date(),
+    color: '{ "r":10,"g":170,"b":179,"a":0.29}',
   });
 
   const [errors, setErrors] = useState({

@@ -46,18 +46,18 @@ export const daysPrevMonth = (a = 0) => {
     ).getDate()
 };
 
-export const daysMonth = (a = 1) => {
+export const daysMonth = (a = 0) => {
     return new Date(
         now.getFullYear(),
-        now.getMonth() + a,
+        now.getMonth() + 1 + a,
         0
     ).getDate()
 };
 
-export const daysNextMonth = (a = 2) => {
-   return new Date(
+export const daysNextMonth = (a = 0) => {
+    return new Date(
         now.getFullYear(),
-        now.getMonth() + a,
+        now.getMonth() + 2 + a,
         0
     ).getDate()
 };

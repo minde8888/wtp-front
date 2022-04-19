@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Formik, Form } from "formik";
 import { TextField } from "../validation/textField";
 import * as Yup from "yup";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { login } from "../../../redux/actions/auth";
 import { connect } from "react-redux";
 import { clearMessage } from "../../../redux/actions/message";
@@ -43,7 +43,7 @@ class LoginContainer extends Component {
     });
 
     if (isLoggedIn) {
-      return <Redirect to="/" />;
+      return <Navigate to="/" />;
     }
 
     return (
@@ -54,12 +54,13 @@ class LoginContainer extends Component {
         }}
         validationSchema={validate}
         onSubmit={(values) => {
+          console.log(values);
           this.setState({
               email: values.email,
             password: values.password,
           });
 
-          dispatch(login(this.state.email, this.state.password))
+          dispatch(login(values.email, values.password))
          
         }}
       >

@@ -20,7 +20,7 @@ export default function user(state = initialState, action) {
         case userConstants.MANAGER_EMPLOYEES:
             return {
                 ...state,
-                data: { ...state.data, employees:payload }
+                data: { ...state.data, employees: payload }
             }
         case userConstants.MANAGER_DATA_ERROR:
             return {
@@ -48,9 +48,9 @@ export default function user(state = initialState, action) {
                 ...state, employees: { ...payload }
             };
         case userConstants.UPDATE_USER:
+
             return {
-                ...state,
-                data: data,
+                ...state, data: payload.data,
                 userIsLoaded: true
             }
         default:
