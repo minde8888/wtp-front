@@ -72,6 +72,7 @@ function useOutsideAlerter(ref, colorRef) {
         !colorRef.current.contains(event.target)) {
         ref.current.style.display = "none";
         colorRef.current.style.display = "none";
+        
       }
     }
 

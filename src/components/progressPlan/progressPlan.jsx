@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import ToNextMonth from "./toNextMonth/toNextMonth";
 import Events from "./events";
-import RightClickMenu from "./contextMenu/contextmenu";
+import RightClickMenu from "./contextMenu/RightClickMenu";
 import {
   daysNextMonth,
   daysMonth,
@@ -21,7 +21,7 @@ function ProgressPlan(props) {
   const containerRef = useRef([]);
   const data = props.data.find((p) => p.projectId === progressPlanId);
   const progress = data.progressPlan.$values;
-  let { skipMonth, color } = props;
+  let { skipMonth} = props;
 
   let daysInMonth = daysMonth(skipMonth);
   let daysInPrevMonth = daysPrevMonth(skipMonth);
@@ -139,7 +139,7 @@ function ProgressPlan(props) {
                   containerRef={containerRef}
                   events={events}
                   id={progressPlanId}
-                  color={color}
+        
                 />
               );
             })}
@@ -168,8 +168,7 @@ function RenderDay({
   progress,
   containerRef,
   events,
-  id,
-  color
+  id
 }) {
   let { dayIndex, rowIndex } = getDayCoordinates(
     index,
@@ -192,10 +191,9 @@ function RenderDay({
         daysInMonth={daysInMonth}
         dayIndex={dayIndex}
         dateNow={dateNow}
-        color={color}
       />
       {progress !== null && events && (
-        <Events event={events} container={containerRef} id={id} tempColor={color} />
+        <Events event={events} container={containerRef} id={id} />
       )}
     </div>
   );
@@ -218,8 +216,8 @@ function RenderTopMonthDays({
   ) {
     return (
       <div
-        className={`days ${dayDateInColons(dayIndex).toString() === dateNow.toString() && "today"
-          }`}
+        className={`days ${dayDateInColons(dayIndex).toString() === 
+          dateNow.toString() && "today" }`}
       >
         {dayIndex - daysInPrevMonth}
       </div>
@@ -237,11 +235,10 @@ function RenderTopMonthDays({
 
 function mapStateToProps(state) {
   const { data } = state.project;
-  const { skipMonth, color } = state.progressPlan;
+  const { skipMonth } = state.progressPlan;
   return {
     data,
     skipMonth,
-    color
   };
 }
 

@@ -5,6 +5,7 @@ import { prevMonth } from "../../../redux/actions/progressPlan";
 import { nextMonth } from "../../../redux/actions/progressPlan";
 
 function ToNextMonth({ rowMaxNumber }) {
+
   const onMouseOverLeft = () => {
     store.dispatch(prevMonth(-1));
   };
@@ -19,7 +20,10 @@ function ToNextMonth({ rowMaxNumber }) {
     height: rowMaxNumber * 20 + "px",
     marginTop: 0 + "px",
     zIndex: 2,
+    // position: fixed,
+    // right: 0,
   };
+
   return (
     <div className={styles.container}>
       <div
