@@ -4,9 +4,10 @@ import { changeDate, draggableDate, sendId } from "../../redux/actions/progressP
 import store from "../../redux/store";
 import { getDatesBetweenDates, dragDate, resizeDate } from "./date/date";
 
-function Events({ event, container, id, tempColor }) {
+function Events({ event, container, id }) {
+
   /*-----------------------onDrag---------------------------------*/
-  console.log(tempColor); ///?????????????
+
   const [stateDrag, setDrag] = useState({
     top: 0,
     bottom: 0,
@@ -200,6 +201,7 @@ function Events({ event, container, id, tempColor }) {
   /*-----------------------Context Menu------------------------------*/
 
   const onContextMenu = (e) => {
+    console.log(id);
     store.dispatch(sendId(e.target.offsetParent.id))
     const contextMenu = document.querySelector("#contextMenu");
     document.addEventListener("contextmenu", (e) => e.preventDefault());
@@ -208,6 +210,7 @@ function Events({ event, container, id, tempColor }) {
     contextMenu.style.left = `${pageX}px`;
     contextMenu.style.display = "block";
   };
+
   /*-----------------------Context Menu End---------------------------*/
 
   return (
@@ -227,7 +230,7 @@ function Events({ event, container, id, tempColor }) {
         index={index}
         onContextMenu={onContextMenu}
       >
-        <span className="eventName">{event.name}</span>
+        {/* <span className="eventName">{event.name}</span> */}
         <span className="left move" onMouseDown={(e) => onMouseDown(e)}></span>
         {elements}
         <span className="right move" onMouseDown={(e) => onMouseDown(e)}></span>

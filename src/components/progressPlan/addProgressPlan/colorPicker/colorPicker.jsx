@@ -38,6 +38,7 @@ class SketchColor extends Component {
       b: color.rgb.b,
       a: color.rgb.a,
     };
+   console.log(store.getState().progressPlan.eventId); 
     store.dispatch(addColor(obj, this.colorRef));
     this.setState({ color: color.rgb });
   };

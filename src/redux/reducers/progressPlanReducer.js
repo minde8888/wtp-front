@@ -5,7 +5,8 @@ const initialState = {
     stateResize: false,
     isLoaded: true,
     skipMonth: 0,
-    colorRef:null
+    colorRef: null,
+    eventId:null
 };
 
 export default function progressPlan(state = initialState, action) {
@@ -20,7 +21,11 @@ export default function progressPlan(state = initialState, action) {
         case progressPlanConstants.RESIZE:
             return { ...state, stateResize: payload };
         case progressPlanConstants.COLOR:
-            return { ...state, color: payload, colorRef: colorRef };
+            return {
+                ...state,
+                color: payload,
+                colorRef: colorRef
+            };
         case progressPlanConstants.DATE:
             return { ...state, date: payload };
         case progressPlanConstants.ADD_MONTH:
