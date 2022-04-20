@@ -6,7 +6,6 @@ import { getDatesBetweenDates, dragDate, resizeDate } from "./date/date";
 
 function Events({ event, container, id, tempColor }) {
   /*-----------------------onDrag---------------------------------*/
-  console.log(tempColor); ///?????????????
   const [stateDrag, setDrag] = useState({
     top: 0,
     bottom: 0,
