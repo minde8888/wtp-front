@@ -155,6 +155,69 @@ export const draggableDate = (elementId, date, index, projectId) => (dispatch) =
         })
 }
 
+export const updateProgress = (obj) => (dispatch) => {
+    const data = JSON.parse(localStorage.getItem('projects'));
+    const projectIndex = data.findIndex(p => p.projectId === obj.projectId);
+    const progressIndex = data[projectIndex].progressPlan.$values.findIndex(p => p.progressPlanId === obj.progressPlanId);
+    data[projectIndex].progressPlan.$values.splice(progressIndex, 1, obj);
+    localStorage.setItem('projects', JSON.stringify(data));
+
+    return ProgressPlanService.updateEventPosition(obj).then(() => {
+    },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            dispatch({
+                type: messageConstants.ERROR,
+                payload: message,
+            });
+
+            return Promise.reject();
+        })
+}
+
+export const removeProgress = (progressId, projectId) => (dispatch) => {
+
+    const data = JSON.parse(localStorage.getItem('projects'));
+    const projectIndex = data.findIndex(p => p.projectId === projectId);
+
+    if (data[projectIndex].progressPlan.$values.length > 1) {
+        const progressIndex = data[projectIndex].progressPlan.$values.findIndex(p => p.progressPlanId === progressId);
+        data[projectIndex].progressPlan.$values.splice(progressIndex, 1)
+        localStorage.setItem('projects', JSON.stringify(data));
+        dispatch({
+            type: progressPlanConstants.DELETE_PROGRESS,
+            payload: { progressId, projectId }
+        })
+        return ProgressPlanService.removeProgressPlan(progressId).then(() => {
+
+        },
+            (error) => {
+                const message =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+                dispatch({
+                    type: messageConstants.ERROR,
+                    payload: message,
+                });
+
+                return Promise.reject();
+            })
+    }else{
+        dispatch({
+            type: messageConstants.ERROR,
+            payload: "Can't delete last one !!!",
+        });
+    }
+}
+
 
 export const resize = (bool) => ({
     type: progressPlanConstants.RESIZE,
@@ -165,6 +228,11 @@ export const addColor = (objColor, objId, ref) => ({
     type: progressPlanConstants.COLOR,
     payload: { objColor, objId },
     colorRef: ref
+})
+
+export const addColorRef = (ref) => ({
+    type: progressPlanConstants.COLOR_REF,
+    payload: ref
 })
 
 export const addDate = (date) => ({

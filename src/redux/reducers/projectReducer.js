@@ -10,7 +10,7 @@ const initialState = {
     isSelectedId: "",
     isLoaded: false,
     id: "",
-    colorRef: null
+    colorRef: null,
 };
 
 export default function project(state = initialState, action) {
@@ -100,27 +100,38 @@ export default function project(state = initialState, action) {
                     ...state, data: dateCopyDrag
                 }
             }
-        case progressPlanConstants.COLOR:
-            const dateCopyColor = [...state.data];
-            const toObj = ((dateCopyColor) => { return dateCopyColor })(...dateCopyColor);
-            const progressIndexColor = toObj.progressPlan.$values.findIndex(p => p.progressPlanId === payload.objId.eventId);
-            const colorProgress = toObj.progressPlan.$values[progressIndexColor];
-            const updatedColor = { ...colorProgress, color: payload.objColor }
-            console.log(progressIndexColor);
-            toObj.progressPlan.$values.splice(progressIndexColor, 1, updatedColor);
-console.log(toObj);
-            // console.log(toObj(...dateCopyColor));
-            // dateCopyColor[payload.objId.projectId];
-
-
-
-            // 
-            // 
+        case progressPlanConstants.COLOR_REF:
             return {
-                ...state,
-                // data: dateCopyColor,
-                colorRef: colorRef
+                ...state, colorRef: payload
             };
+        case progressPlanConstants.COLOR:
+            {
+                const dateCopyColor = [...state.data];
+                const projectIndex = dateCopyColor.findIndex(p => p.projectId === payload.objId.projectId);
+                const progressIndexColor = dateCopyColor[projectIndex].progressPlan.$values.findIndex(p => p.progressPlanId === payload.objId.eventId);
+                const colorProgress = dateCopyColor[projectIndex].progressPlan.$values[progressIndexColor];
+                const updatedColor = { ...colorProgress, color: payload.objColor }
+                dateCopyColor[projectIndex].progressPlan.$values.splice(progressIndexColor, 1, updatedColor);
+
+                return {
+                    ...state,
+                    data: dateCopyColor,
+                    colorRef: colorRef,
+                    updateProgress: updatedColor
+
+                }
+            }
+        case progressPlanConstants.DELETE_PROGRESS:
+            {
+                const dateCopy = [...state.data];
+                const projectIndex = dateCopy.findIndex(p => p.projectId === payload.projectId);
+                const progressIndex = dateCopy[projectIndex].progressPlan.$values.findIndex(p => p.progressPlanId === payload.progressId);
+                dateCopy[projectIndex].progressPlan.$values.splice(progressIndex, 1);
+                return {
+                    ...state, data:dateCopy
+                };
+            }
+
         default:
             return state;
     }

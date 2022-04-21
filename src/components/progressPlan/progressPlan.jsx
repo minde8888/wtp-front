@@ -234,6 +234,7 @@ function RenderTopMonthDays({
 }
 
 function mapStateToProps(state) {
+
   const { data } = state.project;
   const { skipMonth } = state.progressPlan;
   return {

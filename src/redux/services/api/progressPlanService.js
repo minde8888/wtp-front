@@ -25,6 +25,10 @@ class ProgressPlanService {
     console.log(Object.fromEntries(formData))
     return api.put(USER_URL + '/Update', formData);
   }
+
+  removeProgressPlan(id) {
+    return api.delete(USER_URL + '/Delete/'+ id);
+  }
 }
 
 export default new ProgressPlanService();

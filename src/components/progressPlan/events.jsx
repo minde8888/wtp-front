@@ -11,7 +11,6 @@ import { projectIdToState } from "../../redux/actions/projectData";
 
 function Events({ event, container, id }) {
   /*-----------------------onDrag---------------------------------*/
-
   const [stateDrag, setDrag] = useState({
     top: 0,
     bottom: 0,
