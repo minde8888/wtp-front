@@ -97,6 +97,7 @@ export default function project(state = initialState, action) {
                     ...state, data: dateCopyDrag
                 }
             }
+            
         // case progressPlanConstants.COLOR:
         //     return {
 
