@@ -10,7 +10,7 @@ import {
 export const getAllProjects = () => (dispatch) => {
 
     return ProjectService.allProjects().then(
-       (data)  => {             
+        (data) => {
             dispatch({
                 type: projectConstants.PROJECT_DATA,
                 data: data.data.$values,
@@ -117,8 +117,8 @@ export const edit = (id) => ({
     isSelectedId: id
 })
 
-export const projectIdToDelete = (obj) => ({
-    type: projectConstants.DELETE_PROJECT_ID,
+export const projectIdToState = (obj) => ({
+    type: projectConstants.PROJECT_ID,
     payload: obj
 })
 

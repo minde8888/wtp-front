@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { connect } from "react-redux";
-import SketchColor from "../addProgressPlan/colorPicker/colorPicker";
+import SketchColor from "./colorPicker/colorPicker";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import {
   IoAddCircleOutline,
@@ -12,7 +12,8 @@ import styles from "./rightClickMenus.module.scss";
 
 function RightClickMenu(props) {
   const wrapperRef = useRef(null);
-  const { colorRef, eventId } = props;
+  const { colorRef, eventId, projectId } = props;
+  console.log(props);
   useOutsideAlerter(wrapperRef, colorRef);
 
   const onAdd = (e) => {
@@ -59,7 +60,7 @@ function RightClickMenu(props) {
           <span>Delete</span>
         </div>
       </div>
-      <SketchColor />
+      <SketchColor projectId={projectId} eventId={eventId} />
     </>
   );
 }
@@ -67,12 +68,13 @@ function RightClickMenu(props) {
 function useOutsideAlerter(ref, colorRef) {
   useEffect(() => {
     function handleClickOutside(event) {
-      if (ref.current && 
-        !ref.current.contains(event.target) && 
-        !colorRef.current.contains(event.target)) {
+      if (
+        ref.current &&
+        !ref.current.contains(event.target) &&
+        !colorRef.current.contains(event.target)
+      ) {
         ref.current.style.display = "none";
         colorRef.current.style.display = "none";
-        
       }
     }
 
@@ -84,11 +86,14 @@ function useOutsideAlerter(ref, colorRef) {
 }
 
 function mapStateToProps(state) {
-  const { eventId, colorRef } = state.progressPlan;
- 
+
+  const { eventId } = state.progressPlan;
+  const { projectId, colorRef } = state.project;
+
   return {
     eventId,
-    colorRef
+    colorRef,
+    projectId,
   };
 }
 

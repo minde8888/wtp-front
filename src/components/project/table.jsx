@@ -16,7 +16,7 @@ const Table = (props) => {
   }, []);
 /* eslint-disable */
   const removeProject = () => {
-    props.dispatch(projectToDelete(props.removeProjects));
+    props.dispatch(projectToDelete(props.projectId));
   };
 
   return (
@@ -44,7 +44,7 @@ const Table = (props) => {
 };
 
 function mapStateToProps(state) {
-  const { projectIsLoaded, removeProjects } = state.project;
-  return { projectIsLoaded, removeProjects };
+  const { projectIsLoaded, projectId } = state.project;
+  return { projectIsLoaded, projectId };
 }
 export default connect(mapStateToProps)(Table);
