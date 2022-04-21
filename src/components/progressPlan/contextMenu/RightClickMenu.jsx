@@ -1,5 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { connect } from "react-redux";
+import store from "../../../redux/store";
+import { updateProgress, removeProgress } from "../../../redux/actions/progressPlan";
 import SketchColor from "./colorPicker/colorPicker";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import {
@@ -10,28 +12,36 @@ import {
 } from "react-icons/io5";
 import styles from "./rightClickMenus.module.scss";
 
+
+let updateObj = null;
+
 function RightClickMenu(props) {
+
   const wrapperRef = useRef(null);
-  const { colorRef, eventId, projectId } = props;
-  console.log(props);
+  const { colorRef, eventId, projectId, updateProgress } = props;
   useOutsideAlerter(wrapperRef, colorRef);
+  updateObj = updateProgress;
 
   const onAdd = (e) => {
     console.log(props);
     console.log(e);
   };
+
   const onDelete = () => {
-    console.log(eventId);
+    props.dispatch(removeProgress(eventId, projectId))
   };
+
   const onColor = () => {
     props.colorRef.current.style.display = "block";
     const { y, right } = wrapperRef.current.getBoundingClientRect();
     props.colorRef.current.style.top = `${y}px`;
     props.colorRef.current.style.left = `${right}px`;
   };
+
   const onEmployee = (e) => {
     console.log(e);
   };
+
   const onInfo = (e) => {
     console.log(e);
   };
@@ -75,9 +85,11 @@ function useOutsideAlerter(ref, colorRef) {
       ) {
         ref.current.style.display = "none";
         colorRef.current.style.display = "none";
+        if (updateObj !== undefined) {
+          store.dispatch(updateProgress(updateObj))
+        }
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -88,12 +100,13 @@ function useOutsideAlerter(ref, colorRef) {
 function mapStateToProps(state) {
 
   const { eventId } = state.progressPlan;
-  const { projectId, colorRef } = state.project;
+  const { projectId, colorRef, updateProgress } = state.project;
 
   return {
     eventId,
     colorRef,
     projectId,
+    updateProgress
   };
 }
 

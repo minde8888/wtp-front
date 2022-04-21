@@ -1,25 +1,27 @@
 import React, { Component, createRef } from "react";
 import reactCSS from "reactcss";
 import { SketchPicker } from "react-color";
-import { addColor } from "../../../../redux/actions/progressPlan";
+import { addColor, addColorRef } from "../../../../redux/actions/progressPlan";
 import store from "../../../../redux/store";
 
 class SketchColor extends Component {
   constructor(props) {
     super(props);
+   
     this.colorRef = createRef();
-    this.defaultObj = {
-      r: "74",
-      g: "144",
-      b: "226",
-      a: "1",
-    };
-    let defaultId = {
-      projectId: null,
-      eventId: null,
-    };
-
-    store.dispatch(addColor(this.defaultObj, defaultId, this.colorRef));
+   
+    // this.defaultObj = {
+    //   r: "74",
+    //   g: "144",
+    //   b: "226",
+    //   a: "1",
+    // };
+    // let defaultId = {
+    //   projectId: null,
+    //   eventId: null,
+    // };
+// console.log(111111111);
+    store.dispatch(addColorRef(this.colorRef));
   }
 
   state = {
@@ -36,6 +38,7 @@ class SketchColor extends Component {
   };
 
   handleChange = (color) => {
+
     let objColor = JSON.stringify({
       r: color.rgb.r,
       g: color.rgb.g,
