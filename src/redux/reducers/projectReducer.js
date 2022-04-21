@@ -1,6 +1,7 @@
 import {
     projectConstants
 } from "../constants/projectConstants";
+import { progressPlanConstants } from "../constants/progressPlanConstants";
 
 const initialState = {
     data: JSON.parse(localStorage.getItem('projects')),
@@ -8,7 +9,8 @@ const initialState = {
     isSelected: "",
     isSelectedId: "",
     isLoaded: false,
-    id: ""
+    id: "",
+    colorRef: null
 };
 
 export default function project(state = initialState, action) {
@@ -19,7 +21,8 @@ export default function project(state = initialState, action) {
         payload,
         isSelectedId,
         isLoaded,
-        id
+        id,
+        colorRef
     } = action
 
     switch (type) {
@@ -32,9 +35,9 @@ export default function project(state = initialState, action) {
             return {
                 ...state, isSelectedId
             };
-        case projectConstants.DELETE_PROJECT_ID:
+        case projectConstants.PROJECT_ID:
             return {
-                ...state, removeProjects: payload,
+                ...state, projectId: payload,
             }
         case projectConstants.PROJECT_REMOVED:
             return {
@@ -97,11 +100,27 @@ export default function project(state = initialState, action) {
                     ...state, data: dateCopyDrag
                 }
             }
-            
-        // case progressPlanConstants.COLOR:
-        //     return {
+        case progressPlanConstants.COLOR:
+            const dateCopyColor = [...state.data];
+            const toObj = ((dateCopyColor) => { return dateCopyColor })(...dateCopyColor);
+            const progressIndexColor = toObj.progressPlan.$values.findIndex(p => p.progressPlanId === payload.objId.eventId);
+            const colorProgress = toObj.progressPlan.$values[progressIndexColor];
+            const updatedColor = { ...colorProgress, color: payload.objColor }
+            console.log(progressIndexColor);
+            toObj.progressPlan.$values.splice(progressIndexColor, 1, updatedColor);
+console.log(toObj);
+            // console.log(toObj(...dateCopyColor));
+            // dateCopyColor[payload.objId.projectId];
 
-        //     }
+
+
+            // 
+            // 
+            return {
+                ...state,
+                // data: dateCopyColor,
+                colorRef: colorRef
+            };
         default:
             return state;
     }

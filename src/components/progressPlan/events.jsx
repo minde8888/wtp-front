@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Draggable from "react-draggable";
-import { changeDate, draggableDate, sendId } from "../../redux/actions/progressPlan";
+import {
+  changeDate,
+  draggableDate,
+  sendId,
+} from "../../redux/actions/progressPlan";
 import store from "../../redux/store";
 import { getDatesBetweenDates, dragDate, resizeDate } from "./date/date";
+import { projectIdToState } from "../../redux/actions/projectData";
 
 function Events({ event, container, id }) {
-
   /*-----------------------onDrag---------------------------------*/
   const [stateDrag, setDrag] = useState({
     top: 0,
@@ -196,12 +200,12 @@ function Events({ event, container, id }) {
     id,
   ]);
   /*-----------------------Resize End--------------------------------*/
-  
+
   /*-----------------------Context Menu------------------------------*/
 
   const onContextMenu = (e) => {
-    console.log(id);
-    store.dispatch(sendId(e.target.offsetParent.id))
+    store.dispatch(projectIdToState(id));
+    store.dispatch(sendId(e.target.offsetParent.id));
     const contextMenu = document.querySelector("#contextMenu");
     document.addEventListener("contextmenu", (e) => e.preventDefault());
     const { pageX, pageY } = e;

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   edit,
-  projectIdToDelete,
+  projectIdToState,
   updateProject,
   projectOnChanges,
 } from "../../../redux/actions/projectData";
@@ -49,7 +49,7 @@ class EditItemModus extends Component {
     } else {
       this.state.newId.splice(value, 1);
     }
-    this.props.dispatch(projectIdToDelete(this.state.newId));
+    this.props.dispatch(projectIdToState(this.state.newId));
   };
 
   handleOnBlur = (e) => {

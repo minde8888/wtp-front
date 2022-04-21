@@ -14,14 +14,18 @@ class SketchColor extends Component {
       b: "226",
       a: "1",
     };
-    store.dispatch(addColor(this.defaultObj, this.colorRef));
+    let defaultId = {
+      projectId: null,
+      eventId: null,
+    };
+
+    store.dispatch(addColor(this.defaultObj, defaultId, this.colorRef));
   }
 
   state = {
     displayColorPicker: false,
     color: this.defaultObj,
   };
-
 
   handleClick = () => {
     this.setState({ displayColorPicker: !this.state.displayColorPicker });
@@ -32,14 +36,17 @@ class SketchColor extends Component {
   };
 
   handleChange = (color) => {
-    let obj = {
+    let objColor = JSON.stringify({
       r: color.rgb.r,
       g: color.rgb.g,
       b: color.rgb.b,
       a: color.rgb.a,
+    });
+    let objId = {
+      projectId: this.props.projectId,
+      eventId: this.props.eventId,
     };
-   console.log(store.getState().progressPlan.eventId); 
-    store.dispatch(addColor(obj, this.colorRef));
+    store.dispatch(addColor(objColor, objId, this.colorRef));
     this.setState({ color: color.rgb });
   };
 
@@ -62,12 +69,9 @@ class SketchColor extends Component {
     });
 
     return (
-      <div ref={this.colorRef} style={styles.popover} >
+      <div ref={this.colorRef} style={styles.popover}>
         <div onClick={this.handleClose} />
-        <SketchPicker
-          color={this.state.color}
-          onChange={this.handleChange}
-        />
+        <SketchPicker color={this.state.color} onChange={this.handleChange} />
       </div>
     );
   }
