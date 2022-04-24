@@ -7,9 +7,9 @@ import store from "../../../../redux/store";
 class SketchColor extends Component {
   constructor(props) {
     super(props);
-   
+
     this.colorRef = createRef();
-   
+
     // this.defaultObj = {
     //   r: "74",
     //   g: "144",
@@ -20,7 +20,7 @@ class SketchColor extends Component {
     //   projectId: null,
     //   eventId: null,
     // };
-// console.log(111111111);
+
     store.dispatch(addColorRef(this.colorRef));
   }
 
@@ -38,7 +38,6 @@ class SketchColor extends Component {
   };
 
   handleChange = (color) => {
-
     let objColor = JSON.stringify({
       r: color.rgb.r,
       g: color.rgb.g,

@@ -210,7 +210,7 @@ export const removeProgress = (progressId, projectId) => (dispatch) => {
 
                 return Promise.reject();
             })
-    }else{
+    } else {
         dispatch({
             type: messageConstants.ERROR,
             payload: "Can't delete last one !!!",
@@ -235,6 +235,16 @@ export const addColorRef = (ref) => ({
     payload: ref
 })
 
+export const addTitleAdd = (ref) => ({
+    type: progressPlanConstants.TITLE_REF,
+    payload: ref
+})
+
+export const employeeAdd = (ref) => ({
+    type: progressPlanConstants.EMPLOYEE_REF,
+    payload: ref
+})
+
 export const addDate = (date) => ({
     type: progressPlanConstants.DATE,
     payload: date,
@@ -250,7 +260,7 @@ export const nextMonth = (b) => ({
     payload: b
 })
 
-export const sendId = (id) => ({
+export const progressData = (id, name) => ({
     type: progressPlanConstants.EVENT_ID,
-    payload: id
+    payload: { id: id, title: name }
 })

@@ -28,7 +28,21 @@ export default function progressPlan(state = initialState, action) {
             let minus = state.skipMonth + payload
             return { ...state, skipMonth: minus };
         case progressPlanConstants.EVENT_ID:
-            return { ...state, eventId: payload };
+            return {
+                ...state,
+                eventId: payload.id,
+                title: payload.title
+            };
+        case progressPlanConstants.TITLE_REF:
+            return {
+                ...state,
+                titleRef: payload
+            }
+        case progressPlanConstants.EMPLOYEE_REF:
+            return {
+                ...state,
+                employeeRef: payload
+            }
         default:
             return state;
     }

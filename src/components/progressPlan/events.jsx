@@ -3,7 +3,7 @@ import Draggable from "react-draggable";
 import {
   changeDate,
   draggableDate,
-  sendId,
+  progressData,
 } from "../../redux/actions/progressPlan";
 import store from "../../redux/store";
 import { getDatesBetweenDates, dragDate, resizeDate } from "./date/date";
@@ -205,7 +205,12 @@ function Events({ event, container, id }) {
 
   const onContextMenu = (e) => {
     store.dispatch(projectIdToState(id));
-    store.dispatch(sendId(e.target.offsetParent.id));
+    store.dispatch(
+      progressData(
+        e.target.offsetParent.id,
+        e.target.offsetParent.attributes[3].value
+      )
+    );
     const contextMenu = document.querySelector("#contextMenu");
     document.addEventListener("contextmenu", (e) => e.preventDefault());
     const { pageX, pageY } = e;
@@ -231,6 +236,7 @@ function Events({ event, container, id }) {
         style={colorBackground}
         id={progressPlanId}
         index={index}
+        name={event.name}
         onContextMenu={onContextMenu}
       >
         {/* <span className="eventName">{event.name}</span> */}

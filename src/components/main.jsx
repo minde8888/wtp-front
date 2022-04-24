@@ -17,9 +17,9 @@ import Preloader from "./preloader/preloader";
 // import EmployeeProfile from "./user/employee/employeeProfile";
 // import Home from "./home/home";
 
-const EmployeesToProject = lazy(() =>
-  import("./progressPlan/addEmployees/employeesToProject")
-);
+// const EmployeesToProject = lazy(() =>
+//   import("./progressPlan/addEmployees/employeesToProject")
+// );
 const TopTable = lazy(() => import("./project/topTable"));
 const Login = lazy(() => import("./auth/login/login"));
 const NavBar = lazy(() => import("./nav/nav"));
