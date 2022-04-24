@@ -1,8 +1,13 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import store from "../../../redux/store";
-import { updateProgress, removeProgress } from "../../../redux/actions/progressPlan";
+import {
+  updateProgress,
+  removeProgress,
+} from "../../../redux/actions/progressPlan";
 import SketchColor from "./colorPicker/colorPicker";
+import ChangeTitle from "./changeTitle/changeTitle";
+import AddEmployees from "./addEmployees/addEmployees";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import {
   IoAddCircleOutline,
@@ -12,34 +17,49 @@ import {
 } from "react-icons/io5";
 import styles from "./rightClickMenus.module.scss";
 
-
 let updateObj = null;
 
 function RightClickMenu(props) {
-
   const wrapperRef = useRef(null);
-  const { colorRef, eventId, projectId, updateProgress } = props;
-  useOutsideAlerter(wrapperRef, colorRef);
+  const [state, setState] = useState({ position: null });
+  const { position } = state;
+  const {
+    employees,
+    colorRef,
+    titleRef,
+    employeeRef,
+    eventId,
+    title,
+    projectId,
+    updateProgress,
+    dispatch,
+  } = props;
+
+  useOutsideAlerter(wrapperRef, colorRef, titleRef);
   updateObj = updateProgress;
 
-  const onAdd = (e) => {
-    console.log(props);
-    console.log(e);
+  const onAdd = () => {
+    titleRef.current.style.display = "block";
+    setState({
+      position: wrapperRef.current.getBoundingClientRect(),
+      isTitle: true,
+    });
   };
 
   const onDelete = () => {
-    props.dispatch(removeProgress(eventId, projectId))
+    dispatch(removeProgress(eventId, projectId));
+    wrapperRef.current.style.display = "none";
   };
 
   const onColor = () => {
-    props.colorRef.current.style.display = "block";
+    colorRef.current.style.display = "block";
     const { y, right } = wrapperRef.current.getBoundingClientRect();
-    props.colorRef.current.style.top = `${y}px`;
-    props.colorRef.current.style.left = `${right}px`;
+    colorRef.current.style.top = `${y}px`;
+    colorRef.current.style.left = `${right}px`;
   };
 
   const onEmployee = (e) => {
-    console.log(e);
+    console.log(employeeRef);
   };
 
   const onInfo = (e) => {
@@ -71,22 +91,33 @@ function RightClickMenu(props) {
         </div>
       </div>
       <SketchColor projectId={projectId} eventId={eventId} />
+      <ChangeTitle
+        position={position}
+        projectId={projectId}
+        eventId={eventId}
+        wrapperRef={wrapperRef}
+        title={title}
+      />
+      <AddEmployees employees={employees} />
     </>
   );
 }
 
-function useOutsideAlerter(ref, colorRef) {
+function useOutsideAlerter(ref, colorRef, titleRef) {
   useEffect(() => {
     function handleClickOutside(event) {
       if (
         ref.current &&
         !ref.current.contains(event.target) &&
-        !colorRef.current.contains(event.target)
+        !colorRef.current.contains(event.target) &&
+        !titleRef.current.contains(event.target)
       ) {
         ref.current.style.display = "none";
         colorRef.current.style.display = "none";
+        titleRef.current.style.display = "none";
+
         if (updateObj !== undefined) {
-          store.dispatch(updateProgress(updateObj))
+          store.dispatch(updateProgress(updateObj));
         }
       }
     }
@@ -94,19 +125,23 @@ function useOutsideAlerter(ref, colorRef) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref, colorRef]);
+  }, [ref, colorRef, titleRef]);
 }
 
 function mapStateToProps(state) {
-
-  const { eventId } = state.progressPlan;
+  const { eventId, title, titleRef, employeeRef } = state.progressPlan;
   const { projectId, colorRef, updateProgress } = state.project;
+  const { employees } = state.user;
 
   return {
     eventId,
+    title,
     colorRef,
     projectId,
-    updateProgress
+    updateProgress,
+    titleRef,
+    employeeRef,
+    employees,
   };
 }
 

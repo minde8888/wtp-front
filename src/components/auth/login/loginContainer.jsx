@@ -54,8 +54,7 @@ class LoginContainer extends Component {
         }}
         validationSchema={validate}
         onSubmit={(values) => {
-          console.log(values);
-          this.setState({
+           this.setState({
               email: values.email,
             password: values.password,
           });

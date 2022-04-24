@@ -2,9 +2,13 @@ export const progressPlanConstants = {
 
     RESIZE: 'RESIZE',
     COLOR: "COLOR",
-    COLOR_REF:"COLOR_REF",
-    DATE: "DATE",
+
     REF_CONTAINER: "REF_CONTAINER",
+    COLOR_REF: "COLOR_REF",
+    TITLE_REF: "TITLE_REF",
+    EMPLOYEE_REF: "EMPLOYEE_REF",
+
+    DATE: "DATE",
     RESIZE_DATE: "RESIZE_DATE",
     DRAGGABLE_DATA: "DRAGGABLE_DATA",
 
@@ -15,5 +19,5 @@ export const progressPlanConstants = {
 
     EVENT_ID: "EVENT_ID",
 
-    DELETE_PROGRESS:"DELETE_PROGRESS"
+    DELETE_PROGRESS: "DELETE_PROGRESS"
 };
