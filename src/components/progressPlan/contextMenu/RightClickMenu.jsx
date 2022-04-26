@@ -39,6 +39,7 @@ function RightClickMenu(props) {
   updateObj = updateProgress;
 
   const onAdd = () => {
+    colorRef.current.style.display = "none";
     titleRef.current.style.display = "block";
     setState({
       position: wrapperRef.current.getBoundingClientRect(),
@@ -52,6 +53,7 @@ function RightClickMenu(props) {
   };
 
   const onColor = () => {
+    titleRef.current.style.display = "none";
     colorRef.current.style.display = "block";
     const { y, right } = wrapperRef.current.getBoundingClientRect();
     colorRef.current.style.top = `${y}px`;
