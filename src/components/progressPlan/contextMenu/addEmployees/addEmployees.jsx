@@ -3,15 +3,11 @@ import store from "../../../../redux/store";
 import { employeeAdd } from "../../../../redux/actions/progressPlan";
 import { MultiSelect } from "react-multi-select-component";
 
-const options = [
-  { label: "Grapes 🍇", value: "grapes" },
-  { label: "Mango 🥭", value: "mango" },
-  { label: "Strawberry 🍓", value: "strawberry", disabled: true },
-];
-
 function AddEmployees({ employees }) {
-
-  
+  let options = employees.map((e) => {
+    return { label: e.name + " " + e.surname, value: e.id };
+  });
+  console.log(options);
   const employeeRef = useRef(null);
   store.dispatch(employeeAdd(employeeRef));
 
@@ -19,10 +15,9 @@ function AddEmployees({ employees }) {
 
   return (
     <div>
-      <h1>Select Fruits</h1>
       <pre>{JSON.stringify(selected)}</pre>
       <MultiSelect
-        options={employees}
+        options={options}
         value={selected}
         onChange={setSelected}
         labelledBy="Select"
