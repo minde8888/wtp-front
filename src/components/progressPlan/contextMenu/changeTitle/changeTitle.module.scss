@@ -1,47 +1,55 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap');
-
 .container {
-  position     : relative;
-  width        : 150px;
+  position: relative;
+  width: 200px;
+  padding: 4px;
   border-radius: 5px;
-  padding      : 4px;
-  box-sizing   : border-box;
-  background   : #ecf0f3;
-  z-index      : 2;
-  border       : 1px solid rgb(194, 191, 191);
+  background: #ecf0f3;
+  z-index: 2;
+  outline: 1px solid #cccccc;
+  transition: 0.7s all ease-in;
 
-  .title {
-    font-weight: 700;
-    font-size  : 14px;
-    color      : #5e5e5e;
-    text-align : center;
-  }
-}
+  .border {
+    border: 1px solid #cccccc;
+    padding: 3px;
+    border-radius: 5px;
+    z-index: 3;
+    background: rgb(250, 249, 249);
 
-.inputs {
-  text-align: left;
-  margin    : 5px 0 5px 0;
-
-  input {
-    display   : block;
-    width     : 100%;
-    padding   : 0;
-    border    : none;
-    outline   : none;
-    box-sizing: border-box;
+    .title {
+      font-weight: 700;
+      font-size: 14px;
+      color: #858282;
+      text-align: center;
+    }
   }
 
-  input::placeholder {
-    color: gray;
+  .inputs {
+    text-align: left;
+    margin: 5px 0 5px 0;
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 0;
+      border: none;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    input::placeholder {
+      color: gray;
+    }
+
+    input {
+      background: #ecf0f3;
+      padding: 4px;
+      padding-left: 4px;
+      height: 24px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #cccccc;
+      box-shadow: inset 6px 6px 6px #eff1f3, inset -6px -6px 6px white;
+    }
   }
 
-  input {
-    background   : #ecf0f3;
-    padding      : 4px;
-    padding-left : 20px;
-    height       : 24px;
-    font-size    : 14px;
-    border-radius: 50px;
-    box-shadow   : inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
-  }
 }

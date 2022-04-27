@@ -35,13 +35,15 @@ function ChangeTitle({ wrapperRef, eventId, projectId, position, title }) {
       className={styles.container}
       style={stylePosition !== null ? stylePosition.position : none}
     >
-      <div className={styles.title}>{title}</div>
-      <div className={styles.inputs}>
-        <input
-          type="text"
-          placeholder="Project title"
-          onChange={onChangeTitle}
-        />
+      <div className={styles.border}>
+        <div className={styles.title}>{title}</div>
+        <div className={styles.inputs}>
+          <input
+            type="text"
+            placeholder="Project title"
+            onChange={onChangeTitle}
+          />
+        </div>
       </div>
     </div>
   );

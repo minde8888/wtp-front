@@ -43,6 +43,12 @@ export default function progressPlan(state = initialState, action) {
                 ...state,
                 employeeRef: payload
             }
+        case progressPlanConstants.INFO_REF:
+            console.log(payload);
+            return {
+                ...state,
+                infoRef: payload
+            }
         default:
             return state;
     }
