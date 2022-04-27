@@ -235,7 +235,7 @@ export const addColorRef = (ref) => ({
     payload: ref
 })
 
-export const addinfoRef = (ref) =>({
+export const addInfoRef = (ref) =>({
     type: progressPlanConstants.INFO_REF,
     payload: ref
 })

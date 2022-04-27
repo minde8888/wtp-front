@@ -23,8 +23,10 @@ let updateObj = null;
 function RightClickMenu(props) {
   const wrapperRef = useRef(null);
   const [state, setState] = useState({ position: null });
+
   const { position } = state;
   const {
+    data,
     employees,
     colorRef,
     titleRef,
@@ -37,7 +39,7 @@ function RightClickMenu(props) {
     dispatch,
   } = props;
 
-  useOutsideAlerter(wrapperRef, colorRef, titleRef, employeeRef);
+  useOutsideAlerter(wrapperRef, colorRef, titleRef, employeeRef, infoRef);
   updateObj = updateProgress;
 
   const onAdd = () => {
@@ -58,6 +60,7 @@ function RightClickMenu(props) {
   const onColor = () => {
     titleRef.current.style.display = "none";
     employeeRef.current.style.display = "none";
+    infoRef.current.style.display = "none";
     colorRef.current.style.display = "block";
     const { y, right } = wrapperRef.current.getBoundingClientRect();
     colorRef.current.style.top = `${y}px`;
@@ -67,6 +70,7 @@ function RightClickMenu(props) {
   const onEmployee = () => {
     colorRef.current.style.display = "none";
     titleRef.current.style.display = "none";
+    infoRef.current.style.display = "none";
     employeeRef.current.style.display = "block";
     const { y, right } = wrapperRef.current.getBoundingClientRect();
     employeeRef.current.style.top = `${y}px`;
@@ -74,7 +78,14 @@ function RightClickMenu(props) {
   };
 
   const onInfo = (e) => {
-    console.log(infoRef);
+    console.log(e);
+    colorRef.current.style.display = "none";
+    titleRef.current.style.display = "none";
+    employeeRef.current.style.display = "none";
+    infoRef.current.style.display = "block";
+    const { y, right } = wrapperRef.current.getBoundingClientRect();
+    infoRef.current.style.top = `${y}px`;
+    infoRef.current.style.left = `${right}px`;
   };
 
   return (
@@ -110,12 +121,12 @@ function RightClickMenu(props) {
         title={title}
       />
       <AddEmployees employees={employees} />
-      <Info />
+      <Info manager={data} employees={employees}/>
     </>
   );
 }
 
-function useOutsideAlerter(ref, colorRef, titleRef, employeeRef) {
+function useOutsideAlerter(ref, colorRef, titleRef, employeeRef, infoRef) {
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -123,12 +134,14 @@ function useOutsideAlerter(ref, colorRef, titleRef, employeeRef) {
         !ref.current.contains(event.target) &&
         !colorRef.current.contains(event.target) &&
         !titleRef.current.contains(event.target) &&
-        !employeeRef.current.contains(event.target)
+        !employeeRef.current.contains(event.target) &&
+        !infoRef.current.contains(event.target)
       ) {
         ref.current.style.display = "none";
         colorRef.current.style.display = "none";
         titleRef.current.style.display = "none";
         employeeRef.current.style.display = "none";
+        infoRef.current.style.display = "none";
         if (updateObj !== undefined) {
           store.dispatch(updateProgress(updateObj));
         }
@@ -138,13 +151,13 @@ function useOutsideAlerter(ref, colorRef, titleRef, employeeRef) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref, colorRef, titleRef, employeeRef]);
+  }, [ref, colorRef, titleRef, employeeRef, infoRef]);
 }
 
 function mapStateToProps(state) {
   const { eventId, title, titleRef, employeeRef, infoRef } = state.progressPlan;
   const { projectId, colorRef, updateProgress } = state.project;
-  const { employees } = state.user;
+  const { employees, data } = state.user;
 
   return {
     eventId,
@@ -156,6 +169,7 @@ function mapStateToProps(state) {
     employeeRef,
     infoRef,
     employees,
+    data
   };
 }
 
