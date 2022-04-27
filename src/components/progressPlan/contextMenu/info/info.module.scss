@@ -1,0 +1,10 @@
+.container{
+    position: relative;
+    width: 150px;
+    padding: 4px;
+    border-radius: 5px;
+    background: #ecf0f3;
+    z-index: 2;
+    outline: 1px solid #cccccc;
+    transition: 0.7s all ease-in;
+}

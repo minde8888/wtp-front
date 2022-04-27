@@ -8,6 +8,7 @@ import {
 import SketchColor from "./colorPicker/colorPicker";
 import ChangeTitle from "./changeTitle/changeTitle";
 import AddEmployees from "./addEmployees/addEmployees";
+import Info from "./info/info";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import {
   IoAddCircleOutline,
@@ -28,6 +29,7 @@ function RightClickMenu(props) {
     colorRef,
     titleRef,
     employeeRef,
+    infoRef,
     eventId,
     title,
     projectId,
@@ -35,11 +37,12 @@ function RightClickMenu(props) {
     dispatch,
   } = props;
 
-  useOutsideAlerter(wrapperRef, colorRef, titleRef);
+  useOutsideAlerter(wrapperRef, colorRef, titleRef, employeeRef);
   updateObj = updateProgress;
 
   const onAdd = () => {
     colorRef.current.style.display = "none";
+    employeeRef.current.style.display = "none";
     titleRef.current.style.display = "block";
     setState({
       position: wrapperRef.current.getBoundingClientRect(),
@@ -54,18 +57,24 @@ function RightClickMenu(props) {
 
   const onColor = () => {
     titleRef.current.style.display = "none";
+    employeeRef.current.style.display = "none";
     colorRef.current.style.display = "block";
     const { y, right } = wrapperRef.current.getBoundingClientRect();
     colorRef.current.style.top = `${y}px`;
     colorRef.current.style.left = `${right}px`;
   };
 
-  const onEmployee = (e) => {
-    console.log(employeeRef);
+  const onEmployee = () => {
+    colorRef.current.style.display = "none";
+    titleRef.current.style.display = "none";
+    employeeRef.current.style.display = "block";
+    const { y, right } = wrapperRef.current.getBoundingClientRect();
+    employeeRef.current.style.top = `${y}px`;
+    employeeRef.current.style.left = `${right}px`;
   };
 
   const onInfo = (e) => {
-    console.log(e);
+    console.log(infoRef);
   };
 
   return (
@@ -101,23 +110,25 @@ function RightClickMenu(props) {
         title={title}
       />
       <AddEmployees employees={employees} />
+      <Info />
     </>
   );
 }
 
-function useOutsideAlerter(ref, colorRef, titleRef) {
+function useOutsideAlerter(ref, colorRef, titleRef, employeeRef) {
   useEffect(() => {
     function handleClickOutside(event) {
       if (
         ref.current &&
         !ref.current.contains(event.target) &&
         !colorRef.current.contains(event.target) &&
-        !titleRef.current.contains(event.target)
+        !titleRef.current.contains(event.target) &&
+        !employeeRef.current.contains(event.target)
       ) {
         ref.current.style.display = "none";
         colorRef.current.style.display = "none";
         titleRef.current.style.display = "none";
-
+        employeeRef.current.style.display = "none";
         if (updateObj !== undefined) {
           store.dispatch(updateProgress(updateObj));
         }
@@ -127,11 +138,11 @@ function useOutsideAlerter(ref, colorRef, titleRef) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref, colorRef, titleRef]);
+  }, [ref, colorRef, titleRef, employeeRef]);
 }
 
 function mapStateToProps(state) {
-  const { eventId, title, titleRef, employeeRef } = state.progressPlan;
+  const { eventId, title, titleRef, employeeRef, infoRef } = state.progressPlan;
   const { projectId, colorRef, updateProgress } = state.project;
   const { employees } = state.user;
 
@@ -143,6 +154,7 @@ function mapStateToProps(state) {
     updateProgress,
     titleRef,
     employeeRef,
+    infoRef,
     employees,
   };
 }

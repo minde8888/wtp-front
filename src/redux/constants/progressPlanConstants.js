@@ -7,6 +7,7 @@ export const progressPlanConstants = {
     COLOR_REF: "COLOR_REF",
     TITLE_REF: "TITLE_REF",
     EMPLOYEE_REF: "EMPLOYEE_REF",
+    INFO_REF:"INFO_REF",
 
     DATE: "DATE",
     RESIZE_DATE: "RESIZE_DATE",
