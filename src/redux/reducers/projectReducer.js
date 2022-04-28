@@ -27,7 +27,6 @@ export default function project(state = initialState, action) {
 
     switch (type) {
         case projectConstants.PROJECT_DATA:
-            console.log(payload);
             return {
                 projectData: payload,
                 projectIsLoaded: true,

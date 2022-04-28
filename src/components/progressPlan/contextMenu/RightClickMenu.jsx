@@ -4,7 +4,7 @@ import store from "../../../redux/store";
 import {
   updateProgress,
   removeProgress,
-  addEmployeeToProgress
+  addEmployeeToProgress,
 } from "../../../redux/actions/progressPlan";
 import SketchColor from "./colorPicker/colorPicker";
 import ChangeTitle from "./changeTitle/changeTitle";
@@ -42,13 +42,12 @@ function RightClickMenu(props) {
     employeeIdProgress,
     dispatch,
   } = props;
- 
+
   useOutsideAlerter(wrapperRef, colorRef, titleRef, employeeRef, infoRef);
 
   employeeId = employeeIdProgress;
   updateObj = updateProgress;
 
-  
   const onAdd = () => {
     colorRef.current.style.display = "none";
     employeeRef.current.style.display = "none";
@@ -128,7 +127,12 @@ function RightClickMenu(props) {
         title={title}
       />
       <AddEmployees employees={employees} />
-      <Info eventId={eventId} projectId={projectId} manager={data} project={projectData} />
+      <Info
+        eventId={eventId}
+        projectId={projectId}
+        manager={data}
+        project={projectData}
+      />
     </>
   );
 }
@@ -165,7 +169,8 @@ function useOutsideAlerter(ref, colorRef, titleRef, employeeRef, infoRef) {
 }
 
 function mapStateToProps(state) {
-  const { eventId, title, titleRef, employeeRef, infoRef, employeeIdProgress } = state.progressPlan;
+  const { eventId, title, titleRef, employeeRef, infoRef, employeeIdProgress } =
+    state.progressPlan;
   const { projectId, colorRef, updateProgress, projectData } = state.project;
   const { employees, data } = state.user;
 
@@ -179,9 +184,9 @@ function mapStateToProps(state) {
     employeeRef,
     infoRef,
     employees,
-    data, 
+    data,
     projectData,
-    employeeIdProgress
+    employeeIdProgress,
   };
 }
 
