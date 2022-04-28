@@ -19,9 +19,9 @@ function ProgressPlan(props) {
   let { progressPlanId } = useParams();
   let dateNow = new Date();
   const containerRef = useRef([]);
-  const data = props.data.find((p) => p.projectId === progressPlanId);
+  const data = props.projectData.find((p) => p.projectId === progressPlanId);
   const progress = data.progressPlan.$values;
-  let { skipMonth} = props;
+  let { skipMonth } = props;
 
   let daysInMonth = daysMonth(skipMonth);
   let daysInPrevMonth = daysPrevMonth(skipMonth);
@@ -139,7 +139,7 @@ function ProgressPlan(props) {
                   containerRef={containerRef}
                   events={events}
                   id={progressPlanId}
-        
+
                 />
               );
             })}
@@ -216,8 +216,8 @@ function RenderTopMonthDays({
   ) {
     return (
       <div
-        className={`days ${dayDateInColons(dayIndex).toString() === 
-          dateNow.toString() && "today" }`}
+        className={`days ${dayDateInColons(dayIndex).toString() ===
+          dateNow.toString() && "today"}`}
       >
         {dayIndex - daysInPrevMonth}
       </div>
@@ -235,10 +235,10 @@ function RenderTopMonthDays({
 
 function mapStateToProps(state) {
 
-  const { data } = state.project;
+  const { projectData } = state.project;
   const { skipMonth } = state.progressPlan;
   return {
-    data,
+    projectData,
     skipMonth,
   };
 }

@@ -217,6 +217,7 @@ function Events({ event, container, id }) {
     contextMenu.style.top = `${pageY}px`;
     contextMenu.style.left = `${pageX}px`;
     contextMenu.style.display = "block";
+    // store.dispatch(eventId(e.target.offsetParent.id))
   };
 
   /*-----------------------Context Menu End---------------------------*/
