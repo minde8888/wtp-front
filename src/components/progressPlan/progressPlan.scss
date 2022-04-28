@@ -1,10 +1,10 @@
 .month {
-    display: grid;
+    display              : grid;
     grid-template-columns: 1fr 1fr 1fr;
-    margin: 0 0 25px 0;
-    font-size: 20px;
-    font-weight: 600;
-    color: rgb(70, 62, 62);
+    margin               : 0 0 25px 0;
+    font-size            : 20px;
+    font-weight          : 600;
+    color                : rgb(70, 62, 62);
 
     div {
         text-align: center;
@@ -14,29 +14,29 @@
 .containerScroll {
 
     .cell {
-        border: 1px #dde1e7 solid;
-        height: 20px;
+        border  : 1px #dde1e7 solid;
+        height  : 20px;
         position: relative;
 
         .days {
-            position: absolute;
-            bottom: 20px;
-            width: 30px;
-            text-align: center;
-            font-size: 14px;
+            position   : absolute;
+            bottom     : 20px;
+            width      : 30px;
+            text-align : center;
+            font-size  : 14px;
             font-weight: 600;
-            color: rgb(70, 62, 62);
+            color      : rgb(70, 62, 62);
         }
 
         .event {
-            display: flex;
+            display       : flex;
             flex-direction: row;
-            height: 18px;
-            user-Select: none;
-            position: absolute;
-            z-index: 1;
-            cursor: grab;
-            left: -1px;
+            height        : 18px;
+            user-Select   : none;
+            position      : absolute;
+            z-index       : 1;
+            cursor        : grab;
+            left          : -1px;
 
             .range {
                 width: 30px;
@@ -44,32 +44,32 @@
 
             .eventName {
                 position: absolute;
-                color: rgb(34, 33, 33);
-                z-index: 3;
-                right: 0px;
-                top: -5px;
+                color   : rgb(34, 33, 33);
+                z-index : 3;
+                right   : 0px;
+                top     : -5px;
             }
 
             .left {
-                position: absolute;
-                z-index: 1;
-                cursor: ew-resize;
+                position        : absolute;
+                z-index         : 1;
+                cursor          : ew-resize;
                 background-color: rgb(117, 110, 110);
-                float: left;
-                height: 18px;
-                width: 5px;
+                float           : left;
+                height          : 18px;
+                width           : 5px;
             }
 
             .right {
-                position: absolute;
+                position        : absolute;
                 background-color: rgb(117, 110, 110);
-                z-index: 1;
-                margin: 0 0 25px 0;
-                cursor: ew-resize;
-                height: 18px;
-                float: right;
-                width: 5px;
-                right: 0px;
+                z-index         : 1;
+                margin          : 0 0 25px 0;
+                cursor          : ew-resize;
+                height          : 18px;
+                float           : right;
+                width           : 5px;
+                right           : 0px;
             }
         }
     }
@@ -82,5 +82,5 @@
 
 .empty {
     background-color: #dde1e7;
-    height: 20px;
+    height          : 20px;
 }

@@ -5,14 +5,17 @@ import Select from "react-select";
 import style from "./addEmployees.module.scss";
 
 function AddEmployees({ employees }) {
-  let options = employees.map((e) => {
-    return { label: e.name + " " + e.surname, value: e.id };
-  });
 
   const employeeRef = useRef(null);
   store.dispatch(employeeAdd(employeeRef));
-
   const [selectedValue, setSelectedValue] = useState([]);
+
+  if (employees === undefined) {
+    return null
+  }
+  let options = employees.map((e) => {
+    return { label: e.name + " " + e.surname, value: e.id };
+  });
 
   const handleChange = (e) => {
     setSelectedValue(Array.isArray(e) ? e.map((x) => x.value) : []);
