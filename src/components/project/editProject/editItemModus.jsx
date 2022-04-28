@@ -31,7 +31,7 @@ class EditItemModus extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.data.length !== this.props.data.length) {
+    if (prevProps.projectData.length !== this.props.projectData.length) {
       this.setState({ newId: [] });
     }
   }
@@ -63,10 +63,11 @@ class EditItemModus extends Component {
   };
 
   render = () => {
-    const { data, isSelectedId } = this.props;
+    const { projectData, isSelectedId } = this.props;
+    console.log(this.props);
     return (
       <>
-        {data.map((item, k) => (
+        {projectData.map((item, k) => (
           <tr key={k} className="justify-content-start">
             <td className="bs-checkbox">
               <label>
@@ -262,7 +263,7 @@ class EditItemModus extends Component {
 // }
 
 function mapStateToProps(state) {
-  const { isSelectedId, data } = state.project;
-  return { isSelectedId, data };
+  const { isSelectedId, projectData } = state.project;
+  return { isSelectedId, projectData };
 }
 export default connect(mapStateToProps)(EditItemModus);

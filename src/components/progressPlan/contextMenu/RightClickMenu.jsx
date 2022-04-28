@@ -4,6 +4,7 @@ import store from "../../../redux/store";
 import {
   updateProgress,
   removeProgress,
+  addEmployeeToProgress
 } from "../../../redux/actions/progressPlan";
 import SketchColor from "./colorPicker/colorPicker";
 import ChangeTitle from "./changeTitle/changeTitle";
@@ -19,6 +20,7 @@ import {
 import styles from "./rightClickMenus.module.scss";
 
 let updateObj = null;
+let employeeId = null;
 
 function RightClickMenu(props) {
   const wrapperRef = useRef(null);
@@ -27,6 +29,7 @@ function RightClickMenu(props) {
   const { position } = state;
   const {
     data,
+    projectData,
     employees,
     colorRef,
     titleRef,
@@ -36,15 +39,20 @@ function RightClickMenu(props) {
     title,
     projectId,
     updateProgress,
+    employeeIdProgress,
     dispatch,
   } = props;
-
+ 
   useOutsideAlerter(wrapperRef, colorRef, titleRef, employeeRef, infoRef);
+
+  employeeId = employeeIdProgress;
   updateObj = updateProgress;
 
+  
   const onAdd = () => {
     colorRef.current.style.display = "none";
     employeeRef.current.style.display = "none";
+    infoRef.current.style.display = "none";
     titleRef.current.style.display = "block";
     setState({
       position: wrapperRef.current.getBoundingClientRect(),
@@ -77,8 +85,7 @@ function RightClickMenu(props) {
     employeeRef.current.style.left = `${right}px`;
   };
 
-  const onInfo = (e) => {
-    console.log(e);
+  const onInfo = () => {
     colorRef.current.style.display = "none";
     titleRef.current.style.display = "none";
     employeeRef.current.style.display = "none";
@@ -121,7 +128,7 @@ function RightClickMenu(props) {
         title={title}
       />
       <AddEmployees employees={employees} />
-      <Info manager={data} employees={employees}/>
+      <Info eventId={eventId} projectId={projectId} manager={data} project={projectData} />
     </>
   );
 }
@@ -145,6 +152,9 @@ function useOutsideAlerter(ref, colorRef, titleRef, employeeRef, infoRef) {
         if (updateObj !== undefined) {
           store.dispatch(updateProgress(updateObj));
         }
+        if (employeeId !== undefined) {
+          store.dispatch(addEmployeeToProgress(employeeId));
+        }
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -155,8 +165,8 @@ function useOutsideAlerter(ref, colorRef, titleRef, employeeRef, infoRef) {
 }
 
 function mapStateToProps(state) {
-  const { eventId, title, titleRef, employeeRef, infoRef } = state.progressPlan;
-  const { projectId, colorRef, updateProgress } = state.project;
+  const { eventId, title, titleRef, employeeRef, infoRef, employeeIdProgress } = state.progressPlan;
+  const { projectId, colorRef, updateProgress, projectData } = state.project;
   const { employees, data } = state.user;
 
   return {
@@ -169,7 +179,9 @@ function mapStateToProps(state) {
     employeeRef,
     infoRef,
     employees,
-    data
+    data, 
+    projectData,
+    employeeIdProgress
   };
 }
 

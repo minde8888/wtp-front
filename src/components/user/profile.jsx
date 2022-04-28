@@ -6,7 +6,7 @@ import styles from "./profile.module.scss";
 
 const Profile = (props) => {
   const { data, width, height } = props;
-console.log(data);
+
   return (
     <div className="container">
       {data.role === "Manager" && (

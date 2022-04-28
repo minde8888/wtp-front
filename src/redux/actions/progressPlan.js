@@ -180,6 +180,12 @@ export const updateProgress = (obj) => (dispatch) => {
         })
 }
 
+export const addEmployeeToProgress = (array) => (dispatch) => {
+  return  ProgressPlanService.updateEventPosition(obj).then(() => {
+        ///tavrkti
+    })
+}
+
 export const removeProgress = (progressId, projectId) => (dispatch) => {
 
     const data = JSON.parse(localStorage.getItem('projects'));
@@ -235,7 +241,7 @@ export const addColorRef = (ref) => ({
     payload: ref
 })
 
-export const addInfoRef = (ref) =>({
+export const addInfoRef = (ref) => ({
     type: progressPlanConstants.INFO_REF,
     payload: ref
 })
@@ -268,4 +274,9 @@ export const nextMonth = (b) => ({
 export const progressData = (id, name) => ({
     type: progressPlanConstants.EVENT_ID,
     payload: { id: id, title: name }
+})
+
+export const employeeToProgress = (id) => ({
+    type: progressPlanConstants.ADD_EMPLOYEE,
+    payload: id
 })

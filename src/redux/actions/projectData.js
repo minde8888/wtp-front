@@ -13,7 +13,7 @@ export const getAllProjects = () => (dispatch) => {
         (data) => {
             dispatch({
                 type: projectConstants.PROJECT_DATA,
-                data: data.data.$values,
+                payload: data.data.$values,
             });
             localStorage.setItem('projects', JSON.stringify(data.data.$values));
             return Promise.resolve();
@@ -43,7 +43,7 @@ export const addNewProject = (obj) => (dispatch) => {
             dispatch({
                 type: projectConstants.ADD_PROJECT,
                 payload: true,
-                data: response.data
+                projectData: response.data
             })
             dispatch({
                 type: messageConstants.SET_MESSAGE,
