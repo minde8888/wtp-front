@@ -17,12 +17,21 @@ class ProgressPlanService {
     return api.post(USER_URL, formData);
   }
 
-  updateEventPosition(array) {
-    return api.put(USER_URL + '/AddEmployee', array);
+  updateEventPosition(obj) {
+    // console.log(obj);
+    let formData = new FormData();
+    for (var key in obj) {
+      formData.append(key, obj[key])
+    }
+    // formData.append('EmployeesIds', JSON.stringify(array))
+    console.log(Object.fromEntries(formData))
+    return api.put(USER_URL + '/update', formData);
   }
 
+  // formData.append('EmployeesIds', JSON.stringify(array));
+
   removeProgressPlan(id) {
-    return api.delete(USER_URL + '/Delete/'+ id);
+    return api.delete(USER_URL + '/Delete/' + id);
   }
 }
 

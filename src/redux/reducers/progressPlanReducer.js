@@ -60,11 +60,6 @@ export default function progressPlan(state = initialState, action) {
                 ...state,
                 infoRef: payload
             }
-        case progressPlanConstants.ADD_EMPLOYEE:
-            return {
-                ...state,
-                employeeIdProgress: payload
-            }
         default:
             return state;
     }

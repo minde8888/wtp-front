@@ -5,7 +5,7 @@ import { employeeToProgress } from "../../../../redux/actions/progressPlan";
 import Select from "react-select";
 import style from "./addEmployees.module.scss";
 
-function AddEmployees({ employees }) {
+function AddEmployees({ employees, eventId, projectId }) {
 
   const employeeRef = useRef(null);
   store.dispatch(employeeAdd(employeeRef));
@@ -20,12 +20,9 @@ function AddEmployees({ employees }) {
 
   const handleChange = (e) => {
     setSelectedValue(Array.isArray(e) ? e.map((x) => x.value) : []);
+    store.dispatch(employeeToProgress(Array.isArray(e) ? e.map((x) => x.value) : [], eventId, projectId))
   };
 
-  if (selectedValue.length !== 0) {
-    store.dispatch(employeeToProgress(selectedValue))
-  }
-  
   return (
     <div ref={employeeRef} className={style.container}>
       <Select
