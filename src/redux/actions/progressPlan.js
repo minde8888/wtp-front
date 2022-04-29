@@ -181,7 +181,7 @@ export const updateProgress = (obj) => (dispatch) => {
 }
 
 export const addEmployeeToProgress = (array) => (dispatch) => {
-  return  ProgressPlanService.updateEventPosition(obj).then(() => {
+  return  ProgressPlanService.updateEventPosition(array).then(() => {
         ///tavrkti
     })
 }

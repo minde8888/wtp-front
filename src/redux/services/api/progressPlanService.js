@@ -17,13 +17,8 @@ class ProgressPlanService {
     return api.post(USER_URL, formData);
   }
 
-  updateEventPosition(obj) {
-    let formData = new FormData();
-    for (var key in obj) {
-      formData.append(key, obj[key])
-    }
-    console.log(Object.fromEntries(formData))
-    return api.put(USER_URL + '/Update', formData);
+  updateEventPosition(array) {
+    return api.put(USER_URL + '/AddEmployee', array);
   }
 
   removeProgressPlan(id) {

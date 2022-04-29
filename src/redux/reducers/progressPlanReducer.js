@@ -18,15 +18,27 @@ export default function progressPlan(state = initialState, action) {
                 isLoaded: false
             };
         case progressPlanConstants.RESIZE:
-            return { ...state, stateResize: payload };
+            return {
+                ...state,
+                stateResize: payload
+            };
         case progressPlanConstants.DATE:
-            return { ...state, date: payload };
+            return {
+                ...state,
+                date: payload
+            };
         case progressPlanConstants.ADD_MONTH:
             let add = state.skipMonth + payload
-            return { ...state, skipMonth: add };
+            return {
+                ...state,
+                skipMonth: add
+            };
         case progressPlanConstants.MINUS_MONTH:
             let minus = state.skipMonth + payload
-            return { ...state, skipMonth: minus };
+            return {
+                ...state,
+                skipMonth: minus
+            };
         case progressPlanConstants.EVENT_ID:
             return {
                 ...state,

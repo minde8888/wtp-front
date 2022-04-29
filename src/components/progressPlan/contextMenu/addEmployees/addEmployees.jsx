@@ -26,7 +26,6 @@ function AddEmployees({ employees }) {
     store.dispatch(employeeToProgress(selectedValue))
   }
   
-
   return (
     <div ref={employeeRef} className={style.container}>
       <Select
