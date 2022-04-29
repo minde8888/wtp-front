@@ -128,7 +128,19 @@ export default function project(state = initialState, action) {
                     ...state, projectData: dateCopy
                 };
             }
-
+        case progressPlanConstants.ADD_EMPLOYEE:
+            {
+                const dateCopy = [...state.projectData];
+                const projectIndex = dateCopy.findIndex(p => p.projectId === payload.projectId);
+                const progressIndex = dateCopy[projectIndex].progressPlan.$values.findIndex(p => p.progressPlanId === payload.eventId);
+                const progress = dateCopy[projectIndex].progressPlan.$values[progressIndex];
+                const updatedData = { ...progress, employeesIds: payload.id }
+                dateCopy[projectIndex].progressPlan.$values.splice(progressIndex, 1, updatedData);
+                return {
+                    ...state,
+                    employeeIdProgress: updatedData
+                }
+            }
         default:
             return state;
     }

@@ -181,7 +181,7 @@ export const updateProgress = (obj) => (dispatch) => {
 }
 
 export const addEmployeeToProgress = (array) => (dispatch) => {
-  return  ProgressPlanService.updateEventPosition(array).then(() => {
+    return ProgressPlanService.updateEventPosition(array).then(() => {
         ///tavrkti
     })
 }
@@ -276,7 +276,7 @@ export const progressData = (id, name) => ({
     payload: { id: id, title: name }
 })
 
-export const employeeToProgress = (id) => ({
+export const employeeToProgress = (id, eId, pId) => ({
     type: progressPlanConstants.ADD_EMPLOYEE,
-    payload: id
+    payload: { id: id, eventId: eId, projectId: pId }
 })
