@@ -236,7 +236,7 @@ function Events({ event, container, id }) {
         name={event.name}
         onContextMenu={onContextMenu}
       >
-        <span className="eventName">{event.name}</span>
+        <div className="eventName">{event.name}</div>
         <span className="left move" onMouseDown={(e) => onMouseDown(e)}></span>
         {elements}
         <span className="right move" onMouseDown={(e) => onMouseDown(e)}></span>
