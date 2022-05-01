@@ -11,7 +11,8 @@ tr {
     background    : #e3e6e9;
 
     img {
-        width: 20px;
+        width : 20px;
+        cursor: pointer;
     }
 
     input {
@@ -19,6 +20,10 @@ tr {
         z-index: 1;
     }
 
+}
+
+.bs-checkbox:hover {
+    background: #e3e6e9;
 }
 
 tbody {
@@ -65,7 +70,5 @@ tbody {
         }
     }
 
-    td:hover {
-        background: #e3e6e9;
-    }
+
 }

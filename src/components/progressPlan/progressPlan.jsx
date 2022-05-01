@@ -139,7 +139,6 @@ function ProgressPlan(props) {
                   containerRef={containerRef}
                   events={events}
                   id={progressPlanId}
-
                 />
               );
             })}

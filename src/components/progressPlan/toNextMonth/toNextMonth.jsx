@@ -20,8 +20,7 @@ function ToNextMonth({ rowMaxNumber }) {
     height: rowMaxNumber * 20 + "px",
     marginTop: 0 + "px",
     zIndex: 2,
-    // position: fixed,
-    // right: 0,
+    position: "fixed",
   };
 
   return (

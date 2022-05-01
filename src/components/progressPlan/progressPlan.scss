@@ -43,11 +43,14 @@
             }
 
             .eventName {
-                position: absolute;
-                color   : rgb(34, 33, 33);
-                z-index : 3;
-                right   : 0px;
-                top     : -5px;
+                position   : fixed;
+                color      : rgb(34, 33, 33);
+                z-index    : 3;
+                left       : 102%;
+                top        : -3px;
+                width      : 100%;
+                font-size  : 14px;
+                font-weight: 600;
             }
 
             .left {

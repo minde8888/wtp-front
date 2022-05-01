@@ -23,5 +23,7 @@ export const progressPlanConstants = {
 
     ADD_EMPLOYEE: "ADD_EMPLOYEE",
 
+    CHANGE_TITLE: "CHANGE_TITLE",
+
     DELETE_PROGRESS: "DELETE_PROGRESS"
 };

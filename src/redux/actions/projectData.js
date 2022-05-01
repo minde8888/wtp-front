@@ -129,15 +129,13 @@ export const projectOnChanges = (obj, id) => ({
 })
 
 export const projectToDelete = (obj) => (dispatch) => {
-
+    dispatch({
+        type: projectConstants.PROJECT_REMOVE,
+        payload: obj,
+        isRemoved: true
+    });
     return ProjectService.removeProject(obj).then(
         () => {
-            dispatch({
-                type: projectConstants.PROJECT_REMOVED,
-                payload: obj
-
-            });
-
             var data = JSON.parse(localStorage.getItem('projects'));
             for (const key in obj) {
                 data = data.filter(i => i.projectId !== obj[key])

@@ -21,6 +21,7 @@ import styles from "./rightClickMenus.module.scss";
 
 let updateObj = null;
 let employeeId = null;
+let progressTitle = null;
 
 function RightClickMenu(props) {
   const wrapperRef = useRef(null);
@@ -36,17 +37,19 @@ function RightClickMenu(props) {
     employeeRef,
     infoRef,
     eventId,
-    title,
     projectId,
     updateProgress,
     employeeIdProgress,
+    progress,
     dispatch,
+    updateProgressTitle,
   } = props;
 
   useOutsideAlerter(wrapperRef, colorRef, titleRef, employeeRef, infoRef);
 
   employeeId = employeeIdProgress;
   updateObj = updateProgress;
+  progressTitle = updateProgressTitle;
 
   const onAdd = () => {
     colorRef.current.style.display = "none";
@@ -123,8 +126,7 @@ function RightClickMenu(props) {
         position={position}
         projectId={projectId}
         eventId={eventId}
-        wrapperRef={wrapperRef}
-        title={title}
+        event={progress}
       />
       <AddEmployees
         employees={employees}
@@ -163,6 +165,9 @@ function useOutsideAlerter(ref, colorRef, titleRef, employeeRef, infoRef) {
         if (employeeId !== undefined) {
           store.dispatch(addEmployeeToProgress(employeeId));
         }
+        if (progressTitle !== undefined) {
+          store.dispatch(updateProgress(progressTitle));
+        }
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -173,30 +178,20 @@ function useOutsideAlerter(ref, colorRef, titleRef, employeeRef, infoRef) {
 }
 
 function mapStateToProps(state) {
-
-  const {
-    eventId,
-    title,
-    titleRef,
-    employeeRef,
-    infoRef
-  } =
-    state.progressPlan;
+  const { eventId, titleRef, employeeRef, infoRef } = state.progressPlan;
   const {
     projectId,
     colorRef,
     updateProgress,
     projectData,
-    employeeIdProgress
+    employeeIdProgress,
+    updateProgressTitle,
   } = state.project;
-  const {
-    employees,
-    data
-  } = state.user;
+  const { data } = state.user;
+  const { employees } = state.user.data;
 
   return {
     eventId,
-    title,
     colorRef,
     projectId,
     updateProgress,
@@ -207,6 +202,7 @@ function mapStateToProps(state) {
     data,
     projectData,
     employeeIdProgress,
+    updateProgressTitle,
   };
 }
 
