@@ -43,13 +43,16 @@ class EditItemModus extends Component {
   };
 
   handleOnChange = (e) => {
-    const { checked, value } = e.target;
+    let { checked, value } = e.target;
     if (checked) {
       this.state.newId.push(value);
     } else {
       this.state.newId.splice(value, 1);
     }
     this.props.dispatch(projectIdToState(this.state.newId));
+    if (this.props.isRemoved) {
+      checked = false;
+    }
   };
 
   handleOnBlur = (e) => {
@@ -64,7 +67,6 @@ class EditItemModus extends Component {
 
   render = () => {
     const { projectData, isSelectedId } = this.props;
-    console.log(this.props);
     return (
       <>
         {projectData.map((item, k) => (
@@ -252,7 +254,7 @@ class EditItemModus extends Component {
 }
 
 function mapStateToProps(state) {
-  const { isSelectedId, projectData } = state.project;
-  return { isSelectedId, projectData };
+  const { isSelectedId, projectData, isRemoved } = state.project;
+  return { isSelectedId, projectData, isRemoved };
 }
 export default connect(mapStateToProps)(EditItemModus);

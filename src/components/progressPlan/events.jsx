@@ -205,12 +205,8 @@ function Events({ event, container, id }) {
 
   const onContextMenu = (e) => {
     store.dispatch(projectIdToState(id));
-    store.dispatch(
-      progressData(
-        e.target.offsetParent.id,
-        e.target.offsetParent.attributes[3].value
-      )
-    );
+
+    store.dispatch(progressData(e.target.offsetParent.id));
     const contextMenu = document.querySelector("#contextMenu");
     document.addEventListener("contextmenu", (e) => e.preventDefault());
     const { pageX, pageY } = e;
@@ -240,11 +236,10 @@ function Events({ event, container, id }) {
         name={event.name}
         onContextMenu={onContextMenu}
       >
-        {/* <span className="eventName">{event.name}</span> */}
+        <span className="eventName">{event.name}</span>
         <span className="left move" onMouseDown={(e) => onMouseDown(e)}></span>
         {elements}
         <span className="right move" onMouseDown={(e) => onMouseDown(e)}></span>
-        <span className="event-name"></span>
       </div>
     </Draggable>
   );

@@ -246,7 +246,7 @@ export const addInfoRef = (ref) => ({
     payload: ref
 })
 
-export const addTitleAdd = (ref) => ({
+export const addTitleRef = (ref) => ({
     type: progressPlanConstants.TITLE_REF,
     payload: ref
 })
@@ -271,12 +271,22 @@ export const nextMonth = (b) => ({
     payload: b
 })
 
-export const progressData = (id, name) => ({
+export const progressData = (id) => ({
     type: progressPlanConstants.EVENT_ID,
-    payload: { id: id, title: name }
+    payload: { id: id }
 })
 
 export const employeeToProgress = (id, eId, pId) => ({
     type: progressPlanConstants.ADD_EMPLOYEE,
     payload: { id: id, eventId: eId, projectId: pId }
+})
+
+export const titleOnChange = (title, eId, pId) => ({
+    type: progressPlanConstants.CHANGE_TITLE,
+    payload: {
+        title: title,
+        eventId: eId,
+        projectId: pId
+    }
+
 })

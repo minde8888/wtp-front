@@ -11,10 +11,10 @@ const initialState = {
     isLoaded: false,
     id: "",
     colorRef: null,
+    isRemoved: false
 };
 
 export default function project(state = initialState, action) {
-
     const {
         type,
         projectData,
@@ -22,7 +22,8 @@ export default function project(state = initialState, action) {
         isSelectedId,
         isLoaded,
         id,
-        colorRef
+        colorRef,
+        isRemoved
     } = action
 
     switch (type) {
@@ -39,9 +40,11 @@ export default function project(state = initialState, action) {
             return {
                 ...state, projectId: payload,
             }
-        case projectConstants.PROJECT_REMOVED:
+        case projectConstants.PROJECT_REMOVE:
             return {
-                ...state, projectData: state.data.filter(p => !payload.includes(p.projectId))
+                ...state, 
+                projectData: state.projectData.filter(p => !payload.includes(p.projectId)),
+                isRemoved: isRemoved
             }
         case projectConstants.ADD_PROJECT:
             return {
@@ -110,7 +113,6 @@ export default function project(state = initialState, action) {
                 const colorProgress = dateCopyColor[projectIndex].progressPlan.$values[progressIndexColor];
                 const updatedColor = { ...colorProgress, color: payload.objColor }
                 dateCopyColor[projectIndex].progressPlan.$values.splice(progressIndexColor, 1, updatedColor);
-
                 return {
                     ...state,
                     projectData: dateCopyColor,
@@ -139,6 +141,20 @@ export default function project(state = initialState, action) {
                 return {
                     ...state,
                     employeeIdProgress: updatedData
+                }
+            }
+        case progressPlanConstants.CHANGE_TITLE:
+            {
+                const dateCopy = [...state.projectData];
+                const projectIndex = dateCopy.findIndex(p => p.projectId === payload.projectId);
+                const progressIndex = dateCopy[projectIndex].progressPlan.$values.findIndex(p => p.progressPlanId === payload.eventId);
+                const progress = dateCopy[projectIndex].progressPlan.$values[progressIndex];
+                const update = { ...progress, name: payload.title }
+                dateCopy[projectIndex].progressPlan.$values.splice(progressIndex, 1, update);
+                return {
+                    ...state,
+                    projectData: dateCopy,
+                    updateProgressTitle: update
                 }
             }
         default:
