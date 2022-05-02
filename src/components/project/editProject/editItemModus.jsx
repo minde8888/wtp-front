@@ -12,7 +12,7 @@ import store from "../../../redux/store";
 class EditItemModus extends Component {
   constructor(props) {
     super(props);
-console.log(props);
+
     this.state = {
       data: props.data,
       action: false,
@@ -32,7 +32,7 @@ console.log(props);
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.projectData.length !== this.store.projectData.length) {
+    if (prevProps.projectData.length !== this.props.projectData.length) {
       this.setState({ newId: [] });
     }
   }
@@ -68,7 +68,7 @@ console.log(props);
 
   render = () => {
     const { projectData, isSelectedId } = this.props;
-    console.log(projectData);
+
     return (
       <>
         {projectData.map((item, k) => (
@@ -84,18 +84,16 @@ console.log(props);
               </label>
             </td>
             <td
-              className={`tb  ${
-                isSelectedId === item.projectId ? "d-none" : ""
-              }`}
+              className={`tb  ${isSelectedId === item.projectId ? "d-none" : ""
+                }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId}
             >
               {item.number}
             </td>
             <td
-              className={`tb ${
-                isSelectedId === item.projectId ? "" : "d-none"
-              }`}
+              className={`tb ${isSelectedId === item.projectId ? "" : "d-none"
+                }`}
             >
               <input
                 id={item.projectId}
@@ -114,18 +112,16 @@ console.log(props);
               />
             </td>
             <td
-              className={`tb ${
-                isSelectedId === item.projectId + 1 ? "d-none" : ""
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 1 ? "d-none" : ""
+                }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 1}
             >
               {item.title}
             </td>
             <td
-              className={`tb ${
-                isSelectedId === item.projectId + 1 ? "" : "d-none"
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 1 ? "" : "d-none"
+                }`}
             >
               <input
                 id={item.projectId}
@@ -144,18 +140,16 @@ console.log(props);
               />
             </td>
             <td
-              className={`tb ${
-                isSelectedId === item.projectId + 2 ? "d-none" : ""
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 2 ? "d-none" : ""
+                }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 2}
             >
               {item.place}
             </td>
             <td
-              className={`tb ${
-                isSelectedId === item.projectId + 2 ? "" : "d-none"
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 2 ? "" : "d-none"
+                }`}
             >
               <input
                 id={item.projectId}
@@ -174,18 +168,16 @@ console.log(props);
               />
             </td>
             <td
-              className={`tb ${
-                isSelectedId === item.projectId + 3 ? "d-none" : ""
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 3 ? "d-none" : ""
+                }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 3}
             >
               {item.status}
             </td>
             <td
-              className={`tb ${
-                isSelectedId === item.projectId + 3 ? "" : "d-none"
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 3 ? "" : "d-none"
+                }`}
             >
               <input
                 id={item.projectId}
