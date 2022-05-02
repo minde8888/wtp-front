@@ -132,6 +132,7 @@ function RightClickMenu(props) {
         employees={employees}
         eventId={eventId}
         projectId={projectId}
+        progress={progress}
       />
       <Info
         eventId={eventId}

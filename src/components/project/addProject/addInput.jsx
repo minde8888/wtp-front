@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import { connect } from "react-redux";
 import { setMessage, clearMessage } from "../../../redux/actions/message";
 import { addNewProject } from "../../../redux/actions/projectData";
 import store from "../../../redux/store";
