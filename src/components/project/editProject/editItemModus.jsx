@@ -7,11 +7,12 @@ import {
   projectOnChanges,
 } from "../../../redux/actions/projectData";
 import { NavLink } from "react-router-dom";
+import store from "../../../redux/store";
 
 class EditItemModus extends Component {
   constructor(props) {
     super(props);
-
+console.log(props);
     this.state = {
       data: props.data,
       action: false,
@@ -24,14 +25,14 @@ class EditItemModus extends Component {
 
   handleOutsideClick = (e) => {
     const id = e.target.attributes[1].value;
-    this.props.dispatch(edit(id));
+    store.dispatch(edit(id));
     this.setState({
       action: true,
     });
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.projectData.length !== this.props.projectData.length) {
+    if (prevProps.projectData.length !== this.store.projectData.length) {
       this.setState({ newId: [] });
     }
   }
@@ -39,7 +40,7 @@ class EditItemModus extends Component {
   onChange = (e) => {
     e.preventDefault();
     const { name, id, value } = e.target;
-    this.props.dispatch(projectOnChanges({ [name]: value }, id));
+    store.dispatch(projectOnChanges({ [name]: value }, id));
   };
 
   handleOnChange = (e) => {
@@ -49,7 +50,7 @@ class EditItemModus extends Component {
     } else {
       this.state.newId.splice(value, 1);
     }
-    this.props.dispatch(projectIdToState(this.state.newId));
+    store.dispatch(projectIdToState(this.state.newId));
     if (this.props.isRemoved) {
       checked = false;
     }
@@ -61,12 +62,13 @@ class EditItemModus extends Component {
       projectId: e.target.id,
     };
 
-    this.props.dispatch(updateProject(obj));
-    this.props.dispatch(edit(""));
+    store.dispatch(updateProject(obj));
+    store.dispatch(edit(""));
   };
 
   render = () => {
     const { projectData, isSelectedId } = this.props;
+    console.log(projectData);
     return (
       <>
         {projectData.map((item, k) => (
@@ -253,8 +255,4 @@ class EditItemModus extends Component {
   };
 }
 
-function mapStateToProps(state) {
-  const { isSelectedId, projectData, isRemoved } = state.project;
-  return { isSelectedId, projectData, isRemoved };
-}
-export default connect(mapStateToProps)(EditItemModus);
+export default EditItemModus

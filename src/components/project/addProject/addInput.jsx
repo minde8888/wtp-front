@@ -66,12 +66,6 @@ const AddInput = (props) => {
     });
   };
 
-  const validateInputs = (e) => {
-    if (e.target.value === "error")
-      setErrors({ ...errors, [e.target.name]: true });
-    else setErrors({ ...errors, [e.target.name]: false });
-  };
-
   return (
     <div className="col-10 td-input row justify-content-end">
       <div className="col">
@@ -82,7 +76,6 @@ const AddInput = (props) => {
           ref={numberRef}
           placeholder="Project nr"
           onChange={onChangeNumber}
-          onBlur={validateInputs}
         />
       </div>
       <div className="col">
@@ -92,7 +85,6 @@ const AddInput = (props) => {
           ref={titleRef}
           placeholder="Project Name"
           onChange={onChangeTitle}
-          onBlur={validateInputs}
         />
       </div>
       <div className="col">
@@ -102,7 +94,6 @@ const AddInput = (props) => {
           ref={placeRef}
           placeholder="Address"
           onChange={onChangePlace}
-          onBlur={validateInputs}
         />
       </div>
       <div className="col">
@@ -112,7 +103,6 @@ const AddInput = (props) => {
           ref={statusRef}
           placeholder="Status"
           onChange={onChangeStatus}
-          onBlur={validateInputs}
         />
       </div>
       <div className="col-1">

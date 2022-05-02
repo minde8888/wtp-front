@@ -1,22 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import EditItemModus from "./editProject/editItemModus";
-import { connect } from "react-redux";
 import {
-  getAllProjects,
-  projectToDelete,
+  projectToDelete
 } from "../../redux/actions/projectData";
 import TablePreloader from "../preloader/tablePreloader";
+import store from "../../redux/store";
 import trash from "../../svg/trash.svg";
 import "./project.scss";
 
-const Table = (props) => {
-/* eslint-disable */
-  useEffect(() => {
-    props.dispatch(getAllProjects());
-  }, []);
-/* eslint-disable */
+const Table = ({ projectId, projectIsLoaded, isSelectedId, projectData, isRemoved }) => {
+
   const removeProject = () => {
-    props.dispatch(projectToDelete(props.projectId));
+    store.dispatch(projectToDelete(projectId));
   };
 
   return (
@@ -37,14 +32,14 @@ const Table = (props) => {
         </tr>
       </thead>
       <tbody>
-        {props.projectIsLoaded ? <EditItemModus /> : <TablePreloader />}
+        {projectIsLoaded ? <EditItemModus 
+        isSelectedId={isSelectedId}
+          projectData={projectData}
+          isRemoved={isRemoved} 
+          /> : <TablePreloader />}
       </tbody>
     </table>
   );
 };
 
-function mapStateToProps(state) {
-  const { projectIsLoaded, projectId } = state.project;
-  return { projectIsLoaded, projectId };
-}
-export default connect(mapStateToProps)(Table);
+export default Table;

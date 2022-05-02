@@ -1,19 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { clearMessage } from "../../redux/actions/message";
 import Table from "./table";
 import AddInput from "./addProject/addInput";
 import "./addProject/addProject.scss";
-import isEmpty from "../../helpers/emptyObject";
+import { getAllProjects } from "../../redux/actions/projectData";
 
 const TopTable = (props) => {
 
-  const { message, isLoaded } = props;
+  const {
+    message,
+    projectIsLoaded,
+    projectId,
+    dispatch,
+    isSelectedId,
+    projectData,
+    isRemoved
+  } = props;
 
-  if (isEmpty && message.message !== "") {
-    setTimeout(() => { props.dispatch(clearMessage()) }, 1000);
+  if (message.message !== "") {
+    setTimeout(() => { dispatch(clearMessage()) }, 1500);
   }
-
+  /* eslint-disable */
+  useEffect(() => {
+    dispatch(getAllProjects());
+  }, []);
+  /* eslint-disable */
   return (
     <div>
       <div className="container">
@@ -24,7 +36,7 @@ const TopTable = (props) => {
           <div className="form-group">
             <div
               className={
-                isLoaded ? "alert alert-success" : "alert alert-danger"
+                message.error ? "alert alert-danger" : "alert alert-success"
               }
               role="alert"
             >
@@ -33,15 +45,34 @@ const TopTable = (props) => {
           </div>
         )}
       </div>
-      <Table />
+      <Table projectIsLoaded={projectIsLoaded}
+        projectId={projectId}
+        isSelectedId={isSelectedId}
+        projectData={projectData}
+        isRemoved={isRemoved} />
     </div>
   );
 
 }
 
 function mapStateToProps(state) {
-  const { message } = state;
-  const { isLoaded } = state.project;
-  return { message, isLoaded };
+
+  const { message, error } = state;
+  const { 
+    projectIsLoaded, 
+    projectId, 
+    isSelectedId, 
+    projectData, 
+    isRemoved 
+  } = state.project;
+  
+  return { 
+    message, 
+    error, 
+    projectIsLoaded, 
+    projectId, 
+    isSelectedId, 
+    projectData, 
+    isRemoved };
 }
 export default connect(mapStateToProps)(TopTable);

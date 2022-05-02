@@ -19,8 +19,7 @@ export const getAllProjects = () => (dispatch) => {
             return Promise.resolve();
         },
         (error) => {
-
-            const message =
+console.log(error);            const message =
                 (error.response &&
                     error.response.data &&
                     error.response.data.message) ||
@@ -66,9 +65,9 @@ export const addNewProject = (obj) => (dispatch) => {
                 error.toString();
             dispatch({
                 type: messageConstants.ERROR,
-                payload: error.response.data,
+                payload: message,
             });
-            console.log(message);
+        
             return Promise.reject();
         }
     );
@@ -86,7 +85,7 @@ export const updateProject = (obj) => (dispatch) => {
             dispatch({
                 type: projectConstants.UPDATE_PROJECT_TABLE,
                 payload: data.data,
-                isLoaded: true
+                // isLoaded: true
             });
             return Promise.resolve();
         },
@@ -152,7 +151,7 @@ export const projectToDelete = (obj) => (dispatch) => {
                 error.message ||
                 error.toString();
             dispatch({
-                type: messageConstants.SET_MESSAGE,
+                type: messageConstants.ERROR,
                 payload: error.response.data,
             });
             console.log(message);

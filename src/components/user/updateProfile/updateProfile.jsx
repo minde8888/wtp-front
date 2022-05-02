@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import {
   newFile,
   updateProfile,
-} from "../../../redux/actions/updateUserProfile";
+} from "../../../redux/actions/user";
 import { getImageSize } from "../../../helpers/getImageSize";
 import { clearMessage, setMessage } from "../../../redux/actions/message";
 import "./updateProfile";
@@ -26,8 +26,6 @@ const UpdateProfile = (props) => {
     role,
     id,
   } = props.data;
-
-  // useEffect(() => props.data, [props.data]);
 
   const { city, country, street, zip } = props.data.address;
   const { imageFile, width, height, userIsLoaded } = props;
