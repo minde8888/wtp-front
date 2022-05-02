@@ -2,24 +2,18 @@ import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
 import { setMessage, clearMessage } from "../../../redux/actions/message";
 import { addNewProject } from "../../../redux/actions/projectData";
+import store from "../../../redux/store";
 import plus from "../../../svg/plus.svg";
 
-const AddInput = (props) => {
+const AddInput = ({ id }) => {
   const [allValues, setValue] = useState({
     number: null,
     title: "",
     place: "",
     status: "",
-    managerId: props.data.id,
+    managerId: id,
     date: new Date(),
     color: '{ "r":10,"g":170,"b":179,"a":0.29}',
-  });
-
-  const [errors, setErrors] = useState({
-    number: null,
-    title: "",
-    place: "",
-    status: "",
   });
 
   let numberRef = useRef();
@@ -48,17 +42,17 @@ const AddInput = (props) => {
   };
 
   const handleClick = () => {
-    props.dispatch(clearMessage());
+    store.dispatch(clearMessage());
     if (allValues.number === null)
-      return props.dispatch(setMessage("Project number can not by empty !"));
+      return store.dispatch(setMessage("Project number can not by empty !"));
     if (allValues.title === "")
-      return props.dispatch(setMessage("Project name can not by empty !"));
+      return store.dispatch(setMessage("Project name can not by empty !"));
     if (allValues.place === "")
-      return props.dispatch(setMessage("Project place can not by empty !"));
+      return store.dispatch(setMessage("Project place can not by empty !"));
     if (allValues.status === "")
-      return props.dispatch(setMessage("Project status can not by empty !"));
+      return store.dispatch(setMessage("Project status can not by empty !"));
 
-    props.dispatch(addNewProject(allValues)).then(() => {
+    store.dispatch(addNewProject(allValues)).then(() => {
       numberRef.current.value = null;
       titleRef.current.value = "";
       placeRef.current.value = "";
@@ -114,8 +108,4 @@ const AddInput = (props) => {
   );
 };
 
-function mapStateToProps(state) {
-  const { data } = state.user;
-  return { data };
-}
-export default connect(mapStateToProps)(AddInput);
+export default AddInput;

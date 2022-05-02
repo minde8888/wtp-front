@@ -15,7 +15,8 @@ const TopTable = (props) => {
     dispatch,
     isSelectedId,
     projectData,
-    isRemoved
+    isRemoved,
+    id
   } = props;
 
   if (message.message !== "") {
@@ -30,7 +31,7 @@ const TopTable = (props) => {
     <div>
       <div className="container">
         <div className="row ">
-          <AddInput />
+          <AddInput id={id} />
         </div>
         {message.message && (
           <div className="form-group">
@@ -57,22 +58,25 @@ const TopTable = (props) => {
 
 function mapStateToProps(state) {
 
+  const { id } = state.user.data;
   const { message, error } = state;
-  const { 
-    projectIsLoaded, 
-    projectId, 
-    isSelectedId, 
-    projectData, 
-    isRemoved 
+  const {
+    projectIsLoaded,
+    projectId,
+    isSelectedId,
+    projectData,
+    isRemoved
   } = state.project;
-  
-  return { 
-    message, 
-    error, 
-    projectIsLoaded, 
-    projectId, 
-    isSelectedId, 
-    projectData, 
-    isRemoved };
+
+  return {
+    message,
+    error,
+    projectIsLoaded,
+    projectId,
+    isSelectedId,
+    projectData,
+    isRemoved,
+    id
+  };
 }
 export default connect(mapStateToProps)(TopTable);
