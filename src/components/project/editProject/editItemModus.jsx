@@ -7,6 +7,7 @@ import {
   projectOnChanges,
 } from "../../../redux/actions/projectData";
 import { NavLink } from "react-router-dom";
+import store from "../../../redux/store";
 
 class EditItemModus extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class EditItemModus extends Component {
 
   handleOutsideClick = (e) => {
     const id = e.target.attributes[1].value;
-    this.props.dispatch(edit(id));
+    store.dispatch(edit(id));
     this.setState({
       action: true,
     });
@@ -39,7 +40,7 @@ class EditItemModus extends Component {
   onChange = (e) => {
     e.preventDefault();
     const { name, id, value } = e.target;
-    this.props.dispatch(projectOnChanges({ [name]: value }, id));
+    store.dispatch(projectOnChanges({ [name]: value }, id));
   };
 
   handleOnChange = (e) => {
@@ -49,7 +50,7 @@ class EditItemModus extends Component {
     } else {
       this.state.newId.splice(value, 1);
     }
-    this.props.dispatch(projectIdToState(this.state.newId));
+    store.dispatch(projectIdToState(this.state.newId));
     if (this.props.isRemoved) {
       checked = false;
     }
@@ -61,12 +62,13 @@ class EditItemModus extends Component {
       projectId: e.target.id,
     };
 
-    this.props.dispatch(updateProject(obj));
-    this.props.dispatch(edit(""));
+    store.dispatch(updateProject(obj));
+    store.dispatch(edit(""));
   };
 
   render = () => {
     const { projectData, isSelectedId } = this.props;
+
     return (
       <>
         {projectData.map((item, k) => (
@@ -82,18 +84,16 @@ class EditItemModus extends Component {
               </label>
             </td>
             <td
-              className={`tb  ${
-                isSelectedId === item.projectId ? "d-none" : ""
-              }`}
+              className={`tb  ${isSelectedId === item.projectId ? "d-none" : ""
+                }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId}
             >
               {item.number}
             </td>
             <td
-              className={`tb ${
-                isSelectedId === item.projectId ? "" : "d-none"
-              }`}
+              className={`tb ${isSelectedId === item.projectId ? "" : "d-none"
+                }`}
             >
               <input
                 id={item.projectId}
@@ -112,18 +112,16 @@ class EditItemModus extends Component {
               />
             </td>
             <td
-              className={`tb ${
-                isSelectedId === item.projectId + 1 ? "d-none" : ""
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 1 ? "d-none" : ""
+                }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 1}
             >
               {item.title}
             </td>
             <td
-              className={`tb ${
-                isSelectedId === item.projectId + 1 ? "" : "d-none"
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 1 ? "" : "d-none"
+                }`}
             >
               <input
                 id={item.projectId}
@@ -142,18 +140,16 @@ class EditItemModus extends Component {
               />
             </td>
             <td
-              className={`tb ${
-                isSelectedId === item.projectId + 2 ? "d-none" : ""
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 2 ? "d-none" : ""
+                }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 2}
             >
               {item.place}
             </td>
             <td
-              className={`tb ${
-                isSelectedId === item.projectId + 2 ? "" : "d-none"
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 2 ? "" : "d-none"
+                }`}
             >
               <input
                 id={item.projectId}
@@ -172,18 +168,16 @@ class EditItemModus extends Component {
               />
             </td>
             <td
-              className={`tb ${
-                isSelectedId === item.projectId + 3 ? "d-none" : ""
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 3 ? "d-none" : ""
+                }`}
               onDoubleClick={this.handleOutsideClick}
               value={item.projectId + 3}
             >
               {item.status}
             </td>
             <td
-              className={`tb ${
-                isSelectedId === item.projectId + 3 ? "" : "d-none"
-              }`}
+              className={`tb ${isSelectedId === item.projectId + 3 ? "" : "d-none"
+                }`}
             >
               <input
                 id={item.projectId}
@@ -253,8 +247,4 @@ class EditItemModus extends Component {
   };
 }
 
-function mapStateToProps(state) {
-  const { isSelectedId, projectData, isRemoved } = state.project;
-  return { isSelectedId, projectData, isRemoved };
-}
-export default connect(mapStateToProps)(EditItemModus);
+export default EditItemModus

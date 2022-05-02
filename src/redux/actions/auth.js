@@ -39,7 +39,7 @@ export const register = (obj) => async (dispatch) => {
     }
 
     dispatch({
-      type: messageConstants.SET_MESSAGE,
+      type: messageConstants.ERROR,
       payload: "Network Error",
     });
     console.log(error);
@@ -54,8 +54,7 @@ export const login = (email, password) => (dispatch) => {
       localStorage.setItem('token', data.$values[0].token);
       localStorage.setItem('refreshToken', data.$values[0].refreshToken);
       localStorage.setItem('user', JSON.stringify(data.$values[0]));
-      localStorage.setItem('employees', JSON.stringify(data.$values[0].employees.$values));
-      dispatch({
+        dispatch({
         type: userConstants.MANAGER_DATA,
         data: JSON.parse(localStorage.getItem('user'))
       })
@@ -94,7 +93,7 @@ export const login = (email, password) => (dispatch) => {
       }
 
       dispatch({
-        type: messageConstants.SET_MESSAGE,
+        type: messageConstants.ERROR,
         payload: "Network Error",
       });
       console.log(error);

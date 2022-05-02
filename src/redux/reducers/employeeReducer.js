@@ -2,7 +2,6 @@ import { employeeConstants } from "../constants/employeeConstants";
 
 const initialState = {
     message: "",
-    data: "",
     userIsLoaded: false
 };
 

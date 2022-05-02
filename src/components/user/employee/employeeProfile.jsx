@@ -2,7 +2,7 @@ import Preloader from "../../preloader/preloader";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import React, { useState} from "react";
-import { getEmployeeProfile } from "../../../redux/actions/getEmployeeProfile";
+import { getEmployeeProfile } from "../../../redux/actions/user";
 import EmptyObject from "../../../helpers/emptyObject";
 import userImage from "../../../image/user.png";
 

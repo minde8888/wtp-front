@@ -1,5 +1,5 @@
 export const messageConstants = {
     SET_MESSAGE: 'SET_MESSAGE',
-    ERROR: 'ALERT_ERROR',
+    ERROR: 'ERROR',
     CLEAR_MESSAGE: 'CLEAR_MESSAGE'
 };

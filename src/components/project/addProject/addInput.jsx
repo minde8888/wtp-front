@@ -2,24 +2,18 @@ import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
 import { setMessage, clearMessage } from "../../../redux/actions/message";
 import { addNewProject } from "../../../redux/actions/projectData";
+import store from "../../../redux/store";
 import plus from "../../../svg/plus.svg";
 
-const AddInput = (props) => {
+const AddInput = ({ id }) => {
   const [allValues, setValue] = useState({
     number: null,
     title: "",
     place: "",
     status: "",
-    managerId: props.data.id,
+    managerId: id,
     date: new Date(),
     color: '{ "r":10,"g":170,"b":179,"a":0.29}',
-  });
-
-  const [errors, setErrors] = useState({
-    number: null,
-    title: "",
-    place: "",
-    status: "",
   });
 
   let numberRef = useRef();
@@ -48,28 +42,22 @@ const AddInput = (props) => {
   };
 
   const handleClick = () => {
-    props.dispatch(clearMessage());
+    store.dispatch(clearMessage());
     if (allValues.number === null)
-      return props.dispatch(setMessage("Project number can not by empty !"));
+      return store.dispatch(setMessage("Project number can not by empty !"));
     if (allValues.title === "")
-      return props.dispatch(setMessage("Project name can not by empty !"));
+      return store.dispatch(setMessage("Project name can not by empty !"));
     if (allValues.place === "")
-      return props.dispatch(setMessage("Project place can not by empty !"));
+      return store.dispatch(setMessage("Project place can not by empty !"));
     if (allValues.status === "")
-      return props.dispatch(setMessage("Project status can not by empty !"));
+      return store.dispatch(setMessage("Project status can not by empty !"));
 
-    props.dispatch(addNewProject(allValues)).then(() => {
+    store.dispatch(addNewProject(allValues)).then(() => {
       numberRef.current.value = null;
       titleRef.current.value = "";
       placeRef.current.value = "";
       statusRef.current.value = "";
     });
-  };
-
-  const validateInputs = (e) => {
-    if (e.target.value === "error")
-      setErrors({ ...errors, [e.target.name]: true });
-    else setErrors({ ...errors, [e.target.name]: false });
   };
 
   return (
@@ -82,7 +70,6 @@ const AddInput = (props) => {
           ref={numberRef}
           placeholder="Project nr"
           onChange={onChangeNumber}
-          onBlur={validateInputs}
         />
       </div>
       <div className="col">
@@ -92,7 +79,6 @@ const AddInput = (props) => {
           ref={titleRef}
           placeholder="Project Name"
           onChange={onChangeTitle}
-          onBlur={validateInputs}
         />
       </div>
       <div className="col">
@@ -102,7 +88,6 @@ const AddInput = (props) => {
           ref={placeRef}
           placeholder="Address"
           onChange={onChangePlace}
-          onBlur={validateInputs}
         />
       </div>
       <div className="col">
@@ -112,7 +97,6 @@ const AddInput = (props) => {
           ref={statusRef}
           placeholder="Status"
           onChange={onChangeStatus}
-          onBlur={validateInputs}
         />
       </div>
       <div className="col-1">
@@ -124,8 +108,4 @@ const AddInput = (props) => {
   );
 };
 
-function mapStateToProps(state) {
-  const { data } = state.user;
-  return { data };
-}
-export default connect(mapStateToProps)(AddInput);
+export default AddInput;

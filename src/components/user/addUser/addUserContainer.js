@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Formik, Form } from 'formik';
-import { TextField } from '../auth/validation/textField';
-import { MySelect } from '../auth/validation/mySelect '
+import { TextField } from '../../auth/validation/textField';
+import { MySelect } from '../../auth/validation/mySelect '
 import * as Yup from 'yup';
 import { connect } from "react-redux";
-import { register } from "../../redux/actions/auth";
-import { clearMessage } from "../../redux/actions/message";
-import { getManagerProfile } from "../../redux/actions/getManagerProfile";
+import { register } from "../../../redux/actions/auth";
+import { clearMessage } from "../../../redux/actions/message";
+import { getManagerProfile } from "../../../redux/actions/user";
 
 class AddUserContainer extends Component {
   constructor(props) {

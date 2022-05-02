@@ -8,19 +8,19 @@ const initialState = {
     projectIsLoaded: false,
     isSelected: "",
     isSelectedId: "",
-    isLoaded: false,
+    projectCreated: false,
     id: "",
     colorRef: null,
     isRemoved: false
 };
 
 export default function project(state = initialState, action) {
+
     const {
         type,
         projectData,
         payload,
         isSelectedId,
-        isLoaded,
         id,
         colorRef,
         isRemoved
@@ -32,6 +32,12 @@ export default function project(state = initialState, action) {
                 projectData: payload,
                 projectIsLoaded: true,
             };
+        case projectConstants.UPDATE_PROJECT_TABLE:
+            return {
+                ...state,
+                projectCreated: true,
+                projectData: state.projectData.map(p => p.projectId !== payload.projectId ? p : payload)
+            }
         case projectConstants.EDIT_MODUS:
             return {
                 ...state, isSelectedId
@@ -42,29 +48,27 @@ export default function project(state = initialState, action) {
             }
         case projectConstants.PROJECT_REMOVE:
             return {
-                ...state, 
+                ...state,
                 projectData: state.projectData.filter(p => !payload.includes(p.projectId)),
                 isRemoved: isRemoved
             }
         case projectConstants.ADD_PROJECT:
             return {
+                projectCreated: true,
                 ...state, projectData: [...state.projectData, projectData]
             }
         case projectConstants.PROJECT_TABLE_ONCHANGE: {
-            const dataCopy = [...state.projectData];
-            const projectIndex = dataCopy.findIndex(p => p.projectId === id);
-            const project = dataCopy[projectIndex];
-            const updatedProject = { ...project, ...payload }
-            dataCopy.splice(projectIndex, 1, updatedProject);
-            return {
-                ...state, projectData: [...dataCopy]
+            {
+                const dataCopy = [...state.projectData];
+                const projectIndex = dataCopy.findIndex(p => p.projectId === id);
+                const project = dataCopy[projectIndex];
+                const updatedProject = { ...project, ...payload }
+                dataCopy.splice(projectIndex, 1, updatedProject);
+                return {
+                    ...state, projectData: [...dataCopy]
+                }
             }
         }
-        case projectConstants.UPDATE_PROJECT_TABLE:
-            return {
-                ...state, projectData: state.projectData.map(p => p.projectId !== payload.projectId ? p : payload),
-                isLoaded: isLoaded
-            }
         case projectConstants.ADD_PROGRESS:
             {
                 const dataCopyAdd = [...state.projectData];

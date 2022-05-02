@@ -3,7 +3,6 @@ import { userConstants } from "../constants/userConstants";
 const initialState = {
     message: "",
     userIsLoaded: false,
-    employees: JSON.parse(localStorage.getItem('employees')),
     data: JSON.parse(localStorage.getItem('user'))
 };
 
@@ -20,7 +19,7 @@ export default function user(state = initialState, action) {
         case userConstants.MANAGER_EMPLOYEES:
             return {
                 ...state,
-                data: { ...state.data, employees: payload }
+                data: { ...state.data.employees, payload }
             }
         case userConstants.MANAGER_DATA_ERROR:
             return {
@@ -40,12 +39,17 @@ export default function user(state = initialState, action) {
                 height: height
             }
         case userConstants.DELETED_EMPLOYEE:
-            return {
-                ...state, employees: state.employees.filter(i => i.id !== payload)
-            };
+            {
+                const dateCopy = { ...state.data };
+                const index = dateCopy.employees.$values.findIndex(i => i.id === payload);
+                dateCopy.employees.$values.splice(index, 1);
+                return {
+                    ...state, data: dateCopy
+                };
+            }
         case userConstants.MANAGER_EMPLOYEE_UPDATE:
             return {
-                ...state, employees: { ...payload }
+                ...state, employees: { ...state.data.employees.$values, payload }
             };
         case userConstants.UPDATE_USER:
 

@@ -2,7 +2,7 @@ import React from "react";
 import userImage from "../../../image/user.png";
 import { NavLink } from "react-router-dom";
 import store from "../../../redux/store";
-import { deleteUser } from "../../../redux/actions/deleteUser";
+import { deleteUser } from "../../../redux/actions/user";
 import "./employees.scss";
 
 const Employees = ({ employees }) => {
