@@ -5,14 +5,27 @@ import { employeeToProgress } from "../../../../redux/actions/progressPlan";
 import Select from "react-select";
 import style from "./addEmployees.module.scss";
 
-function AddEmployees({ employees, eventId, projectId, progress, employeesIds }) {
+function AddEmployees({
+  employees,
+  eventId,
+  projectId,
+  progress,
+  employeesIds,
+}) {
   const employeeRef = useRef(null);
-  // const [selectedValue, setSelectedValue] = useState([]);
-  const [selectedOption, setSelectedOption] = useState([]);
 
-  const handleChange = (selectedOption) => {
-    setSelectedOption(selectedOption);
-  }
+  let item = null;
+  const handleChange = (item) => {
+    // setSelectedOption(selectedOption);
+    console.log(item);
+    store.dispatch(
+      employeeToProgress(
+        Array.isArray(item) ? item.map((x) => x.value) : [],
+        eventId,
+        projectId
+      )
+    );
+  };
 
   store.dispatch(employeeAdd(employeeRef));
 
@@ -23,7 +36,9 @@ function AddEmployees({ employees, eventId, projectId, progress, employeesIds })
   }
 
   if (employeesIds !== undefined) {
-    id = [...id, ...employeesIds]
+    id = [...id, ...employeesIds];
+    console.log(111111);
+    item = null
   }
 
   let options = employees.$values.map((e) => {
@@ -46,18 +61,13 @@ function AddEmployees({ employees, eventId, projectId, progress, employeesIds })
   //   setSelectedValue(Array.isArray(e) ? e.map((x) => x.value) : []);
   //   store.dispatch(
   //     employeeToProgress(
-  //       Array.isArray(e) ? e.map((x) => x.value) : [],
-  //       eventId,
-  //       projectId
+  // Array.isArray(e) ? e.map((x) => x.value) : [], eventId, projectId;
   //     )
   //   );
   // };
 
   // let options = obj()
-  console.log(selectedOption);
-  if (selectedOption.length > 0) {
-    // setSelectedOption([])
-  }
+
 
 
   return (
@@ -67,7 +77,7 @@ function AddEmployees({ employees, eventId, projectId, progress, employeesIds })
         placeholder="Select Employee"
         onChange={handleChange}
         isOptionDisabled={(option) => option.isdisabled}
-        value={selectedOption} 
+        value={item}
         options={options}
         isMulti
         isClearable

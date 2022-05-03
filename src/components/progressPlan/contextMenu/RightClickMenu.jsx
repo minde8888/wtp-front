@@ -43,7 +43,7 @@ function RightClickMenu(props) {
     progress,
     dispatch,
     updateProgressTitle,
-    employeesIds
+    employeesIds,
   } = props;
 
   useOutsideAlerter(wrapperRef, colorRef, titleRef, employeeRef, infoRef);
@@ -135,7 +135,7 @@ function RightClickMenu(props) {
         projectId={projectId}
         progress={progress}
         employeesIds={employeesIds}
-      />
+       />
       <Info
         eventId={eventId}
         projectId={projectId}
@@ -167,6 +167,7 @@ function useOutsideAlerter(ref, colorRef, titleRef, employeeRef, infoRef) {
         }
         if (employeeId !== undefined) {
           store.dispatch(addEmployeeToProgress(employeeId));
+          console.log(2222);
         }
         if (progressTitle !== undefined) {
           store.dispatch(updateProgress(progressTitle));
@@ -207,7 +208,7 @@ function mapStateToProps(state) {
     projectData,
     employeeIdProgress,
     updateProgressTitle,
-    employeesIds
+    employeesIds,
   };
 }
 

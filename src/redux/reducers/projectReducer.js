@@ -142,7 +142,7 @@ export default function project(state = initialState, action) {
                 dateCopy[projectIndex].progressPlan.$values.splice(progressIndex, 1, updatedData);
                 return {
                     ...state,
-                    employeeIdProgress: updatedData
+                    employeeIdProgress: updatedData                    
                 }
             }
         case progressPlanConstants.CHANGE_TITLE:
