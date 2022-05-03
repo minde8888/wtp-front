@@ -43,6 +43,7 @@ function RightClickMenu(props) {
     progress,
     dispatch,
     updateProgressTitle,
+    employeesIds
   } = props;
 
   useOutsideAlerter(wrapperRef, colorRef, titleRef, employeeRef, infoRef);
@@ -133,6 +134,7 @@ function RightClickMenu(props) {
         eventId={eventId}
         projectId={projectId}
         progress={progress}
+        employeesIds={employeesIds}
       />
       <Info
         eventId={eventId}
@@ -179,7 +181,8 @@ function useOutsideAlerter(ref, colorRef, titleRef, employeeRef, infoRef) {
 }
 
 function mapStateToProps(state) {
-  const { eventId, titleRef, employeeRef, infoRef } = state.progressPlan;
+
+  const { eventId, titleRef, employeeRef, infoRef, employeesIds } = state.progressPlan;
   const {
     projectId,
     colorRef,
@@ -204,6 +207,7 @@ function mapStateToProps(state) {
     projectData,
     employeeIdProgress,
     updateProgressTitle,
+    employeesIds
   };
 }
 

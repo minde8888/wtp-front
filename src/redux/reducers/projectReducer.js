@@ -58,15 +58,13 @@ export default function project(state = initialState, action) {
                 ...state, projectData: [...state.projectData, projectData]
             }
         case projectConstants.PROJECT_TABLE_ONCHANGE: {
-            {
-                const dataCopy = [...state.projectData];
-                const projectIndex = dataCopy.findIndex(p => p.projectId === id);
-                const project = dataCopy[projectIndex];
-                const updatedProject = { ...project, ...payload }
-                dataCopy.splice(projectIndex, 1, updatedProject);
-                return {
-                    ...state, projectData: [...dataCopy]
-                }
+            const dataCopy = [...state.projectData];
+            const projectIndex = dataCopy.findIndex(p => p.projectId === id);
+            const project = dataCopy[projectIndex];
+            const updatedProject = { ...project, ...payload }
+            dataCopy.splice(projectIndex, 1, updatedProject);
+            return {
+                ...state, projectData: [...dataCopy]
             }
         }
         case projectConstants.ADD_PROGRESS:
@@ -159,13 +157,6 @@ export default function project(state = initialState, action) {
                     ...state,
                     projectData: dateCopy,
                     updateProgressTitle: update
-                }
-            }
-        case progressPlanConstants.ADD_EMPLOYEE_TO_PROGRESS:
-            {
-                return {
-                    ...state,
-                    employeesIds: payload.employeesIds
                 }
             }
         default:

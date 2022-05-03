@@ -43,7 +43,7 @@ export default function progressPlan(state = initialState, action) {
             return {
                 ...state,
                 eventId: payload.id,
-              };
+            };
         case progressPlanConstants.TITLE_REF:
             return {
                 ...state,
@@ -58,6 +58,13 @@ export default function progressPlan(state = initialState, action) {
             return {
                 ...state,
                 infoRef: payload
+            }
+        case progressPlanConstants.ADD_EMPLOYEE_TO_PROGRESS:
+            {
+                return {
+                    ...state,
+                    employeesIds: payload.employeesIds
+                }
             }
         default:
             return state;
