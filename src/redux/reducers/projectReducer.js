@@ -151,7 +151,7 @@ export default function project(state = initialState, action) {
             {
                 const dateCopy = [...state.projectData];
                 const projectIndex = dateCopy.findIndex(p => p.projectId === payload.projectId);
-                const progressIndex = dateCopy[projectIndex].progressPlan.$values.findIndex(p => p.progressPlanId === payload.eventId);
+                const progressIndex = dateCopy[projectIndex].progressPlan.$values.findIndex(p => p.progressPlanId === payload.progressPlanId);
                 const progress = dateCopy[projectIndex].progressPlan.$values[progressIndex];
                 const update = { ...progress, name: payload.title }
                 dateCopy[projectIndex].progressPlan.$values.splice(progressIndex, 1, update);
@@ -159,6 +159,13 @@ export default function project(state = initialState, action) {
                     ...state,
                     projectData: dateCopy,
                     updateProgressTitle: update
+                }
+            }
+        case progressPlanConstants.ADD_EMPLOYEE_TO_PROGRESS:
+            {
+                return {
+                    ...state,
+                    employeesIds: payload.employeesIds
                 }
             }
         default:
