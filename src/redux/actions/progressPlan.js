@@ -291,5 +291,4 @@ export const titleOnChange = (title, eId, pId) => ({
         eventId: eId,
         projectId: pId
     }
-
 })
