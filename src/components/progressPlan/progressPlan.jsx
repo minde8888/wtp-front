@@ -16,11 +16,16 @@ import {
 import "./progressPlan.scss";
 
 function ProgressPlan(props) {
+
   let { progressPlanId } = useParams();
+
   let dateNow = new Date();
+
   const containerRef = useRef([]);
+
   const data = props.projectData.find((p) => p.projectId === progressPlanId);
   const progress = data.progressPlan.$values;
+
   let { skipMonth } = props;
 
   let daysInMonth = daysMonth(skipMonth);
@@ -114,7 +119,7 @@ function ProgressPlan(props) {
   };
 
   return (
-    <>
+    <>   
       <RightClickMenu progress={progress} />
       <AddProgressPlan progress={progress} id={progressPlanId} />
       <div className="month">

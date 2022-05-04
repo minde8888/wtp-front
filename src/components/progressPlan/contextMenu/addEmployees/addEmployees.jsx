@@ -37,7 +37,6 @@ function AddEmployees({
 
   if (employeesIds !== undefined) {
     id = [...id, ...employeesIds];
-    console.log(111111);
     item = null
   }
 
@@ -67,8 +66,6 @@ function AddEmployees({
   // };
 
   // let options = obj()
-
-
 
   return (
     <div ref={employeeRef} className={style.container}>

@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import store from "../../../redux/store";
 import {
-  updateProgress,
+  updateProgressPlan,
   removeProgress,
   addEmployeeToProgress,
 } from "../../../redux/actions/progressPlan";
@@ -26,7 +26,6 @@ let progressTitle = null;
 function RightClickMenu(props) {
   const wrapperRef = useRef(null);
   const [state, setState] = useState({ position: null });
-
   const { position } = state;
   const {
     data,
@@ -46,7 +45,14 @@ function RightClickMenu(props) {
     employeesIds,
   } = props;
 
-  useOutsideAlerter(wrapperRef, colorRef, titleRef, employeeRef, infoRef);
+  useOutsideAlerter(
+    wrapperRef,
+    colorRef,
+    titleRef,
+    employeeRef,
+    infoRef,
+    updateProgress,
+    updateProgressTitle);
 
   employeeId = employeeIdProgress;
   updateObj = updateProgress;
@@ -135,7 +141,7 @@ function RightClickMenu(props) {
         projectId={projectId}
         progress={progress}
         employeesIds={employeesIds}
-       />
+      />
       <Info
         eventId={eventId}
         projectId={projectId}
@@ -146,7 +152,15 @@ function RightClickMenu(props) {
   );
 }
 
-function useOutsideAlerter(ref, colorRef, titleRef, employeeRef, infoRef) {
+function useOutsideAlerter(
+  ref,
+  colorRef,
+  titleRef,
+  employeeRef,
+  infoRef,
+  updateProgress,
+  updateProgressTitles) {
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -163,14 +177,21 @@ function useOutsideAlerter(ref, colorRef, titleRef, employeeRef, infoRef) {
         employeeRef.current.style.display = "none";
         infoRef.current.style.display = "none";
         if (updateObj !== undefined) {
-          store.dispatch(updateProgress(updateObj));
+          updateObj.employeesIds = null
+          store.dispatch(updateProgressPlan(updateObj))
+          progressTitle = undefined;
+          updateObj = undefined
+          console.log("color");
         }
         if (employeeId !== undefined) {
           store.dispatch(addEmployeeToProgress(employeeId));
-          console.log(2222);
         }
         if (progressTitle !== undefined) {
-          store.dispatch(updateProgress(progressTitle));
+          progressTitle.employeesIds = null
+          store.dispatch(updateProgressPlan(progressTitle));
+          progressTitle = undefined;
+          updateObj = undefined
+          console.log("title");
         }
       }
     }
@@ -178,12 +199,26 @@ function useOutsideAlerter(ref, colorRef, titleRef, employeeRef, infoRef) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref, colorRef, titleRef, employeeRef, infoRef]);
+  }, [ref,
+    colorRef,
+    titleRef,
+    employeeRef,
+    infoRef,
+    updateObj,
+    progressTitle,
+    updateProgress,
+    updateProgressTitles,
+  ]);
 }
 
 function mapStateToProps(state) {
-
-  const { eventId, titleRef, employeeRef, infoRef, employeesIds } = state.progressPlan;
+  const {
+    eventId,
+    titleRef,
+    employeeRef,
+    infoRef,
+    employeesIds
+  } = state.progressPlan;
   const {
     projectId,
     colorRef,
