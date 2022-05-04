@@ -7,7 +7,7 @@ import store from "../../../../redux/store";
 class SketchColor extends Component {
   constructor(props) {
     super(props);
-
+    this.onOutsideCilck = this.onOutsideCilck.bind(this);
     this.colorRef = createRef();
 
     // this.defaultObj = {
@@ -33,8 +33,9 @@ class SketchColor extends Component {
     this.setState({ displayColorPicker: !this.state.displayColorPicker });
   };
 
-  handleClose = () => {
+  handleClose = (e) => {
     this.setState({ displayColorPicker: false });
+    console.log(e);
   };
 
   handleChange = (color) => {
@@ -51,6 +52,10 @@ class SketchColor extends Component {
     store.dispatch(addColor(objColor, objId, this.colorRef));
     this.setState({ color: color.rgb });
   };
+
+  onOutsideCilck = (e) => {
+    console.log(e);
+  }
 
   render() {
     const styles = reactCSS({
@@ -71,8 +76,8 @@ class SketchColor extends Component {
     });
 
     return (
-      <div ref={this.colorRef} style={styles.popover}>
-        <div onClick={this.handleClose} />
+      <div ref={this.colorRef} style={styles.popover} onBlur={this.onOutsideCilck}>
+        <div onClick={this.handleClose}  />
         <SketchPicker color={this.state.color} onChange={this.handleChange} />
       </div>
     );

@@ -38,6 +38,10 @@ function ChangeTitle({ eventId, projectId, position, event }) {
     store.dispatch(titleOnChange(e.target.value, obj.eventId, obj.projectId));
   };
 
+  const onOutsideCilck= (e)=>{
+    console.log(e);
+  }
+
   return (
     <div
       ref={titleRef}
@@ -52,6 +56,7 @@ function ChangeTitle({ eventId, projectId, position, event }) {
             placeholder="Project title"
             onChange={onChangeTitle}
             value={progress !== undefined ?(progress.name):""}
+            onBlur={onOutsideCilck}
           />
         </div>
       </div>

@@ -1,8 +1,7 @@
 export const progressPlanConstants = {
 
     RESIZE: 'RESIZE',
-    COLOR: "COLOR",
-
+   
     REF_CONTAINER: "REF_CONTAINER",
     COLOR_REF: "COLOR_REF",
     TITLE_REF: "TITLE_REF",
@@ -21,9 +20,11 @@ export const progressPlanConstants = {
 
     EVENT_ID: "EVENT_ID",
 
+    COLOR: "COLOR",
+  
     ADD_EMPLOYEE: "ADD_EMPLOYEE",
 
     CHANGE_TITLE: "CHANGE_TITLE",
-
+    
     DELETE_PROGRESS: "DELETE_PROGRESS"
 };

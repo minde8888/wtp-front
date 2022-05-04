@@ -155,7 +155,7 @@ export const draggableDate = (elementId, date, index, projectId) => (dispatch) =
         })
 }
 
-export const updateProgress = (obj) => (dispatch) => {
+export const updateProgressPlan = (obj) => (dispatch) => {
     const data = JSON.parse(localStorage.getItem('projects'));
     const projectIndex = data.findIndex(p => p.projectId === obj.projectId);
     const progressIndex = data[projectIndex].progressPlan.$values.findIndex(p => p.progressPlanId === obj.progressPlanId);
@@ -283,7 +283,7 @@ export const employeeToProgress = (id, eId, pId) => ({
     type: progressPlanConstants.ADD_EMPLOYEE,
     payload: {
         id: id,
-        eventId: eId,
+        progressId: eId,
         projectId: pId,
     }
 })
@@ -292,7 +292,8 @@ export const titleOnChange = (title, eId, pId) => ({
     type: progressPlanConstants.CHANGE_TITLE,
     payload: {
         title: title,
-        eventId: eId,
+        progressId: eId,
         projectId: pId
     }
 })
+
