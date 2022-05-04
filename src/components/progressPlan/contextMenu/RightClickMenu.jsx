@@ -4,7 +4,7 @@ import store from "../../../redux/store";
 import {
   updateProgressPlan,
   removeProgress,
-  addEmployeeToProgress,
+  // addEmployeeToProgress,
 } from "../../../redux/actions/progressPlan";
 import SketchColor from "./colorPicker/colorPicker";
 import ChangeTitle from "./changeTitle/changeTitle";
@@ -54,7 +54,7 @@ function RightClickMenu(props) {
     updateProgress,
     updateProgressTitle);
 
-  employeeId = employeeIdProgress;
+  // employeeId = employeeIdProgress;
   updateObj = updateProgress;
   progressTitle = updateProgressTitle;
 
@@ -141,6 +141,7 @@ function RightClickMenu(props) {
         projectId={projectId}
         progress={progress}
         employeesIds={employeesIds}
+        employeeIdProgress={employeeIdProgress}
       />
       <Info
         eventId={eventId}
@@ -183,16 +184,16 @@ function useOutsideAlerter(
           updateObj = undefined
           console.log("color");
         }
-        if (employeeId !== undefined) {
-          store.dispatch(addEmployeeToProgress(employeeId));
-        }
-        if (progressTitle !== undefined) {
-          progressTitle.employeesIds = null
-          store.dispatch(updateProgressPlan(progressTitle));
-          progressTitle = undefined;
-          updateObj = undefined
-          console.log("title");
-        }
+        // if (employeeId !== undefined) {
+        //   store.dispatch(addEmployeeToProgress(employeeId));
+        // }
+        // if (progressTitle !== undefined) {
+        //   progressTitle.employeesIds = null
+        //   store.dispatch(updateProgressPlan(progressTitle));
+        //   progressTitle = undefined;
+        //   updateObj = undefined
+        //   console.log("title");
+        // }
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -204,10 +205,10 @@ function useOutsideAlerter(
     titleRef,
     employeeRef,
     infoRef,
-    updateObj,
-    progressTitle,
-    updateProgress,
-    updateProgressTitles,
+    // updateObj,
+    // progressTitle,
+    // updateProgress,
+    // updateProgressTitles,
   ]);
 }
 
