@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import store from "../../../../redux/store";
 import { employeeAdd } from "../../../../redux/actions/progressPlan";
-import { employeeToProgress, updateProgressPlan } from "../../../../redux/actions/progressPlan";
+import { addEmployeeToProgress } from "../../../../redux/actions/progressPlan";
 import style from "./addEmployees.module.scss";
 import { IoAddCircleOutline, IoRemoveCircleOutline } from "react-icons/io5";
 
@@ -41,9 +41,8 @@ function AddEmployees({
   }, [progress]);
 
   const onAdd = (e) => {
-    // console.log(e.target.parentElement.id);employeeIdProgress
-    store.dispatch(employeeToProgress(e.target.parentElement.id, eventId, projectId));
-    store.dispatch(updateProgressPlan(employeeIdProgress));
+    let obj = { employeesIds: e.target.parentElement.id, progressPlanId: eventId }
+    store.dispatch(addEmployeeToProgress(obj));
   };
 
   const onMinus = (e) => {
@@ -62,13 +61,13 @@ function AddEmployees({
               </span>
             )}
             {e.isdisabled && (
-            <span id={e.value} className={style.minus} onClick={onMinus}>
-              <IoRemoveCircleOutline />
-            </span>
-          )}
+              <span id={e.value} className={style.minus} onClick={onMinus}>
+                <IoRemoveCircleOutline />
+              </span>
+            )}
           </div>
 
-          
+
         </div>
       ))}
     </div>

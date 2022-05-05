@@ -163,6 +163,7 @@ export const updateProgressPlan = (obj) => (dispatch) => {
     localStorage.setItem('projects', JSON.stringify(data));
 
     return ProgressPlanService.updateEventPosition(obj).then(() => {
+        return Promise.resolve();
     },
         (error) => {
             const message =
@@ -178,15 +179,6 @@ export const updateProgressPlan = (obj) => (dispatch) => {
 
             return Promise.reject();
         })
-}
-
-export const addEmployeeToProgress = (array) => (dispatch) => {
-    return ProgressPlanService.updateEventPosition(array).then((response) => {
-        dispatch({
-            type: progressPlanConstants.ADD_EMPLOYEE_TO_PROGRESS,
-            payload: response.data
-        })
-    })
 }
 
 export const removeProgress = (progressId, projectId) => (dispatch) => {
@@ -225,6 +217,15 @@ export const removeProgress = (progressId, projectId) => (dispatch) => {
             payload: "Can't delete last one !!!",
         });
     }
+}
+
+export const addEmployeeToProgress = (obj) => (dispatch) => {
+    return ProgressPlanService.updateEventPosition(obj).then((response) => {
+        dispatch({
+            type: progressPlanConstants.ADD_EMPLOYEE,
+            payload: response.data
+        })
+    })
 }
 
 
@@ -279,14 +280,6 @@ export const progressData = (id) => ({
     payload: { id: id }
 })
 
-export const employeeToProgress = (id, eId, pId) => ({
-    type: progressPlanConstants.ADD_EMPLOYEE,
-    payload: {
-        id: id,
-        progressId: eId,
-        projectId: pId,
-    }
-})
 
 export const titleOnChange = (title, eId, pId) => ({
     type: progressPlanConstants.CHANGE_TITLE,

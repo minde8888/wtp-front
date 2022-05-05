@@ -137,12 +137,10 @@ export default function project(state = initialState, action) {
                 const dateCopy = [...state.projectData];
                 const projectIndex = dateCopy.findIndex(p => p.projectId === payload.projectId);
                 const progressIndex = dateCopy[projectIndex].progressPlan.$values.findIndex(p => p.progressPlanId === payload.progressId);
-                const progress = dateCopy[projectIndex].progressPlan.$values[progressIndex];
-                const updatedData = { ...progress, employeesIds: payload.id }
-                dateCopy[projectIndex].progressPlan.$values.splice(progressIndex, 1, updatedData);
+                dateCopy[projectIndex].progressPlan.$values.splice(progressIndex, 1, payload);
+                console.log(payload);
                 return {
-                    ...state,
-                    employeeIdProgress: updatedData
+                    ...state, dateCopy
                 }
             }
         case progressPlanConstants.CHANGE_TITLE:
