@@ -38,9 +38,9 @@ function ChangeTitle({ eventId, projectId, position, event }) {
     store.dispatch(titleOnChange(e.target.value, obj.eventId, obj.projectId));
   };
 
-  const onOutsideCilck= (e)=>{
-    console.log(e);
-  }
+  const onOutsideClick = (e) => {
+    // store.dispatch(updateProgressPlan(progressTitle));
+  };
 
   return (
     <div
@@ -49,14 +49,14 @@ function ChangeTitle({ eventId, projectId, position, event }) {
       style={stylePosition !== null ? stylePosition.position : none}
     >
       <div className={styles.border}>
-        <div className={styles.title}>{progress &&(progress.name)}</div>
+        <div className={styles.title}>{progress && progress.name}</div>
         <div className={styles.inputs}>
           <input
             type="text"
             placeholder="Project title"
             onChange={onChangeTitle}
-            value={progress !== undefined ?(progress.name):""}
-            onBlur={onOutsideCilck}
+            value={progress !== undefined ? progress.name : ""}
+            onBlur={onOutsideClick}
           />
         </div>
       </div>
