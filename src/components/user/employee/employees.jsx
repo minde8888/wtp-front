@@ -9,9 +9,8 @@ const Employees = ({ employees }) => {
   var handleClick = (id, role) => {
     store.dispatch(deleteUser(id, role));
   };
-  if (!employees) {
-    return null;
-  }
+  if (!employees) return null;
+
   return (
     <div>
       {employees.map((u, k) => {

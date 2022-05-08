@@ -1,5 +1,5 @@
 .container {
-    position: fixed;
+    position     : fixed;
     width        : 200px;
     border-radius: 5px;
     padding      : 4px;
@@ -10,34 +10,31 @@
     display      : none;
 
     .name {
-        width   : 100%;
-        text-align: left;
+        width          : 100%;
+        text-align     : left;
+        display        : flex;
+        justify-content: space-between;
+        align-items    : center;
+        font-size      : 16px;
+
         .plus {
-            float: right;
-            color : rgb(43, 153, 43);
             cursor: pointer;
-
-            svg {
-                font-size: 24px;
-            }
         }
 
-        .plus:hover {
-            color: rgb(25, 82, 25);
-        }
+
+    }
+
+    .deactivate {
+        width          : 100%;
+        text-align     : left;
+        display        : flex;
+        justify-content: space-between;
+        align-items    : center;
+        font-size      : 16px;
+        color          : #07070767;
 
         .minus {
-            float: right;
-            color : rgb(201, 48, 48);
             cursor: pointer;
-
-            svg {
-                font-size: 24px;
-            }
-        }
-
-        .minus:hover {
-            color: rgb(90, 30, 30);
         }
     }
 }

@@ -1,14 +1,12 @@
-import React, { Component, createRef } from "react";
+import React, { Component, forwardRef  } from "react";
 import reactCSS from "reactcss";
 import { SketchPicker } from "react-color";
-import { addColor, addColorRef } from "../../../../redux/actions/progressPlan";
+import { addColor} from "../../../../redux/actions/progressPlan";
 import store from "../../../../redux/store";
 
 class SketchColor extends Component {
   constructor(props) {
     super(props);
-    this.onOutsideCilck = this.onOutsideCilck.bind(this);
-    this.colorRef = createRef();
 
     // this.defaultObj = {
     //   r: "74",
@@ -20,8 +18,6 @@ class SketchColor extends Component {
     //   projectId: null,
     //   eventId: null,
     // };
-
-    store.dispatch(addColorRef(this.colorRef));
   }
 
   state = {
@@ -35,7 +31,6 @@ class SketchColor extends Component {
 
   handleClose = (e) => {
     this.setState({ displayColorPicker: false });
-    console.log(e);
   };
 
   handleChange = (color) => {
@@ -49,13 +44,9 @@ class SketchColor extends Component {
       projectId: this.props.projectId,
       eventId: this.props.eventId,
     };
-    store.dispatch(addColor(objColor, objId, this.colorRef));
+    store.dispatch(addColor(objColor, objId));
     this.setState({ color: color.rgb });
   };
-
-  onOutsideCilck = (e) => {
-    console.log(e);
-  }
 
   render() {
     const styles = reactCSS({
@@ -75,13 +66,15 @@ class SketchColor extends Component {
       },
     });
 
+    const { innerRef } = this.props;
+
     return (
-      <div ref={this.colorRef} style={styles.popover} onBlur={this.onOutsideCilck}>
-        <div onClick={this.handleClose}  />
+      <div ref={innerRef} style={styles.popover}>
+        <div onClick={this.handleClose} />
         <SketchPicker color={this.state.color} onChange={this.handleChange} />
       </div>
     );
   }
 }
 
-export default SketchColor;
+export default forwardRef((props, ref) => <SketchColor innerRef={ref} {...props} />);

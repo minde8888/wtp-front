@@ -4,7 +4,8 @@ import store from "../../../redux/store";
 import {
   updateProgressPlan,
   removeProgress,
-  // addEmployeeToProgress,
+  addEmployeeToProgress,
+  employeeIdProgress,
 } from "../../../redux/actions/progressPlan";
 import SketchColor from "./colorPicker/colorPicker";
 import ChangeTitle from "./changeTitle/changeTitle";
@@ -19,29 +20,26 @@ import {
 } from "react-icons/io5";
 import styles from "./rightClickMenus.module.scss";
 
-let updateObj = null;
-let employeeId = null;
-let progressTitle = null;
-
-function RightClickMenu(props) {
+const RightClickMenu = (props) => {
   const wrapperRef = useRef(null);
+
   const [state, setState] = useState({ position: null });
+  const [infoRef, setInfoRef] = useState(null);
+  const [colorRef, setColorRef] = useState(null);
+  const [titleRef, setTitleRef] = useState(null);
+  const [employeeRef, setEmployeeRef] = useState(null);
+
   const { position } = state;
   const {
     data,
     projectData,
     employees,
-    colorRef,
-    titleRef,
-    employeeRef,
-    infoRef,
     eventId,
     projectId,
-    updateProgress,
-    employeeIdProgress,
+    updateProgressColor,
+    updateProgressTitle,
     progress,
     dispatch,
-    updateProgressTitle,
     employeesIds,
   } = props;
 
@@ -51,20 +49,24 @@ function RightClickMenu(props) {
     titleRef,
     employeeRef,
     infoRef,
-    updateProgress,
-    updateProgressTitle);
+    updateProgressColor,
+    updateProgressTitle,
+    employeesIds,
+    eventId,
+    projectData
+  );
 
-  // employeeId = employeeIdProgress;
-  updateObj = updateProgress;
-  progressTitle = updateProgressTitle;
+  const getPosition = () => {
+    return wrapperRef.current.getBoundingClientRect();
+  };
 
-  const onAdd = () => {
-    colorRef.current.style.display = "none";
-    employeeRef.current.style.display = "none";
-    infoRef.current.style.display = "none";
-    titleRef.current.style.display = "block";
+  const onAddTitle = () => {
+    colorRef.style.display = "none";
+    employeeRef.style.display = "none";
+    infoRef.style.display = "none";
+    titleRef.style.display = "block";
     setState({
-      position: wrapperRef.current.getBoundingClientRect(),
+      position: getPosition(),
       isTitle: true,
     });
   };
@@ -75,33 +77,35 @@ function RightClickMenu(props) {
   };
 
   const onColor = () => {
-    titleRef.current.style.display = "none";
-    employeeRef.current.style.display = "none";
-    infoRef.current.style.display = "none";
-    colorRef.current.style.display = "block";
-    const { y, right } = wrapperRef.current.getBoundingClientRect();
-    colorRef.current.style.top = `${y}px`;
-    colorRef.current.style.left = `${right}px`;
+    titleRef.style.display = "none";
+    employeeRef.style.display = "none";
+    infoRef.style.display = "none";
+    colorRef.style.display = "block";
+    const { y, right } = getPosition();
+    colorRef.style.top = `${y}px`;
+    colorRef.style.left = `${right}px`;
   };
 
   const onEmployee = () => {
-    colorRef.current.style.display = "none";
-    titleRef.current.style.display = "none";
-    infoRef.current.style.display = "none";
-    employeeRef.current.style.display = "block";
-    const { y, right } = wrapperRef.current.getBoundingClientRect();
-    employeeRef.current.style.top = `${y}px`;
-    employeeRef.current.style.left = `${right}px`;
+    colorRef.style.display = "none";
+    titleRef.style.display = "none";
+    infoRef.style.display = "none";
+    employeeRef.style.display = "block";
+    const { y, right } = getPosition();
+    employeeRef.style.top = `${y}px`;
+    employeeRef.style.left = `${right}px`;
+    let id = findExistingIds(progress, eventId);
+    store.dispatch(employeeIdProgress(id));
   };
 
   const onInfo = () => {
-    colorRef.current.style.display = "none";
-    titleRef.current.style.display = "none";
-    employeeRef.current.style.display = "none";
-    infoRef.current.style.display = "block";
-    const { y, right } = wrapperRef.current.getBoundingClientRect();
-    infoRef.current.style.top = `${y}px`;
-    infoRef.current.style.left = `${right}px`;
+    colorRef.style.display = "none";
+    titleRef.style.display = "none";
+    employeeRef.style.display = "none";
+    infoRef.style.display = "block";
+    const { y, right } = getPosition();
+    infoRef.style.top = `${y}px`;
+    infoRef.style.left = `${right}px`;
   };
 
   return (
@@ -111,7 +115,7 @@ function RightClickMenu(props) {
           <IoEllipsisVerticalOutline />
           <span>Info</span>
         </div>
-        <div className={styles.add} onClick={onAdd}>
+        <div className={styles.add} onClick={onAddTitle}>
           <IoAddCircleOutline />
           <span>Name</span>
         </div>
@@ -128,22 +132,24 @@ function RightClickMenu(props) {
           <span>Delete</span>
         </div>
       </div>
-      <SketchColor projectId={projectId} eventId={eventId} />
+      <SketchColor ref={setColorRef} projectId={projectId} eventId={eventId} />
+
       <ChangeTitle
+        ref={setTitleRef}
         position={position}
         projectId={projectId}
         eventId={eventId}
         event={progress}
       />
       <AddEmployees
+        ref={setEmployeeRef}
         employees={employees}
         eventId={eventId}
-        projectId={projectId}
         progress={progress}
         employeesIds={employeesIds}
-        employeeIdProgress={employeeIdProgress}
       />
       <Info
+        ref={setInfoRef}
         eventId={eventId}
         projectId={projectId}
         manager={data}
@@ -151,6 +157,18 @@ function RightClickMenu(props) {
       />
     </>
   );
+};
+
+function findExistingIds(progress, eventId) {
+  let element = progress.find((e) => e.progressPlanId === eventId);
+  if (
+    element !== undefined &&
+    element.employees.$values.length !== 0 &&
+    eventId !== null
+  ) {
+    return element.employees.$values.map((e) => e.id);
+  }
+  return [];
 }
 
 function useOutsideAlerter(
@@ -159,91 +177,83 @@ function useOutsideAlerter(
   titleRef,
   employeeRef,
   infoRef,
-  updateProgress,
-  updateProgressTitles) {
+  updateProgressColor,
+  updateProgressTitle,
+  employeesIds,
+  eventId,
+  projectData
+) {
+  // const { color } = updateProgress || {};
 
   useEffect(() => {
-    function handleClickOutside(event) {
+    const handleClickOutside = (event) => {
       if (
         ref.current &&
         !ref.current.contains(event.target) &&
-        !colorRef.current.contains(event.target) &&
-        !titleRef.current.contains(event.target) &&
-        !employeeRef.current.contains(event.target) &&
-        !infoRef.current.contains(event.target)
+        !colorRef.contains(event.target) &&
+        !titleRef.contains(event.target) &&
+        !employeeRef.contains(event.target) &&
+        !infoRef.contains(event.target)
       ) {
         ref.current.style.display = "none";
-        colorRef.current.style.display = "none";
-        titleRef.current.style.display = "none";
-        employeeRef.current.style.display = "none";
-        infoRef.current.style.display = "none";
-        if (updateObj !== undefined) {
-          updateObj.employeesIds = null
-          store.dispatch(updateProgressPlan(updateObj))
-          progressTitle = undefined;
-          updateObj = undefined
-          console.log("color");
+        colorRef.style.display = "none";
+        titleRef.style.display = "none";
+        employeeRef.style.display = "none";
+        infoRef.style.display = "none";
+        if (updateProgressColor) {
+          store.dispatch(
+            updateProgressPlan({ ...updateProgressColor, employeesIds: [] })
+          );
         }
-        // if (employeeId !== undefined) {
-        //   store.dispatch(addEmployeeToProgress(employeeId));
-        // }
-        // if (progressTitle !== undefined) {
-        //   progressTitle.employeesIds = null
-        //   store.dispatch(updateProgressPlan(progressTitle));
-        //   progressTitle = undefined;
-        //   updateObj = undefined
-        //   console.log("title");
-        // }
+        if (updateProgressTitle) {
+          store.dispatch(
+            updateProgressPlan({ ...updateProgressTitle, employeesIds: [] })
+          );
+        }
+        if (employeesIds !== null && employeesIds.length !== 0) {
+          store.dispatch(
+            addEmployeeToProgress({
+              employeesIds: employeesIds,
+              ProgressPlanId: eventId,
+            })
+          );
+        }
       }
-    }
+    };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
+      console.log(111111);
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref,
+  }, [
+    ref,
     colorRef,
     titleRef,
-    employeeRef,
     infoRef,
-    // updateObj,
-    // progressTitle,
-    // updateProgress,
-    // updateProgressTitles,
+    employeeRef,
+    updateProgressColor,
+    updateProgressTitle,
+    employeesIds,
+    projectData,
   ]);
 }
 
 function mapStateToProps(state) {
-  const {
-    eventId,
-    titleRef,
-    employeeRef,
-    infoRef,
-    employeesIds
-  } = state.progressPlan;
-  const {
-    projectId,
-    colorRef,
-    updateProgress,
-    projectData,
-    employeeIdProgress,
-    updateProgressTitle,
-  } = state.project;
+  const { eventId, infoRef, employeesIds } = state.progressPlan;
+  const { projectId, updateProgressColor, updateProgressTitle, projectData } =
+    state.project;
   const { data } = state.user;
   const { employees } = state.user.data;
 
   return {
     eventId,
-    colorRef,
     projectId,
-    updateProgress,
-    titleRef,
-    employeeRef,
+    updateProgressColor,
+    updateProgressTitle,
     infoRef,
     employees,
     data,
     projectData,
-    employeeIdProgress,
-    updateProgressTitle,
     employeesIds,
   };
 }
