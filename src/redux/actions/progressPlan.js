@@ -104,8 +104,10 @@ export const updateProgressPlan = (obj) => (dispatch) => {
     localStorage.setItem('projects', JSON.stringify(data));
 
     return ProgressPlanService.updateEventPosition(obj).then(() => {
+
         dispatch({ type: progressPlanConstants.COLOR_CLEANUP_AFTER_UPDATE })
         dispatch({ type: progressPlanConstants.TITLE_CLEANUP_AFTER_UPDATE })
+
         return Promise.resolve();
     },
         (error) => {
@@ -156,6 +158,15 @@ export const removeProgress = (progressId, projectId) => (dispatch) => {
     }
 }
 
+export const addEmployeeToProgress = (obj) => (dispatch) => {
+    return ProgressPlanService.updateEventPosition(obj).then((response) => {
+        dispatch({
+            type: progressPlanConstants.ADD_EMPLOYEE,
+            payload: response.data
+        })
+    })
+}
+
 
 export const resize = (bool) => ({
     type: progressPlanConstants.RESIZE,
@@ -186,6 +197,7 @@ export const progressData = (id) => ({
     type: progressPlanConstants.EVENT_ID,
     payload: { id: id }
 })
+
 
 export const employeeIdProgress = (id) => ({
     type: progressPlanConstants.ADD_EMPLOYEE_ID,
