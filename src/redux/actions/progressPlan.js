@@ -114,15 +114,14 @@ export const updateProgressPlan = (obj) => (dispatch) => {
 }
 
 export const addEmployeeToProgress = (obj) => (dispatch) => {
-
+    dispatch({
+        type: progressPlanConstants.ADD_EMPLOYEE_ID,
+        payload: []
+    })
     return ProgressPlanService.updateEventPosition(obj).then((response) => {
         dispatch({
             type: progressPlanConstants.ADD_EMPLOYEE,
             payload: response.data
-        })
-        dispatch({
-            type: progressPlanConstants.ADD_EMPLOYEE_ID,
-            payload:[]
         })
     },
         (error) => {
