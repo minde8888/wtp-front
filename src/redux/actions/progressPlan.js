@@ -3,33 +3,6 @@ import { messageConstants } from "../constants/messageConstants";
 import { projectConstants } from "../constants/projectConstants";
 import ProgressPlanService from "../services/api/progressPlanService";
 
-export const getAllProgressPlans = () => (dispatch) => { //admin
-
-    return ProgressPlanService.allPlans().then(
-        (data) => {
-            dispatch({
-                type: progressPlanConstants.PROGRESS_PLAN_DATA,
-                data: data.data.$values,
-            });
-            localStorage.setItem('progress_plan', JSON.stringify(data.data.$values));
-            return Promise.resolve();
-        },
-        (error) => {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-            dispatch({
-                type: messageConstants.ERROR,
-                payload: message,
-            });
-            return Promise.reject();
-        }
-    );
-}
-
 export const addNewProgressPlan = (obj) => (dispatch) => {
 
     return ProgressPlanService.addProgressPlan(obj).then(
@@ -54,19 +27,7 @@ export const addNewProgressPlan = (obj) => (dispatch) => {
             return Promise.resolve();
         },
         (error) => {
-
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-            dispatch({
-                type: messageConstants.ERROR,
-                payload: error.response.data,
-            });
-            console.log(message);
-            return Promise.reject();
+            return message(error, dispatch)
         }
     );
 }
@@ -94,21 +55,10 @@ export const changeDate = (resizeId, date, position, projectId) => (dispatch) =>
     localStorage.setItem('projects', JSON.stringify(data));
 
     return ProgressPlanService.updateEventPosition(obj).then(() => {
-
+        return Promise.resolve();
     },
         (error) => {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-            dispatch({
-                type: messageConstants.ERROR,
-                payload: message,
-            });
-
-            return Promise.reject();
+            return message(error, dispatch)
         })
 }
 
@@ -138,24 +88,15 @@ export const draggableDate = (elementId, date, index, projectId) => (dispatch) =
     localStorage.setItem('projects', JSON.stringify(data));
 
     return ProgressPlanService.updateEventPosition(obj).then(() => {
+        return Promise.resolve();
     },
         (error) => {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-            dispatch({
-                type: messageConstants.ERROR,
-                payload: message,
-            });
-
-            return Promise.reject();
+            return message(error, dispatch)
         })
 }
 
 export const updateProgressPlan = (obj) => (dispatch) => {
+
     const data = JSON.parse(localStorage.getItem('projects'));
     const projectIndex = data.findIndex(p => p.projectId === obj.projectId);
     const progressIndex = data[projectIndex].progressPlan.$values.findIndex(p => p.progressPlanId === obj.progressPlanId);
@@ -163,21 +104,31 @@ export const updateProgressPlan = (obj) => (dispatch) => {
     localStorage.setItem('projects', JSON.stringify(data));
 
     return ProgressPlanService.updateEventPosition(obj).then(() => {
+
+        dispatch({ type: progressPlanConstants.COLOR_CLEANUP_AFTER_UPDATE })
+        dispatch({ type: progressPlanConstants.TITLE_CLEANUP_AFTER_UPDATE })
+
         return Promise.resolve();
     },
         (error) => {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-            dispatch({
-                type: messageConstants.ERROR,
-                payload: message,
-            });
+            return message(error, dispatch)
+        })
+}
 
-            return Promise.reject();
+export const addEmployeeToProgress = (obj) => (dispatch) => {
+
+    return ProgressPlanService.updateEventPosition(obj).then((response) => {
+        dispatch({
+            type: progressPlanConstants.ADD_EMPLOYEE,
+            payload: response.data
+        })
+        dispatch({
+            type: progressPlanConstants.ADD_EMPLOYEE_ID,
+            payload:[]
+        })
+    },
+        (error) => {
+            return message(error, dispatch)
         })
 }
 
@@ -195,21 +146,10 @@ export const removeProgress = (progressId, projectId) => (dispatch) => {
             payload: { progressId, projectId }
         })
         return ProgressPlanService.removeProgressPlan(progressId).then(() => {
-
+            return Promise.resolve();
         },
             (error) => {
-                const message =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-                dispatch({
-                    type: messageConstants.ERROR,
-                    payload: message,
-                });
-
-                return Promise.reject();
+                return message(error, dispatch)
             })
     } else {
         dispatch({
@@ -234,30 +174,9 @@ export const resize = (bool) => ({
     payload: bool
 })
 
-export const addColor = (objColor, objId, ref) => ({
+export const addColor = (objColor, objId) => ({
     type: progressPlanConstants.COLOR,
     payload: { objColor, objId },
-    colorRef: ref
-})
-
-export const addColorRef = (ref) => ({
-    type: progressPlanConstants.COLOR_REF,
-    payload: ref
-})
-
-export const addInfoRef = (ref) => ({
-    type: progressPlanConstants.INFO_REF,
-    payload: ref
-})
-
-export const addTitleRef = (ref) => ({
-    type: progressPlanConstants.TITLE_REF,
-    payload: ref
-})
-
-export const employeeAdd = (ref) => ({
-    type: progressPlanConstants.EMPLOYEE_REF,
-    payload: ref
 })
 
 export const addDate = (date) => ({
@@ -281,6 +200,16 @@ export const progressData = (id) => ({
 })
 
 
+export const employeeIdProgress = (id) => ({
+    type: progressPlanConstants.ADD_EMPLOYEE_ID,
+    payload: id
+})
+
+export const removeIdProgress = (id) => ({
+    type: progressPlanConstants.ADD_EMPLOYEE_ID_REMOVE,
+    payload: id
+})
+
 export const titleOnChange = (title, eId, pId) => ({
     type: progressPlanConstants.CHANGE_TITLE,
     payload: {
@@ -290,3 +219,15 @@ export const titleOnChange = (title, eId, pId) => ({
     }
 })
 
+const message = (error, dispatch) => {
+    (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+        error.message ||
+        error.toString();
+    dispatch({
+        type: messageConstants.ERROR,
+        payload: message,
+    });
+    return Promise.reject();
+}

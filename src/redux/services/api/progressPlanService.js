@@ -3,9 +3,6 @@ import api from './apiServices'
 const USER_URL = "/v1/api/ProgressPlan";
 
 class ProgressPlanService {
-  allPlans() {
-    return api.get(USER_URL);
-  }
 
   addProgressPlan(obj) {
 
@@ -18,8 +15,7 @@ class ProgressPlanService {
   }
 
   updateEventPosition(obj) {
-    // console.log(obj);
-    let formData = new FormData();
+     let formData = new FormData();
     for (var key in obj) {
       formData.append(key, obj[key])
     }

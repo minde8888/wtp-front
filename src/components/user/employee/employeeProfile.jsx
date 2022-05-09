@@ -1,18 +1,17 @@
+import React, { useState, useEffect } from "react";
 import Preloader from "../../preloader/preloader";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import React, { useState} from "react";
 import { getEmployeeProfile } from "../../../redux/actions/user";
 import EmptyObject from "../../../helpers/emptyObject";
 import userImage from "../../../image/user.png";
 
 const EmployeeProfile = (props) => {
-
   const [id] = useState(props.router.params.userId);
   const { dispatch } = props;
-
-  dispatch(getEmployeeProfile(id))
-
+  /* eslint-disable */
+  useEffect(() => () => dispatch(getEmployeeProfile(id)), []);
+  /* eslint-disable */
   if (!EmptyObject.isEmpty(props.profile)) {
     return (
       <div>
@@ -82,12 +81,7 @@ function withRouter(Component) {
     let location = useLocation();
     let navigate = useNavigate();
     let params = useParams();
-    return (
-      <Component
-        {...props}
-        router={{ location, navigate, params }}
-      />
-    );
+    return <Component {...props} router={{ location, navigate, params }} />;
   }
 
   return ComponentWithRouterProp;

@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import AddProgressPlan from "./addProgressPlan/addProgressPlan";
 import ToNextMonth from "./toNextMonth/toNextMonth";
 import Events from "./events";
-import RightClickMenu from "./contextMenu/RightClickMenu";
+import RightClickMenu from "./contextMenu/rightClickMenu";
 import {
   daysNextMonth,
   daysMonth,

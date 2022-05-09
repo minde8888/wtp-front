@@ -1,77 +1,60 @@
-import React, { useEffect, useRef } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import store from "../../../../redux/store";
-import { employeeAdd } from "../../../../redux/actions/progressPlan";
-import { addEmployeeToProgress } from "../../../../redux/actions/progressPlan";
+
+import {
+  employeeIdProgress,
+  removeIdProgress,
+} from "../../../../redux/actions/progressPlan";
 import style from "./addEmployees.module.scss";
-import { IoAddCircleOutline, IoRemoveCircleOutline } from "react-icons/io5";
+import plus from "../../../../svg/plus_circle_icon.svg";
+import minus from "../../../../svg/remove_cancel_close_delete_minus_icon.svg";
 
-function AddEmployees({
-  employees,
-  eventId,
-  projectId,
-  progress,
-  employeesIds,
-  employeeIdProgress
-}) {
-  const employeeRef = useRef(null);
+const AddEmployees = forwardRef(
+  ({ employees, eventId, progress, employeesIds }, ref) => {
+    const [prevSymbol, forceRender] = useState(Symbol());
 
-  // let item = null;
+    useEffect(() => {
+      forceRender(Symbol());
+    }, [employeesIds]);
 
-  // const handleChange = (item) => {
-  //   store.dispatch(employeeToProgress());
-  // };
+    let options = employees.$values.map((e) => {
+      if (!employeesIds.includes(e.id)) {
+        return { name: e.name + " " + e.surname, value: e.id };
+      }
+      return { name: e.name + " " + e.surname, value: e.id, isDisabled: true };
+    });
 
-  store.dispatch(employeeAdd(employeeRef));
+    const onAdd = (e) => {
+      store.dispatch(employeeIdProgress([e.target.parentElement.id]));
+    };
 
-  let id = [];
-  let element = progress.find((e) => e.progressPlanId === eventId);
-  if (element !== undefined && element.employees.$values.length !== 0) {
-    id = element.employees.$values.map((e) => e.id);
-  }
+    const onMinus = (e) => {
+      store.dispatch(removeIdProgress(e.target.parentElement.id));
+    };
 
-  let options = employees.$values.map((e) => {
-    if (!id.includes(e.id)) {
-      return { name: e.name + " " + e.surname, value: e.id };
-    }
-    return { name: e.name + " " + e.surname, value: e.id, isdisabled: true };
-  });
-
-  useEffect(() => {
-    console.log("useEffect");
-  }, [progress]);
-
-  const onAdd = (e) => {
-    let obj = { employeesIds: e.target.parentElement.id, progressPlanId: eventId }
-    store.dispatch(addEmployeeToProgress(obj));
-  };
-
-  const onMinus = (e) => {
-    console.log(e);
-  };
-
-  return (
-    <div ref={employeeRef} className={style.container}>
-      {options.map((e, i) => (
-        <div key={i}>
-          <div className={style.name}>
-            {e.name}
-            {!e.isdisabled && (
-              <span id={e.value} className={style.plus} onClick={onAdd}>
-                <IoAddCircleOutline />
-              </span>
-            )}
-            {e.isdisabled && (
-              <span id={e.value} className={style.minus} onClick={onMinus}>
-                <IoRemoveCircleOutline />
-              </span>
-            )}
+    return (
+      <div ref={ref} className={style.container}>
+        {options.map((e, i) => (
+          <div key={i}>
+            <div className={!e.isDisabled ? style.name : style.deactivate}>
+              {e.name}
+              {!e.isDisabled && (
+                <div id={e.value} className={style.plus} onClick={onAdd}>
+                  <img src={plus} alt="" />
+                </div>
+              )}
+              {e.isDisabled && (
+                <div id={e.value} className={style.minus} onClick={onMinus}>
+                  <img src={minus} alt="" />
+                </div>
+              )}
+            </div>
           </div>
+        ))}
+      </div>
+    );
+  }
+);
 
-
-        </div>
-      ))}
-    </div>
-  );
-}
 
 export default AddEmployees;

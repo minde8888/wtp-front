@@ -5,7 +5,8 @@ const initialState = {
     stateResize: false,
     isLoaded: true,
     skipMonth: null,
-    eventId: null
+    eventId: null,
+    employeesIds: []
 };
 
 export default function progressPlan(state = initialState, action) {
@@ -44,21 +45,23 @@ export default function progressPlan(state = initialState, action) {
                 ...state,
                 eventId: payload.id,
             };
-        case progressPlanConstants.TITLE_REF:
-            return {
-                ...state,
-                titleRef: payload
-            }
         case progressPlanConstants.EMPLOYEE_REF:
             return {
                 ...state,
                 employeeRef: payload
             }
-        case progressPlanConstants.INFO_REF:
+        case progressPlanConstants.ADD_EMPLOYEE_ID:
             return {
                 ...state,
-                infoRef: payload
+                employeesIds: [...state.employeesIds, ...payload]
             }
+
+        case progressPlanConstants.ADD_EMPLOYEE_ID_REMOVE:
+            return {
+                ...state,
+                employeesIds: state.employeesIds.filter(p => !p.includes(payload)),
+            }
+
         default:
             return state;
     }
