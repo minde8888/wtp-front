@@ -55,11 +55,13 @@ export default function progressPlan(state = initialState, action) {
                 ...state,
                 employeesIds: [...state.employeesIds, ...payload]
             }
+
         case progressPlanConstants.ADD_EMPLOYEE_ID_REMOVE:
             return {
                 ...state,
                 employeesIds: state.employeesIds.filter(p => !p.includes(payload)),
             }
+
         default:
             return state;
     }
