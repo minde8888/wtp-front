@@ -1,6 +1,12 @@
-import { progressPlanConstants } from "../constants/progressPlanConstants"
-import { messageConstants } from "../constants/messageConstants";
-import { projectConstants } from "../constants/projectConstants";
+import {
+    progressPlanConstants
+} from "../constants/progressPlanConstants"
+import {
+    messageConstants
+} from "../constants/messageConstants";
+import {
+    projectConstants
+} from "../constants/projectConstants";
 import ProgressPlanService from "../services/api/progressPlanService";
 
 export const addNewProgressPlan = (obj) => (dispatch) => {
@@ -50,13 +56,18 @@ export const changeDate = (resizeId, date, position, projectId) => (dispatch) =>
     const index = data.findIndex(p => p.projectId === projectId);
     const resizeIndex = data[index].progressPlan.$values.findIndex(p => p.progressPlanId === resizeId);
     const resizeProgress = data[index].progressPlan.$values[resizeIndex];
-    const updatedResize = { ...resizeProgress, ...{ [position]: date } }
+    const updatedResize = {
+        ...resizeProgress,
+        ...{
+            [position]: date
+        }
+    }
     data[index].progressPlan.$values.splice(resizeIndex, 1, updatedResize);
     localStorage.setItem('projects', JSON.stringify(data));
 
     return ProgressPlanService.updateEventPosition(obj).then(() => {
-        return Promise.resolve();
-    },
+            return Promise.resolve();
+        },
         (error) => {
             return message(error, dispatch)
         })
@@ -83,13 +94,16 @@ export const draggableDate = (elementId, date, index, projectId) => (dispatch) =
     const projectIndex = data.findIndex(p => p.projectId === projectId);
     const dragIndex = data[projectIndex].progressPlan.$values.findIndex(p => p.progressPlanId === elementId);
     const dargProgress = data[projectIndex].progressPlan.$values[dragIndex];
-    const updatedDrag = { ...dargProgress, ...obj }
+    const updatedDrag = {
+        ...dargProgress,
+        ...obj
+    }
     data[projectIndex].progressPlan.$values.splice(dragIndex, 1, updatedDrag);
     localStorage.setItem('projects', JSON.stringify(data));
 
     return ProgressPlanService.updateEventPosition(obj).then(() => {
-        return Promise.resolve();
-    },
+            return Promise.resolve();
+        },
         (error) => {
             return message(error, dispatch)
         })
@@ -105,11 +119,15 @@ export const updateProgressPlan = (obj) => (dispatch) => {
 
     return ProgressPlanService.updateEventPosition(obj).then(() => {
 
-        dispatch({ type: progressPlanConstants.COLOR_CLEANUP_AFTER_UPDATE })
-        dispatch({ type: progressPlanConstants.TITLE_CLEANUP_AFTER_UPDATE })
+            dispatch({
+                type: progressPlanConstants.COLOR_CLEANUP_AFTER_UPDATE
+            })
+            dispatch({
+                type: progressPlanConstants.TITLE_CLEANUP_AFTER_UPDATE
+            })
 
-        return Promise.resolve();
-    },
+            return Promise.resolve();
+        },
         (error) => {
             return message(error, dispatch)
         })
@@ -118,14 +136,16 @@ export const updateProgressPlan = (obj) => (dispatch) => {
 export const addEmployeeToProgress = (obj) => (dispatch) => {
     dispatch({
         type: progressPlanConstants.ADD_EMPLOYEE_ID,
-        payload: []
+        payload:[],
+        employeeIsChanged: false
     })
     return ProgressPlanService.updateEventPosition(obj).then((response) => {
-        dispatch({
-            type: progressPlanConstants.ADD_EMPLOYEE,
-            payload: response.data
-        })
-    },
+            dispatch({
+                type: progressPlanConstants.ADD_EMPLOYEE,
+                payload: response.data
+            })
+
+        },
         (error) => {
             return message(error, dispatch)
         })
@@ -142,11 +162,14 @@ export const removeProgress = (progressId, projectId) => (dispatch) => {
         localStorage.setItem('projects', JSON.stringify(data));
         dispatch({
             type: progressPlanConstants.DELETE_PROGRESS,
-            payload: { progressId, projectId }
+            payload: {
+                progressId,
+                projectId
+            }
         })
         return ProgressPlanService.removeProgressPlan(progressId).then(() => {
-            return Promise.resolve();
-        },
+                return Promise.resolve();
+            },
             (error) => {
                 return message(error, dispatch)
             })
@@ -158,16 +181,6 @@ export const removeProgress = (progressId, projectId) => (dispatch) => {
     }
 }
 
-export const addEmployeeToProgress = (obj) => (dispatch) => {
-    return ProgressPlanService.updateEventPosition(obj).then((response) => {
-        dispatch({
-            type: progressPlanConstants.ADD_EMPLOYEE,
-            payload: response.data
-        })
-    })
-}
-
-
 export const resize = (bool) => ({
     type: progressPlanConstants.RESIZE,
     payload: bool
@@ -175,7 +188,10 @@ export const resize = (bool) => ({
 
 export const addColor = (objColor, objId) => ({
     type: progressPlanConstants.COLOR,
-    payload: { objColor, objId },
+    payload: {
+        objColor,
+        objId
+    },
 })
 
 export const addDate = (date) => ({
@@ -195,18 +211,22 @@ export const nextMonth = (b) => ({
 
 export const progressData = (id) => ({
     type: progressPlanConstants.EVENT_ID,
-    payload: { id: id }
+    payload: {
+        id: id
+    }
 })
 
 
 export const employeeIdProgress = (id) => ({
     type: progressPlanConstants.ADD_EMPLOYEE_ID,
-    payload: id
+    payload: id,
+    employeeIsChanged: true
 })
 
 export const removeIdProgress = (id) => ({
     type: progressPlanConstants.ADD_EMPLOYEE_ID_REMOVE,
-    payload: id
+    payload: id,
+    employeeIsChanged: true
 })
 
 export const titleOnChange = (title, eId, pId) => ({
@@ -222,7 +242,7 @@ const message = (error, dispatch) => {
     (error.response &&
         error.response.data &&
         error.response.data.message) ||
-        error.message ||
+    error.message ||
         error.toString();
     dispatch({
         type: messageConstants.ERROR,

@@ -6,11 +6,12 @@ const initialState = {
     isLoaded: true,
     skipMonth: null,
     eventId: null,
-    employeesIds: []
+    employeesIds: [],
+    employeeIsChanged:false
 };
 
 export default function progressPlan(state = initialState, action) {
-    const { type, payload, data } = action;
+    const { type, payload, data, employeeIsChanged } = action;
     switch (type) {
         case progressPlanConstants.PROGRESS_PLAN_DATA:
             return {
@@ -51,15 +52,18 @@ export default function progressPlan(state = initialState, action) {
                 employeeRef: payload
             }
         case progressPlanConstants.ADD_EMPLOYEE_ID:
+            console.log(payload);
             return {
                 ...state,
-                employeesIds: [...state.employeesIds, ...payload]
+                employeesIds: [...state.employeesIds, ...payload],
+                employeeIsChanged:employeeIsChanged
             }
 
         case progressPlanConstants.ADD_EMPLOYEE_ID_REMOVE:
             return {
                 ...state,
                 employeesIds: state.employeesIds.filter(p => !p.includes(payload)),
+                employeeIsChanged:employeeIsChanged
             }
 
         default:
