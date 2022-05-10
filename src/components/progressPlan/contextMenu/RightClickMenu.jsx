@@ -220,6 +220,8 @@ function useOutsideAlerter(
               ProgressPlanId: eventId,
             })
           );
+          document.removeEventListener("mousedown", handleClickOutside);
+          console.log(employeesIds);
         }
       }
     };
@@ -238,6 +240,7 @@ function useOutsideAlerter(
     updateProgressTitle,
     employeeIsChanged,
     progress
+
   ]);
 }
 
