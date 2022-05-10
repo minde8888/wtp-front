@@ -158,16 +158,6 @@ export const removeProgress = (progressId, projectId) => (dispatch) => {
     }
 }
 
-export const addEmployeeToProgress = (obj) => (dispatch) => {
-    return ProgressPlanService.updateEventPosition(obj).then((response) => {
-        dispatch({
-            type: progressPlanConstants.ADD_EMPLOYEE,
-            payload: response.data
-        })
-    })
-}
-
-
 export const resize = (bool) => ({
     type: progressPlanConstants.RESIZE,
     payload: bool

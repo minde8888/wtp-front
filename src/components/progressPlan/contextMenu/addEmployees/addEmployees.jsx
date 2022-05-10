@@ -10,12 +10,15 @@ import plus from "../../../../svg/plus_circle_icon.svg";
 import minus from "../../../../svg/remove_cancel_close_delete_minus_icon.svg";
 
 const AddEmployees = forwardRef(
-  ({ employees, eventId, progress, employeesIds }, ref) => {
+  (
+    { employees, eventId, progress, employeesIds, employeesProgressId },
+    ref
+  ) => {
     const [prevSymbol, forceRender] = useState(Symbol());
 
     useEffect(() => {
       forceRender(Symbol());
-    }, [employeesIds]);
+    }, [employeesProgressId]);
 
     let options = employees.$values.map((e) => {
       if (!employeesIds.includes(e.id)) {
@@ -55,6 +58,5 @@ const AddEmployees = forwardRef(
     );
   }
 );
-
 
 export default AddEmployees;

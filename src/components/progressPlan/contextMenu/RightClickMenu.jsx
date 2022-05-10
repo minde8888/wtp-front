@@ -29,6 +29,8 @@ const RightClickMenu = (props) => {
   const [titleRef, setTitleRef] = useState(null);
   const [employeeRef, setEmployeeRef] = useState(null);
 
+  const [employeesProgressId, setEmployeesProgressId] = useState(null);
+
   const { position } = state;
   const {
     data,
@@ -94,6 +96,7 @@ const RightClickMenu = (props) => {
     const { y, right } = getPosition();
     employeeRef.style.top = `${y}px`;
     employeeRef.style.left = `${right}px`;
+    setEmployeesProgressId(eventId);
     let id = findExistingIds(progress, eventId);
     store.dispatch(employeeIdProgress(id));
   };
@@ -145,6 +148,7 @@ const RightClickMenu = (props) => {
         ref={setEmployeeRef}
         employees={employees}
         eventId={eventId}
+        employeesProgressId={employeesProgressId}
         progress={progress}
         employeesIds={employeesIds}
       />
