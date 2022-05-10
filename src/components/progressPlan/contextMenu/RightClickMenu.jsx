@@ -41,6 +41,7 @@ const RightClickMenu = (props) => {
     progress,
     dispatch,
     employeesIds,
+    employeeIsChanged
   } = props;
 
   useOutsideAlerter(
@@ -53,7 +54,8 @@ const RightClickMenu = (props) => {
     updateProgressTitle,
     employeesIds,
     eventId,
-    projectData
+    progress,
+    employeeIsChanged
   );
 
   const getPosition = () => {
@@ -181,7 +183,8 @@ function useOutsideAlerter(
   updateProgressTitle,
   employeesIds,
   eventId,
-  projectData
+  progress,
+  employeeIsChanged
 ) {
   // const { color } = updateProgress || {};
 
@@ -210,7 +213,7 @@ function useOutsideAlerter(
             updateProgressPlan({ ...updateProgressTitle, employeesIds: [] })
           );
         }
-        if (employeesIds !== null && employeesIds.length !== 0) {
+        if (employeeIsChanged) {
           store.dispatch(
             addEmployeeToProgress({
               employeesIds: employeesIds,
@@ -233,13 +236,13 @@ function useOutsideAlerter(
     employeeRef,
     updateProgressColor,
     updateProgressTitle,
-    employeesIds,
-    projectData,
+    employeeIsChanged,
+    progress
   ]);
 }
 
 function mapStateToProps(state) {
-  const { eventId, infoRef, employeesIds } = state.progressPlan;
+  const { eventId, infoRef, employeesIds, employeeIsChanged } = state.progressPlan;
   const { projectId, updateProgressColor, updateProgressTitle, projectData } =
     state.project;
   const { data } = state.user;
@@ -255,6 +258,7 @@ function mapStateToProps(state) {
     data,
     projectData,
     employeesIds,
+    employeeIsChanged
   };
 }
 

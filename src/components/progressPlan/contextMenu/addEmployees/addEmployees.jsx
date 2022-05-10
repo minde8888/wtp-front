@@ -13,16 +13,18 @@ const AddEmployees = forwardRef(
   ({ employees, eventId, progress, employeesIds }, ref) => {
     const [prevSymbol, forceRender] = useState(Symbol());
 
-    useEffect(() => {
-      forceRender(Symbol());
-    }, [employeesIds]);
-
     let options = employees.$values.map((e) => {
       if (!employeesIds.includes(e.id)) {
-        return { name: e.name + " " + e.surname, value: e.id };
+        return { name: e.name + " " + e.surname, value: e.id, event: eventId };
       }
-      return { name: e.name + " " + e.surname, value: e.id, isDisabled: true };
+      return { name: e.name + " " + e.surname, value: e.id, isDisabled: true, event: eventId };
     });
+
+    useEffect(() => {
+      forceRender(Symbol());
+    }, [progress]);
+
+
 
     const onAdd = (e) => {
       store.dispatch(employeeIdProgress([e.target.parentElement.id]));
@@ -31,27 +33,32 @@ const AddEmployees = forwardRef(
     const onMinus = (e) => {
       store.dispatch(removeIdProgress(e.target.parentElement.id));
     };
-
+    console.log(eventId);
+console.log(options);
     return (
       <div ref={ref} className={style.container}>
         {options.map((e, i) => (
-          <div key={i}>
-            <div className={!e.isDisabled ? style.name : style.deactivate}>
-              {e.name}
-              {!e.isDisabled && (
-                <div id={e.value} className={style.plus} onClick={onAdd}>
-                  <img src={plus} alt="" />
-                </div>
-              )}
-              {e.isDisabled && (
-                <div id={e.value} className={style.minus} onClick={onMinus}>
-                  <img src={minus} alt="" />
-                </div>
-              )}
-            </div>
+          <div key={i} >
+            {/* {console.log(e.event) }
+            {console.log(i)}
+            {console.log(eventId)} */}
+            {e.event === eventId &&
+              (<div className={!e.isDisabled ? style.name : style.deactivate}>
+                {e.name}
+                {!e.isDisabled && (
+                  <div id={e.value} className={style.plus} onClick={onAdd}>
+                    <img src={plus} alt="" />
+                  </div>
+                )}
+                {e.isDisabled && (
+                  <div id={e.value} className={style.minus} onClick={onMinus}>
+                    <img src={minus} alt="" />
+                  </div>
+                )}
+              </div>)}          
           </div>
         ))}
-      </div>
+      </div >
     );
   }
 );
