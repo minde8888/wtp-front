@@ -41,7 +41,7 @@ const RightClickMenu = (props) => {
     progress,
     dispatch,
     employeesIds,
-    employeeIsChanged
+    employeeIsChanged,
   } = props;
 
   useOutsideAlerter(
@@ -97,7 +97,9 @@ const RightClickMenu = (props) => {
     employeeRef.style.top = `${y}px`;
     employeeRef.style.left = `${right}px`;
     let id = findExistingIds(progress, eventId);
+    console.log(id);
     store.dispatch(employeeIdProgress(id));
+    console.log(employeesIds);
   };
 
   const onInfo = () => {
@@ -187,7 +189,6 @@ function useOutsideAlerter(
   employeeIsChanged
 ) {
   // const { color } = updateProgress || {};
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -213,7 +214,10 @@ function useOutsideAlerter(
             updateProgressPlan({ ...updateProgressTitle, employeesIds: [] })
           );
         }
+        console.log(employeesIds);
+        console.log(employeeIsChanged);
         if (employeeIsChanged) {
+          console.log(employeesIds);
           store.dispatch(
             addEmployeeToProgress({
               employeesIds: employeesIds,
@@ -221,7 +225,7 @@ function useOutsideAlerter(
             })
           );
           document.removeEventListener("mousedown", handleClickOutside);
-          console.log(employeesIds);
+      
         }
       }
     };
@@ -239,8 +243,8 @@ function useOutsideAlerter(
     updateProgressColor,
     updateProgressTitle,
     employeeIsChanged,
-    progress
-
+    progress,
+    employeesIds
   ]);
 }
 
