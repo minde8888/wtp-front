@@ -52,7 +52,6 @@ export default function progressPlan(state = initialState, action) {
                 employeeRef: payload
             }
         case progressPlanConstants.ADD_EMPLOYEE_ID:
-            console.log(payload);
             return {
                 ...state,
                 employeesIds: [...state.employeesIds, ...payload],

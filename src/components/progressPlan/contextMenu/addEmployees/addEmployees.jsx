@@ -40,8 +40,8 @@ const AddEmployees = forwardRef(
     const onMinus = (e) => {
       store.dispatch(removeIdProgress(e.target.parentElement.id));
     };
-    console.log(eventId);
-console.log(options);
+//     console.log(eventId);
+// console.log(options);
     return (
       <div ref={ref} className={style.container}>
         {options.map((e, i) => (
