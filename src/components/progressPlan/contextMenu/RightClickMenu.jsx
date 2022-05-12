@@ -214,13 +214,11 @@ function useOutsideAlerter(
             updateProgressPlan({ ...updateProgressTitle, employeesIds: [] })
           );
         }
-        console.log(employeesIds);
-        console.log(employeeIsChanged);
         if (employeeIsChanged) {
-          console.log(employeesIds);
+          const uniqueIds = [...new Set(employeesIds)]
           store.dispatch(
             addEmployeeToProgress({
-              employeesIds: employeesIds,
+              employeesIds: uniqueIds,
               ProgressPlanId: eventId,
             })
           );
